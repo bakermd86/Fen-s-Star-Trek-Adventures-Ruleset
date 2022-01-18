@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="charsheet_notes" >
+        <sheetdata>
+            <charsheet_tl_anchor/>
+            <charsheet_tr_anchor/>
+            <charsheet_c1_anchor/>
+            <charsheet_c2_anchor/>
+            <charsheet_cl_anchor/>
+            <genericcontrol name="middleRow">
+                <anchored position="insidetopleft" offset="0, 250" />
+            </genericcontrol>
+            <charsheet_br_anchor/>
+
+
+
+            <char_frame_color name="notes_color">
+                <anchored >
+                    <top parent="topLeft" />
+                    <right parent="topRight" />
+                    <left parent="topLeft" />
+                    <bottom parent="middleRow" />
+                </anchored>
+            </char_frame_color>
+            <frame_char name="notesframe">
+                <anchored to="notes_color"/>
+            </frame_char>
+            <notes_field name="notes" />
+            <tag_label name="notes_label">
+                <anchored to="notesframe"  />
+                <static textres="char_label_notes"/>
+            </tag_label>
+			<scrollbar_list>
+				<anchored to="notes" />
+				<target>notes</target>
+			</scrollbar_list>
+
+
+
+            <char_frame_color_alt name="appearance_color">
+                <anchored >
+                    <top parent="middleRow" />
+                    <right parent="centerLine" />
+                    <left parent="topLeft" />
+                    <bottom parent="" />
+                </anchored>
+            </char_frame_color_alt>
+			<frame_char name="appearanceframe">
+                <anchored to="appearance_color"/>
+			</frame_char>
+            <tag_label name="appearance_label">
+                <anchored to="appearanceframe" />
+                <static textres="char_label_appearance"/>
+            </tag_label>
+
+			<stringu name="appearance">
+				<anchored to="appearanceframe">
+					<top offset="2" />
+					<left offset="15" />
+					<right offset="-20" />
+					<bottom offset="-15" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<nodrag />
+                <font>lcars_sheettext</font>
+			</stringu>
+			<scrollbar_list>
+				<anchored to="appearance" />
+				<target>appearance</target>
+			</scrollbar_list>
+            
+
+            <char_frame_color_alt name="language_color">
+                <anchored >
+                    <top parent="middleRow" />
+                    <right parent="topRight" />
+                    <left parent="centerLine" />
+                    <bottom parent="" />
+                </anchored>
+            </char_frame_color_alt>
+			<frame_char name="languageframe">
+                <anchored to="language_color"/>
+            </frame_char>
+            <tag_label name="language_label">
+                <anchored to="languageframe"/>
+                <static textres="char_label_language"/>
+            </tag_label>
+
+			<list_language name="languages">
+				<anchored to="languageframe">
+					<top offset="2" />
+					<left offset="15" />
+					<right offset="-20" />
+					<bottom offset="-15" />
+				</anchored>
+			</list_language>
+			<scrollbar_list>
+				<anchored to="languages" />
+				<target>languages</target>
+			</scrollbar_list>
+			<button_iedit name="languages_iedit">
+				<anchored to="languageframe" position="aboveright" offset="5,5"/>
+				<target>languages</target>
+			</button_iedit>
+			<button_iadd name="languages_iadd">
+				<anchored to="languages_iedit" position="left" offset="5" />
+				<target>languages</target>
+			</button_iadd>
+        </sheetdata>
+  </windowclass>
+
+	<windowclass name="char_language" merge="join">
+		<sheetdata>
+			<string_textlistitem name="name">
+                <font>lcars_sheettext</font>
+            </string_textlistitem>
+        </sheetdata>
+    </windowclass>
+</root>

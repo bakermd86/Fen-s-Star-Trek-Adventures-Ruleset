@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+	<windowclass name="lifepath">
+		<frame name="lcars_lifepath_frame" />
+		<placement>
+			<size width="1050" height="655" />
+		</placement>
+		<nodelete />
+		<playercontrol />
+		<script file="lifepath/scripts/lifepath.lua" />
+		<sheetdata>
+			<genericcontrol name="contentanchor">
+				<anchored height="0" width="475">
+					<top offset="23" />
+					<left anchor="left" offset="0" />
+				</anchored>
+				<disabled />
+			</genericcontrol>
+
+			<button_lifepath_back name="back" >
+				<anchored to="contentanchor" position="insidetopleft" offset="45,-5" width="45" height="30" />
+				<script>
+					function onButtonPress()
+						local currTab = window.tabs.getIndex();
+						if currTab &lt;= 1 then
+							currTab = window.tabs.getTabCount() + 1;
+						end
+						if (currTab - 1) > 7 then
+							window.tabs.activateTab(7)
+						else
+							window.tabs.activateTab(currTab - 1)
+						end
+					end
+				</script>
+			</button_lifepath_back>
+
+			<label_title_frame name="nametitle">
+				<anchored to="back" position="righthigh" offset="7,-4" height="18" width="175"/>
+				<static textres="lifepath_char_label_name" />
+			</label_title_frame>
+
+			<stringcontrol name="name">
+				<anchored to="back" position="rightlow" offset="7,-4" height="18" width="175"/>
+				<font>sheettext</font>
+				<lineoffset default="on" mergerule="replace">1</lineoffset>
+				<script>
+					function onValueChanged()
+						window.summary.subwindow.name.setValue(getValue());
+					end
+				</script>
+				<backcolor>ffccaed9</backcolor>
+			</stringcontrol>
+
+			<roll_button_control name="lifepath_roll_random_name">
+				<anchored to="nametitle" position="insidetopleft" offset="35,3" height="15" width="15"/>
+				<script>
+					function getStep()
+						return -1
+					end
+
+				function onButtonPress()
+					self.window.rollRandomName()
+				end
+				</script>
+				<icon normal="d20bicon" pressed="d20ricon" />
+			</roll_button_control>
+
+			<button_lifepath_next name="next" >
+				<anchored to="back" position="right" width="45" offset="189" height="30"/>
+				<script>
+					function onButtonPress()
+						local currTab = window.tabs.getIndex();
+						if currTab &gt;= window.tabs.getTabCount() then
+							currTab = 0;
+						end
+						if (currTab + 1) > 7 then
+							window.tabs.activateTab(1)
+						else
+							window.tabs.activateTab(currTab + 1)
+						end
+					end
+				</script>
+			</button_lifepath_next>
+
+			<roll_button_control name="lifepath_roll_all">
+				<anchored to="next" position="rightlow" offset="30" height="20" width="20" />
+				<frame name="field_yellow_left" offset="5,5,5,5" />
+				<script>
+					function getStep()
+						return 0
+					end
+
+				function onButtonPress()
+					self.window.rollSteps({1, 2, 3, 4, 5, 6, 7})
+					self.setEnabled(false);
+					self.setIcons("d20ricon", "d20ricon");
+				end
+				</script>
+				<icon normal="d20bicon" pressed="d20ricon" />
+				<pressed offset="1,1"/>
+				<invisible/>
+			</roll_button_control>
+
+			<label name="lifepath_roll_all_label">
+				<static textres="lifepath_roll_all_label" />
+				<anchored to="lifepath_roll_all" position="right" offset="10" height="20" relation="relative"/>
+				<frame name="field_purple_right" offset="5,5,5,5" />
+				<readonly />
+				<invisible/>
+			</label>
+			
+			<subwindow name="summary">
+				<anchored position="right" relation="relative" >
+					<top offset="180" />
+					<left offset="485" />
+					<right offset="0" />
+					<bottom offset="-17" />
+				</anchored>
+				<class>lifepath_summary_2</class>
+				<activate />
+				<fastinit />
+			</subwindow>
+
+			<windowlist name="step_alert_list">
+				<frame name="lcars_lifepath_alerts" offset="50,9,0,0" />
+				<class>step_alert_item</class>
+				<skipempty />
+				<anchored to="summary">
+					<bottom anchor="top" offset="0"/>
+					<left offset="50"/>
+					<right offset="5" />
+					<top parent="" offset="87"/>
+				</anchored>
+				<columns>
+					<width>250</width>
+					<fillwidth/>
+				</columns>
+				<script>
+					function setAlerts(alerts)
+						self.closeAll()
+						for _, alert in ipairs(alerts) do
+							local isAlert, errText, okText = unpack(alert);
+							local w = self.createWindow()
+							if isAlert then
+								w.step_alert_item_icon.setValue(0)
+								w.step_alert_text.setValue(errText)
+							else
+								w.step_alert_item_icon.setValue(1)
+								w.step_alert_text.setValue(okText)
+							end
+						end
+					end
+				</script>
+			</windowlist>
+
+			<genericcontrol name="button_anchor">
+				<anchored to="step_alert_list" position="aboveleft" offset="-50,20"/>
+			</genericcontrol>
+			<genericcontrol>
+				<anchored height="32" width="25" to="button_anchor">
+					<bottom offset="1"/>
+					<left anchor="right" relation="relative" />
+				</anchored>
+				<frame name="field_yellow_left" />
+			</genericcontrol>
+
+			<button_lifepath_tab name="lifepath_speciestab" >
+				<anchored width="45"/>
+				<state textres="lifepath_speciestab_label" />
+				<script>
+
+					function onButtonPress()
+						window.tabs.activateTab(1);
+					end
+				</script>
+				<backcolor>ffc86763</backcolor>
+			</button_lifepath_tab>
+
+			<button_lifepath_tab name="lifepath_environmenttab" >
+				<anchored width="100"/>
+				<state textres="lifepath_environmenttab_label" />
+				<script>
+					function onButtonPress()
+						window.tabs.activateTab(2);
+					end
+				</script>
+				<backcolor>ffc86763</backcolor>
+			</button_lifepath_tab>
+
+			<button_lifepath_tab name="lifepath_upbringingtab" >
+				<anchored width="90"/>
+				<state textres="lifepath_upbringingtab_label" />
+				<script>
+					function onButtonPress()
+						window.tabs.activateTab(3);
+					end
+				</script>
+				<backcolor>ffc86763</backcolor>
+			</button_lifepath_tab>
+
+			<button_lifepath_tab name="lifepath_academytab" >
+				<anchored width="65"/>
+				<state textres="lifepath_academytab_label" />
+				<script>
+					function onButtonPress()
+						window.tabs.activateTab(4);
+					end
+				</script>
+				<backcolor>ffc86763</backcolor>
+			</button_lifepath_tab>
+
+			<button_lifepath_tab name="lifepath_careertab" >
+				<state textres="lifepath_careertab_label" />
+				<script>
+					function onButtonPress()
+						window.tabs.activateTab(5);
+					end
+				</script>
+				<backcolor>ffc86763</backcolor>
+			</button_lifepath_tab>
+
+			<button_lifepath_tab name="lifepath_career_eventtab" >
+				<state textres="lifepath_career_eventtab_label" />
+				<script>
+					function onButtonPress()
+						window.tabs.activateTab(6);
+					end
+				</script>
+				<backcolor>ffc86763</backcolor>
+			</button_lifepath_tab>
+
+
+			<button_lifepath_tab name="lifepath_finishing_touchestab" >
+				<state textres="lifepath_finishing_touchestab_label" />
+				<script>
+					function onButtonPress()
+						window.tabs.activateTab(7);
+					end
+				</script>
+				<backcolor>ffc86763</backcolor>
+			</button_lifepath_tab>
+			<button_lifepath_tab name="save_button" >
+				<state textres="lifepath_tooltip_save" />
+				<script>
+					function onButtonPress()
+						LifePathSaveHelper.checkSaveReady()
+					end
+				</script>
+				<backcolor>ffc86763</backcolor>
+			</button_lifepath_tab>
+
+
+			<lp_step_subwindow name="gen_species">
+				<class>charsheet_lifepath_species</class>
+			</lp_step_subwindow>
+			<lp_step_subwindow name="genenvironment">
+				<class>charsheet_lifepath_environment</class>
+			</lp_step_subwindow>
+			<lp_step_subwindow name="genupbringing">
+				<class>charsheet_lifepath_upbringing</class>
+			</lp_step_subwindow>
+			<lp_step_subwindow name="genacademy">
+				<class>charsheet_lifepath_academy</class>
+			</lp_step_subwindow>
+			<lp_step_subwindow name="gencareer">
+				<class>charsheet_lifepath_career</class>
+			</lp_step_subwindow>
+			<lp_step_subwindow name="genevents">
+				<class>charsheet_lifepath_career_events</class>
+			</lp_step_subwindow>
+			<lp_step_subwindow name="genfinish">
+				<class>charsheet_lifepath_finishing_touches</class>
+			</lp_step_subwindow>
+
+			<buttongroup_tabs name="tabs">
+				<anchored position="insidetopright" height="0" width="0"/>
+				<invisible />
+				<script>
+
+					function activateTab(tabNum)
+						local currTab = window.tabs.getIndex();
+						window.handleChangeFromTabCallback(currTab);
+						window.handleChangeToTabCallback(tabNum);
+						super.activateTab(tabNum);
+						window.updateSummary(tabNum)
+						window.updateAlerts();
+					end
+				</script>
+				<tab>
+					<icon>tab_species</icon>
+					<subwindow>gen_species</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_environment</icon>
+					<subwindow>genenvironment</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_upbringing</icon>
+					<subwindow>genupbringing</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_academy</icon>
+					<subwindow>genacademy</subwindow>
+				</tab>				
+				<tab>
+					<icon>tab_career</icon>
+					<subwindow>gencareer</subwindow>
+				</tab>	
+				<tab>
+					<icon>tab_career_events</icon>
+					<subwindow>genevents</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_finishing_touches</icon>
+					<subwindow>genfinish</subwindow>
+				</tab>
+				<activate>1</activate>
+			</buttongroup_tabs>
+
+			<windowlist name="attribute_tweak_buttons">
+				<anchored to="summary" position="insidetopleft" relation="relative" >
+					<top offset="120" />
+					<left offset="44" />
+				</anchored>
+				<class>summary_score_adjust</class>
+				<skipempty/>
+			</windowlist>
+
+			<windowlist name="discipline_tweak_buttons">
+				<anchored to="summary" position="insidetopleft" relation="relative" >
+					<top offset="300" />
+					<left offset="44" />
+				</anchored>
+				<class>summary_score_adjust</class>
+				<skipempty/>
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="lifepath_add_link_control">
+		<margins control="2,2,2,2" />
+		<sheetdata>
+			<genericcontrol name="tlanchor">
+				<anchored position="insidetopleft" height="0" width="0" />
+			</genericcontrol>
+			<lifepath_add_link_button name="lifepath_drop_target">
+				<anchored to="tlanchor" position="insidetopleft" height="25" width="25" offset="0,0"/>
+				<script>
+					function getScores()
+						return ScopeManager.getLifepathWindow().getStatsThroughStep(ScopeManager.ALL_DISCIPLINES, self.step, 1)
+					end
+					function getTalents()
+						return ScopeManager.getSummaryList("talents")
+					end
+					function getSpecies()
+						return ScopeManager.getSummaryVal("species")
+					end
+					function cleanUp()
+						if self.summaryLink then
+							local node = self.summaryLink.getDatabaseNode()
+							self.summaryLink.close();
+							self.summaryLink = nil;
+							DB.deleteNode(node)
+						end
+					end
+				</script>
+			</lifepath_add_link_button>
+<!--			<add_random_button />-->
+			<label name="lifepath_drop_target_label">
+				<anchored to="lifepath_drop_target" height="25" width="55" >
+					<left anchor="right" offset="-2" relation="relative"/>
+					<top />
+				</anchored>
+			</label>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="lifepath_talent_select">
+		<placement>
+			<size width="400" height="500" />
+		</placement>
+		<frame>charsheet</frame>
+		<nodelete />
+		<playercontrol />
+		<sheetdata>
+			<genericcontrol name="tlanchor">
+				<anchored position="insidetopleft" height="0" width="0" />
+			</genericcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="lifepath_note_entry">
+	  <frame>recordsheet</frame>
+	  <placement>
+		<size width="350" height="500" />
+	  </placement>
+	  <sizelimits>
+		<dynamic />
+	  </sizelimits>
+	  <tooltip>
+		<field>name</field>
+	  </tooltip>
+	  <sheetdata>
+
+
+		<sub_record_header name="header">
+			<class>lifepath_note_entry_header</class>
+		</sub_record_header>
+
+		<genericcontrol name="contentframe">
+			<anchored>
+				<top parent="header" anchor="bottom" offset="15" />
+				<left offset="35" />
+				<right offset="-35" />
+				<bottom offset="-57" />
+			</anchored>
+			<frame name="groupbox" offset="20,17,20,17" />
+		</genericcontrol>
+
+
+		<ft_record name="text">
+			<anchored to="contentframe" position="over" />
+			<empty textres="ft_empty" hidereadonly="true" />
+		</ft_record>
+
+		<button_lifepath_disard_note name="disard_control">
+			<anchored to="text" position="belowleft" height="25" width="60" />
+			<script>
+				function onButtonPress()
+					window.close();
+				end
+			</script>
+		</button_lifepath_disard_note>
+		<button_lifepath_save_note name="save_control">
+			<anchored to="text" position="belowright" height="25" width="60"/>
+			<script>
+				function setSaveCallback(callback)
+					self.saveCallback = callback;
+				end
+
+				function onButtonPress()
+					if self.saveCallback then
+						self.saveCallback(window);
+					end
+					window.close();
+					ScopeManager.updateAlerts()
+				end
+			</script>
+		</button_lifepath_save_note>
+
+		<resize_recordsheet />
+		<close_recordsheet />
+	  </sheetdata>
+	</windowclass>
+
+	<windowclass name="lifepath_note_entry_header">
+		<margins control="0,0,0,7" />
+		<sheetdata>
+			<anchor_record_header_right name="rightanchor" />
+			<string_record_name name="name" >
+				<empty>&#171; New Entry &#187;</empty>
+			</string_record_name>
+		</sheetdata>
+	</windowclass>
+
+
+	<windowclass name="lifepath_ref_text">
+	<sheetdata>
+		<genericcontrol name="tlanchor">
+			<anchored position="insidetopleft" offset="5,5" height="0" width="0" />
+		</genericcontrol>
+		<stringfield name="name">
+			<anchored to="tlanchor" position="insidetopleft">
+			</anchored>
+			<readonly />
+			<font>button-white-large</font>
+			<frame name="field_purple_right" offset="5,5,5,5" />
+		</stringfield>
+		<formattedtextfield name="text">
+			<anchored>
+				<top parent="name" anchor="bottom" relation="relative" offset="5" />
+				<left offset="5" />
+			</anchored>
+			<readonly />
+		</formattedtextfield>
+	</sheetdata>
+	</windowclass>
+	
+			
+	<windowclass name="lifepath_attribute_item">
+		<sheetdata>
+			<genericcontrol name="tlanchor">
+				<anchored position="insidetopleft" height="45" width="0" />
+			</genericcontrol>
+			<button_lifepath_toggle_select name="lifepath_attribute_select_control">
+				<anchored to="tlanchor" position="insidetopleft" height="18" width="60" offset="4,20"/>
+			</button_lifepath_toggle_select>
+		</sheetdata>
+	</windowclass>
+	
+	
+	<windowclass name="lifepath_combo_select">
+		<sheetdata>
+			<genericcontrol name="tlanchor">
+				<anchored position="insidetopleft" height="0" width="0" />
+			</genericcontrol>
+			<lcars_combobox name="combo_control">
+				<anchored to="tlanchor" position="insidetopleft" offset="5,22" width="65" height="20" />
+				<listdirection >down</listdirection>
+				<buttonoffset>0,3</buttonoffset>
+				<script file="lifepath/scripts/lifepath_combo_select.lua" />
+				<backcolor>ffeae5c0</backcolor>
+			</lcars_combobox>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="step_alert_item">
+		<sheetdata>
+			<alert_icon name="step_alert_item_icon">
+				<anchored position="insidetopleft" offset="0,0" width="20" height="20" />
+			</alert_icon>
+			<stringcontrol name="step_alert_text">
+				<anchored to="step_alert_item_icon" position="right" offset="0,-2" width="225" height="20" />
+				<font name="lcars_sheettext"/>
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="summary_score_adjust">
+		<sheetdata>
+			<genericcontrol name="down_anchor">
+				<anchored height="20" width="20" >
+					<left anchor="left" />
+					<top offset="2" />
+				</anchored>
+			</genericcontrol>
+			<summary_down_button name="down_button">
+				<anchored to="down_anchor" position="insidetopleft" offset="0,5" width="15" height="15"/>
+			</summary_down_button>
+			<genericcontrol name="up_anchor" >
+				<anchored height="20" width="20" to="down_anchor" >
+					<left anchor="right" offset="110"/>
+					<top offset="0" />
+				</anchored>
+			</genericcontrol>
+			<summary_up_button name="up_button">
+				<anchored to="up_anchor" position="insidetopleft" offset="0,0" width="20" height="20"/>
+			</summary_up_button>
+		</sheetdata>
+		<script>
+			function onInit()
+				self.score = ""
+			end
+
+			function setTarget(target)
+				down_button.setTarget(target)
+				up_button.setTarget(target)
+			end
+
+			function setCallbacks(upCallback, downCallback)
+				down_button.setCallback(downCallback)
+				up_button.setCallback(upCallback)
+			end
+
+			function setControlState(upState, downState)
+				up_button.setEnabled(upState)
+				up_button.setVisible(upState)
+				down_button.setEnabled(downState)
+				down_button.setVisible(downState)
+			end
+		</script>
+	</windowclass>
+
+<!--	<windowclass name="talent_link_item">-->
+<!--		<sheetdata>-->
+<!--		  <genericcontrol name="rightanchor">-->
+<!--			<anchored width="0" height="0">-->
+<!--			  <top/>-->
+<!--			  <right/>-->
+<!--			</anchored>-->
+<!--		  </genericcontrol>-->
+<!--		  <stringcontrol name="label">-->
+<!--			<anchored height="20">-->
+<!--			  <top offset="2"/>-->
+<!--			  <left offset="22"/>-->
+<!--			  <right offset="-30" relation="relative" anchor="left" parent="rightanchor"/>-->
+<!--			</anchored>-->
+<!--		    <readonly/>-->
+<!--		  </stringcontrol>-->
+<!--			<buttoncontrol name="preview_button">-->
+<!--				<anchored to="label" position="left" relation="relative" offset="0" width="30" />-->
+<!--				<icon normal="button_details" pressed="button_details_down" />-->
+<!--				<script>-->
+<!--					function configure(target, body, clearCallback)-->
+<!--						self.target=target-->
+<!--						self.body=body-->
+<!--						self.clearCallback = clearCallback-->
+<!--					end-->
+<!--					function onButtonPress()-->
+<!--						self.clearCallback(window)-->
+<!--						self.target.setValue(self.body);-->
+<!--						window.setFrame("fielddark");-->
+<!--					end-->
+<!--				</script>-->
+<!--			</buttoncontrol>-->
+<!--			<buttoncontrol name="hidden_button">-->
+<!--				<anchored to="label" position="over"/>-->
+<!--				<script>-->
+<!--					function onButtonPress() window.preview_button.onButtonPress() end-->
+<!--				</script>-->
+<!--			</buttoncontrol>-->
+<!--			<buttoncontrol name="add_link_button">-->
+<!--				<anchored to="label" position="right" relation="relative" offset="10" width="20" />-->
+<!--				<icon normal="button_add" pressed="button_add_down" />-->
+<!--				<script>-->
+<!--					function configure(callback, node)-->
+<!--						self.callback=callback-->
+<!--						self.node=node-->
+<!--					end-->
+<!--					function onButtonPress()-->
+<!--						self.callback(self.node)-->
+<!--					end-->
+<!--				</script>-->
+<!--			</buttoncontrol>-->
+<!--		</sheetdata>-->
+<!--	</windowclass>-->
+</root>

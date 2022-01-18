@@ -1,0 +1,33 @@
+<root>
+    <template name="npc_ref_list">
+        <char_ref_list>
+            <frame name="lcars_groupbox_dark" offset="10,8,10,8" />
+            <anchored merge="replace">
+                <top offset="22"/>
+                <left  offset="10"/>
+                <right  offset="-10"/>
+                <bottom offset="-8"/>
+            </anchored>
+        </char_ref_list>
+    </template>
+
+    <template name="npc_link_list">
+        <char_linked_list>
+            <frame name="lcars_groupbox_dark" offset="10,8,10,8" />
+            <anchored merge="replace">
+                <top offset="22"/>
+                <left offset="10"/>
+                <right offset="-10"/>
+                <bottom offset="-8"/>
+            </anchored>
+        </char_linked_list>
+    </template>
+
+    <template name="npc_label">
+        <label>
+            <readonly/>
+            <anchored height="20" position="aboveleft" offset="25,0" />
+            <font name="sheetlabel" />
+        </label>
+    </template>
+</root>

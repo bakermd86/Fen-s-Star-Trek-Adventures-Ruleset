@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+    <windowclass name="lifepath_table_definition_window">
+		<frame name="lcars_lifepath_frame" />
+		<placement>
+			<size width="1050" height="655" />
+		</placement>
+<!--		<sizelimits>-->
+<!--			<minimum width="1050" height="655" />-->
+<!--			<dynamic />-->
+<!--		</sizelimits>-->
+		<nodelete />
+        <script file="lifepath_define/scripts/lifepath_define.lua"/>
+        <sheetdata>
+			<genericcontrol name="contentanchor">
+				<anchored height="0" width="475">
+					<top offset="25" />
+					<left offset="0"/>
+				</anchored>
+				<disabled />
+			</genericcontrol>
+
+			<label_title_frame name="nametitle">
+				<anchored to="contentanchor" position="insidetop" height="24" >
+					<left offset="110"/>
+					<top offset="-15" />
+					<right offset="-110" />
+				</anchored>
+				<static> Table Set Name </static>
+				<font>lcars_sheetlabel</font>
+			</label_title_frame>
+
+			<stringfield name="name">
+				<anchored to="nametitle" position="below"  height="24"/>
+				<font>lcars_sheettext_bold</font>
+				<empty> Enter category for table set... </empty>
+				<backcolor>ff3068ff</backcolor>
+				<center />
+			</stringfield>
+
+			<button_lifepath_tab name="save_lifepath_tables">
+				<anchored merge="replace" to="nametitle" width="75" height="48">
+					<left anchor="right" offset="2"/>
+					<top />
+				</anchored>
+				<state>
+					<text> Save All </text>
+				</state>
+				<backcolor>ffeec515</backcolor>
+				<script>
+					function onButtonPress()
+						LifePathDefineHelper.saveAllTables(window)
+					end
+				</script>
+			</button_lifepath_tab>
+
+			<button_lifepath_tab name="load_lifepath_tables">
+				<anchored merge="replace" to="nametitle" width="75" height="48">
+					<right anchor="left" offset="2"/>
+					<top />
+				</anchored>
+				<state>
+					<text> Load All </text>
+				</state>
+				<backcolor>ffeec515</backcolor>
+				<script>
+					function onButtonPress()
+						LifePathDefineHelper.loadAllTables(window)
+					end
+				</script>
+			</button_lifepath_tab>
+			
+			<genericcontrol name="button_anchor">
+				<anchored to="contentanchor" position="insidetopleft" offset="10,75" width="0" height="0"/>
+			</genericcontrol>
+			<genericcontrol>
+				<anchored to="contentanchor" position="insidetop" offset="0,42" height="35"/>
+				<backcolor>ff3068ff</backcolor>
+			</genericcontrol>
+			<button_lifepath_tab name="lifepath_speciestab" >
+				<anchored width="45" height="30"/>
+				<state textres="lifepath_speciestab_label" />
+				<script>
+					function onButtonPress()
+						window.deselectButtons()
+						self.setBackColor(LifePathAlertHelper.COLOR_OK)
+						window.tabs.activateTab(1);
+						window.populateTableDisplay(1);
+					end
+				</script>
+				<backcolor>ff64bca4</backcolor>
+			</button_lifepath_tab>
+			<button_lifepath_tab name="lifepath_environmenttab" >
+				<anchored width="100" height="30"/>
+				<state textres="lifepath_environmenttab_label" />
+				<script>
+					function onButtonPress()
+						window.deselectButtons()
+						self.setBackColor(LifePathAlertHelper.COLOR_OK)
+						window.tabs.activateTab(2);
+						window.populateTableDisplay(2);
+					end
+				</script>
+				<backcolor>ff424242</backcolor>
+			</button_lifepath_tab>
+			<button_lifepath_tab name="lifepath_upbringingtab" >
+				<anchored width="90" height="30"/>
+				<state textres="lifepath_upbringingtab_label" />
+				<script>
+					function onButtonPress()
+						window.deselectButtons()
+						self.setBackColor(LifePathAlertHelper.COLOR_OK)
+						window.tabs.activateTab(3);
+						window.populateTableDisplay(3);
+					end
+				</script>
+				<backcolor>ff424242</backcolor>
+			</button_lifepath_tab>
+			<button_lifepath_tab name="lifepath_academytab" >
+				<anchored width="65" height="30"/>
+				<state textres="lifepath_academytab_label" />
+				<script>
+					function onButtonPress()
+						window.deselectButtons()
+						self.setBackColor(LifePathAlertHelper.COLOR_OK)
+						window.tabs.activateTab(4);
+						window.populateTableDisplay(4);
+					end
+				</script>
+				<backcolor>ff424242</backcolor>
+			</button_lifepath_tab>
+			<button_lifepath_tab name="lifepath_careertab" >
+				<anchored  height="30"/>
+				<state textres="lifepath_careertab_label" />
+				<script>
+					function onButtonPress()
+						window.deselectButtons()
+						self.setBackColor(LifePathAlertHelper.COLOR_OK)
+						window.tabs.activateTab(5);
+						window.populateTableDisplay(5);
+					end
+				</script>
+				<backcolor>ff424242</backcolor>
+			</button_lifepath_tab>
+			<button_lifepath_tab name="lifepath_career_eventstab" >
+				<anchored  height="30"/>
+				<state textres="lifepath_career_eventtab_label" />
+				<script>
+					function onButtonPress()
+						window.deselectButtons()
+						self.setBackColor(LifePathAlertHelper.COLOR_OK)
+						window.tabs.activateTab(6);
+						window.populateTableDisplay(6);
+					end
+				</script>
+				<backcolor>ff424242</backcolor>
+			</button_lifepath_tab>
+			
+			<lp_define_step_subwindow name="subwindow_def_species">
+				<class>lifepath_define_species</class>
+			</lp_define_step_subwindow>
+			<lp_define_step_subwindow name="subwindow_def_environment">
+				<class>lifepath_define_environment</class>
+			</lp_define_step_subwindow>
+			<lp_define_step_subwindow name="subwindow_def_upbringing">
+				<class>lifepath_define_upbringing</class>
+			</lp_define_step_subwindow>
+			<lp_define_step_subwindow name="subwindow_def_academy">
+				<class>lifepath_define_academy</class>
+			</lp_define_step_subwindow>
+			<lp_define_step_subwindow name="subwindow_def_career">
+				<class>lifepath_define_career</class>
+			</lp_define_step_subwindow>
+			<lp_define_step_subwindow name="subwindow_def_career_events">
+				<class>lifepath_define_career_events</class>
+			</lp_define_step_subwindow>
+
+			<subwindow name="subwindow_table_display">
+				<anchored position="right" relation="relative" >
+					<top offset="35" />
+					<left offset="485" />
+					<right offset="0" />
+					<bottom offset="-17" />
+				</anchored>
+				<class>lifepath_table_define_display</class>
+				<activate />
+				<fastinit />
+			</subwindow>
+
+			<buttongroup_tabs name="tabs">
+				<anchored position="insidetopright" height="0" width="0"/>
+				<invisible />
+				<tab>
+					<icon>tab_species</icon>
+					<subwindow>subwindow_def_species</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_environment</icon>
+					<subwindow>subwindow_def_environment</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_upbringing</icon>
+					<subwindow>subwindow_def_upbringing</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_academy</icon>
+					<subwindow>subwindow_def_academy</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_career</icon>
+					<subwindow>subwindow_def_career</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_career_events</icon>
+					<subwindow>subwindow_def_career_events</subwindow>
+				</tab>
+				<activate>1</activate>
+			</buttongroup_tabs>
+			<close_recordsheet />
+        </sheetdata>
+    </windowclass>
+
+</root>

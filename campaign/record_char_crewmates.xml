@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="charsheet_crewmates" >
+        <sheetdata>
+            <charsheet_tl_anchor/>
+            <charsheet_tr_anchor/>
+            <charsheet_c1_anchor/>
+            <charsheet_c2_anchor/>
+            <charsheet_cl_anchor/>
+            <charsheet_br_anchor/>
+            
+            
+            <char_frame_color name="crewmates_color">
+                <anchored >
+                    <top parent="topLeft" />
+                    <right parent="topRight" />
+                    <left parent="topLeft" />
+                    <bottom parent="" />
+                </anchored>
+            </char_frame_color>
+            <frame_char name="crewmatesframe">
+                <anchored to="crewmates_color"/>
+            </frame_char>
+            <crew_support_list name="crewmates">
+                <anchored to="crewmatesframe">
+                    <top offset="2" />
+                    <left offset="15" />
+                    <right offset="-20" />
+                    <bottom offset="-10" />
+                </anchored>
+                <columns>
+                    <width>157</width>
+                    <fillwidth/>
+                </columns>
+                <datasource>.crewmate</datasource>
+                <class>crew_summary_mini</class>
+                <script>
+                    function onInit()
+                        setDatabaseNode(".crewmate")
+                    end
+                </script>
+                <frame merge="delete"/>
+            </crew_support_list>
+            <tag_label name="crewmates_label">
+                <anchored to="crewmatesframe"  />
+                <static textres="char_label_crewmates"/>
+            </tag_label>
+        </sheetdata>
+  </windowclass>
+
+    <windowclass name="crew_summary_header_mini">
+        <sheetdata>
+            <genericcontrol name="row_1">
+                <anchored position="insidetopleft" height="20" width="0" />
+            </genericcontrol>
+			<tokenfield name="token">
+                <anchored to="row_1" width="36" height="36">
+                    <top offset="2"/>
+                    <left anchor="right" relation="relative" offset="5"/>
+                </anchored>
+				<empty>token_empty</empty>
+                <readonly />
+			</tokenfield>
+			<char_header_label name="name">
+                <readonly />
+                <anchored to="row_1" width="100">
+                    <left offset="2" />
+                </anchored>
+				<labelres>char_label_name</labelres>
+                <script>
+                    function onInit()
+                        super.onInit()
+                        updateOwner()
+                        DB.addHandler(window.getDatabaseNode().getNodeName(), "onChildUpdate", updateOwner)
+                    end
+                    function updateOwner()
+                        local uName = DB.getOwner(window.getDatabaseNode())
+                        if uName then
+                            if labelwidget then
+                                local w,h = labelwidget.getSize();
+                                labelwidget.setPosition("bottomleft", w, h/2-4);
+                            end
+                            labelwidget.setText(uName)
+                        end
+                    end
+                </script>
+			</char_header_label>
+            <!--      Roll Controls      -->
+            <roll_dice_control name="rollTestControl">
+                <anchored merge="replace" to="name" height="16" width="16">
+                    <top anchor="bottom" offset="2" />
+                    <left anchor="left" />
+                </anchored>
+            </roll_dice_control>
+            <numbercontrol name="rollDC">
+                <default>1</default>
+                <min>0</min>
+                <max>5</max>
+                <anchored to="rollTestControl" width="16" height="20">
+                    <top offset="-2"/>
+                    <left anchor="right" offset="2"/>
+                </anchored>
+                <frame name="field_white_right" />
+            </numbercontrol>
+
+            <char_single_field_label name="focus_label">
+               <static> Foc</static>
+                <anchored merge="replace" to="rollDC" height="20" >
+                   <left anchor="right" offset="10"/>
+                   <top />
+                </anchored>
+            </char_single_field_label>
+            <buttoncontrol name="focus_selected">
+               <anchored to="focus_label" height="20" width="20">
+                   <left anchor="right" offset="2"/>
+                   <top />
+               </anchored>
+                  <state>
+                      <frame>field_purple_border_right</frame>
+                  </state>
+                  <state>
+                      <frame>field_yellow_right</frame>
+                  </state>
+            </buttoncontrol>
+            <genericcontrol name="focuses">
+                <anchored to="focus_label" position="over" height="0" width="0" />
+                <invisible/>
+                <script>
+                    function getSelected()
+                        return self
+                    end
+                    function getValue()
+                        if window.focus_selected.getValue() == 1 then
+                            return "Applied"
+                        else
+                            return ""
+                        end
+                    end
+                </script>
+            </genericcontrol>
+
+            <!--     Active Scores       -->
+            <numbercontrol name="activeAttribute">
+                <invisible/>
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <script>
+                    function setScore(name, value)
+                        self.setValue(value)
+                        window.activeAttributeName.setValue(name)
+                    end
+                </script>
+            </numbercontrol>
+            <active_score name="activeAttributeName">
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <invisible/>
+            </active_score>
+            <numbercontrol name="activeDiscipline">
+                <invisible/>
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <script>
+                    function setScore(name, value)
+                        self.setValue(value)
+                        window.activeDisciplineName.setValue(name)
+                    end
+                </script>
+            </numbercontrol>
+            <active_score name="activeDisciplineName">
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <invisible/>
+            </active_score>
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="crew_summary_mini">
+        <frame name="lcars_groupbox_dark" offset="2,3,2,3"/>
+        <sheetdata>
+            <genericcontrol name="sizeAnchor">
+                <anchored position="insidetopleft" height="175" width="155"/>
+            </genericcontrol>
+            <genericcontrol name="topLeft">
+                <anchored position="insidetopleft" offset="0, 0" />
+            </genericcontrol>
+            <genericcontrol name="topRight">
+                <anchored position="insidetopright" offset="0, 0" />
+            </genericcontrol>
+            <genericcontrol name="middleRow">
+                <anchored position="insidetopleft" offset="0, 70" />
+            </genericcontrol>
+            <subwindow name="header" >
+                <anchored position="insidetop" height="40">
+                    <left offset="5"/>
+                    <right offset="-18" />
+                    <top offset="5"/>
+                </anchored>
+                <class>crew_summary_header_mini</class>
+                <fastinit/>
+			    <activate />
+            </subwindow>
+            <scoreList name="attList">
+                <anchored merge="replace" height="130">
+                    <left parent="topLeft" offset="0" />
+                    <right parent="" anchor="center" offset="5"/>
+                    <top parent="topLeft" offset="45"/>
+                </anchored>
+                <script>
+                    ---function basePage() return 100 end
+                    function scores()
+                        return ScopeManager.ALL_ATTRIBUTES
+                    end
+                    function scoreClass()
+                        return "att_field"
+                    end
+                    function rollControl()
+                        return window.header.subwindow.activeAttribute;
+                    end
+                function onInit()
+                    for idx, score in ipairs(self.scores()) do
+                        w = self.createWindow(window.getDatabaseNode())
+                        w.createControl(self.scoreClass(), string.lower(score))
+                        w.label.setValue(string.upper(string.sub(score, 1, 3)))
+                        w.selectButton.setReadOnly(true)
+                        w[string.lower(score)].setReadOnly(true)
+                    end
+                end
+                </script>
+            </scoreList>
+            <scoreList name="discList">
+                <anchored merge="replace" height="130">
+                    <right parent="topRight" offset="5" />
+                    <left parent="" anchor="center" offset="-5"/>
+                    <top parent="topLeft" offset="45"/>
+                </anchored>
+                <script>
+                    ---function basePage() return 100 end
+                    function scores()
+                        return ScopeManager.ALL_DISCIPLINES
+                    end
+                    function scoreClass()
+                        return "disc_field"
+                    end
+                    function rollControl()
+                        return window.header.subwindow.activeDiscipline;
+                    end
+                function onInit()
+                    for idx, score in ipairs(self.scores()) do
+                        w = self.createWindow(window.getDatabaseNode())
+                        w.createControl(self.scoreClass(), string.lower(score))
+                        w.label.setValue(string.upper(string.sub(score, 1, 3)))
+                        ---w.link.setVisible(false)
+                        w.selectButton.setReadOnly(true)
+                        w[string.lower(score)].setReadOnly(true)
+                    end
+                end
+                </script>
+            </scoreList>
+        </sheetdata>
+    </windowclass>
+
+</root>

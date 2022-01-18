@@ -1,0 +1,129 @@
+<root>
+	<windowclass name="charsheet_lifepath_environment">
+		<sheetdata>
+			<lp_step_window name="contents">
+				<class>charsheet_lifepath_environment_contents</class>
+			</lp_step_window>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="charsheet_lifepath_environment_contents">
+		<script file="lifepath/scripts/lifepath_environment.lua" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			<tab_title_frame name="environment_label"/>
+
+			<tab_content_frame name="lifepath_environment_frame">
+				<anchored>
+					<top parent="environment_label" />
+				</anchored>
+			</tab_content_frame>
+
+			<step_mode_control name="lifepath_environment_genmethod">
+				<anchored to="environment_label" position="insideleft" offset="5,-5" />
+				<script file="lifepath/mode_scripts/lifepath_environment_mode_select.lua" />
+			</step_mode_control>
+			
+			<label name="lifepath_environment_name_manual_label">
+				<invisible />
+				<static>Environment:</static>
+				<anchored to="lifepath_environment_genmethod" position="right" offset="3" width="80" />
+			</label>
+			
+			<stringcontrol name="lifepath_environment_name_manual">
+				<anchored to="lifepath_environment_name_manual_label" position="right" width="150" offset="5"/>
+				<invisible />
+				<lineoffset default="on" mergerule="replace">1</lineoffset>
+				<script>
+					function onValueChanged()
+						ScopeManager.setSummaryVal("environment", getValue());
+					end
+				</script>
+			</stringcontrol>
+			
+			<roll_button_control name="lifepath_environment_roll_button">
+				<anchored to="lifepath_environment_genmethod" position="right"/>
+				<script>
+					function onInit()
+						self.genmethod = window.lifepath_environment_genmethod
+					end
+					function getStep()
+						return 2
+					end
+				</script>
+				<tooltip textres="lifepath_roll_environment" />
+			</roll_button_control>
+			
+			<label name="lifepath_environment_roll_label">
+				<static textres="lifepath_roll_environment" />
+				<anchored to="lifepath_environment_roll_button" position="right" width="150" offset="5"/>
+				<readonly />
+			</label>
+
+			<lifepath_select_control_frame/>
+			<lifepath_select_control name="lifepath_environment_attribute_select">
+				<script>
+					function getCounter()
+						return ScopeManager.getEnvironmentTab().attribute_selection_count
+					end
+					function getStep()
+						return 2
+					end
+				</script>
+			</lifepath_select_control>
+			
+			<numbercontrol name="attribute_selection_count">
+				<anchored to="lifepath_environment_attribute_select" position="insidetopright" relation="relative" offset="0,0" width="20" height="20" />
+				<readonly />
+				<default>1</default>
+			</numbercontrol>
+			<label name="attribute_select_remain">
+				<anchored to="attribute_selection_count" position="left" relation="relative" />
+				<default>Attributes:</default>
+			</label>
+
+			<lifepath_select_control_frame/>
+			<lifepath_select_control name="lifepath_environment_discipline_select">
+				<script>
+					function getCounter()
+						return ScopeManager.getEnvironmentTab().discipline_selection_count
+					end
+					function getStep()
+						return 2
+					end
+				</script>
+			</lifepath_select_control>
+			
+			<numbercontrol name="discipline_selection_count">
+				<anchored to="lifepath_environment_discipline_select" position="insidetopright" relation="relative" offset="0,0" width="20" height="20" />
+				<readonly />
+				<default>1</default>
+			</numbercontrol>
+			<label name="discipline_select_remain">
+				<anchored to="discipline_selection_count" position="left" relation="relative" />
+				<default>Disciplines:</default>
+			</label>
+
+			<lifepath_add_link_frame/>
+			<lifepath_add_link_list name="lifepath_environment_select_frame">
+				<script>
+					function createControls()
+						self.addControl("value", 2);
+					end
+				</script>
+			</lifepath_add_link_list>
+
+			<ref_list_frame >
+				<anchored  to="lifepath_environment_select_frame">
+					<bottom parent="lifepath_environment_frame" />
+				</anchored>
+			</ref_list_frame>
+			<tab_ref_list name="lifepath_environment_ref">
+				<anchored  to="lifepath_environment_select_frame">
+					<bottom parent="lifepath_environment_frame" />
+				</anchored>
+			</tab_ref_list>
+
+		</sheetdata>
+	</windowclass>	
+</root>

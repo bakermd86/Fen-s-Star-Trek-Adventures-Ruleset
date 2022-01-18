@@ -1,0 +1,39 @@
+<root>
+    <font name="lcars_sheettext">
+		<ttf file="graphics/fonts/Noto_Sans/NotoSans-Regular.ttf" name="Noto Sans" size="16" />
+        <color value="#ffff99" />
+    </font>
+    <font name="lcars_sheettext_bold">
+		<ttf file="graphics/fonts/Noto_Sans/NotoSans-Bold.ttf" name="Noto Sans" size="18" />
+        <color value="#ffff99" />
+    </font>
+    <font name="lcars_sheettext_italic">
+		<ttf file="graphics/fonts/Noto_Sans/NotoSans-Bold.ttf" name="Noto Sans" size="16" />
+        <color value="#ffff99" />
+    </font>
+    <font name="lcars_sheettext_bolditalic">
+		<ttf file="graphics/fonts/Noto_Sans/NotoSans-Bold.ttf" name="Noto Sans" size="18" />
+        <color value="#ffff99" />
+    </font>
+    <font name="lcars_sheetlabel">
+        <ttf file="graphics/fonts/OkudaBold-qA72.ttf" name="Okuda" size="24" />
+        <color value="#ffffff" />
+    </font>
+    <font name="lcars_title">
+        <ttf file="graphics/fonts/OkudaBold-qA72.ttf" name="Okuda" size="28" />
+        <color value="#cf4747" />
+    </font>
+    <font name="lcars_sheetlabelmini">
+		<ttf file="graphics/fonts/Noto_Sans/NotoSans-Regular.ttf" name="Noto Sans" size="16" />
+        <color value="#ffff99" />
+    </font>
+    <font name="lcars_sheetlabelinline">
+		<ttf file="graphics/fonts/Noto_Sans/NotoSans-Regular.ttf" name="Noto Sans" size="14" />
+		<color value="#8e8c64" />
+    </font>
+	<font name="sheetlabel_white">
+		<fgffile name="graphics/fonts/bold-10.fgf" />
+		<ttf file="graphics/fonts/Noto_Sans/NotoSans-Bold.ttf" name="Noto Sans Bold" size="16" />
+		<color value="#FFFFFF" />
+	</font>
+</root>

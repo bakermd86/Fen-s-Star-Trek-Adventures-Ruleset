@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+	<windowclass name="new_improvement">
+		<frame>utilitybox3</frame>
+		<placement>
+			<size width="400" height="250" />
+		</placement>
+<!--		  <sizelimits>-->
+<!--			<dynamic />-->
+<!--			<minimum width="350" height="250" />-->
+<!--		  </sizelimits>-->
+		<tooltip field="name" />
+		<nodelete />
+		<script file="crew_support/scripts/new_improvement.lua"/>
+		<sheetdata>
+			<genericcontrol name="topLeft">
+				<anchored position="insidetopleft"  offset="15,25"/>
+			</genericcontrol>
+			<genericcontrol name="colOne">
+				<anchored position="insidetopleft" offset="200,25"/>
+			</genericcontrol>
+			<milestone_type name="type">
+				<anchored to="topLeft">
+					<top anchor="bottom" relation="relative"/>
+					<left anchor="right" relation="relative" offset="20"/>
+				</anchored>
+				<readonly/>
+			</milestone_type>
+			<lcars_combobox name="type_select">
+				<anchored to="topLeft" >
+					<top />
+					<left anchor="right" relation="relative" offset="2"/>
+					<right parent="" offset="-15"/>
+				</anchored>
+				<listdirection>down</listdirection>
+				<buttonoffset>0,3</buttonoffset>
+				<script>
+					function onValueChanged()
+						window.setEntryType(getValue())
+					end
+				</script>
+			</lcars_combobox>
+			<windowlist name="type_options">
+				<skipempty />
+				<nocreate />
+				<nodelete />
+				<anchored to="topLeft" height="180">
+					<top anchor="bottom" relation="relative" offset="5"/>
+					<left offset="20"/>
+					<right parent="" offset="-15"/>
+				</anchored>
+				<class>improvement_define</class>
+			</windowlist>
+
+			<buttoncontrol name="save">
+				<anchored to="type_options" position="insidebottomright" width="60" height="20" offset="5,5"/>
+				<state>
+					<frame>lcars_buttonup</frame>
+					<text> SAVE </text>
+				</state>
+				<pressed offset="1,1" />
+				<script file="campaign/scripts/save_improvement.lua"/>
+			</buttoncontrol>
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="improvement_define">
+		<sheetdata>
+
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="support_header">
+		<margins control="0,0,0,7" />
+		<sheetdata>
+			<anchor_record_header_right name="rightanchor" />
+			<string_record_name_id name="name">
+				<empty textres="library_recordtype_empty_npc" />
+			</string_record_name_id>
+			<string_record_name_id name="nonid_name">
+				<empty textres="library_recordtype_empty_nonid_npc" />
+				<invisible />
+			</string_record_name_id>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="improve_window" >
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="600" height="500" />
+		</placement>
+		<sizelimits>
+			<minimum width="600" height="500" />
+			<dynamic />
+		</sizelimits>
+		<tooltip field="name" />
+		<nodelete />
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>st_npc_header</class>
+			</sub_record_header>
+			<frame_record_content name="contentframe" />
+			<stringcontrol name="title">
+				<anchored to="contentframe" position="insidetopleft" offset="0,-5" height="25" />
+				<readonly/>
+				<font name="reference-header"/>
+				<static>Improvements</static>
+			</stringcontrol>
+			<stringcontrol name="counter_title">
+				<anchored to="contentframe" position="insidetopright" offset="5,0" height="25" />
+				<readonly/>
+				<font name="reference-header"/>
+				<static>Available</static>
+			</stringcontrol>
+			<basicnumberc name="improvement_count">
+				<default>13</default>
+				<anchored to="counter_title" position="left" offset="5,0" width="25" height="25" />
+				<frame name="fielddark" offset="3,2,3,2"/>
+				<gmeditonly />
+				<script>
+					function onFirstLayout()
+						self.setValue(13 - window.improvements_entries.getWindowCount())
+						self.onValueChanged()
+					end
+					function onValueChanged()
+						if self.getValue() == 0 then window.add_improvement_button.disable()
+						else window.add_improvement_button.enable()
+						end
+					end
+				</script>
+			</basicnumberc>
+			<buttoncontrol name="add_improvement_button">
+				<icon normal="button_clear" pressed="button_clear_down" />
+				<anchored to="improvement_count" position="left" offset="5,0" width="25" height="25" />
+				<script>
+					function enable()
+						window.add_improvement_button.setIcons("button_add", "button_add_down")
+						self.setReadOnly(false);
+					end
+
+					function disable()
+						window.add_improvement_button.setIcons("button_clear", "button_clear_down")
+						self.setReadOnly(true);
+					end
+
+					function onButtonPress()
+						for _, w in ipairs(window.improvements_entries.getWindows()) do
+							if (w.episode.getValue() == DB.getRoot().createChild("crew_support").createChild("episode_name", "string").getValue())
+									and not(w.episode.getValue() == nil) then
+								Interface.dialogMessage(nil, "Only one supporting character improvement per episode may be added", "Unable to proceed", "okcancel")
+								return
+							end
+						end
+						local w = window.improvements_entries.addEntry()
+						window.improvement_count.setValue(13 - window.improvements_entries.getWindowCount())
+					end
+				</script>
+			</buttoncontrol>
+			<windowlist name="improvements_entries">
+				<class>improvement_entry</class>
+				<anchored to="contentframe" position="insidetop" offset="5,45" >
+					<bottom anchor="bottom" offset="5" />
+				</anchored>
+				<skipempty />
+				<nodelete />
+				<datasource>.improvements</datasource>
+				  <sortby>
+					<control>episode</control>
+				  </sortby>
+				<fastinit/>
+				<script>
+					function onInit()
+						for _, w in ipairs(self.getWindows()) do
+							DB.addHandler(w.getDatabaseNode().getNodeName(), "onDelete", self.improvementDelete)
+						end
+					end
+					function improvementDelete(nodeToBeDeleted)
+						local w = Interface.openWindow("improvement_entry", nodeToBeDeleted)
+						w.clearScoreSafe()
+						w.close()
+					end
+
+					function addEntry()
+						local modeLimits = {["Value"]=4, ["Focus"]=3, ["Talent"]=4, ["Attribute"]=1, ["Discipline"]=1}
+						local counts = self.entryCounts()
+						modes = {}
+						for type, limit in pairs(modeLimits) do
+							local count = counts[type]
+							if count == nil or count &lt; modeLimits[type] then
+								table.insert(modes, type)
+							end
+						end
+						local w = self.createWindow()
+						w.type.setReadOnly(false)
+						w.improvement_select.setReadOnly(false)
+						w.link.setReadOnly(false)
+						w.name.setReadOnly(false)
+						w.score_select.setReadOnly(false)
+						w.control_state.setValue("pending");
+						DB.addHandler(w.getDatabaseNode().getNodeName(), "onDelete", self.improvementDelete)
+						w.improvement_select.addItems(modes)
+						w.improvement_select.setValue(modes[1])
+					end
+
+					function entryCounts()
+						local counts = {}
+						for _, w in ipairs(self.getWindows()) do
+							local val = counts[w.type.getValue()]
+							if not(val == nil) then
+								counts[w.type.getValue()] = val + 1
+							else
+								counts[w.type.getValue()] = 1
+							end
+						end
+						return counts
+					end
+				</script>
+			</windowlist>
+			<stringcontrol >
+				<anchored to="improvements_entries" position="aboveleft" offset="30,0" height="25" width="60"/>
+				<readonly/>
+				<font name="reference-header"/>
+				<static>Type</static>
+			</stringcontrol>
+			<stringcontrol >
+				<anchored to="improvements_entries" position="aboveleft" offset="100,0" height="25" width="150"/>
+				<readonly/>
+				<font name="reference-header"/>
+				<static>Value</static>
+			</stringcontrol>
+			<stringcontrol >
+				<anchored to="improvements_entries" position="aboveleft" offset="255,0" height="25" width="180"/>
+				<readonly/>
+				<font name="reference-header"/>
+				<static>Episode Added</static>
+			</stringcontrol>
+
+			<button_lifepath_save_note name="save_control">
+				<anchored to="contentframe" position="belowright" height="25" width="60"/>
+				<script>
+					function onButtonPress()
+						window.close();
+					end
+				</script>
+			</button_lifepath_save_note>
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+
+    <windowclass name="improvement_entry">
+		<script file="crew_support/scripts/improvement_entry.lua" />
+		<sheetdata>
+			<stringfield name="type">
+				<anchored position="insidetopleft" height="0" width="0" />
+				<invisible />
+				<readonly />
+				<default>Value</default>
+				<readonly />
+			</stringfield>
+			<genericcontrol name="dummy">
+				<anchored position="insidetopleft" height="0" width="0" />
+				<invisible />
+				<readonly />
+				<script>
+					function createWindow()
+						return window
+					end
+				</script>
+			</genericcontrol>
+			<lcars_combobox name="improvement_select">
+				<anchored position="insidetopleft" offset="35,5" width="60" height="25"/>
+				<listdirection >down</listdirection>
+				<buttonoffset>0,3</buttonoffset>
+				<script>
+					function onValueChanged()
+						window.setEntryType(getValue())
+					end
+				</script>
+				<readonly />
+			</lcars_combobox>
+		  <linkfield name="link">
+			<anchored to="improvement_select" width="25" position="left" offset="5"/>
+		    <invisible />
+			  <readonly />
+		  </linkfield>
+			<lifepath_add_link_button name="drop_target">
+				<anchored to="improvement_select" position="right" height="25" width="25" offset="5"/>
+				<script>
+					function getScores()
+						return window.getScores()
+					end
+					function getTalents()
+						return window.getTalents()
+					end
+					function getSpecies()
+						return window.getSpecies()
+					end
+					function cleanUp()
+						if self.summaryLink then
+							self.summaryLink.name.setValue("");
+							self.summaryLink.link.setValue("", "");
+						end
+					end
+				</script>
+			  	<invisible />
+			</lifepath_add_link_button>
+		  <stringfield name="name">
+			<anchored to="drop_target" position="right" offset="10,0" width="140"/>
+			  <empty>Enter name...</empty>
+				<frame name="fielddark" offset="5,2,5,2"/>
+			  <invisible />
+			  <readonly />
+		  </stringfield>
+		  <stringfield name="episode">
+			<anchored to="improvement_select" position="right" offset="190,0" width="180"/>
+				<frame name="fielddark" offset="5,2,5,2"/>
+				<readonly />
+			  	<script>
+					function onInit()
+						if self.getDatabaseNode().getValue() == "" then
+							setValue(DB.getRoot().createChild("crew_support").createChild("episode_name", "string").getValue())
+
+						end
+					end
+				</script>
+		  </stringfield>
+		  <stringfield name="user_added">
+			<anchored to="episode" position="right" offset="5,0" width="100"/>
+				<frame name="fielddark" offset="5,2,5,2"/>
+				<readonly />
+			  	<script>
+					function onInit()
+						if self.getDatabaseNode().getValue() == "" then
+							setValue(User.getUsername())
+						end
+					end
+				</script>
+		  </stringfield>
+
+			<stringfield name="selected_score">
+				<anchored position="insidetopleft" height="0" width="0" />
+				<invisible />
+				<readonly />
+			</stringfield>
+
+			<stringfield name="control_state">
+				<anchored position="insidetopleft" height="0" width="0" />
+				<invisible />
+				<readonly />
+			</stringfield>
+			<lcars_combobox name="score_select">
+				<anchored to="improvement_select" position="right" offset="10,0" width="140"/>
+				<listdirection >down</listdirection>
+				<buttonoffset>0,3</buttonoffset>
+				<script>
+					function onValueChanged()
+						window.updateScore(window.selected_score.getValue(), getValue())
+						window.selected_score.setValue(getValue())
+					end
+				</script>
+		    	<invisible />
+				<readonly />
+			</lcars_combobox>
+		</sheetdata>
+	</windowclass>
+</root>

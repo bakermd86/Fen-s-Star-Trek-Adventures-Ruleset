@@ -1,0 +1,162 @@
+<root>
+    <windowclass name="crew_main">
+        <sheetdata>
+            <genericcontrol name="topLeft">
+                <anchored position="insidetopleft" offset="5, 0" />
+            </genericcontrol>
+            <charsheet_tr_anchor/>
+            <genericcontrol name="centerLine">
+                <anchored position="insidetopleft" offset="190, 0" />
+            </genericcontrol>
+            <genericcontrol name="middleRow">
+                <anchored position="insidetopleft" offset="0, 160" />
+            </genericcontrol>
+            <genericcontrol name="bottomRow">
+                <anchored position="insidetopleft" offset="0, 300" />
+            </genericcontrol>
+
+            <scoreList name="attList">
+                <anchored merge="replace">
+                    <top parent="topLeft" offset="20"/>
+                    <left parent="topLeft" offset="1"/>
+                    <right parent="centerLine" offset="-1"/>
+                    <bottom parent="middleRow" offset="-1"/>
+                </anchored>
+                <script>
+                    ---function basePage() return 100 end
+                    function scores()
+                        return ScopeManager.ALL_ATTRIBUTES
+                    end
+                    function scoreClass()
+                        return "att_field"
+                    end
+                    function rollControl()
+                        return window.activeAttribute
+                    end
+                </script>
+                <frame merge="delete"/>
+            </scoreList>
+            <npc_label>
+                <anchored to="attList" offset="25,-2"/>
+                <static textres="char_label_attributes"/>
+            </npc_label>
+
+            <scoreList name="discList">
+                <anchored merge="replace">
+                    <top parent="centerLine" offset="20"/>
+                    <left parent="centerLine" offset="1"/>
+                    <right parent="topRight" offset="-1"/>
+                    <bottom parent="middleRow" offset="-1"/>
+                </anchored>
+                <script>
+                    ---function basePage() return 106 end
+                    function scores()
+                        return ScopeManager.ALL_DISCIPLINES
+                    end
+                    function scoreClass()
+                        return "disc_field"
+                    end
+                    function rollControl()
+                        return window.activeDiscipline
+                    end
+                </script>
+                <frame merge="delete"/>
+            </scoreList>
+            <npc_label>
+                <anchored to="discList" offset="25,-2"/>
+                <static textres="char_label_disciplines"/>
+            </npc_label>
+
+
+            <char_focus_list name="focuses">
+			    <frame name="lcars_groupbox_dark"  offset="10,8,10,8"/>
+                <anchored merge="replace">
+                    <top parent="middleRow" offset="5"/>
+                    <left parent="topLeft" offset="1"/>
+                    <right parent="centerLine" offset="-10"/>
+                    <bottom parent="bottomRow" offset="-8"/>
+                </anchored>
+            </char_focus_list>
+
+            <npc_label>
+                <anchored to="focuses" offset="25,-2"/>
+                <static textres="char_label_focuses"/>
+            </npc_label>
+
+        <char_ref_list name="values">
+			    <frame name="lcars_groupbox_dark"  offset="10,8,10,8"/>
+          <datasource>.values</datasource>
+            <anchored merge="replace">
+                <top parent="middleRow" offset="5"/>
+                <left parent="centerLine" offset="10"/>
+                <right parent="topRight" offset="-1"/>
+                <bottom parent="bottomRow" offset="-8"/>
+            </anchored>
+        </char_ref_list>
+        <npc_label>
+            <anchored to="values" offset="25,-2"/>
+            <static textres="char_label_values"/>
+        </npc_label>
+
+        </sheetdata>
+    </windowclass>
+
+	<windowclass name="supporting_character_header">
+		<margins control="0,0,0,7" />
+		<sheetdata>
+			<anchor_record_header_right name="rightanchor" />
+			<genericcontrol name="detail_frame">
+				<frame name="groupbox" />
+				<anchored position="insidetop" offset="-5,5" height="40" />
+			</genericcontrol>
+			<genericcontrol name="detail_anchor" >
+				<anchored to="detail_frame" position="insidetopleft" offset="10,7" width="0" height="0"/>
+			</genericcontrol>
+
+			<string_labeled name="name">
+				<anchored to="detail_anchor" width="80">
+					<top />
+					<left relation="relative" anchor="right" offset="4"/>
+				</anchored>
+				<labelres>char_label_name</labelres>
+			</string_labeled>
+
+			<string_labeled name="rank">
+				<anchored to="detail_anchor" width="50">
+					<top />
+					<left relation="relative" anchor="right" offset="4"/>
+				</anchored>
+				<labelres>char_label_rank</labelres>
+			</string_labeled>
+			<string_labeled name="gender" >
+				<anchored to="detail_anchor" width="50">
+					<top />
+					<left relation="relative" anchor="right" offset="4"/>
+				</anchored>
+				<labelres>char_label_gender</labelres>
+			</string_labeled>
+			<string_labeled name="age">
+				<anchored to="detail_anchor" width="40">
+					<top />
+					<left relation="relative" anchor="right" offset="4"/>
+				</anchored>
+				<labelres>char_label_age</labelres>
+			</string_labeled>
+			<string_labeled name="height">
+				<anchored to="detail_anchor" width="50">
+					<top />
+					<left relation="relative" anchor="right" offset="4"/>
+				</anchored>
+				<labelres>char_label_height</labelres>
+			</string_labeled>
+			<string_labeled name="weight" >
+				<anchored to="detail_anchor" width="50">
+					<top />
+					<left relation="relative" anchor="right" offset="4"/>
+				</anchored>
+				<labelres>char_label_weight</labelres>
+			</string_labeled>
+
+		</sheetdata>
+	</windowclass>
+</root>

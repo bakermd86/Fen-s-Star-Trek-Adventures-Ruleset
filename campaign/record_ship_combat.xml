@@ -1,0 +1,206 @@
+<root>
+    <windowclass name="record_ship_combat" >
+        <sheetdata>
+            <ship_tl_anchor/>
+            <charsheet_tr_anchor/>
+            <charsheet_cl_anchor>
+                <anchored offset="185, 0" />
+            </charsheet_cl_anchor>
+
+
+<!--        Color Frames    -->
+            <char_frame_color name="shields_color">
+                <anchored height="125">
+                    <top parent="topLeft" offset="0"/>
+                    <left parent="topLeft" />
+                    <right parent="centerLine" offset="0"/>
+                    <bottom merge="delete"/>
+                </anchored>
+            </char_frame_color>
+            <frame_char name="shields_frame">
+                <anchored to="shields_color" >
+                    <top offset="30"/>
+                    <left offset="35"/>
+                    <right offset="-5"/>
+                    <bottom offset="-25"/>
+                </anchored>
+                <frame name="lcars_frame_shape_left" offset="35,30,5,25"/>
+            </frame_char>
+            <char_frame_color name="damage_control_color">
+                <anchored >
+                    <top parent="topLeft" offset="0"/>
+                    <left parent="centerLine" offset="0"/>
+                    <right parent="topRight" />
+                    <bottom parent="shields_color" anchor="bottom" offset="0"/>
+                </anchored>
+            </char_frame_color>
+            
+            <char_frame_color_alt name="weapons_color">
+                <anchored >
+                    <top parent="shields_color" />
+                    <left parent="topLeft" />
+                    <right parent="topRight" />
+                    <bottom parent=""/>
+                </anchored>
+            </char_frame_color_alt>
+
+
+<!--       Shields     -->
+
+        <buttongroup_counter name="shields_counter">
+            <anchored to="shields_frame" position="over"/>
+            <stateicons>
+              <on>button_link</on>
+              <off>button_link_empty</off>
+            </stateicons>
+            <spacing>18</spacing>
+            <allowsinglespacing/>
+            <maxslotperrow>7</maxslotperrow>
+            <sourcefields>
+              <maximum>shields_max</maximum>
+              <current>shields_current</current>
+            </sourcefields>
+      </buttongroup_counter>
+
+
+<!--      System Statuses      -->
+            <windowlist name="damage_control">
+                <anchored to="damage_control_color" >
+                    <top offset="30"/>
+                    <left offset="10"/>
+                    <right offset="-35"/>
+                    <bottom offset="-25"/>
+                </anchored>
+                <frame name="lcars_frame_shape_right" offset="10,30,35,25"/>
+                <class>status_entry</class>
+                <skipempty />
+                <readonly/>
+                  <columns>
+                    <fillwidth />
+                    <width>95</width>
+                  </columns>
+                <script>
+                    function onInit()
+                        for _, system in ipairs(ShipHelper.ALL_SYSTEMS) do
+                            local w = createWindow("")
+                            w.system.setValue(string.lower(system))
+                            w.label.setValue(ShipHelper.SYSTEM_ABBREVIATIONS[string.upper(system)])
+                            w.breaches.attachDB(window.getDatabaseNode())
+                        end
+                    end
+                </script>
+            </windowlist>
+
+<!--      Weapons      -->
+            <char_ref_list name="weapons">
+                <datasource>.weapons_systems</datasource>
+                <anchored to="weapons_color">
+                    <top offset="30"/>
+                </anchored>
+                <frame offset="35,30,35,25"/>
+                <class>weapon_entry</class>
+            </char_ref_list>
+        <tag_label name="weapons_label">
+            <anchored  to="weapons"  offset="33,11"/>
+            <static textres="char_label_weapons"/>
+        </tag_label>
+     <genericcontrol name="weapon_label_anchor">
+              <anchored to="weapons" position="insidetopleft" />
+          </genericcontrol>
+         <char_ref_column_label>
+             <anchored to="weapon_label_anchor" width="85" />
+             <static>Name</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="weapon_label_anchor" width="70"/>
+             <static>Type/Range</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="weapon_label_anchor" width="80"/>
+             <static>Damage</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="weapon_label_anchor" >
+                 <right parent="" />
+             </anchored>
+             <static>Qualities</static>
+         </char_ref_column_label>
+
+<!--      Labels      -->
+            <tag_label name="shields_label">
+                <anchored to="shields_frame" offset="30,9"/>
+                <static textres="ship_label_shields"/>
+            </tag_label>
+            <char_color_single_number_field name="shields_max" >
+                <anchored merge="replace" to="shields_label" position="rightlow" offset="0,2" height="19" width="18" />
+                <default>8</default>
+            </char_color_single_number_field>
+
+            <tag_label name="damage_control_label">
+                <anchored to="damage_control" offset="25,9"/>
+                <static textres="ship_label_damage_control"/>
+            </tag_label>
+
+            <tag_label name="resistance_label">
+                 <anchored to="shields_frame" merge="replace" height="22" position="belowleft" offset="40,3"/>
+                <static textres="ship_label_resistance"/>
+            </tag_label>
+            <char_color_single_number_field name="resistance" >
+                <anchored merge="replace" to="resistance_label" position="rightlow" height="19" width="18" />
+                <default>4</default>
+            </char_color_single_number_field>
+        </sheetdata>
+    </windowclass>
+    <windowclass name="status_entry">
+        <sheetdata>
+            <genericcontrol name="trAnchor">
+                <anchored position="insidetopright" height="20" width="0"/>
+            </genericcontrol>
+            <numbercontrol name="breaches">
+                <readonly/>
+                <invisble/>
+                <anchored to="trAnchor" position="over"/>
+                <script file="campaign/scripts/system_damage.lua"/>
+            </numbercontrol>
+            <stringcontrol name="system">
+                <invisble/>
+                <anchored to="trAnchor" position="over"/>
+            </stringcontrol>
+            <buttoncontrol name="status">
+                <readonly/>
+                <anchored to="trAnchor" height="20" width="60">
+                    <top/>
+                    <right anchor="left" relation="relative" />
+                </anchored>
+                <state>
+                    <frame offset="0,0,7,0">field_green_right</frame>
+                    <text>NORMAL</text>
+                </state>
+                <state>
+                    <frame offset="0,0,7,0">field_blue_right</frame>
+                    <text>IMPACT</text>
+                </state>
+                <state>
+                    <frame offset="0,0,7,0">field_yellow_right</frame>
+                    <text>DAMAGE</text>
+                </state>
+                <state>
+                    <frame offset="0,0,7,0">field_orange_right</frame>
+                    <text>DISABLE</text>
+                </state>
+                <state>
+                    <frame offset="0,0,7,0">field_red_right</frame>
+                    <text>DESTROY</text>
+                </state>
+            </buttoncontrol>
+            <label name="label">
+                <readonly/>
+                <font>lcars_sheetlabelinline</font>
+                <anchored to="trAnchor" height="16" >
+                    <top offset="2"/>
+                    <right anchor="left" relation="relative" offset="-3"/>
+                </anchored>
+            </label>
+        </sheetdata>
+    </windowclass>
+</root>

@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="charsheet_log" >
+      <script file="campaign/scripts/char_log.lua"/>
+        <sheetdata>
+            <charsheet_tl_anchor/>
+            <charsheet_tr_anchor/>
+            <charsheet_c1_anchor/>
+            <charsheet_c2_anchor/>
+            <charsheet_cl_anchor/>
+
+            <genericcontrol name="middleRow">
+                <anchored position="insidetopleft" offset="0, 175" />
+            </genericcontrol>
+
+
+            <char_frame_color name="research_color">
+                <anchored >
+                    <top parent="topLeft" />
+                    <right parent="colOne" offset="0"/>
+                    <left parent="topLeft"/>
+                    <bottom parent="middleRow" />
+                </anchored>
+            </char_frame_color>
+            <char_ref_list name="research_projects">
+                <datasource>.research_projects</datasource>
+                <anchored to="research_color">
+                    <left offset="35"/>
+                    <top offset="30"/>
+                    <right offset="-10"/>
+                    <bottom offset="-25"/>
+                </anchored>
+                <frame name="lcars_frame_shape_left" offset="35,30,10,25"/>
+                <class>research_entry</class>
+            </char_ref_list>
+            <tag_label name="research_projects_label">
+                <anchored  to="research_projects"  offset="33,11"/>
+                <static> RESEARCH </static>
+            </tag_label>
+            <scrollbar_list>
+                <anchored to="research_projects" />
+                <target>research_projects</target>
+            </scrollbar_list>
+
+<!--       Saved Milestones         -->
+
+            <char_frame_color name="saved_milestones_color">
+                <anchored >
+                    <left parent="colOne" offset="0"/>
+                    <top parent="colOne" />
+                    <right parent="topRight" />
+                    <bottom parent="middleRow" />
+                </anchored>
+            </char_frame_color>
+            <char_ref_list name="saved_milestones">
+                <datasource>.saved_milestones</datasource>
+                <anchored to="saved_milestones_color">
+                    <left offset="10"/>
+                    <top offset="30"/>
+                    <right offset="-40"/>
+                    <bottom offset="-25"/>
+                </anchored>
+<!--                 <frame offset="35,30,35,25"/>-->
+                <frame name="lcars_frame_shape_right" offset="10,30,40,25"/>
+                <class>saved_milestone</class>
+                <sortby><control>source</control></sortby>
+                <newfocus>source</newfocus>
+                <gmeditonly/>
+            </char_ref_list>
+            <tag_label name="saved_milestones_label">
+                <anchored to="saved_milestones" offset="33,11"/>
+                <static> SAVED MILESTONES </static>
+            </tag_label>
+            <tag_label name="saved_improvements_label">
+                <anchored to="saved_milestones" offset="33,11"/>
+                <static> SAVED IMPROVEMENTS </static>
+                <invisible />
+            </tag_label>
+            <scrollbar_list>
+                <anchored to="saved_milestones" />
+                <target>saved_milestones</target>
+            </scrollbar_list>
+
+          <genericcontrol name="saved_milestones_label_anchor">
+              <anchored to="saved_milestones" position="insidetopleft" />
+          </genericcontrol>
+         <char_ref_column_label>
+             <anchored to="saved_milestones_label_anchor" width="50" />
+             <static>Type</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="saved_milestones_label_anchor" >
+                 <right parent="saved_milestones" anchor="right" offset="-45"/>
+             </anchored>
+             <static>From Episode</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="saved_milestones_label_anchor" width="35"/>
+             <static>Spend</static>
+         </char_ref_column_label>
+
+            <char_frame_color_alt name="service_history_color">
+                <anchored >
+                    <left parent="topLeft" />
+                    <top parent="middleRow" />
+                    <right parent="topRight" />
+                    <bottom parent="" />
+                </anchored>
+            </char_frame_color_alt>
+            <char_ref_list name="service_history">
+<!--                <readonly/>-->
+                <gmeditonly/>
+                <datasource>.service_history</datasource>
+                <anchored to="service_history_color">
+                    <top offset="30"/>
+                </anchored>
+                <newfocus>source</newfocus>
+                 <frame offset="35,30,35,25"/>
+                <class>improvement</class>
+                <sortby desc="true">
+                    <control>source</control>
+                </sortby>
+                <script>
+                    function onInit()
+                        self.counts = {
+                            window.normal_milestones_total,
+                            window.spotlight_milestones_total,
+                            window.arc_milestones_total
+                        }
+                        updateCounts()
+                    end
+                    function onListChanged()
+                        updateCounts()
+                    end
+                    function updateCounts()
+                        for _, w in ipairs(counts) do
+                            w.setValue(0)
+                        end
+                        if getWindowCount() == 0 then return end
+                        for _, w in ipairs(getWindows()) do
+                            if w.type.getValue() &lt;= 2 then
+                                local c = self.counts[w.type.getValue()+1]
+                                c.setValue(c.getValue() + 1)
+                            end
+                        end
+                    end
+                </script>
+            </char_ref_list>
+            <tag_label >
+                <anchored to="service_history" offset="33,11"/>
+                <static> SERVICE HISTORY </static>
+            </tag_label>
+            <tag_label name="milestone_totals_label">
+                <anchored to="service_history" position="insidebottomright" offset="360,-25"/>
+                <static> TOTALS </static>
+            </tag_label>
+            <scrollbar_list>
+                <anchored to="service_history" />
+                <target>service_history</target>
+            </scrollbar_list>
+            
+          <genericcontrol name="service_history_label_anchor">
+              <anchored to="service_history" position="insidetopleft" />
+          </genericcontrol>
+         <char_ref_column_label>
+             <anchored to="service_history_label_anchor" width="65" />
+             <static>Type</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="service_history_label_anchor" width="150"/>
+             <static>From Episode</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="service_history_label_anchor" width="250"/>
+             <static>Effect</static>
+         </char_ref_column_label>
+            
+            <genericcontrol>
+                <anchored to="milestone_totals_label" position="right" height="20">
+                    <right parent="service_history" offset="-15"/>
+                </anchored>
+                <backcolor>ff000000</backcolor>
+            </genericcontrol>
+
+            <char_single_field_label_h>
+                <anchored to="milestone_totals_label" />
+                <static> Reputation </static>
+            </char_single_field_label_h>
+              <char_single_number_field_h name="reputation_total">
+                  <anchored to="milestone_totals_label"/>
+                  <default>10</default>
+              </char_single_number_field_h>
+
+            <char_single_field_label_h>
+                <anchored to="milestone_totals_label" />
+                <static> Normal </static>
+            </char_single_field_label_h>
+              <char_single_number_field_h name="normal_milestones_total">
+                  <anchored to="milestone_totals_label"/>
+                  <readonly/>
+              </char_single_number_field_h>
+
+            <char_single_field_label_h>
+                <anchored to="milestone_totals_label" />
+                <static> Spotlight </static>
+            </char_single_field_label_h>
+              <char_single_number_field_h name="spotlight_milestones_total">
+                  <anchored to="milestone_totals_label"/>
+                  <readonly/>
+              </char_single_number_field_h>
+
+            <char_single_field_label_h>
+                <anchored to="milestone_totals_label"/>
+                <static> Arc </static>
+            </char_single_field_label_h>
+              <char_single_number_field_h name="arc_milestones_total">
+                  <anchored to="milestone_totals_label"/>
+                  <readonly/>
+              </char_single_number_field_h>
+
+
+
+        </sheetdata>
+  </windowclass>
+    <template name="milestone_type">
+            <buttonfield >
+                <anchored to="leftAnchor" height="20" width="65">
+                    <top/>
+                    <left anchor="right" relation="relative" offset="7"/>
+                </anchored>
+                <state>
+                    <text>Normal</text>
+                    <frame offset="7,0,7,0">field_yellow_left</frame>
+                </state>
+                <state>
+                    <frame offset="7,0,7,0">field_blue_left</frame>
+                    <text>Spotlight</text>
+                </state>
+                <state>
+                    <frame offset="7,0,7,0">field_purple_left</frame>
+                    <text>Arc</text>
+                </state>
+                <state >
+                    <frame offset="7,0,7,0">field_orange_left</frame>
+                    <text>Improve</text>
+                </state>
+                <state >
+                    <frame offset="7,0,7,0">field_green_left</frame>
+                    <text>Commend</text>
+                </state>
+                <state>
+                    <frame offset="7,0,7,0">field_red_left</frame>
+                    <text>Reprimand</text>
+                </state>
+                <state>
+                    <frame offset="7,0,7,0">field_white_left</frame>
+                    <text>Saved</text>
+                </state>
+                <gmeditonly/>
+            </buttonfield>
+    </template>
+    <template name="milestone_name">
+            <stringfield >
+                <font>lcars_sheettext</font>
+			    <lineoffset default="on">2</lineoffset>
+                <anchored to="leftAnchor" height="20" >
+                    <top/>
+                    <left anchor="right" relation="relative" offset="7"/>
+                    <right parent="" offset="-20"/>
+                </anchored>
+                <script>
+                    function onInit()
+                        if getValue() == "" then
+                            setValue(DB.getValue(".crew_support.episode_name"))
+                        end
+                    end
+                </script>
+                <gmeditonly/>
+            </stringfield>
+    </template>
+    <windowclass name="saved_milestone">
+        <sheetdata>
+            <genericcontrol name="leftAnchor" >
+                <anchored position="insidetopleft" height="20" />
+            </genericcontrol>
+            <milestone_type name="type"/>
+            <milestone_name name="source"/>
+            <buttoncontrol name="spend_control">
+                <anchored to="source" position="right" offset="2" width="18" height="20"/>
+			    <icon normal="button_add" pressed="button_add_down" />
+                <script>
+                    function handleUseSaved()
+                        local rootNode = ScopeManager.getNodeAtDepth(window.getDatabaseNode().getNodeName(), 1)
+                        if DB.getValue(rootNode, "curdetermination", 0) &lt; DB.getValue(rootNode, "maxdetermination", 3) then
+                            DB.setValue(rootNode, "curdetermination", "number", DB.getValue(rootNode, "curdetermination", 0) + 1)
+                            DB.deleteNode(window.getDatabaseNode())
+                        else
+                            Interface.dialogMessage(nil, "Already at maximum Determination, unable to add another", "Milestone Error", nil)
+                        end
+                    end
+
+                    function onButtonPress()
+                        if window.type.getValue() == 6 then
+                            handleUseSaved()
+                        elseif window.type.getValue() > 3 then
+                            return
+                        else
+                            local w = Interface.openWindow("new_improvement", window.getDatabaseNode().getNodeName())
+                        end
+                    end
+                </script>
+            </buttoncontrol>
+        </sheetdata>
+    </windowclass>
+    <windowclass name="improvement">
+        <sheetdata>
+            <genericcontrol name="leftAnchor" >
+                <anchored position="insidetopleft" height="20" />
+            </genericcontrol>
+            <milestone_type name="type" />
+            <milestone_name name="source">
+                <anchored width="150">
+                    <right merge="delete"/>
+                </anchored>
+            </milestone_name>
+            <stringfield name="used_on">
+                <font>lcars_sheettext</font>
+                <anchored to="leftAnchor" height="20" >
+                    <top/>
+                    <left anchor="right" relation="relative" offset="7"/>
+                    <right parent="" offset="-5"/>
+                </anchored>
+			    <lineoffset default="on">2</lineoffset>
+            </stringfield>
+        </sheetdata>
+    </windowclass>
+    <windowclass name="research_entry">
+        <sheetdata>
+            <genericcontrol name="leftanchor">
+                <anchored position="insidetopleft" height="20"/>
+            </genericcontrol>
+            <string_textlistitem name="name">
+                <anchored height="15">
+                    <top offset="2"/>
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="25"/>
+                    <right parent="" />
+                </anchored>
+                <font>lcars_sheetlabelmini</font>
+            </string_textlistitem>
+              <linkcontrol_id name="shortcut">
+                <anchored to="name" position="left" offset="2" width="15" height="15"/>
+                <class>research_item</class>
+                    <readonly />
+              </linkcontrol_id>
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="research_item">
+        <frame name="recordsheet"/>
+		<placement>
+			<size width="350" height="400" />
+		</placement>
+		<sizelimits>
+			<minimum width="350" height="400" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_item</minimize>
+		<nodelete />
+		<playercontrol />
+		<sharable />
+		<tooltip field="name" />
+        <script>
+            function onInit()
+                if DB.getValue(getDatabaseNode(), "source", "") == "" then
+                    DB.setValue(getDatabaseNode(), "source", "string", DB.getValue(".crew_support.episode_name"))
+                end
+            end
+        </script>
+        <sheetdata>
+			<sub_record_header name="header">
+				<class>item_header</class>
+			</sub_record_header>
+
+            <frame_record_content name="contentframe" />
+
+			<subwindow_record name="main">
+				<class>research_main</class>
+				<activate />
+			</subwindow_record>
+
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
+
+			<resize_recordsheet />
+			<close_recordsheet />
+        </sheetdata>
+    </windowclass>
+    <windowclass name="research_main">
+        <sheetdata>
+            <anchor_column name="columnanchor" />
+
+            <label_column>
+                <static>Hypotheses</static>
+            </label_column>
+            <string_columnh name="hypotheses"/>
+
+            <ft_columnh name="notes" >
+                <empty>Notes...</empty>
+            </ft_columnh>
+
+			<line_column name="divider2" >
+                <gmvisibleonly/>
+            </line_column>
+
+
+            <label_column>
+                <static>Source:</static>
+                <gmvisibleonly/>
+            </label_column>
+            <string_columnh name="source">
+                <gmvisibleonly/>
+            </string_columnh>
+            <label_column>
+                <gmvisibleonly/>
+                <static>"Right" Path:</static>
+            </label_column>
+            <string_columnh name="right_path">
+                <gmvisibleonly/>
+            </string_columnh>
+            <label_column>
+                <gmvisibleonly/>
+                <static>Difficulty</static>
+            </label_column>
+			<number_column name="difficulty">
+                <gmvisibleonly/>
+				<default>5</default>
+			</number_column>
+            <label_column>
+                <gmvisibleonly/>
+                <static>Successes</static>
+            </label_column>
+			<number_column name="successes">
+                <gmvisibleonly/>
+				<default>0</default>
+			</number_column>
+            <label_column>
+                <gmvisibleonly/>
+                <static>Work Track</static>
+            </label_column>
+			<number_column name="work">
+                <gmvisibleonly/>
+				<default>5</default>
+                <min>5</min>
+                <max>20</max>
+			</number_column>
+            <label_column>
+                <gmvisibleonly/>
+                <static>Resistance</static>
+            </label_column>
+			<number_column name="resistance">
+                <gmvisibleonly/>
+				<default>0</default>
+                <min>0</min>
+                <max>5</max>
+			</number_column>
+
+			<line_column name="divider3">
+                <gmvisibleonly/>
+            </line_column>
+            <ft_columnh name="outcome" >
+                <gmvisibleonly/>
+                <empty>GM Notes on Outcome...</empty>
+            </ft_columnh>
+        </sheetdata>
+    </windowclass>
+</root>

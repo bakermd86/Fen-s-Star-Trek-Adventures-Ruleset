@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+
+    <windowclass name="lifepathDefineHeader">
+		<nodelete />
+		<script>
+			function setName(name)
+				self.nameCol.setValue(name)
+			end
+		</script>
+        <sheetdata>
+			<genericcontrol name="entryAnchor">
+				<anchored position="insidetopleft" offset="15,5" width="0" height="20"/>
+			</genericcontrol>
+			<label>
+				<anchored to="entryAnchor" width="30">
+					<top />
+					<bottom />
+					<left anchor="right" relation="relative"/>
+				</anchored>
+                <font>lcars_sheetlabelmini</font>
+				<static>From</static>
+			</label>
+			<label>
+				<anchored to="entryAnchor" width="25">
+					<top />
+					<bottom />
+					<left anchor="right" relation="relative" offset="5"/>
+				</anchored>
+                <font>lcars_sheetlabelmini</font>
+				<static>To</static>
+			</label>
+			<label name="nameCol">
+				<anchored to="entryAnchor">
+					<top />
+					<bottom />
+					<left anchor="right" relation="relative" offset="10"/>
+					<right parent="" offset="-15"/>
+				</anchored>
+                <font>lcars_sheetlabelmini</font>
+			</label>
+
+			<genericcontrol name="nameAnchor">
+				<anchored to="entryAnchor" height="20" width="0">
+					<top anchor="bottom" relation="current"/>
+					<left />
+				</anchored>
+			</genericcontrol>
+			<toFromField name="fromrange">
+				<default>1</default>
+			</toFromField>
+			<label>
+				<anchored to="nameAnchor" width="15">
+					<top />
+					<bottom />
+					<left anchor="right" relation="relative"/>
+				</anchored>
+                <font>lcars_sheetlabel</font>
+				<static> - </static>
+			</label>
+			<toFromField name="torange">
+				<default>1</default>
+			</toFromField>
+			<stringfield name="results.id-00001.result">
+				<anchored to="nameAnchor" >
+					<top />
+					<bottom />
+					<left anchor="right" relation="relative" offset="15"/>
+					<right parent=""/>
+				</anchored>
+				<frame name="fielddark" offset="5,5,5,5"/>
+				<script>
+					function onValueChanged()
+						window['stepNote.name'].setValue(getValue())
+					end
+				</script>
+			</stringfield>
+			<stringfield name="stepNote.name">
+				<anchored position="insidetopleft" width="0" height="0"/>
+				<invisible />
+			</stringfield>
+        </sheetdata>
+	</windowclass>
+
+	<windowclass name="lifepath_table_def_attribute_item">
+		<sheetdata>
+			<genericcontrol name="tlanchor">
+				<anchored position="insidetopleft" height="45" width="0" />
+			</genericcontrol>
+			<button_lifepath_toggle_select name="lifepath_attribute_select_control">
+				<anchored to="tlanchor" position="insidetopleft" height="18" width="60" offset="4,0"/>
+				<script>
+					function parentWindow()
+						return window.windowlist
+					end
+				</script>
+			</button_lifepath_toggle_select>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="lifepath_define_attribute_window">
+		<sheetdata>
+			<genericcontrol name="columnanchor">
+				<anchored position="insidetopleft"/>
+			</genericcontrol>
+			<lifepath_table_def_select_attributes_control name="define_score_select"/>
+
+			<lifepath_table_select_count name="score_selection_count">
+				<anchored to="define_score_select" />
+				<default>3</default>
+			</lifepath_table_select_count>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="lifepath_define_discipline_window">
+		<sheetdata>
+			<genericcontrol name="columnanchor">
+				<anchored position="insidetopleft"/>
+			</genericcontrol>
+			<lifepath_table_def_select_disciplines_control name="define_score_select"/>
+
+			<lifepath_table_select_count name="score_selection_count">
+				<anchored to="define_score_select" />
+				<default>3</default>
+			</lifepath_table_select_count>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="lifepath_define_talent_window">
+		<sheetdata>
+			<windowlist name="talent_select">
+				<anchored position="insidetop" height="24"/>
+				<skipempty />
+				<readonly />
+				<class>lifepath_define_add_link_control</class>
+<!--				<columns>-->
+<!--					<width>80</width>-->
+<!--					<fillwidth />-->
+<!--				</columns>-->
+				<script>
+					function onInit()
+						self.control = self.createWindow()
+						self.control.lifepath_drop_target.initControl("talent", "talents", 0)
+						self.control.lifepath_drop_target_label.setValue("Talent")
+					end
+				</script>
+<!--				<backcolor>44eec515</backcolor>-->
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="lifepath_define_add_link_control">
+		<sheetdata>
+			<lifepath_add_link_button name="lifepath_drop_target">
+				<anchored position="insidetopleft" height="24" width="24"/>
+				<script>
+					function saveLinkToList(name, class)
+						window.windowlist.window.parentcontrol.window.saveTalent(name, class, self.node)
+						window.display.setValue(name)
+						window.lifepath_drop_target_label.setVisible(false)
+    					self.setSelect();
+					end
+					function cleanUp()
+						window.display.setValue("")
+						window.lifepath_drop_target_label.setVisible(true)
+						window.windowlist.window.parentcontrol.window.deleteTalentNode()
+					end
+				</script>
+			</lifepath_add_link_button>
+			<stringcontrol name="display">
+				<anchored to="lifepath_drop_target" position="right" offset="2"/>
+			</stringcontrol>
+			<label name="lifepath_drop_target_label">
+				<anchored to="display" width="55" position="right" offset="2"/>
+			</label>
+		</sheetdata>
+	</windowclass>
+
+    <template name="lp_define_step_subwindow">
+		<subwindow>
+			<anchored to="contentanchor">
+				<top offset="80" />
+				<left />
+				<right />
+				<bottom parent="" offset="-52" />
+			</anchored>
+			<fastinit />
+		</subwindow>
+	</template>
+
+	<template name="toFromField">
+		<basicnumber>
+			<anchored to="nameAnchor" width="15" merge="replace">
+				<top />
+				<bottom />
+				<left anchor="right" relation="relative"/>
+			</anchored>
+			<min>1</min>
+			<max>20</max>
+			<delaykeyupdate />
+			<nodrag />
+		</basicnumber>
+	</template>
+
+	<template name="lifepath_table_def_select_scores_control">
+		<lifepath_select_control >
+			<script>
+				function onInit()
+					for _, score in ipairs(self.allScores()) do
+						local w = self.addWindow()
+						w.lifepath_attribute_select_control.setName(score)
+					end
+					self._selectedScores = {}
+				end
+				function getCounter()
+					return window.score_selection_count
+				end
+				function getStep()
+					return 0
+				end
+				function getDBNode()
+					return window.parentcontrol.window.getDatabaseNode().getChild("results").createChild("id-0000"..window.parentcontrol.getControlCol())
+				end
+				function updateResultVal()
+					local outVal = ""
+					for score, _ in pairs(self._selectedScores) do
+						if outVal ~= "" then outVal = outVal .. ", " end
+						outVal = outVal .. string.upper(string.sub(score, 1, 1)) .. string.sub(score, 2)
+					end
+					DB.setValue(self.getDBNode(), "result", "string", outVal)
+				end
+				function incrementAttribute(attName, source)
+					local remaining = source.getCount() - 1;
+					if remaining == 0 then source.lock() end
+					source.setCount(remaining)
+					self._selectedScores[attName] = 1
+					self.updateResultVal()
+				end
+				function decrementAttribute(attName, source)
+					local remaining = source.getCount() + 1;
+					if remaining == 1 then source.unlock() end
+					source.setCount(remaining)
+					self._selectedScores[attName] = nil
+					self.updateResultVal()
+				end
+			</script>
+			<class>lifepath_table_def_attribute_item</class>
+		</lifepath_select_control>
+	</template>
+
+	<template name="lifepath_table_def_select_attributes_control">
+		<lifepath_table_def_select_scores_control >
+			<script>
+				function allScores()
+					return ScopeManager.ALL_ATTRIBUTES
+				end
+			</script>
+		</lifepath_table_def_select_scores_control>
+	</template>
+
+	<template name="lifepath_table_def_select_disciplines_control">
+		<lifepath_table_def_select_scores_control >
+			<script>
+				function allScores()
+					return ScopeManager.ALL_DISCIPLINES
+				end
+			</script>
+		</lifepath_table_def_select_scores_control>
+	</template>
+
+	<template name="lifepath_table_select_count">
+		<numbercontrol>
+			<anchored position="insidetopright" relation="relative" offset="0,0" width="20" height="20" />
+			<readonly />
+			<invisible />
+		</numbercontrol>
+	</template>
+
+	<template name="lifepath_table_separator">
+		<genericcontrol >
+			<frame name="separatorline" />
+			<anchored width="4">
+				<top offset="-2" />
+				<bottom offset="-2"/>
+				<left anchor="right" relation="relative" offset="5"/>
+			</anchored>
+		</genericcontrol>
+	</template>
+
+	<template name="lifepath_table_mode_button">
+		<button_lifepath_tab>
+			<anchored width="60"/>
+			<script>
+				function onButtonPress()
+					self.callback(window, self.count, self.resNode)
+					self.setBackColor(LifePathAlertHelper.COLOR_OK)
+				end
+			</script>
+			<backcolor>ff424242</backcolor>
+		</button_lifepath_tab>
+	</template>
+
+	<template name="button_lifepath_table_add_row">
+		<button_lifepath_tab >
+			<anchored width="65">
+				<left merge="delete" />
+				<right parent="" offset="-15"/>
+				<bottom />
+			</anchored>
+			<state>
+				<text> Add Row </text>
+			</state>
+			<script>
+				function onButtonPress()
+					window.parentcontrol.window.addRow(window, resultColumns)
+					LifePathDefineHelper.updateUsedVals(window, 1)
+					LifePathDefineHelper.clearState(window)
+				end
+			</script>
+			<backcolor>ffeec515</backcolor>
+		</button_lifepath_tab>
+	</template>
+
+	<template name="button_lifepath_table_discard_row">
+		<button_lifepath_tab >
+			<anchored width="65" merge="replace" to="add_button" position="left" offset="5"/>
+			<state>
+				<text> Discard </text>
+			</state>
+			<script>
+				function onButtonPress()
+					LifePathDefineHelper.clearState(window)
+				end
+			</script>
+			<backcolor>ffeec515</backcolor>
+		</button_lifepath_tab>
+	</template>
+
+	<template name="mode_select_control">
+		<stringcontrol>
+			<anchored position="insidetopleft" width="0" height="0"/>
+			<invisible />
+			<default>fixed</default>
+		</stringcontrol>
+	</template>
+
+	<template name="step_counter">
+		<numbercontrol>
+			<anchored position="insidetopleft" width="0" height="0"/>
+			<readonly />
+			<invisible />
+		</numbercontrol>
+	</template>
+
+	<template name="define_step_header">
+		<subwindow >
+			<anchored position="insidetop" height="45"/>
+			<class>lifepathDefineHeader</class>
+			<activate />
+			<fastinit />
+		</subwindow>
+	</template>
+
+	<template name="define_step_col_anchor">
+		<genericcontrol >
+			<anchored to="header" width="0" height="0">
+				<top anchor="bottom" offset="5" relation="relative"/>
+				<left/>
+			</anchored>
+		</genericcontrol>
+	</template>
+
+	<template name="define_step_button_anchor">
+		<genericcontrol >
+			<anchored to="header" width="0" height="24">
+				<top parent="columnanchor" anchor="bottom" offset="2" relation="relative"/>
+				<left/>
+			</anchored>
+		</genericcontrol>
+	</template>
+
+	<template name="define_step_mode_button_label">
+		<stringcontrol>
+			<font>lcars_sheetlabel</font>
+			<anchored height="24" width="60" >
+				<bottom/>
+				<left anchor="right" relation="relative" offset="5"/>
+			</anchored>
+		</stringcontrol>
+	</template>
+
+	<template name="define_step_subwindow">
+		<subwindow >
+			<anchored height="30" >
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+				<left />
+				<right />
+			</anchored>
+			<activate />
+			<fastinit />
+		</subwindow>
+	</template>
+
+	<template name="define_step_att_subwindow">
+		<define_step_subwindow >
+			<class>lifepath_define_attribute_window</class>
+		</define_step_subwindow>
+	</template>
+
+	<template name="define_step_disc_subwindow">
+		<define_step_subwindow >
+			<class>lifepath_define_discipline_window</class>
+		</define_step_subwindow>
+	</template>
+
+	<template name="define_step_text_field">
+		<formattedtextfield >
+			<anchored>
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="8" />
+				<left offset="8" />
+				<right offset="-8"/>
+				<bottom parent="" anchor="bottom" offset="-8"/>
+			</anchored>
+			<frame name="groupbox" offset="8,8,8,8" />
+			<empty> Use this control to provide whatever formatted text description you want provided
+to users of the Lifepath tool when they get this result</empty>
+		</formattedtextfield>
+	</template>
+</root>

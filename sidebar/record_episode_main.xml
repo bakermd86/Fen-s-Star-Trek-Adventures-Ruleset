@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+  <windowclass name="episode_main">
+    <margins control="0,0,0,2" />
+    <sheetdata>
+	  <!-- Summary -->
+      <genericcontrol name="height_anchor">
+        <anchored position="insidetop" height="0" width="0"/>
+      </genericcontrol>
+	  <ep_text name="summary">
+		<anchored height="90"/>
+	  </ep_text>
+      <ep_label>
+        <anchored to="summary" />
+        <static textres="episode_label_summary" />
+      </ep_label>
+	  
+	  <!-- Cold Open -->
+	  <ep_text name="cold_open">
+		<anchored>
+          <bottom anchor="center" offset="100"/>
+        </anchored>
+	  </ep_text>
+      <ep_label>
+        <anchored to="cold_open" />
+        <static textres="episode_label_cold_open" />
+      </ep_label>
+	  
+      <!-- Characters -->
+	  <episode_linked_list name="episode_characters">
+        <datasource>.episode_characters</datasource>
+		<anchored >
+          <top relation="current"/>
+          <bottom offset="-10"/>
+          <right anchor="center" offset="-50"/>
+        </anchored>
+	  </episode_linked_list>
+      <ep_label>
+        <anchored to="episode_characters" />
+        <static textres="episode_label_characters" />
+      </ep_label>
+	  
+	  <!-- Writer/Director -->
+	  <ep_text name="writer_director">
+		<anchored >
+          <bottom offset="-10"/>
+          <left parent="episode_characters" anchor="right" offset="20"/>
+        </anchored>
+	  </ep_text>
+      <ep_label>
+        <anchored to="writer_director" />
+        <static textres="episode_label_writer_director" />
+      </ep_label>
+	  
+    </sheetdata>
+  </windowclass>
+
+  <template name="ep_label">
+    <label_frametop>
+      <anchored position="insidetop" offset="0,-20" merge="replace"/>
+    </label_frametop>
+  </template>
+
+  <template name="ep_text">
+	  <ft_record >
+        <frame name="fieldlight" offset="10,8,10,8"/>
+		<anchored >
+          <left offset="10"/>
+          <right offset="-10"/>
+          <top parent="height_anchor" anchor="bottom" offset="28" relation="relative"/>
+        </anchored>
+	  </ft_record>
+  </template>
+
+  <template name="episode_linked_list">
+      <list_text >
+        <datasource />
+        <newfocus>label</newfocus>
+        <sortby><control>label</control></sortby>
+        <frame name="lcars_groupbox_dark" offset="10,8,10,8"/>
+        <class>link_list_entry</class>
+        <script file="campaign/scripts/linked_list.lua"/>
+		<anchored >
+          <left offset="10"/>
+          <right offset="-10"/>
+          <top parent="height_anchor" anchor="bottom" offset="28" relation="relative"/>
+        </anchored>
+      </list_text>
+  </template>
+
+</root>

@@ -1,0 +1,235 @@
+<root>
+    <windowclass name="record_ship_main">
+        <noscroll/>
+        <sheetdata>
+            <ship_tl_anchor/>
+            <charsheet_tr_anchor />
+            <charsheet_cl_anchor>
+                <anchored offset="240, 0" />
+            </charsheet_cl_anchor>
+            <charsheet_mr_anchor>
+                <anchored offset="90, 165" />
+            </charsheet_mr_anchor>
+
+<!--          Invisible, non-layout controls  -->
+            <numbercontrol name="activeAttribute">
+                <invisible/>
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <script>
+                    function setScore(name, value)
+                        self.setValue(value)
+                        window.activeAttributeName.setValue(name)
+                    end
+                </script>
+            </numbercontrol>
+            <active_score name="activeAttributeName">
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <invisible/>
+            </active_score>
+
+            <numbercontrol name="activeDiscipline">
+                <invisible/>
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <script>
+                    function setScore(name, value)
+                        self.setValue(value)
+                        window.activeDisciplineName.setValue(name)
+                    end
+                </script>
+            </numbercontrol>
+            <active_score name="activeDisciplineName">
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <invisible/>
+            </active_score>
+
+            <stringcontrol name="focuses">
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <invisible/>
+                <default>Auto</default>
+                <script>
+                    function getSelected()
+                        return self
+                    end
+                </script>
+            </stringcontrol>
+
+<!--        Color Frames        -->
+
+            <char_frame_color name="systems_color">
+                <anchored >
+                    <top parent="topLeft" offset="0"/>
+                    <left parent="topLeft" />
+                    <right parent="centerLine" offset="0"/>
+                    <bottom parent="" />
+                </anchored>
+            </char_frame_color>
+
+            <char_frame_color name="departments_color">
+                <anchored >
+                    <top parent="topLeft" offset="0"/>
+                    <left parent="centerLine" offset="0"/>
+                    <right parent="topRight" />
+                    <bottom parent="middleRow" />
+                </anchored>
+            </char_frame_color>
+
+            <char_frame_color name="talents_color">
+                <anchored >
+                    <top parent="middleRow" offset="0"/>
+                    <left parent="centerLine" offset="0"/>
+                    <right parent="topRight" />
+                    <bottom parent="" />
+                </anchored>
+            </char_frame_color>
+
+<!--        Frame Controls     -->
+            <systems_list name="systemsList"/>
+            <departments_list name="departmentsList"/>
+            <talents_list name="talents">
+                <anchored>
+                    <top offset="5"/>
+                </anchored>
+                <frame name="lcars_frame_shape_bottom_right" offset="5,5,35,25"/>
+            </talents_list>
+
+
+
+    <!--      Roll Controls      -->
+            <genericcontrol name="dieAnchor">
+                <anchored to="systemsList" position="aboveright" offset="-23,5" height="20" width="40"/>
+            </genericcontrol>
+            <roll_dice_control name="rollTestControl">
+                <anchored merge="replace" to="dieAnchor" position="insideleft" offset="2" height="20" width="18"/>
+                <frame name="field_white_left" offset="1,0,1,0"/>
+                <script>
+                    function determinationUsed()
+                        return nil
+                    end
+                    function getDice()
+                        return {"d20"}
+                    end
+                </script>
+            </roll_dice_control>
+            <numbercontrol name="rollDC">
+                <default>0</default>
+                <min>0</min>
+                <max>0</max>
+                <readonly/>
+                <anchored to="rollTestControl" width="16" height="20">
+                    <bottom offset="0"/>
+                    <left anchor="right" offset="0"/>
+                </anchored>
+                <frame name="field_white_right" />
+            </numbercontrol>
+
+
+<!--            Labels      -->
+
+            <tag_label name="systems_label">
+                <anchored  to="systemsList"  offset="25,9"/>
+                <static textres="ship_label_systems"/>
+            </tag_label>
+            <tag_label name="departments_label">
+                <anchored  to="departmentsList"  offset="25,9"/>
+                <static textres="ship_label_departments"/>
+            </tag_label>
+            <tag_label name="talents_label">
+                <anchored  to="talents" position="insidebottomleft" offset="25,-25"/>
+                <static textres="char_label_talents"/>
+            </tag_label>
+
+        </sheetdata>
+    </windowclass>
+    <template name="system_field">
+        <score_field>
+            <default>7</default>
+        </score_field>
+    </template>
+    <template name="breaches_label">
+        <label>
+            <static> BREACHES </static>
+            <font>lcars_sheetlabelinline</font>
+            <anchored height="16" >
+                <top anchor="bottom" parent="label" offset="22"/>
+                <left parent="" offset="3"/>
+            </anchored>
+        </label>
+    </template>
+    <template name="system_damage_widget">
+        <buttongroup_counter >
+            <anchored height="20" >
+                <top anchor="bottom" parent="label" offset="1"/>
+                <left parent="" offset="3"/>
+                <right parent="" offset="-3"/>
+            </anchored>
+            <stateicons>
+              <on>button_link</on>
+              <off>button_link_empty</off>
+            </stateicons>
+            <spacing>18</spacing>
+            <allowsinglespacing/>
+            <sourcefields>
+              <maximum>damage_max</maximum>
+              <current>damage_temp</current>
+            </sourcefields>
+        </buttongroup_counter>
+    </template>
+    <template name="systems_list">
+        <scoreList name="systemList">
+            <class>char_score_entry</class>
+            <anchored to="systems_color">
+                <left offset="35"/>
+                <right offset="-5"/>
+            </anchored>
+            <frame name="lcars_frame_shape_left" offset="35,30,5,25"/>
+            <script>
+                ---function basePage() return 100 end
+                function scores()
+                    return ShipHelper.ALL_SYSTEMS
+                end
+                function scoreClass()
+                    return "att_field"
+                end
+                function rollControl()
+                    return window.activeAttribute
+                end
+                function onFirstLayout()
+                    for _, w in ipairs(self.getWindows()) do
+                        ---w.link.setVisible(false)
+                        w.createControl("breaches_label")
+                        local d = w.createControl("system_damage_widget")
+                        d.setCurrNode(DB.getPath(window.getDatabaseNode(), "breaches_"..string.lower(w.label.getValue())))
+                    end
+                end
+            </script>
+        </scoreList>
+    </template>
+    <template name="departments_list">
+        <scoreList name="departmentsList">
+            <class>char_score_entry</class>
+            <anchored to="departments_color">
+                <left offset="5"/>
+                <right offset="-35"/>
+                <bottom offset="-5"/>
+            </anchored>
+            <script>
+                ---function basePage() return 100 end
+                function scores()
+                    return ScopeManager.ALL_DISCIPLINES
+                end
+                function scoreClass()
+                    return "disc_field"
+                end
+                function rollControl()
+                    return window.activeDiscipline
+                end
+                ---function onFirstLayout()
+                ---    for _, w in ipairs(self.getWindows()) do
+                ---        w.link.setVisible(false)
+                ---    end
+                ---end
+            </script>
+            <frame name="lcars_frame_shape_top_right" offset="5,30,35,5"/>
+        </scoreList>
+    </template>
+</root>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+	<windowclass name="charselect_host" merge="join">
+		<sheetdata>
+			<button_lifepath name="button_lifepath_g" insertbefore="filter">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_lifepath>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charselect_client" merge="join">
+		<sheetdata>
+			<button_lifepath name="button_lifepath_g" insertbefore="filter">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_lifepath>
+			<windowlist name="list" merge="join">
+				<script file="campaign/scripts/filter_client_list.lua" />
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charselect_local" merge="join">
+		<sheetdata>
+			<button_lifepath name="button_lifepath_g" insertbefore="filter">
+				<anchored to="rightanchor">
+					<top />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+			</button_lifepath>
+		</sheetdata>
+	</windowclass>
+</root>

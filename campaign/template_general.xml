@@ -1,0 +1,278 @@
+<root>
+	<template name="resize_storybox">
+		<resize>
+			<anchored>
+				<right  />
+				<bottom  />
+			</anchored>
+		</resize>
+	</template>
+
+	<windowclass name="char_invitem" merge="join">
+		<sheetdata>
+
+			<number_charinv name="count">
+				<frame name="field_orange_left"/>
+			</number_charinv>
+			<string_charinvname  name="name">
+<!--				<backcolor>ddd4c73d</backcolor>-->
+				<font name="lcars_sheettext"/>
+			</string_charinvname>
+			<string_charinvname name="nonid_name">
+<!--				<backcolor>ddd4c73d</backcolor>-->
+				<font name="lcars_sheettext"/>
+			</string_charinvname>
+			<string_charinvloc name="location">
+				<font name="lcars_sheettext"/>
+			</string_charinvloc>
+		</sheetdata>
+	</windowclass>
+
+	<template name="number_charinv" merge="join">
+		<basicnumber>
+			<frame name="field_orange_right"/>
+		</basicnumber>
+	</template>
+
+	<template name="lcars_string_labeled">
+		<stringfield>
+			<font>lcars_sheettext</font>
+			<lineoffset default="on">2</lineoffset>
+			<script>
+				labelwidget = nil;
+
+				function onInit()
+					if labelres then
+						labelwidget = addTextWidget("sheetlabelinline", string.upper(Interface.getString(labelres[1])));
+					else
+						labelwidget = addTextWidget("sheetlabelinline", string.upper(label[1]));
+					end
+					if labelwidget then
+						local w,h = labelwidget.getSize();
+						labelwidget.setPosition("bottomleft", w/2, h/2-4);
+					end
+				end
+			</script>
+		</stringfield>
+	</template>
+
+	<template name="lcars_stringc_labeled">
+		<stringcontrol>
+			<font>lcars_sheettext</font>
+			<lineoffset default="on">2</lineoffset>
+			<script>
+				labelwidget = nil;
+
+				function onInit()
+					if labelres then
+						labelwidget = addTextWidget("sheetlabelinline", string.upper(Interface.getString(labelres[1])));
+					else
+						labelwidget = addTextWidget("sheetlabelinline", string.upper(label[1]));
+					end
+					if labelwidget then
+						local w,h = labelwidget.getSize();
+						labelwidget.setPosition("bottomleft", w/2, h/2-4);
+					end
+				end
+			</script>
+		</stringcontrol>
+	</template>
+
+	<windowclass name="lcars_color_select" >
+		<frame>utilitybox3</frame>
+		<placement>
+			<size width="230" height="155" />
+		</placement>
+		<sizelimits>
+			<minimum width="230" height="155" />
+			<dynamic />
+		</sizelimits>
+		<nodelete/>
+		<script file="campaign/scripts/lcars_color_select.lua"/>
+		<sheetdata>
+			<buttoncontrol name="color_main">
+				<anchored width="50" height="50">
+					<top offset="20" />
+					<right anchor="center" offset="-10" />
+				</anchored>
+				<tooltip textres="tooltip_lcars_color_primary"/>
+				<icon name="lcars_color_wheel"/>
+				<pressed offset="1,1"/>
+				<script>
+					function onButtonPress()
+						window.handleMainColor();
+					end
+				</script>
+			</buttoncontrol>
+
+			<buttoncontrol name="color_alt">
+				<anchored width="50" height="50">
+					<top offset="20" />
+					<left anchor="center" offset="10" />
+				</anchored>
+				<tooltip textres="tooltip_lcars_color_secondary"/>
+				<icon name="lcars_color_wheel"/>
+				<pressed offset="1,1"/>
+				<script>
+					function onButtonPress()
+						window.handleAltColor();
+					end
+				</script>
+			</buttoncontrol>
+
+			<simplestringc name="text">
+				<anchored position="insidetop" offset="-20,80" />
+				<multilinespacing>20</multilinespacing>
+				<center />
+				<static>Set LCARS color scheme</static>
+			</simplestringc>
+			<buttoncontrol name="reset">
+				<anchored height="20" width="20">
+					<left anchor="center" offset="-10"/>
+					<bottom offset="-15"/>
+				</anchored>
+				<icon normal="button_clear" pressed="button_clear_down"/>
+				<tooltip textres="tooltip_lcars_color_reset"/>
+				<script>
+					function onButtonPress()
+						window.resetColors();
+					end
+				</script>
+			</buttoncontrol>
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+
+
+	<template name="close_recordsheet">
+		<close>
+			<anchored>
+				<top offset="1" />
+				<right offset="-1" />
+			</anchored>
+		</close>
+	</template>
+	<template name="resize_recordsheet">
+		<resize>
+			<anchored>
+				<right />
+				<bottom  />
+			</anchored>
+		</resize>
+	</template>
+	<template name="resize_referencelist">
+		<resize>
+			<anchored>
+				<right />
+				<bottom  />
+			</anchored>
+		</resize>
+	</template>
+
+	<template name="notes_field">
+		<formattedtextfield >
+			<anchored to="notesframe">
+				<top offset="2" />
+				<left offset="15" />
+				<right offset="-20" />
+				<bottom offset="-15" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+			<nodrag />
+			<font name="lcars_sheettext">
+				<normal>lcars_sheettext</normal>
+				<bold>lcars_sheettext_bold</bold>
+				<bolditalic>lcars_sheettext_bolditalic</bolditalic>
+				<title>lcars_title</title>
+				<italic>lcars_sheettext_italic</italic>
+			</font>
+			<empty >
+				<text>Enter Notes...</text>
+			</empty>
+			<linkicon >
+				<link>button_link</link>
+				<emptylink>button_link_empty</emptylink>
+			</linkicon>
+		</formattedtextfield>
+	</template>
+
+	<template name="button_activateid">
+		<buttoncontrol>
+			<icon normal="button_speak" pressed="button_speak_down" />
+			<script>
+				function onButtonPress()
+					local node = window.getDatabaseNode();
+					if node.getParent().getName() == "crewmate" then
+						local sName = DB.getValue(node, "name")
+						GmIdentityManager.addIdentity(sName);
+					else
+						local sName = ActorManager.getDisplayName(node);
+						GmIdentityManager.addIdentity(sName);
+					end
+				end
+			</script>
+			<gmvisibleonly />
+		</buttoncontrol>
+	</template>
+
+	<template name="color_field_right">
+		<genericcontrol>
+			<frame name="field_mask_right"/>
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getMainColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrame(self, window.getDatabaseNode())
+                end
+            </script>
+		</genericcontrol>
+	</template>
+
+	<template name="color_field_left">
+		<genericcontrol>
+			<frame name="field_mask_left"/>
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getMainColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrame(self, window.getDatabaseNode())
+                end
+            </script>
+		</genericcontrol>
+	</template>
+
+	<template name="alt_color_field_right">
+		<genericcontrol>
+			<frame name="field_mask_right"/>
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
+                end
+            </script>
+		</genericcontrol>
+	</template>
+
+	<template name="alt_color_field_left">
+		<genericcontrol>
+			<frame name="field_mask_left"/>
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
+                end
+            </script>
+		</genericcontrol>
+	</template>
+
+	<template name="alt_color_field_square">
+		<genericcontrol>
+			<frame name="field_empty"/>
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
+                end
+            </script>
+		</genericcontrol>
+	</template>
+</root>

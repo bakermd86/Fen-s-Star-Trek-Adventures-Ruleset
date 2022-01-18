@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="charsheet_inventory" merge="join">
+      <sheetdata>
+            <charsheet_tl_anchor insertbefore="inventoryframe"/>
+            <genericcontrol name="colOne" insertbefore="inventoryframe">
+                <anchored position="insidetopleft" offset="215, 0" />
+            </genericcontrol>
+            <genericcontrol name="colTwo" insertbefore="inventoryframe">
+                <anchored position="insidetopleft" offset="400, 0" />
+            </genericcontrol>
+            <charsheet_tr_anchor insertbefore="inventoryframe"/>
+
+            <genericcontrol name="centerLine" insertbefore="inventoryframe">
+                <anchored position="insidetopleft" offset="300, 25" />
+            </genericcontrol>
+
+            <genericcontrol name="middleRow" insertbefore="inventoryframe">
+                <anchored position="insidetopleft" offset="20, 215" />
+            </genericcontrol>
+            <genericcontrol name="bottomRow" insertbefore="inventoryframe">
+                <anchored position="insidetopleft" offset="20, 385" />
+            </genericcontrol>
+
+        <char_frame_color name="inventory_color" insertbefore="inventoryframe">
+            <anchored >
+                <top parent="topLeft"/>
+                <left parent="topLeft"/>
+                <right parent="topRight"/>
+                <bottom parent=""/>
+            </anchored>
+        </char_frame_color>
+        <frame_char name="inventoryframe" >
+            <bounds merge="delete"/>
+            <anchored to="inventory_color"/>
+        </frame_char>
+
+			<label name="weight_label">
+				<font name="lcars_sheettext"/>
+            </label>
+			<label name="location_label">
+				<font name="lcars_sheettext"/>
+            </label>
+			<label name="name_label">
+				<font name="lcars_sheettext"/>
+            </label>
+        <tag_label name="inventory_label" insertbefore="inventorylist_iedit">
+            <anchored to="inventoryframe" />
+            <static textres="char_label_inventory"/>
+        </tag_label>
+
+          <button_iedit name="inventorylist_iedit">
+              <anchored to="inventoryframe" position="insidetopright" />
+          </button_iedit>
+			<button_iadd name="inventorylist_iadd">
+                <anchored to="inventorylist_iedit" position="left" offset="5"/>
+            </button_iadd>
+          <frame_char name="encumbranceframe" merge="delete"/>
+
+          <simplenumber name="encumbranceload" height="16">
+              <anchored to="inventoryframe" position="insidebottomright" offset="10,-25"/>
+              <font name="lcars_sheetlabel"/>
+              <backcolor>ff000000</backcolor>
+              <frame merge="delete"/>
+          </simplenumber>
+          <label name="encumbrance_label">
+              <anchored to="encumbranceload" position="left" offset="0" height="18"/>
+              <font name="lcars_sheetlabel"/>
+              <backcolor>ff000000</backcolor>
+              <static merge="replace"> WEIGHT CARRIED  </static>
+          </label>
+
+			<frame_char name="coinframe" merge="delete" />
+        <tag_label name="coinframe_label" merge="delete" />
+
+          <label_frametop name="coin_label" merge="delete"/>
+          <number_dropadd name="coinamount1" merge="delete" />
+          <number_dropadd name="coinamount2" merge="delete" />
+          <number_dropadd name="coinamount3" merge="delete" />
+          <number_dropadd name="coinamount4" merge="delete" />
+          <number_dropadd name="coinamount5" merge="delete" />
+          <number_dropadd name="coinamount6" merge="delete" />
+          <stringu name="coinname1"  merge="delete" />
+          <stringu name="coinname2"  merge="delete" />
+          <stringu name="coinname3"  merge="delete" />
+          <stringu name="coinname4"  merge="delete" />
+          <stringu name="coinname5"  merge="delete" />
+          <stringu name="coinname6"  merge="delete" />
+        <basicstring name="coinother" merge="delete" />
+      </sheetdata>
+  </windowclass>
+</root>

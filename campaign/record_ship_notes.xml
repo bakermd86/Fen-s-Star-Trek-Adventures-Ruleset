@@ -1,0 +1,32 @@
+<root>
+    <windowclass name="ship_notes" >
+        <sheetdata>
+            <ship_tl_anchor/>
+            <charsheet_tr_anchor/>
+
+            <char_frame_color name="notes_color">
+                <anchored >
+                    <top parent="topLeft" offset="0"/>
+                    <right parent="topRight" />
+                    <left parent="topLeft" />
+                    <bottom parent="" />
+                </anchored>
+            </char_frame_color>
+            <frame_char name="notesframe">
+                <anchored to="notes_color"/>
+
+            </frame_char>
+            <tag_label name="notes_label">
+                <anchored to="notesframe"  />
+                <static textres="char_label_notes"/>
+            </tag_label>
+
+
+            <notes_field name="notes"/>
+			<scrollbar_list>
+				<anchored to="notes" />
+				<target>notes</target>
+			</scrollbar_list>
+        </sheetdata>
+    </windowclass>
+</root>

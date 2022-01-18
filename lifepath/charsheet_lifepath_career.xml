@@ -1,0 +1,91 @@
+<root>
+	<windowclass name="charsheet_lifepath_career">
+		<sheetdata>
+			<lp_step_window name="contents">
+				<class>charsheet_lifepath_career_contents</class>
+			</lp_step_window>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="charsheet_lifepath_career_contents">
+		<script file="lifepath/scripts/lifepath_career.lua" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			<tab_title_frame name="career_label"/>
+			
+			<tab_content_frame name="lifepath_career_frame">
+				<anchored>
+					<top parent="career_label" />
+				</anchored>
+			</tab_content_frame>
+
+			<step_mode_control name="lifepath_career_genmethod">
+				<anchored to="career_label" position="insideleft" offset="5,-5" />
+				<script file="lifepath/mode_scripts/lifepath_career_mode_select.lua" />
+			</step_mode_control>
+			
+			<label name="lifepath_career_name_manual_label">
+				<invisible />
+				<static>Career Experience:</static>
+				<anchored to="lifepath_career_genmethod" position="right" offset="3" width="95" />
+			</label>
+			
+			<stringcontrol name="lifepath_career_name_manual">
+				<anchored to="lifepath_career_name_manual_label" position="right" width="150" offset="5"/>
+				<invisible />
+				<lineoffset default="on" mergerule="replace">1</lineoffset>
+				<script>
+					function onValueChanged()
+						ScopeManager.setSummaryVal("career", getValue());
+					end
+				</script>
+			</stringcontrol>
+
+			<roll_button_control name="lifepath_career_roll_button">
+				<anchored to="lifepath_career_genmethod" position="right"/>
+				<script>
+					function onInit()
+						self.genmethod = window.lifepath_career_genmethod
+					end
+					function getStep()
+						return 5
+					end
+				</script>
+				<tooltip textres="lifepath_roll_career" />
+			</roll_button_control>
+			
+			<label name="lifepath_career_roll_label">
+				<static textres="lifepath_roll_career" />
+				<anchored to="lifepath_career_roll_button" position="right" width="150" offset="5"/>
+				<readonly />
+			</label>
+
+			<lifepath_add_link_frame/>
+			<lifepath_add_link_list name="lifepath_career_select_frame">
+				<script>
+					function onInit()
+						self.talentSelect = nil;
+						super.onInit();
+					end
+					
+					function createControls()
+						self.addControl("value", 5);
+						self.talentSelect = self.addControl("talent", 5);
+					end
+					
+				</script>
+			</lifepath_add_link_list>
+
+			<ref_list_frame >
+				<anchored  to="lifepath_career_select_frame">
+					<bottom parent="lifepath_career_frame" />
+				</anchored>
+			</ref_list_frame>
+			<tab_ref_list name="lifepath_career_ref">
+				<anchored  to="lifepath_career_select_frame">
+					<bottom parent="lifepath_career_frame" />
+				</anchored>
+			</tab_ref_list>
+		</sheetdata>
+	</windowclass>	
+</root>

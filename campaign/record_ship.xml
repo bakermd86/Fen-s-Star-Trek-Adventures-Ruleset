@@ -1,0 +1,337 @@
+<root>
+    <windowclass name="ship" >
+		<placement>
+			<size width="450" height="545" />
+		</placement>
+        <minimize>minimized_npc</minimize>
+        <tooltip field="name" />
+        <nodelete />
+        <softclose />
+        <playercontrol />
+        <script>
+            _tabButtons = {}
+            function onInit()
+                registerMenuItem("Edit Colors", "categorystyle", 7)
+                if User.isHost() or User.isLocal() then
+                    registerMenuItem("Set As Crew Ship", "linkshareall", 8)
+                end
+            end
+            function onMenuSelection(selectNum)
+                if selectNum == 7 then
+                    local w = Interface.openWindow("lcars_color_select", getDatabaseNode())
+                elseif selectNum == 8 then
+                    local cv = DB.createChild("crew_support", "crew_vessel", "string")
+                    DB.setValue(cv, "", "string", getDatabaseNode().getNodeName())
+                    DB.setPublic(cv, true)
+                    DB.setPublic(getDatabaseNode(), true)
+                end
+            end
+            function registerTabButton(tab, pageNum)
+                _tabButtons[pageNum] = tab
+            end
+            function setTabColors(pageNum)
+                for p, button in ipairs(_tabButtons) do
+                    local color = LifePathAlertHelper.COLOR_DESELECT
+                    if p == pageNum then
+                        color = ColorHandler.getMainColor(getDatabaseNode())
+                    elseif p == self.activeTab then
+                        ColorHandler.unregisterColorFrame(button, getDatabaseNode())
+                    end
+                    button.setBackColor(color)
+                end
+                self.activeTab = pageNum
+            end
+        </script>
+        <sheetdata>
+            <char_frame_color_alt name="sheet_color">
+                <anchored merge="replace" >
+                    <top />
+                    <left />
+                    <bottom />
+                    <right />
+                </anchored>
+                <frame name="lcars_sheet_border" offset="0,0,0,0"/>
+            </char_frame_color_alt>
+            <char_frame_color_alt name="header_color">
+                <anchored merge="replace" position="insidetop" height="110">
+                    <right anchor="right" offset="-5" />
+                    <left offset="5"/>
+                    <right anchor="right" offset="-5" />
+                    <top offset="6"/>
+                </anchored>
+            </char_frame_color_alt>
+            <char_frame_color>
+                <anchored merge="replace" position="insideright" to="header_color" width="162"/>
+            </char_frame_color>
+            <subwindow name="header" >
+                <anchored position="insidetop" height="110">
+                    <left offset="5"/>
+                    <right anchor="right" offset="-5" />
+                    <top offset="6"/>
+                </anchored>
+                <class>ship_header</class>
+                <fastinit/>
+			    <activate />
+            </subwindow>
+            <subwindow name="general" >
+                <anchored to="header" height="34" position="below">
+                    <top anchor="bottom" offset="-12" />
+                </anchored>
+                <class>ship_general</class>
+                <fastinit/>
+			    <activate />
+            </subwindow>
+
+            <ship_window name="main">
+                <class>record_ship_main</class>
+            </ship_window>
+
+            <ship_window name="combat">
+                <class>record_ship_combat</class>
+            </ship_window>
+
+            <ship_window name="notes">
+                <class>ship_notes</class>
+            </ship_window>
+
+
+            <buttongroup_tabs name="tabs">
+			    <invisible/>
+                <anchored to="header" position="insidetopleft" width="0" height="0" />
+                    <tab>
+                        <icon>tab_main</icon>
+                        <subwindow>main</subwindow>
+                    </tab>
+                    <tab>
+                        <icon>tab_combat</icon>
+                        <subwindow>combat</subwindow>
+                    </tab>
+                    <tab>
+                        <icon>tab_notes</icon>
+                        <subwindow>notes</subwindow>
+                    </tab>
+            </buttongroup_tabs>
+        </sheetdata>
+    </windowclass>
+    <windowclass name="ship_header">
+        <frame name="lcars_header_frame_shape" />
+        <sheetdata>
+            <genericcontrol name="heightAnchor">
+                <anchored position="insidetop" height="110" />
+            </genericcontrol>
+            <genericcontrol name="row_1">
+                <anchored position="insidetopleft" offset="80,0" height="20" width="0" />
+            </genericcontrol>
+            <genericcontrol name="row_2">
+                <anchored to="row_1" position="belowleft" offset="0,15" height="20" width="0"/>
+            </genericcontrol>
+
+            <genericcontrol name="csAnchor">
+                <anchored height="20" >
+                    <right offset="-146"/>
+                    <bottom parent="heightAnchor" offset="-14"/>
+                </anchored>
+            </genericcontrol>
+            <tag_label name="csLabel">
+                <anchored merge="replace" to="csAnchor" height="20" >
+                    <right anchor="left" offset="-15"/>
+                    <top />
+                </anchored>
+                <static textres="ship_label_crew_support"/>
+            </tag_label>
+        <buttoncontrol>
+            <icon normal="button_effect" pressed="button_effect_down"/>
+              <anchored to="csAnchor" height="20" width="20">
+                  <left anchor="right" relation="relative" offset="-10"/>
+                    <top />
+              </anchored>
+            <script>
+                function onButtonPress()
+                    ---CrewSupportManager.setPlayerSupportNodes(window.getDatabaseNode())
+                    local w = Interface.openWindow("supporting_character_select", window.getDatabaseNode())
+                end
+            </script>
+        </buttoncontrol>
+        <char_single_field_label_h >
+           <static> CUR </static>
+            <anchored to="csAnchor" />
+        </char_single_field_label_h>
+          <char_single_number_field_h name="current_crew_support">
+            <anchored to="csAnchor"/>
+          </char_single_number_field_h>
+        <char_single_field_label_h >
+           <static> MAX </static>
+            <anchored to="csAnchor"/>
+        </char_single_field_label_h>
+          <char_single_number_field_h name="max_crew_support">
+            <anchored to="csAnchor"/>
+              <script>
+                  function onInit()
+                        if getValue() == 0 then
+                            setValue(DB.getValue(getDatabaseNode().getParent(), "scale"))
+                        end
+                  end
+              </script>
+          </char_single_number_field_h>
+
+			<tokenfield name="token">
+				<anchored to="row_1" width="25" height="25">
+					<top />
+					<left anchor="right" relation="relative" offset="2" />
+				</anchored>
+				<empty>token_empty</empty>
+				<script>
+					function onDoubleClick(x, y)
+						CombatManager.openMap(window.getDatabaseNode());
+					end
+				</script>
+			</tokenfield>
+			<char_header_label name="name">
+                <anchored to="row_1" width="151"/>
+				<labelres>char_label_name</labelres>
+			</char_header_label>
+			<char_header_label name="registry_number">
+                <anchored to="row_1" width="151"/>
+				<labelres>ship_label_registry</labelres>
+			</char_header_label>
+
+
+			<char_header_label name="space_frame">
+				<anchored to="row_2" width="110" />
+				<labelres>ship_label_space_frame</labelres>
+			</char_header_label>
+
+			<char_header_label name="role" >
+				<anchored to="row_2" width="110" />
+				<labelres>ship_label_role</labelres>
+			</char_header_label>
+
+			<char_header_label name="commanding_officer" >
+				<anchored to="row_2" width="117" />
+				<labelres>ship_label_commanding_officer</labelres>
+			</char_header_label>
+        </sheetdata>
+    </windowclass>
+    <windowclass name="ship_general">
+        <noscroll/>
+        <sheetdata>
+<!--            Scale   -->
+            <genericcontrol name="button_anchor">
+                <anchored position="insidetopleft" offset="10,8" height="24" width="0" />
+            </genericcontrol>
+
+            <alt_color_field_left>
+                <anchored to="button_anchor" height="24" width="24" >
+                    <bottom />
+                    <left anchor="right" offset="2" relation="relative"/>
+                </anchored>
+            </alt_color_field_left>
+
+            <charsheet_tab_button>
+                <anchored width="35" />
+                <state><text>Main</text></state>
+                <script>
+                    function stepNum()
+                        return 1
+                    end
+                    function onFirstLayout()
+                        window.parentcontrol.window.registerTabButton(self, self.stepNum())
+                        self.setBackColor(ColorHandler.getMainColor(window.parentcontrol.window.getDatabaseNode()))
+                        ColorHandler.registerColorFrame(self, window.parentcontrol.window.getDatabaseNode())
+                    end
+                </script>
+            </charsheet_tab_button>
+
+            <charsheet_tab_button>
+                <anchored width="55" />
+                <state><text>Combat</text></state>
+                <script>
+                    function stepNum()
+                        return 2
+                    end
+                </script>
+            </charsheet_tab_button>
+
+            <charsheet_tab_button>
+                <anchored width="45"/>
+                <state><text>Notes</text></state>
+                <script>
+                    function stepNum()
+                        return 3
+                    end
+                </script>
+            </charsheet_tab_button>
+
+            <alt_color_field_right>
+                <anchored to="button_anchor" height="24" width="24" >
+                    <bottom />
+                    <left anchor="right" offset="5" relation="relative"/>
+                </anchored>
+            </alt_color_field_right>
+<!--            Power   -->
+<!--            <char_frame_color name="power_frame">-->
+<!--                <anchored to="controlAnchor" merge="replace" height="41" width="161" >-->
+<!--                    <left anchor="right" relation="current" offset="10"/>-->
+<!--                    <top offset="-7"/>-->
+<!--                </anchored>-->
+<!--            </char_frame_color>-->
+<!--            <genericcontrol >-->
+<!--                <frame name="lcars_fork_frame_left" />-->
+<!--                <anchored to="power_frame" position="over" />-->
+<!--            </genericcontrol>-->
+
+
+            <char_single_field_label_h >
+                <static>SCALE </static>
+                <anchored to="button_anchor" />
+            </char_single_field_label_h>
+            <char_single_number_field_h name="scale">
+                <anchored to="button_anchor"/>
+            </char_single_number_field_h>
+
+            <char_single_field_label_h >
+                <static> POW </static>
+                <anchored to="button_anchor" />
+            </char_single_field_label_h>
+            <char_single_number_field_h name="power_current">
+                <anchored to="button_anchor"/>
+            </char_single_number_field_h>
+            <char_single_field_label_h >
+                <static> MAX </static>
+                <anchored to="button_anchor" />
+            </char_single_field_label_h>
+            <char_single_number_field_h name="power_max">
+                <anchored to="button_anchor"/>
+            </char_single_number_field_h>
+<!--            <tag_label name="powerLabel">-->
+<!--                <anchored merge="replace" to="power_frame" height="20" >-->
+<!--                    <left anchor="right" offset="0" />-->
+<!--                    <top offset="7"/>-->
+<!--                </anchored>-->
+<!--                <static textres="ship_label_power"/>-->
+<!--            </tag_label>-->
+<!--            <genericcontrol name="scaleAnchor">-->
+<!--                <anchored position="insidetopright" offset="100,14" height="22" width="0" />-->
+<!--            </genericcontrol>-->
+        </sheetdata>
+    </windowclass>
+
+    <template name="ship_window">
+        <subwindow>
+            <fastinit/>
+            <anchored >
+                <bottom offset="-10" />
+                <left offset="5"/>
+                <right offset="-5"/>
+                <top parent="general" anchor="bottom" offset="5" />
+            </anchored>
+        </subwindow>
+    </template>
+
+    <template name="ship_tl_anchor">
+        <charsheet_tl_anchor >
+            <anchored offset="5, 0" />
+        </charsheet_tl_anchor>
+    </template>
+
+</root>

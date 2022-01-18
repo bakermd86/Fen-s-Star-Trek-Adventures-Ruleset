@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+	<windowclass name="sta_episode">
+		<script>
+			function onInit()
+				local node = getDatabaseNode();
+				for index, control in ipairs(getControls()) do
+					local control_name = control.getName();
+					if string.sub(control_name, 1, string.len("scene_"))  == "scene_" then
+						control.setValue("scene_main", node.createChild(control_name).getNodeName());
+					end
+				end
+			end
+		</script>
+	  <frame>recordsheet</frame>
+	  <placement>
+		<size width="510" height="650" />
+	  </placement>
+	  <sizelimits>
+		<dynamic />
+		<minimum width="510" height="650" />
+	  </sizelimits>
+	  <sharable />
+	  <tooltip field="name" />
+	  <nodelete />
+	  <softclose />
+	  <tooltip>
+		<field>name</field>
+	  </tooltip>
+	  <sheetdata>
+		
+		<sub_record_header name="header">
+			<class>episode_header</class>
+		</sub_record_header>
+		
+		
+		  <genericcontrol name="contentframe" >
+				<anchored>
+					<top parent="header" anchor="bottom" offset="5" />
+					<left offset="20" />
+					<right offset="-33" />
+					<bottom offset="-29" />
+				</anchored>
+				<frame name="groupbox" offset="10,8,10,8" />
+				<disabled />
+		  </genericcontrol>
+		
+		<subwindow name="episode_main">
+			<anchored to="contentframe" position="over"/>
+			<class>episode_main</class>
+		</subwindow>
+		<subwindow name="scene_1">
+			<anchored to="contentframe" position="over"/>
+		</subwindow>
+		<subwindow name="scene_2">
+			<anchored to="contentframe" position="over"/>
+		</subwindow>
+		<subwindow name="scene_3">
+			<anchored to="contentframe" position="over"/>
+		</subwindow>
+		<subwindow name="scene_4">
+			<anchored to="contentframe" position="over"/>
+		</subwindow>
+			<ft_record name="aliens">
+				<anchored to="contentframe" position="over" />
+				<empty textres="ft_empty" hidereadonly="true" />
+				<invisible />
+			</ft_record>
+
+			<scrollbar_record>
+				<target>episode_main</target>
+			</scrollbar_record>
+			<scrollbar_record>
+				<target>notes</target>
+			</scrollbar_record>
+
+			<tabs_recordsheet>
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>episode_main</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_aliens</icon>
+					<subwindow>aliens</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_scene1</icon>
+					<subwindow>scene_1</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_scene2</icon>
+					<subwindow>scene_2</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_scene3</icon>
+					<subwindow>scene_3</subwindow>
+				</tab>
+				<tab>
+					<icon>tab_scene4</icon>
+					<subwindow>scene_4</subwindow>
+				</tab>
+			</tabs_recordsheet>
+		<close_recordsheet />
+		<resize_recordsheet />
+	  </sheetdata>
+	</windowclass>
+
+	<windowclass name="episode_header">
+		<margins control="0,0,0,7" />
+		<sheetdata>
+			<link_record_header>
+				<class>episode</class>
+			</link_record_header>
+			
+			<anchor_record_header_right name="rightanchor" />
+			<button_activateid>
+				<anchored to="rightanchor" width="23" height="22">
+					<top offset="-2" />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<script>
+					function onButtonPress()
+						CrewSupportManager.changeEpisode(window.name.getValue())
+					end
+				</script>
+			</button_activateid>
+			<icon_record_locked>
+				<anchored>
+					<right offset="-7" />
+				</anchored>
+			</icon_record_locked>
+			<button_record_locked>
+				<anchored>
+					<right offset="-7" />
+				</anchored>
+			</button_record_locked>
+			<string_record_name name="name" >
+				<empty>&#171; New Episode &#187;</empty>
+			</string_record_name>
+		</sheetdata>
+	</windowclass> 
+
+</root>

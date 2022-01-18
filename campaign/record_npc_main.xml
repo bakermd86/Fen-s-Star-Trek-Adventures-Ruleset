@@ -1,0 +1,237 @@
+<root>
+    <windowclass name="npc_main">
+		<margins control="0,0,0,2" />
+        <script>
+            function onInit()
+                update();
+            end
+            function update()
+                local nodeRecord = getDatabaseNode();
+                local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
+                focuses.setReadOnly(bReadOnly)
+                values.setReadOnly(bReadOnly)
+                talents.setReadOnly(bReadOnly)
+                for _, w in ipairs(attList.getWindows()) do
+                    local score = string.lower(w.label.getValue())
+                    w[score].setReadOnly(bReadOnly)
+                end
+                for _, w in ipairs(discList.getWindows()) do
+                    local score = string.lower(w.label.getValue())
+                    w[score].setReadOnly(bReadOnly)
+                end
+                resistance.setReadOnly(bReadOnly)
+                maxstress.setReadOnly(bReadOnly)
+            end
+        </script>
+        <sheetdata>
+            <genericcontrol name="topLeft">
+                <anchored position="insidetopleft" offset="0, 0" />
+            </genericcontrol>
+            <genericcontrol name="topRight">
+                <anchored position="insidetopright" offset="0, 0" />
+            </genericcontrol>
+            <genericcontrol name="middleRow">
+                <anchored position="insidetopleft" offset="0, 315" />
+            </genericcontrol>
+
+            <scoreList name="attList">
+                <anchored merge="replace" height="135">
+                    <left parent="topLeft" offset="10" />
+                    <right parent="" anchor="center" />
+                    <top parent="topLeft" offset="10"/>
+                </anchored>
+                <script>
+                    ---function basePage() return 100 end
+                    function scores()
+                        return ScopeManager.ALL_ATTRIBUTES
+                    end
+                    function scoreClass()
+                        return "att_field"
+                    end
+                    function rollControl()
+                        return window.activeAttribute
+                    end
+                </script>
+            </scoreList>
+            <npc_label>
+                <anchored to="attList" offset="25,-6"/>
+                <static textres="char_label_attributes"/>
+            </npc_label>
+            <scoreList name="discList">
+                <anchored merge="replace"  height="135">
+                    <left parent="" anchor="center" />
+                    <right parent="topRight" offset="-10"/>
+                    <top parent="topLeft" offset="10"/>
+                </anchored>
+                <script>
+                    ---function basePage() return 106 end
+                    function scores()
+                        return ScopeManager.ALL_DISCIPLINES
+                    end
+                    function scoreClass()
+                        return "disc_field"
+                    end
+                    function rollControl()
+                        return window.activeDiscipline
+                    end
+                </script>
+            </scoreList>
+            <npc_label>
+                <anchored to="discList" offset="25,-6"/>
+                <static textres="char_label_disciplines"/>
+            </npc_label>
+
+                <!--      Roll Controls      -->
+            <genericcontrol name="dieAnchor">
+                <anchored to="attList" position="belowright" offset="-20,-15" height="20" width="40"/>
+            </genericcontrol>
+            <roll_dice_control name="rollTestControl">
+                <anchored merge="replace" to="dieAnchor" position="insideleft" offset="2" height="20" width="18"/>
+                <frame name="field_white_left" offset="1,0,1,0"/>
+                <script>
+                    function determinationUsed()
+                        return nil
+                    end
+                </script>
+            </roll_dice_control>
+            <numbercontrol name="rollDC">
+                <default>1</default>
+                <min>0</min>
+                <max>5</max>
+                <anchored to="rollTestControl" width="16" height="20">
+                    <bottom offset="0"/>
+                    <left anchor="right" offset="0"/>
+                </anchored>
+                <frame name="field_white_right" />
+            </numbercontrol>
+
+            <numbercontrol name="activeAttribute">
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <invisible />
+                <script>
+                    function setScore(name, value)
+                        self.setValue(value)
+                        window.activeAttributeName.setValue(name)
+                    end
+                </script>
+            </numbercontrol>
+            <active_score name="activeAttributeName">
+                <anchored to="attList"/>
+                <invisible/>
+            </active_score>
+            <numbercontrol name="activeDiscipline">
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <invisible />
+                <script>
+                    function setScore(name, value)
+                        self.setValue(value)
+                        window.activeDisciplineName.setValue(name)
+                    end
+                </script>
+            </numbercontrol>
+            <active_score name="activeDisciplineName">
+                <anchored to="discList"/>
+                <invisible/>
+            </active_score>
+
+            <!--     Focuses       -->
+            <char_focus_list name="focuses">
+			    <frame name="lcars_groupbox_dark" offset="10,8,10,8" />
+                <anchored merge="replace">
+                    <top parent="attList" anchor="bottom" offset="15"/>
+                    <left parent="topLeft" offset="10"/>
+                    <right parent="" anchor="center" offset="-10"/>
+                    <bottom parent="" anchor="center" offset="100"/>
+                </anchored>
+            </char_focus_list>
+
+            <npc_label>
+                <anchored to="focuses"/>
+                <static textres="char_label_focuses"/>
+            </npc_label>
+
+        <npc_ref_list name="values">
+          <datasource>.values</datasource>
+            <anchored>
+                <bottom anchor="center" offset="100"/>
+                <left anchor="center"/>
+                <top parent="discList" anchor="bottom" offset="15"/>
+                <right parent="topRight" />
+            </anchored>
+        </npc_ref_list>
+        <npc_label>
+            <anchored to="values" />
+            <static textres="char_label_values"/>
+        </npc_label>
+
+        <npc_link_list name="talents">
+          <datasource>.talents</datasource>
+            <anchored>
+                <right anchor="center"/>
+                <bottom />
+                <top parent="focuses" anchor="bottom"/>
+                <left parent="topLeft" />
+            </anchored>
+        </npc_link_list>
+        <npc_label>
+            <anchored to="talents" />
+            <static textres="char_label_talents"/>
+        </npc_label>
+
+
+        <npc_ref_list name="traits">
+          <datasource>.traits</datasource>
+            <anchored >
+                <left anchor="center"/>
+                <bottom offset="-50"/>
+                <top parent="values" anchor="bottom" />
+                <right parent="topRight" offset="-10"/>
+            </anchored>
+        </npc_ref_list>
+        <npc_label>
+            <anchored to="traits" />
+            <static textres="char_label_traits"/>
+        </npc_label>
+
+        <char_single_field_label name="resistance_label">
+           <static>Resistance</static>
+            <anchored >
+                <top relation="absolute" parent="traits" anchor="bottom" offset="8"/>
+                <left parent="" anchor="center" offset="2"/>
+            </anchored>
+        </char_single_field_label>
+          <char_single_number_field name="resistance">
+            <anchored to="resistance_label"/>
+          </char_single_number_field>
+
+        <char_single_field_label name="injured_label">
+           <static>Injured</static>
+            <anchored >
+                <top relation="absolute" parent="traits" anchor="bottom" offset="8"/>
+                <left merge="delete"/>
+                <right parent="topRight" offset="-23"/>
+            </anchored>
+        </char_single_field_label>
+          <npc_single_toggle_field name="injured">
+            <anchored to="injured_label"/>
+          </npc_single_toggle_field>
+
+        <char_single_field_label name="maxstress_label">
+           <static>Stress Max</static>
+            <anchored to="resistance_label"/>
+        </char_single_field_label>
+          <char_single_number_field name="maxstress">
+            <anchored to="maxstress_label"/>
+          </char_single_number_field>
+
+        <char_single_field_label name="curstress_label">
+           <static>Current</static>
+            <anchored to="injured_label"/>
+        </char_single_field_label>
+          <char_single_number_field name="curstress">
+            <anchored to="curstress_label"/>
+          </char_single_number_field>
+
+        </sheetdata>
+    </windowclass>
+</root>

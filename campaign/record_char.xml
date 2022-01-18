@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+
+	<windowclass name="charsheet" >
+        <placement>
+            <size width="624" height="775" />
+        </placement>
+        <minimize>minimized_npc</minimize>
+        <tooltip field="name" />
+        <nodelete />
+        <softclose />
+        <playercontrol />
+        <script>
+            _tabButtons = {}
+            function onInit()
+                self.activeTab = 1
+                if User.isLocal() then
+                    speak.setVisible(false);
+                    portrait.setVisible(false);
+                    localportrait.setVisible(true);
+                end
+                registerMenuItem("Edit Colors", "categorystyle", 7)
+            end
+            function onMenuSelection(selectNum)
+                if selectNum == 7 then
+                    local w = Interface.openWindow("lcars_color_select", getDatabaseNode())
+                elseif selectNum == 8 then
+                    confirmToggleDead()
+                end
+            end
+            function registerTabButton(tab, pageNum)
+                _tabButtons[pageNum] = tab
+            end
+            function setTabColors(pageNum)
+                for p, button in ipairs(_tabButtons) do
+                    local color = LifePathAlertHelper.COLOR_DESELECT
+                    if p == pageNum then
+                        color = ColorHandler.getMainColor(getDatabaseNode())
+                    elseif p == self.activeTab then
+                        ColorHandler.unregisterColorFrame(button, getDatabaseNode())
+                    end
+                    button.setBackColor(color)
+                end
+                self.activeTab = pageNum
+            end
+        </script>
+        <sheetdata>
+            <char_frame_color name="sheet_color">
+                <anchored merge="replace" >
+                    <top />
+                    <left />
+                    <bottom />
+                    <right />
+                </anchored>
+                <frame name="lcars_sheet_border" offset="0,0,0,0"/>
+            </char_frame_color>
+            <char_frame_color name="header_color">
+                <anchored merge="replace" position="insidetop" height="130">
+                    <left offset="5"/>
+                    <right anchor="right" offset="-5" />
+                    <top offset="6"/>
+                </anchored>
+            </char_frame_color>
+            <char_frame_color_alt>
+                <anchored merge="replace" position="insideright" to="header_color" width="162"/>
+            </char_frame_color_alt>
+            <subwindow name="header" >
+                <anchored position="insidetop" height="130">
+                    <left offset="5"/>
+                    <right anchor="right" offset="-5" />
+                    <top offset="6"/>
+                </anchored>
+                <class>charsheet_header</class>
+                <fastinit/>
+			    <activate />
+            </subwindow>
+
+            <subwindow name="rolls" >
+                <anchored position="insidetop" height="185">
+                    <left offset="-5"/>
+                    <right anchor="right" offset="-5" />
+                    <top parent="header" anchor="bottom" offset="-2"/>
+                </anchored>
+                <class>charsheet_rolls</class>
+			    <activate />
+                <fastinit/>
+            </subwindow>
+
+            <subwindow name="tab_buttons">
+                <anchored to="rolls" position="below" height="24" offset="0,5"/>
+                <class>charsheet_tab_window</class>
+                <activate />
+                <fastinit />
+            </subwindow>
+
+            <char_subwindow name="main">
+                <class>charsheet_main</class>
+            </char_subwindow>
+			<char_subwindow name="combat">
+				<class>charsheet_combat</class>
+			</char_subwindow>
+			<char_subwindow name="log">
+				<class>charsheet_log</class>
+			</char_subwindow>
+			<char_subwindow name="inventory">
+				<class>charsheet_inventory</class>
+			</char_subwindow>
+			<char_subwindow name="notes">
+				<class>charsheet_notes</class>
+			</char_subwindow>
+			<char_subwindow name="crewmates">
+				<class>charsheet_crewmates</class>
+			</char_subwindow>
+
+            <buttongroup_tabs name="tabs">
+                <anchored position="insidetopright" width="0" height="0" />
+                <invisible />
+                    <tab>
+                        <icon>tab_main</icon>
+                        <subwindow>main</subwindow>
+                    </tab>
+                    <tab>
+                        <icon>tab_combat</icon>
+                        <subwindow>combat</subwindow>
+                    </tab>
+                    <tab>
+                        <icon>tab_log</icon>
+                        <subwindow>log</subwindow>
+                    </tab>
+                    <tab>
+                        <icon>tab_inventory</icon>
+                        <subwindow>inventory</subwindow>
+                    </tab>
+                    <tab>
+                        <icon>tab_notes</icon>
+                        <subwindow>notes</subwindow>
+                    </tab>
+                    <tab>
+                        <icon>tab_other</icon>
+                        <subwindow>crewmates</subwindow>
+                    </tab>
+            </buttongroup_tabs>
+        </sheetdata>
+    </windowclass>
+    <windowclass name="charsheet_header">
+        <frame name="lcars_header_frame_shape" />
+        <sheetdata>
+            <genericcontrol name="heightAnchor">
+                <anchored position="insidetop" height="130" />
+            </genericcontrol>
+            <genericcontrol name="row_1">
+                <anchored position="insidetopleft" offset="80,0" height="20" width="0" />
+            </genericcontrol>
+            <genericcontrol name="row_2">
+                <anchored to="row_1" position="belowleft" offset="0,15" height="20" width="0"/>
+            </genericcontrol>
+            <genericcontrol name="row_3">
+                <anchored to="row_2" position="belowleft" offset="0,15" height="20" width="0"/>
+            </genericcontrol>
+
+			<genericcontrol>
+                <anchored to="row_1" width="35" height="35">
+                    <top />
+                    <left anchor="right" relation="current" offset="5"/>
+                </anchored>
+				<icon>charlist_base</icon>
+				<disabled />
+			</genericcontrol>
+			<portrait_char name="portrait">
+                <anchored to="row_1" width="35" height="35">
+                    <top />
+                    <left anchor="right" relation="relative" offset="5"/>
+                </anchored>
+			</portrait_char>
+
+			<button_charactivate name="speak">
+                <anchored to="row_1" height="20" width="20">
+                    <top />
+                    <left anchor="right" relation="relative" offset="5"/>
+                </anchored>
+			</button_charactivate>
+
+			<char_header_label name="name">
+                <anchored to="row_1" width="150"/>
+				<labelres>char_label_name</labelres>
+			</char_header_label>
+
+			<char_header_label name="species">
+                <anchored to="row_1" width="150"/>
+				<labelres>char_label_species</labelres>
+			</char_header_label>
+
+
+            <windowreferencefield name="ship_link">
+                <allowdrop />
+                <anchored to="row_1" width="25" height="25">
+                    <top/>
+                    <left anchor="right" relation="relative" offset="5"/>
+                </anchored>
+                <icon>
+                    <normal>button_link</normal>
+                    <pressed>button_link_down</pressed>
+                    <empty>button_link_empty</empty>
+                </icon>
+            </windowreferencefield>
+
+			<char_header_label name="ship" >
+                <anchored to="row_1" width="100" />
+				<labelres>char_label_vessel</labelres>
+			</char_header_label>
+
+			<char_header_label name="environment">
+				<anchored to="row_2" width="150" />
+				<labelres>char_label_environment</labelres>
+			</char_header_label>
+
+			<char_header_label name="upbringing" >
+				<anchored to="row_2" width="150" />
+				<labelres>char_label_upbringing</labelres>
+			</char_header_label>
+
+			<char_header_label name="assignment" >
+                <anchored to="row_2" width="150" />
+				<labelres>char_label_assignment</labelres>
+			</char_header_label>
+
+
+
+			<char_header_label name="rank">
+				<anchored to="row_3" />
+				<labelres>char_label_rank</labelres>
+			</char_header_label>
+
+			<char_header_label name="age">
+				<anchored to="row_3" width="30" />
+				<labelres>char_label_age</labelres>
+			</char_header_label>
+
+			<char_header_label name="gender">
+				<anchored to="row_3" />
+				<labelres>char_label_gender</labelres>
+			</char_header_label>
+
+			<char_header_label name="height">
+				<anchored to="row_3" />
+				<labelres>char_label_height</labelres>
+			</char_header_label>
+
+			<char_header_label name="weight">
+				<anchored to="row_3" />
+				<labelres>char_label_weight</labelres>
+			</char_header_label>
+
+			<token_char name="token">
+                <anchored to="row_3" height="20" width="20">
+                    <top />
+                    <left anchor="right" relation="relative" offset="5"/>
+                </anchored>
+			</token_char>
+
+            <genericcontrol name="detAnchor">
+                <anchored height="20" >
+                    <right offset="-156"/>
+                    <bottom parent="heightAnchor" offset="-13"/>
+                </anchored>
+            </genericcontrol>
+
+            <buttoncontrol name="determinationDieControl">
+<!--                <frame name="field_orange_left" offset="2,3,2,4"/>-->
+                <anchored to="detAnchor" position="right" height="16" width="16" />
+                <state>
+                    <icon>d20bicon</icon>
+                </state>
+                <state>
+                    <icon>d20ricon</icon>
+                </state>
+                <pressed offset="1,1" />
+                <script file="campaign/scripts/determinationCounter.lua" />
+            </buttoncontrol>
+
+            <tag_label name="detLabel">
+                <anchored merge="replace" to="detAnchor" position="left" height="16" offset="5,1"/>
+                <static textres="char_label_determination"/>
+            </tag_label>
+
+          <basicnumber name="maxdetermination">
+            <anchored to="determinationDieControl" position="insidetopright" width="0" height="0" />
+            <min>5</min>
+            <max>5</max>
+            <default>5</default>
+            <invisible/>
+          </basicnumber>
+          <buttongroup_counter name="determinationcounter">
+            <anchored to="determinationDieControl" position="right" offset="5">
+                <right parent="" anchor="right" offset="-30"/>
+            </anchored>
+            <stateicons>
+              <on>gold_pip</on>
+              <off>black_pip</off>
+            </stateicons>
+            <spacing>18</spacing>
+            <allowsinglespacing/>
+            <maxslotperrow>5</maxslotperrow>
+            <sourcefields>
+              <maximum>maxdetermination</maximum>
+              <current>curdetermination</current>
+            </sourcefields>
+          </buttongroup_counter>
+
+        </sheetdata>
+    </windowclass>
+
+    <template name="charsheet_tab_button">
+        <button_lifepath_tab>
+            <script>
+                function onFirstLayout()
+                    window.parentcontrol.window.registerTabButton(self, self.stepNum())
+                    self.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
+                end
+                function onButtonPress()
+                    ColorHandler.registerColorFrame(self, window.parentcontrol.window.getDatabaseNode())
+                    window.parentcontrol.window.tabs.activateTab(self.stepNum())
+                    window.parentcontrol.window.setTabColors(self.stepNum())
+                end
+            </script>
+        </button_lifepath_tab>
+    </template>
+
+    <windowclass name="charsheet_tab_window">
+        <sheetdata>
+            <genericcontrol name="button_anchor">
+                <anchored height="24" width="0" position="insidetopleft" offset="12,0"/>
+            </genericcontrol>
+
+            <alt_color_field_left>
+                <anchored to="button_anchor" height="24" width="35" >
+                    <bottom />
+                    <left anchor="right" offset="2" relation="relative"/>
+                </anchored>
+            </alt_color_field_left>
+
+            <charsheet_tab_button>
+                <anchored width="35" />
+                <state><text>Main</text></state>
+                <script>
+                    function stepNum()
+                        return 1
+                    end
+                    function onFirstLayout()
+                        window.parentcontrol.window.registerTabButton(self, self.stepNum())
+                        self.setBackColor(ColorHandler.getMainColor(window.parentcontrol.window.getDatabaseNode()))
+                        ColorHandler.registerColorFrame(self, window.parentcontrol.window.getDatabaseNode())
+                    end
+                </script>
+            </charsheet_tab_button>
+
+            <charsheet_tab_button>
+                <anchored width="55" />
+                <state><text>Combat</text></state>
+                <script>
+                    function stepNum()
+                        return 2
+                    end
+                </script>
+            </charsheet_tab_button>
+
+            <charsheet_tab_button>
+                <anchored width="95" />
+                <state><text>Service Record</text></state>
+                <script>
+                    function stepNum()
+                        return 3
+                    end
+                </script>
+            </charsheet_tab_button>
+
+            <charsheet_tab_button>
+                <anchored width="65" />
+                <state><text>Inventory</text></state>
+                <script>
+                    function stepNum()
+                        return 4
+                    end
+                </script>
+            </charsheet_tab_button>
+
+            <charsheet_tab_button>
+                <anchored width="45"/>
+                <state><text>Notes</text></state>
+                <script>
+                    function stepNum()
+                        return 5
+                    end
+                </script>
+            </charsheet_tab_button>
+
+            <charsheet_tab_button>
+                <anchored width="85" />
+                <state><text>Crewmates</text></state>
+                <script>
+                    function stepNum()
+                        return 6
+                    end
+                </script>
+            </charsheet_tab_button>
+
+            <alt_color_field_right>
+                <anchored to="button_anchor" height="24"  >
+                    <bottom />
+                    <left anchor="right" offset="5" relation="relative"/>
+                    <right parent="" offset="-14"/>
+                </anchored>
+            </alt_color_field_right>
+        </sheetdata>
+    </windowclass>
+</root>

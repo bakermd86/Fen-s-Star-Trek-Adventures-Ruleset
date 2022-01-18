@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="charsheet_main" >
+        <sheetdata>
+            <charsheet_tl_anchor/>
+            <charsheet_tr_anchor/>
+
+        <!--     Values       -->
+            <char_frame_color name="values_color">
+                <anchored >
+                    <top parent="topLeft" />
+                    <right parent="" anchor="center" offset="0"/>
+                    <left parent="topLeft" offset="0"/>
+                    <bottom parent="" anchor="center" />
+                </anchored>
+            </char_frame_color>
+        <char_ref_list name="values">
+          <datasource>.values</datasource>
+            <anchored to="values_color" >
+                <left offset="35"/>
+                <top offset="30"/>
+                <right offset="-5"/>
+                <bottom offset="-25"/>
+            </anchored>
+            <frame name="lcars_frame_shape_left" offset="35,30,5,25"/>
+        </char_ref_list>
+        <tag_label name="values_label">
+            <anchored to="values" offset="33,8" />
+            <static textres="char_label_values"/>
+        </tag_label>
+        <scrollbar_list>
+            <anchored to="values" />
+            <target>values</target>
+        </scrollbar_list>
+
+        <!--     Talents       -->
+            <char_frame_color name="talents_color">
+                <anchored >
+                    <top parent="topRight" />
+                    <right parent="topRight" offset="0"/>
+                    <left parent="" anchor="center" offset="0"/>
+                    <bottom parent="" anchor="center" />
+                </anchored>
+            </char_frame_color>
+            <talents_list name="talents"/>
+
+        <tag_label name="talents_label">
+            <anchored  to="talents"  offset="33,8"/>
+            <static textres="char_label_talents"/>
+        </tag_label>
+        <scrollbar_list>
+            <anchored to="talents" />
+            <target>talents</target>
+        </scrollbar_list>
+
+        <!--     Directives       -->
+            <char_frame_color name="directives_color">
+                <anchored >
+                    <top parent="" anchor="center" />
+                    <right parent="" anchor="center" offset="0"/>
+                    <left parent="topLeft"  offset="0"/>
+                    <bottom parent="" />
+                </anchored>
+            </char_frame_color>
+        <char_ref_list name="directives">
+          <datasource>.directives</datasource>
+            <anchored to="directives_color">
+                <left offset="35"/>
+                <top offset="30"/>
+                <right offset="-5"/>
+                <bottom offset="-25"/>
+            </anchored>
+            <frame name="lcars_frame_shape_left" offset="35,30,5,25"/>
+        </char_ref_list>
+        <tag_label name="directives_label">
+            <anchored to="directives"  offset="33,8"/>
+            <static textres="char_label_directives"/>
+        </tag_label>
+        <scrollbar_list>
+            <anchored to="directives" />
+            <target>directives</target>
+        </scrollbar_list>
+
+        <!--     Traits       -->
+            <char_frame_color name="traits_color">
+                <anchored >
+                    <top parent="" anchor="center" />
+                    <right parent="topRight" offset="0"/>
+                    <left parent="" anchor="center" offset="0"/>
+                    <bottom parent="" />
+                </anchored>
+            </char_frame_color>
+        <char_ref_list name="traits">
+          <datasource>.traits</datasource>
+            <anchored to="traits_color">
+                <left offset="5"/>
+                <top offset="30"/>
+                <right offset="-35"/>
+                <bottom offset="-25"/>
+            </anchored>
+          <frame name="lcars_frame_shape_right" offset="5,30,35,25"/>
+        </char_ref_list>
+        <tag_label name="traits_label">
+            <anchored  to="traits"   offset="33,8"/>
+            <static textres="char_label_traits"/>
+        </tag_label>
+        <scrollbar_list>
+            <anchored to="traits" />
+            <target>traits</target>
+        </scrollbar_list>
+
+
+    </sheetdata>
+  </windowclass>
+
+    <windowclass name="char_score_entry">
+        <sheetdata>
+            <genericcontrol>
+                <anchored position="insidetopleft" width="0" height="20"/>
+            </genericcontrol>
+            <char_label_tag />
+            <char_label name="label" >
+                <anchored>
+                    <right offset="-39"/>
+                </anchored>
+            </char_label>
+<!--            <char_att_value_frame />-->
+            <char_score_button name="selectButton"/>
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="score_entry">
+        <sheetdata>
+            <generic_label_tag />
+            <char_label name="label" >
+                <anchored>
+                    <right offset="-39"/>
+                </anchored>
+            </char_label>
+            <att_value_frame />
+            <score_button name="selectButton"/>
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="focus_entry">
+        <sheetdata>
+            <buttoncontrol name="applyFocus">
+                <anchored position="insidetopleft" width="18" height="16" offset="3,1" />
+                  <state>
+                      <frame>field_mask_left_white</frame>
+                  </state>
+                  <state>
+                      <frame>field_mask_left</frame>
+                  </state>
+                <script>
+                    function onInit()
+                        self.setBackColor(ColorHandler.getColor(window.windowlist.window.getDatabaseNode()))
+                        ColorHandler.registerColorFrame(self, window.windowlist.window.getDatabaseNode())
+                    end
+                    function onClose()
+                        ColorHandler.unregisterColorFrameAlt(self, window.windowlist.window.getDatabaseNode())
+                    end
+                    function onButtonPress()
+                        if getValue() == 1 then
+                            window.windowlist.clearSelections()
+                            setValue(1)
+                        end
+                    end
+                </script>
+            </buttoncontrol>
+            <string_textlistitem name="name" >
+                <anchored position="insidetopleft" offset="24,1" height="16">
+                    <right offset="0"/>
+                </anchored>
+                <font>lcars_sheettext</font>
+            </string_textlistitem>
+        </sheetdata>
+    </windowclass>
+</root>

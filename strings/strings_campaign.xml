@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+<root>
+	<!-- Lifepath Titles-->
+	<string name="lifepath_tooltip_wizard">Lifepath</string>
+	<string name="lifepath_label_species">Generate Species</string>
+	<string name="lifepath_label_environment">Generate Environment</string>
+	<string name="lifepath_label_upbringing">Generate Upbringing</string>
+	<string name="lifepath_label_academy">Generate Academy Track</string>
+	<string name="lifepath_label_career">Generate Career Experience</string>
+	<string name="lifepath_label_career_events">Generate Career Events</string>
+	<string name="lifepath_label_finishing_touches">Perform Finishing Touches</string>
+
+	<!-- Labels -->
+	<string name="lifepath_char_label_summary">Summary</string>
+	<string name="lifepath_char_label_name">Name</string>
+	<string name="lifepath_char_label_species">Species</string>
+	<string name="lifepath_char_label_environment">Environment</string>
+	<string name="lifepath_char_label_upbringing">Upbringing</string>
+	<string name="lifepath_char_label_academy">Academy</string>
+	<string name="lifepath_char_label_career">Career</string>
+	<string name="lifepath_char_label_gender">Gender</string>
+	<string name="lifepath_char_label_age">Age</string>
+	<string name="lifepath_char_label_height">Height</string>
+	<string name="lifepath_char_label_weight">Weight</string>
+	<string name="lifepath_char_label_career_events">Career Events</string>
+	<string name="lifepath_char_label_talents">Talents</string>
+	<string name="lifepath_char_label_values">Values</string>
+	<string name="lifepath_char_label_focuses">Focuses</string>
+	<string name="lifepath_label_statstotal">CHARACTER STATS</string>
+	<string name="lifepath_speciescheck_label">Species Alerts</string>
+	
+	<!-- Tooltips -->
+	<string name="lifepath_tooltip_next">Next Page</string>
+	<string name="lifepath_tooltip_back">Previous Page</string>
+	<string name="lifepath_tooltip_save_note">Save Note</string>
+	<string name="lifepath_tooltip_disard_note">Disard Note</string>
+	<string name="charwizard_tooltip_commit">Save Character and Close</string>
+	<string name="lifepath_roll_all_label">Roll All</string>
+	<string name="lifepath_roll_species">Roll for Species</string>
+	<string name="lifepath_roll_environment">Roll for Environment</string>
+	<string name="lifepath_roll_upbringing">Roll for Upbringing</string>
+	<string name="lifepath_roll_academy">Roll for Academy</string>
+	<string name="lifepath_roll_career">Roll for Career</string>
+	<string name="lifepath_roll_career_events">Roll for Career Events</string>
+	<string name="lifepath_add_value_here">Add Value</string>
+	<string name="lifepath_speciescheckfail_tooltip">Not all species tasks have been completed</string>
+	<string name="lifepath_speciescheckpass_tooltip">Species tasks complete</string>
+	<string name="tooltip_deactivate_support">Deactivate Supporting Character</string>
+	<string name="tooltip_clear_support_owner">Clear Owner</string>
+	<string name="tooltip_remove_npc_from_overview">Remove from Overview</string>
+	
+	<!-- Controls -->
+	<string name="lifepath_nextpage">NEXT</string>
+	<string name="lifepath_prevpage">BACK</string>
+	<string name="lifepath_disard">DISARD</string>
+	<string name="lifepath_tooltip_save">SAVE</string>
+	<string name="lifepath_speciestab_label">RACE</string>
+	<string name="lifepath_environmenttab_label">ENVIRONMENT</string>
+	<string name="lifepath_upbringingtab_label">UPBRINGING</string>
+	<string name="lifepath_academytab_label">ACADEMY</string>
+	<string name="lifepath_careertab_label">CAREER</string>
+	<string name="lifepath_career_eventtab_label">EVENTS</string>
+	<string name="lifepath_finishing_touchestab_label">FINISH</string>
+
+
+	<!-- Sidebar -->
+	<!-- Sidebar -->
+	<string name="library_recordtype_label_talents">Talents</string>
+	<string name="library_recordtype_label_shiptalents">Ship Talents</string>
+	<string name="library_recordtype_label_rules">Quick Reference</string>
+	<string name="library_recordtype_label_scenes">Scenes</string>
+	<string name="library_recordtype_label_episodes">Episodes</string>
+	<string name="library_recordtype_label_ships">Ships</string>
+	<string name="library_recordtype_label_weapons">Weapons</string>
+	<string name="library_recordtype_label_crewmates">Senior Staff</string>
+	<string name="library_recordtype_label_investigations">Investigations</string>
+	<string name="library_recordtype_label_scene_traits">Scene Traits</string>
+	<string name="library_recordtype_label_supporting_characters">Crew Support</string>
+
+	<!-- Scenes -->
+	<string name="scene_label_characters">Characters</string>
+	<string name="scene_label_description">Description</string>
+	<string name="scene_label_traits">Traits/Directives</string>
+	<string name="scene_label_science">Ongoing Investigations</string>
+	<string name="scene_label_directives">Active Directives</string>
+
+	<!-- Episodes -->
+	<string name="episode_label_scenes">Scenes</string>
+	<string name="episode_label_writer_director">Writer/Director</string>
+	<string name="episode_label_summary">Summary</string>
+	<string name="episode_label_story">Story</string>
+	<string name="episode_label_characters">NPCs (As Needed)</string>
+	<string name="episode_label_cold_open">Cold Open Log</string>
+
+	<!-- Crew -->
+	<string name="crew_available_label">Available</string>
+	<string name="crew_active_label">Active</string>
+	<string name="crew_dead_label">Memorial</string>
+	<string name="template_crew_label">Template</string>
+	<string name="custom_crew_label">Custom</string>
+	<string name="active_crew_label">Activate</string>
+	<string name="crew_names_label"> Random Names </string>
+	<string name="crew_overview_label"> Overview </string>
+	<string name="crew_not_crew_tooltip"> Not a crewmate </string>
+	<string name="crew_is_crew_tooltip"> Is a crewmate </string>
+
+	<!--	Character sheet stuff	-->
+	<string name="char_label_name">NAME</string>
+	<string name="char_label_species">SPECIES</string>
+	<string name="char_label_environment">ENVIRONMENT</string>
+	<string name="char_label_upbringing">UPBRINGING</string>
+	<string name="char_label_assignment">ASSIGNMENT</string>
+	<string name="char_label_vessel">VESSEL</string>
+	<string name="char_label_rank">RANK</string>
+
+	<string name="char_label_determination"> DETERMINATION </string>
+	<string name="char_label_attributes"> ATTRIBUTES </string>
+	<string name="char_label_disciplines"> DISCIPLINES </string>
+	<string name="char_label_control">CONTROL</string>
+	<string name="char_label_daring">DARING</string>
+	<string name="char_label_fitness">FITNESS</string>
+	<string name="char_label_insight">INSIGHT</string>
+	<string name="char_label_presence">PRESENCE</string>
+	<string name="char_label_reason">REASON</string>
+
+	<string name="char_label_command">COMMAND</string>
+	<string name="char_label_conn">CONN</string>
+	<string name="char_label_engineering">ENGINEERING</string>
+	<string name="char_label_medicine">MEDICINE</string>
+	<string name="char_label_science">SCIENCE</string>
+	<string name="char_label_security">SECURITY</string>
+
+	<string name="char_label_focuses"> FOCUSES </string>
+	<string name="char_label_values"> VALUES </string>
+	<string name="char_label_directives"> DIRECTIVES </string>
+	<string name="char_label_talents"> TALENTS </string>
+	<string name="char_label_career_events"> CAREER EVENTS </string>
+	<string name="char_label_traits"> TRAITS </string>
+	<string name="char_label_stress"> STRESS </string>
+	<string name="char_label_injuries"> INJURIES </string>
+	<string name="char_label_attack_rolls"> ATTACKS </string>
+	<string name="char_label_weapons"> WEAPONS </string>
+	<string name="char_label_ship_weapons"> SHIP WEAPONS </string>
+	<string name="char_label_inventory"> INVENTORY </string>
+	<string name="char_label_carried_weight"> TOTAL WEIGHT </string>
+	<string name="char_label_currency"> CURRENCY </string>
+	<string name="char_label_appearance"> APPEARANCE </string>
+	<string name="char_label_language"> LANGUAGES </string>
+	<string name="char_label_notes"> NOTES </string>
+	<string name="char_label_crewmates"> CREWMATES </string>
+	<string name="char_label_episode_name">Episode Name</string>
+
+	<string name="tooltip_lcars_color_primary">Change primary LCARS color</string>
+	<string name="tooltip_lcars_color_secondary">Change secondary LCARS color</string>
+	<string name="tooltip_lcars_color_reset">Reset colors to default</string>
+<!--	ships -->
+	<string name="ship_label_registry">REGISTRY NUMBER</string>
+	<string name="ship_label_space_frame">SPACE FRAME</string>
+	<string name="ship_label_role">ROLE</string>
+	<string name="ship_label_commanding_officer">COMMANDING OFFICER</string>
+
+	<string name="ship_label_systems"> SYSTEMS </string>
+	<string name="ship_label_departments"> DEPARTMENTS </string>
+	<string name="ship_label_power"> POWER</string>
+	<string name="ship_label_shields"> SHIELDS </string>
+	<string name="ship_label_resistance"> RESIST </string>
+	<string name="ship_label_damage_control"> DAMAGE CONTROL </string>
+	<string name="ship_label_crew_support"> CREW SUPPORT </string>
+<!--	<string name="ship_label_"></string>-->
+
+	<string name="char_label_improvement_type">IMPROVEMENT TYPE</string>
+
+<!--	Weapons -->
+	<string name="weapon_label_name">Name</string>
+	<string name="weapon_label_damage">Damage</string>
+	<string name="weapon_label_qualities">Qualities</string>
+	<string name="weapon_label_type">Type</string>
+	<string name="weapon_label_range">Range</string>
+	<string name="weapon_label_cost">Cost</string>
+	<string name="weapon_label_size">Size</string>
+
+
+</root>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+	<customdie name="dChallenge">
+		<model>d6</model>
+		<menuicon>customdice</menuicon>
+	</customdie>
+	<die name="dChallenger1"><icon>dSTAicon.1</icon></die>
+	<die name="dChallenger2"><icon>dSTAicon.2</icon></die>
+	<die name="dChallenger3"><icon>dSTAicon.3</icon></die>
+	<die name="dChallenger4"><icon>dSTAicon.4</icon></die>
+	<die name="dChallenger5"><icon>dSTAicon.5</icon></die>
+	<die name="dChallenger6"><icon>dSTAicon.6</icon></die>
+</root>

@@ -1,0 +1,168 @@
+<root>
+    <windowclass name="charsheet_rolls">
+        <sheetdata>
+            <charsheet_tl_anchor/>
+            <charsheet_tr_anchor/>
+            <charsheet_c1_anchor/>
+            <charsheet_c2_anchor/>
+            <genericcontrol name="heightAnchor">
+                <anchored position="insidetopleft" height="185"/>
+            </genericcontrol>
+            <char_frame_color_alt name="attributes_color">
+                <anchored >
+                    <top parent="topLeft"/>
+                    <left parent="topLeft" offset="0"/>
+                    <right parent="colOne" offset="0"/>
+                    <bottom parent="heightAnchor" />
+                </anchored>
+            </char_frame_color_alt>
+            <scoreList name="attList">
+                <anchored to="attributes_color">
+                    <left offset="35"/>
+                    <right offset="-5"/>
+                </anchored>
+                <script>
+                    ---function basePage() return 100 end
+                    function scores()
+                        return ScopeManager.ALL_ATTRIBUTES
+                    end
+                    function scoreClass()
+                        return "att_field"
+                    end
+                    function rollControl()
+                        return window.activeAttribute
+                    end
+                </script>
+                <frame name="lcars_frame_shape_left" offset="35,30,5,25"/>
+                <class>char_score_entry</class>
+            </scoreList>
+            <tag_label name="attribute_label">
+                <anchored to="attList" offset="25,9"/>
+                <static textres="char_label_attributes"/>
+            </tag_label>
+
+
+            <char_frame_color_alt name="disciplines_color">
+                <anchored >
+                    <top parent="colOne"/>
+                    <left parent="colOne" offset="0"/>
+                    <right parent="colTwo" offset="0"/>
+                    <bottom parent="heightAnchor" />
+                </anchored>
+            </char_frame_color_alt>
+            <scoreList name="discList">
+                <anchored to="disciplines_color" >
+                    <left offset="5"/>
+                    <right offset="-5"/>
+                </anchored>
+                <script>
+                    ---function basePage() return 106 end
+                    function scores()
+                        return ScopeManager.ALL_DISCIPLINES
+                    end
+                    function scoreClass()
+                        return "disc_field"
+                    end
+                    function rollControl()
+                        return window.activeDiscipline
+                    end
+                </script>
+                <frame name="lcars_frame_shape_center" offset="5,30,5,25"/>
+                <class>char_score_entry</class>
+            </scoreList>
+
+            <tag_label name="discipline_label">
+                <anchored to="discList" offset="25,9" />
+                <static textres="char_label_disciplines"/>
+            </tag_label>
+
+
+
+            <!--      Roll Controls      -->
+            <genericcontrol name="dieAnchor">
+                <anchored to="attList" position="belowright" offset="-26,4" height="20" width="40"/>
+            </genericcontrol>
+            <roll_dice_control name="rollTestControl">
+                <anchored merge="replace" to="dieAnchor" position="insideleft" offset="2" height="20" width="18"/>
+                <frame name="field_white_left" offset="1,0,1,0"/>
+            </roll_dice_control>
+            <numbercontrol name="rollDC">
+                <default>1</default>
+                <min>0</min>
+                <max>5</max>
+                <anchored to="rollTestControl" width="16" height="20">
+                    <bottom offset="0"/>
+                    <left anchor="right" offset="0"/>
+                </anchored>
+                <frame name="field_white_right" />
+            </numbercontrol>
+
+        <!--      Attribute override      -->
+
+            <active_score name="activeAttributeName">
+                <anchored to="attList"/>
+            </active_score>
+            <numbercontrol name="activeAttribute">
+                <anchored to="activeAttributeName" position="rightlow" height="19" width="18" offset="2,0"/>
+                <script>
+                    function setScore(name, value)
+                        self.setValue(value)
+                        if name == "" then
+                            window.activeAttributeName.setValue(name)
+                        else
+                            window.activeAttributeName.setValue(" "..name.." ")
+                        end
+                    end
+                    function onInit()
+                        self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
+                        ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
+                    end
+                </script>
+<!--                <frame name="field_purple_border_right" />-->
+                <frame name="field_mask_right_white" />
+            </numbercontrol>
+            <active_score name="activeDisciplineName">
+                <anchored to="discList" >
+                    <right offset="-48"/>
+                </anchored>
+            </active_score>
+            <numbercontrol name="activeDiscipline">
+                <anchored to="activeDisciplineName" position="rightlow" height="19" width="18" offset="2,0"/>
+                <script>
+                    function setScore(name, value)
+                        self.setValue(value)
+                        window.activeDisciplineName.setValue(" "..name.." ")
+                    end
+                    function onInit()
+                        self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
+                        ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
+                    end
+                </script>
+                <frame name="field_mask_right_white" />
+            </numbercontrol>
+
+        <!--     Focuses       -->
+
+        <char_frame_color_alt name="focuses_color">
+            <anchored >
+                <top parent="colTwo"/>
+                <left parent="colTwo" offset="0"/>
+                <right parent="topRight" offset="0"/>
+                <bottom parent="heightAnchor" />
+            </anchored>
+        </char_frame_color_alt>
+
+        <char_focus_list name="focuses"/>
+
+        <tag_label name="focuses_label">
+            <anchored to="focuses" offset="25,9"/>
+            <static textres="char_label_focuses"/>
+        </tag_label>
+        <scrollbar_list>
+            <anchored to="focuses" />
+            <target>focuses</target>
+        </scrollbar_list>
+
+        </sheetdata>
+    </windowclass>
+</root>

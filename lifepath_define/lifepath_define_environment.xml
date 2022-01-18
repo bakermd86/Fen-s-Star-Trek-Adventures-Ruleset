@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+	<windowclass name="lifepath_define_environment">
+		<backcolor>ff8474b8</backcolor>
+		<nodelete />
+		<script file="lifepath_define/scripts/lifepath_define_environment.lua" />
+        <sheetdata>
+			<define_step_header name="header" />
+			<define_step_col_anchor name="columnanchor" />
+			<define_step_button_anchor name="button_anchor" />
+
+			<mode_select_control name="attribute_select_mode"/>
+			<mode_select_control name="discipline_select_mode"/>
+			<step_counter name="step_num">
+				<default>2</default>
+			</step_counter>
+
+			<define_step_mode_button_label>
+				<static> Att Mode: </static>
+				<anchored to="button_anchor" />
+			</define_step_mode_button_label>
+
+			<lifepath_table_mode_button name="environment_attribute_mode_select_from" >
+				<anchored width="80"/>
+				<state>
+					<text> Select Options </text>
+				</state>
+				<script>
+					function onInit()
+						self.count = 6
+						self.callback = LifePathDefineHelper.resetAttSelect
+					end
+					function onFirstLayout()
+						self.onButtonPress()
+					end
+				</script>
+				<backcolor>ff64bca4</backcolor>
+			</lifepath_table_mode_button>
+			<lifepath_table_mode_button name="environment_attribute_mode_fixed" >
+				<state>
+					<text> Fixed: 1 </text>
+				</state>
+				<script>
+					function onInit()
+						self.count = 1
+						self.callback = LifePathDefineHelper.resetAttSelect
+					end
+				</script>
+			</lifepath_table_mode_button>
+			<lifepath_table_mode_button name="environment_attribute_mode_species" >
+				<anchored width="80"/>
+				<state>
+					<text> Own World </text>
+				</state>
+				<script>
+					function onInit()
+						self.count = -1
+						self.resNode = window.getDatabaseNode().getChild("results").createChild("id-00002")
+						self.callback = LifePathDefineHelper.resetAttSelect
+					end
+				</script>
+			</lifepath_table_mode_button>
+			<lifepath_table_mode_button name="environment_attribute_mode_other_species" >
+				<anchored width="80"/>
+				<state>
+					<text> Alien World </text>
+				</state>
+				<script>
+					function onInit()
+						self.count = -2
+						self.resNode = window.getDatabaseNode().getChild("results").createChild("id-00002")
+						self.callback = LifePathDefineHelper.resetAttSelect
+					end
+				</script>
+			</lifepath_table_mode_button>
+			<lifepath_table_mode_button name="environment_attribute_mode_any" >
+				<state>
+					<text> Any </text>
+				</state>
+				<script>
+					function onInit()
+						self.count = 0
+						self.resNode = window.getDatabaseNode().getChild("results").createChild("id-00002")
+						self.callback = LifePathDefineHelper.resetAttSelect
+					end
+				</script>
+			</lifepath_table_mode_button>
+
+			<define_step_att_subwindow name="attribute_define_subwindow">
+				<script>
+					function getControlCol()
+						return 2
+					end
+				</script>
+			</define_step_att_subwindow>
+
+			<define_step_button_anchor name="button_anchor2" />
+
+			<define_step_mode_button_label>
+				<static> Disc Mode: </static>
+				<anchored to="button_anchor2" width="70"/>
+			</define_step_mode_button_label>
+
+			<lifepath_table_mode_button name="environment_discipline_mode_select_from" >
+				<anchored width="80" to="button_anchor2"/>
+				<state>
+					<text> Select Options </text>
+				</state>
+				<script>
+					function onInit()
+						self.count = 6
+						self.callback = LifePathDefineHelper.resetDiscSelect
+					end
+					function onFirstLayout()
+						self.onButtonPress()
+					end
+				</script>
+				<backcolor>ff64bca4</backcolor>
+			</lifepath_table_mode_button>
+			<lifepath_table_mode_button name="environment_discipline_mode_fixed" >
+				<anchored to="button_anchor2"/>
+				<state>
+					<text> Fixed: 1 </text>
+				</state>
+				<script>
+					function onInit()
+						self.count = 1
+						self.callback = LifePathDefineHelper.resetDiscSelect
+					end
+				</script>
+			</lifepath_table_mode_button>
+
+			<lifepath_table_mode_button name="environment_discipline_mode_any" >
+				<anchored to="button_anchor2" />
+				<state>
+					<text> Any </text>
+				</state>
+				<script>
+					function onInit()
+						self.count = 0
+						self.resNode = window.getDatabaseNode().getChild("results").createChild("id-00003")
+						self.callback = LifePathDefineHelper.resetDiscSelect
+					end
+				</script>
+			</lifepath_table_mode_button>
+
+			<lifepath_table_separator>
+				<anchored to="button_anchor2" />
+			</lifepath_table_separator>
+
+			<button_lifepath_table_add_row name="add_button">
+				<anchored to="button_anchor2" />
+			</button_lifepath_table_add_row>
+
+			<button_lifepath_table_discard_row name="discard_button"/>
+
+			<define_step_disc_subwindow name="discipline_define_subwindow">
+				<script>
+					function getControlCol()
+						return 3
+					end
+				</script>
+			</define_step_disc_subwindow>
+
+			discipline<define_step_text_field name="stepNote.text" />
+        </sheetdata>
+    </windowclass>
+</root>

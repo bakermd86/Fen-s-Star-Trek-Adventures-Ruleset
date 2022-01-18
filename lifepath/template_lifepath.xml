@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+	<template name="anchor_title_charsheet">
+		<genericcontrol>
+			<anchored height="0">
+				<top offset="35" />
+				<left parent="" anchor="left" offset="15" />
+				<right parent="" anchor="right" offset="-30" />
+			</anchored>
+			<disabled />
+		</genericcontrol>
+	</template>	
+	<template name="lp_step_subwindow">
+		<subwindow>
+			<anchored to="contentanchor">
+				<top  offset="45" />
+				<left />
+				<right />
+				<bottom parent="" offset="-52" />
+			</anchored>
+			<fastinit />
+		</subwindow>
+	</template>
+	<template name="label_title_frame">
+		<stringcontrol>
+			<backcolor>ff8474b8</backcolor>
+			<font>subwindowtitle</font>
+			<center />
+			<nodrag />
+		 	<readonly />
+		</stringcontrol>
+	</template>
+
+	<template name="tab_title_frame">
+		<label_title_frame>
+			<anchored height="30">
+				<top parent="columnanchor" anchor="bottom" offset="0" relation="relative"/>
+				<left />
+				<right />
+			</anchored>
+		</label_title_frame>
+	</template>
+
+	<template name="tab_content_frame">
+		<genericcontrol>
+		<anchored>
+			<top anchor="bottom" relation="relative" offset="15" />
+			<left offset="10" />
+			<right offset="-10" />
+			<bottom offset="-10" />
+		</anchored>
+		</genericcontrol>
+	</template>
+
+	<template name="ref_list_frame">
+		<genericcontrol>
+			<anchored position="below" offset="0,5">
+				<bottom offset="-5" anchor="bottom" />
+			</anchored>
+			<backcolor>ffe7ddb9</backcolor>
+		</genericcontrol>
+	</template>
+	<template name="tab_ref_list">
+		<windowlist>
+			<anchored position="below" offset="0,10">
+				<bottom offset="-10" anchor="bottom" />
+				<left offset="5"/>
+				<right offset="5"/>
+			</anchored>
+			<class>lifepath_ref_text</class>
+			<skipempty />
+		</windowlist>
+	</template>
+
+	<template name="button_lifepath">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<icon normal="button_star" pressed="button_star_down" />
+			<tooltip textres="lifepath_tooltip_wizard" />
+			<script file="lifepath/scripts/button_lifepath.lua"/>
+		</buttoncontrol>
+	</template>
+	<template name="button_lifepath_next">
+		<buttoncontrol>
+			<anchored height="20" />
+			<frame name="field_purple_right" offset="5,5,5,5" />
+			<stateframe>
+				<pressed offset="5,5,5,5" />
+			</stateframe>
+			<font>button-white-large</font>
+			<pressed offset="1,1" />
+			<tooltip textres="lifepath_tooltip_next" />
+			<state textres="lifepath_nextpage" />
+		</buttoncontrol>
+	</template>
+	<template name="button_lifepath_back">
+		<buttoncontrol>
+			<anchored height="20" />
+			<frame name="field_yellow_left" offset="5,5,5,5" />
+			<stateframe>
+				<pressed offset="5,5,5,5" />
+			</stateframe>
+			<font>button-white-large</font>
+			<pressed offset="1,1" />
+			<tooltip textres="lifepath_tooltip_back" />
+			<state textres="lifepath_prevpage" />
+		</buttoncontrol>
+	</template>
+	<template name="button_lifepath_tab">
+		<buttoncontrol>
+			<anchored height="24" width="50" to="button_anchor">
+				<bottom/>
+				<left anchor="right" relation="relative" offset="5"/>
+			</anchored>
+			<stateframe>
+				<pressed  offset="5,5,5,5"  />
+			</stateframe>
+			<font>button-white-large</font>
+			<pressed offset="1,1" />
+			<tooltip textres="" />
+			<state textres="" />
+		</buttoncontrol>
+	</template>
+	<template name="button_lifepath_toggle_select">
+		<buttoncontrol name="lifepath_toggle_button">
+			<frame name="lcars_buttonup" offset="2,1,2,1" />
+			<stateframe>
+				<pressed name="lcars_buttondown" offset="2,1,2,1" nobaseframe="true" />
+			</stateframe>
+			<font>button-white-large</font>
+			<pressed offset="1,1" />
+			<script file="lifepath/scripts/lifepath_toggle_select.lua" />
+		</buttoncontrol>
+	</template>
+
+	<template name="summary_score">
+		<basicnumberc name="score_number">
+			<anchored height="40" width="70" >
+				<top anchor="bottom" offset="5" />
+				<left offset="0" />
+			</anchored>
+			<readonly />
+			<default>1</default>
+		</basicnumberc>
+	</template>
+
+	<template name="summary_down_button">
+		<buttoncontrol name="score_down">
+			<icon normal="button_score_down" pressed="button_score_down"/>
+			<pressed offset="1,1"/>
+			<script>
+				function setTarget(target)
+					self.target=target
+				end
+				function setCallback(callback)
+					self.callback=callback
+				end
+				function onButtonPress()
+					self.callback(self.target)
+					ScopeManager.updateAlerts()
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
+	<template name="summary_up_button">
+		<buttoncontrol name="score_up">
+			<icon normal="button_score_up" pressed="button_score_up"/>
+			<pressed offset="1,1"/>
+			<script>
+				function setTarget(target)
+					self.target=target
+				end
+				function setCallback(callback)
+					self.callback=callback
+				end
+				function onButtonPress()
+					self.callback(self.target)
+					ScopeManager.updateAlerts()
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
+	<template name="roll_button_control">
+		<buttoncontrol name="roll_button">
+			<anchored position="insidetopleft" offset="5,0" width="20" height="20" />
+			<script>
+				function onInit()
+					self.genmethod = nil
+				end
+				function setMode(mode)
+					self.mode = mode
+				end
+				function onButtonPress()
+					if self.genmethod ~= nil then
+						self.genmethod.setComboBoxReadOnly(true)
+					end
+					ScopeManager.getLifepathWindow().rollStep(self.getStep(), self);
+				end
+			</script>
+			<icon normal="d20bicon" pressed="d20ricon" />
+		</buttoncontrol>
+	</template>
+
+	<template name="lifepath_add_link_list">
+		<windowlist >
+			<anchored height="28">
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+				<left />
+				<right />
+			</anchored>
+			<skipempty />
+			<class>lifepath_add_link_control</class>
+			<columns>
+				<width>80</width>
+				<fillwidth />
+			</columns>
+			<script>
+				function onInit()
+					self.controls = {
+						["value"]={},
+						["talent"]={},
+						["focus"]={},
+					}
+					self.targets = {
+							["value"]={"values", "Value"},
+							["talent"]={"talents", "Talent"},
+							["focus"]={"focuses", "Focus"}
+					}
+					self.createControls()
+				end
+
+				function allSelected(class)
+					for _, control in ipairs(self.controls[class]) do
+						if not control.lifepath_drop_target.selected then
+							return false
+						end
+					end
+					return true
+				end
+
+				function addControl(class, step)
+					control = self.createWindow();
+					local target, display = unpack(self.targets[class])
+					control.lifepath_drop_target.initControl(class, target, step);
+					control.lifepath_drop_target_label.setValue(display);
+					table.insert(self.controls[class], control)
+					return control
+				end
+			</script>
+		</windowlist>
+	</template>
+	<template name="button_lifepath_save_note">
+		<buttoncontrol>
+			<anchored height="20" />
+			<frame name="lcars_buttonup" offset="5,5,5,5" />
+			<stateframe>
+				<pressed name="lcars_buttondown" offset="5,5,5,5" nobaseframe="true" />
+			</stateframe>
+			<font>button-white-large</font>
+			<pressed offset="1,1" />
+			<tooltip textres="lifepath_tooltip_save_note" />
+			<state textres="lifepath_tooltip_save" />
+		</buttoncontrol>
+	</template>
+	<template name="button_lifepath_disard_note">
+		<buttoncontrol>
+			<anchored height="20" />
+			<frame name="lcars_buttonup" offset="5,5,5,5" />
+			<stateframe>
+				<pressed name="lcars_buttondown" offset="5,5,5,5" nobaseframe="true" />
+			</stateframe>
+			<font>button-white-large</font>
+			<pressed offset="1,1" />
+			<tooltip textres="lifepath_tooltip_disard_note" />
+			<state textres="lifepath_disard" />
+		</buttoncontrol>
+	</template>
+	<template name="lifepath_link_list">
+		<list_text name="links">
+			<columns>
+				<filldown />
+				<width>160</width>
+			</columns>
+			<skipempty />
+			<readonly />
+			<noscroll />
+			<class>link_list_entry</class>
+			<sortby><control>name</control></sortby>
+		</list_text>
+	</template>
+	<template name="lifepath_add_link_frame">
+		<genericcontrol>
+			<anchored height="28" >
+				<top parent="columnanchor" anchor="bottom" relation="current" offset="5" />
+				<left />
+				<right />
+			</anchored>
+			<backcolor>ff63acc8</backcolor>
+		</genericcontrol>
+	</template>
+	<template name="lifepath_add_link_button">
+		<buttoncontrol name="lifepath_drop_target">
+			<icon normal="button_add" pressed="button_add_down" />
+			<script file="lifepath/scripts/lifepath_add_link_button.lua"/>
+		</buttoncontrol>
+	</template>
+	<template name="lifepath_select_control_frame">
+		<genericcontrol>
+			<anchored height="45" >
+				<top parent="columnanchor" anchor="bottom" relation="current" offset="5" />
+				<left />
+				<right />
+			</anchored>
+			<backcolor>ffa5abd2</backcolor>
+		</genericcontrol>
+	</template>
+	<template name="lifepath_select_control">
+		<windowlist name="lifepath_attributes">
+			<anchored height="45" >
+				<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+				<left />
+				<right />
+			</anchored>
+			<skipempty />
+			<class>lifepath_attribute_item</class>
+			<columns>
+				<width>70</width>
+				<fillwidth />
+			</columns>
+			<script>
+				function getCount()
+					if self.getCounter() == nil then return 0 end
+					return self.getCounter().getValue()
+				end
+
+				function setCount(count)
+					if self.getCounter() == nil then return end
+					return self.getCounter().setValue(count)
+				end
+
+				function clear()
+					for _, frame in ipairs(self.getWindows()) do
+						if frame.lifepath_attribute_select_control.selected then
+							frame.lifepath_attribute_select_control.toggleOff()
+						end
+					end
+				end
+				function lock()
+					for _, frame in ipairs(self.getWindows()) do
+						if not frame.lifepath_attribute_select_control.selected then
+							frame.lifepath_attribute_select_control.setVisible(false);
+						end
+					end
+				end
+
+				function unlock()
+					for _, frame in ipairs(self.getWindows()) do
+						if not frame.lifepath_attribute_select_control.selected then
+							frame.lifepath_attribute_select_control.setVisible(true);
+						end
+					end
+				end
+
+				function addWindow()
+					local w = self.createWindow()
+					w.lifepath_attribute_select_control.setSource(self);
+					return w;
+				end
+			</script>
+		</windowlist>
+	</template>
+	<template name="lifepath_select_combo">
+		<windowlist name="lifepath_attributes">
+			<skipempty />
+			<class>lifepath_combo_select</class>
+			<columns>
+				<width>70</width>
+				<fillwidth />
+			</columns>
+			<script>
+
+				function getCount()
+					return self.getCounter().getValue()
+				end
+
+				function setCount(count)
+					return self.getCounter().setValue(count)
+				end
+
+				function addWindow(modes, callback, display)
+					local w = self.createWindow()
+					w.combo_control.setSource(self);
+					w.combo_control.setModes(modes);
+					w.combo_control.setCallback(callback);
+					w.combo_control.setDisplay(display);
+					return w;
+				end
+
+				function lock()
+					return
+				end
+
+				function unlock()
+					return
+				end
+			</script>
+		</windowlist>
+	</template>
+
+	<template name="alert_icon">
+		<buttoncontrol name="control">
+			<anchored position="insidebottomright" offset="-15,-2" width="15" height="20" />
+			<state icon="st_icon_red_x" />
+			<state icon="st_icon_check" />
+			<readonly />
+		</buttoncontrol>
+	</template>
+
+	<template name="lcars_combobox">
+		<comboboxc>
+			<frame merge="delete"/>
+			<backcolor>ffede6be</backcolor>
+		</comboboxc>
+	</template>
+
+	  <!-- Link Text Item -->
+  <windowclass name="ref_note_item">
+    <margins control="0,0,0,2"/>
+    <sheetdata>
+      <genericcontrol name="rightanchor">
+        <anchored width="0" height="0">
+          <top/>
+          <right/>
+        </anchored>
+      </genericcontrol>
+      <button_idelete name="idelete">
+        <anchored>
+          <top/>
+          <right offset="-5" relation="relative" anchor="left" parent="rightanchor"/>
+        </anchored>
+      </button_idelete>
+      <string_textlistitem name="name">
+        <anchored height="22">
+          <top />
+          <left offset="22"/>
+          <right offset="-10" relation="relative" anchor="left" parent="rightanchor"/>
+        </anchored>
+	  	<font>lcars_sheettext</font>
+      </string_textlistitem>
+      <linkcontrol_id name="shortcut">
+        <anchored to="name" position="left" offset="2" width="15" height="15"/>
+        <class>note</class>
+            <readonly />
+      </linkcontrol_id>
+		<formattedtextfield name="text">
+			<anchored position="insidetopright" width="0" height="0"/>
+			<invisible/>
+		</formattedtextfield>
+    </sheetdata>
+  </windowclass>
+	<template name="att_field_ro">
+		<att_field>
+			<readonly/>
+		</att_field>
+	</template>
+	<template name="disc_field_ro">
+		<disc_field>
+			<readonly/>
+		</disc_field>
+	</template>
+	<template name="ro_ref_list">
+		<char_ref_list>
+            <frame merge="delete"/>
+			<readonly/>
+			<script>
+				function onListChanged()
+					for _, w in ipairs(getWindows()) do
+						w.name.setReadOnly(true)
+						w.text.setReadOnly(true)
+					end
+				end
+			</script>
+		</char_ref_list>
+	</template>
+	<template name="ro_linked_list">
+		<char_linked_list>
+            <frame merge="delete"/>
+			<readonly/>
+			<script>
+				function onListChanged()
+					for _, w in ipairs(getWindows()) do
+						w.label.setReadOnly(true)
+						w.link.setReadOnly(true)
+					end
+				end
+			</script>
+		</char_linked_list>
+	</template>
+
+	<template name="step_mode_control">
+		<lcars_combobox>
+			<anchored width="85"  />
+			<listdirection >down</listdirection>
+			<buttonoffset>0,3</buttonoffset>
+			<default>MANUAL</default>
+			<frame name="field_yellow_left"/>
+		</lcars_combobox>
+	</template>
+
+	<windowclass name="lifepath_talent_filter_list">
+		<frame name="lcars_lifepath_frame"/>
+		<placement>
+			<size width="500" height="400" />
+		</placement>
+		  <sizelimits>
+			<dynamic />
+			<minimum width="350" height="200" />
+		  </sizelimits>
+		<nodelete />
+		<playercontrol />
+		<script>
+			function clearSelection(source)
+				for _, window in ipairs(self.talent_list.getWindows()) do
+					window.setFrame(nil);
+				end
+				self.selectedNode=source
+			end
+		</script>
+		<sheetdata>
+
+			<windowlist name="talent_list">
+				<anchored position="insidetopright" relation="relative">
+					<top offset="25" />
+					<right offset="-2" />
+					<bottom offset="-12"/>
+					<left offset="520"/>
+				</anchored>
+				<class>talent_link_item</class>
+				<skipempty />
+				<readonly />
+<!--				<backcolor>ff63acc8</backcolor>-->
+<!--				<frame name="fielddark" offset="10,9,10,9" />-->
+				<sortby>
+					<control>label</control>
+				</sortby>
+				<child><backcolor>6A63acc8</backcolor></child>
+				<child><backcolor>6A3068ff</backcolor></child>
+				<script>
+					function onInit()
+						self.mode = "require"
+					end
+					function setMode(mode)
+						self.mode = mode
+						self.applyFilter()
+						self.resetSelection()
+					end
+					function onFilter(w)
+						if self.mode == "all" then
+							return true
+						else
+							return w.require_met.getValue() == 1
+						end
+					end
+					function resetSelection()
+						window.talent_preview.setValue("")
+    					local tWindows = self.getWindows(true)
+						if #tWindows >= 1 then
+							tWindows[1].preview_button.onButtonPress()
+    					end
+					end
+				</script>
+			</windowlist>
+			<scrollbar name="talent_list_scroll">
+				<target>talent_list</target>
+				<anchored to="talent_list" offset="-10,-10"/>
+			</scrollbar>
+			<genericcontrol name="button_anchor">
+				<anchored position="insidetopleft" height="24" >
+					<top offset="15" />
+					<left offset="45" />
+				</anchored>
+			</genericcontrol>
+
+			<button_lifepath_tab name="filtered_talents_button">
+				<anchored width="120" />
+                <state><text>Requirements Met</text></state>
+				<script>
+					function onFirstLayout()
+                    	self.setBackColor(LifePathAlertHelper.COLOR_OK)
+					end
+					function onButtonPress()
+                    	self.setBackColor(LifePathAlertHelper.COLOR_OK)
+						window.talent_list.setMode("require")
+						window.all_talents_button.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
+					end
+				</script>
+			</button_lifepath_tab>
+
+			<button_lifepath_tab name="all_talents_button">
+				<anchored width="100" />
+                <state><text>All Talents</text></state>
+				<script>
+					function onFirstLayout()
+                    	self.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
+					end
+					function onButtonPress()
+                    	self.setBackColor(LifePathAlertHelper.COLOR_OK)
+						window.talent_list.setMode("all")
+						window.filtered_talents_button.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
+					end
+				</script>
+			</button_lifepath_tab>
+
+			<formattedtextcontrol name="talent_preview">
+				<anchored position="insidetopleft" width="475">
+					<top offset="64"/>
+					<left offset="0"/>
+					<bottom offset="-52"/>
+				</anchored>
+<!--				<frame offset="10,10,10,10" name="fieldlight" />-->
+				<backcolor>ffe7ddb9</backcolor>
+			</formattedtextcontrol>
+			<buttoncontrol name="talent_down">
+				<anchored to="talent_preview" position="insidebottomleft" relation="relative" width="50" height="50"/>
+				<icon normal="button_export" pressed="button_back" />
+				<script>
+					function onButtonPress()
+						local w = window.talent_list.getNextWindow(window.selectedNode)
+						if w == nil then w = window.talent_list.getWindows()[1] end
+						w.preview_button.onButtonPress()
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="talent_up">
+				<anchored to="talent_preview" position="insidebottomright" relation="relative" width="50" height="50"/>
+				<icon normal="button_import" pressed="button_back" />
+				<script>
+					function onButtonPress()
+						local w = window.talent_list.getPrevWindow(window.selectedNode)
+						if w == nil then w = window.talent_list.getWindows()[window.talent_list.getWindowCount()] end
+						w.preview_button.onButtonPress()
+					end
+				</script>
+			</buttoncontrol>
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="talent_link_item">
+		<sheetdata>
+		  <genericcontrol name="rightanchor">
+			<anchored width="0" height="0">
+			  <top/>
+			  <right/>
+			</anchored>
+		  </genericcontrol>
+			<numbercontrol name="require_met">
+				<anchored position="insidetopleft" width="0" height="0"/>
+				<default>0</default>
+			</numbercontrol>
+		  <stringcontrol name="label">
+			<anchored height="20">
+			  <top offset="2"/>
+			  <left offset="22"/>
+			  <right offset="-40" relation="relative" anchor="left" parent="rightanchor"/>
+			</anchored>
+		    <readonly/>
+		  </stringcontrol>
+			<buttoncontrol name="preview_button">
+				<anchored to="label" position="left" relation="relative" offset="0" width="30" />
+				<icon normal="button_details" pressed="button_details_down" />
+				<script>
+					function configure(target, body, clearCallback)
+						self.target=target
+						self.body=body
+						self.clearCallback = clearCallback
+					end
+					function onButtonPress()
+						self.clearCallback(window)
+						self.target.setValue(self.body);
+						window.setFrame("fielddark");
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="hidden_button">
+				<anchored to="label" position="over"/>
+				<script>
+					function onButtonPress() window.preview_button.onButtonPress() end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="add_link_button">
+				<anchored to="label" position="right" offset="10" width="20" />
+				<icon normal="button_add" pressed="button_add_down" />
+				<script>
+					function configure(callback, node)
+						self.callback=callback
+						self.node=node
+					end
+					function onButtonPress()
+						self.callback(self.node)
+					end
+				</script>
+			</buttoncontrol>
+		</sheetdata>
+	</windowclass>
+
+</root>	

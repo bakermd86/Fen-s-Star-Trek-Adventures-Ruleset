@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+	<windowclass name="lifepath_define_upbringing">
+		<backcolor>ff8474b8</backcolor>
+		<nodelete />
+		<script file="lifepath_define/scripts/lifepath_define_upbringing.lua" />
+        <sheetdata>
+			<define_step_header name="header" />
+			<define_step_col_anchor name="columnanchor" />
+			<define_step_button_anchor name="button_anchor" />
+
+			<mode_select_control name="attribute_select_mode"/>
+			<mode_select_control name="discipline_select_mode"/>
+			<step_counter name="step_num">
+				<default>3</default>
+			</step_counter>
+
+			<define_step_mode_button_label>
+				<static> "Accept" Upbringing Attributes </static>
+				<anchored to="button_anchor" width="200"/>
+			</define_step_mode_button_label>
+
+			<lifepath_table_mode_button name="upbringing_attribute_mode_fixed" >
+				<script>
+					function onInit()
+						self.count = 1
+						self.callback = window.resetAcceptSelect
+					end
+					function onFirstLayout()
+						self.onButtonPress()
+					end
+				</script>
+				<invisible />
+			</lifepath_table_mode_button>
+
+			<define_step_att_subwindow name="accept_define_subwindow1">
+				<script>
+					function getControlCol()
+						return 2
+					end
+				</script>
+				<anchored>
+					<top offset="-2"/>
+					<left offset="30" />
+				</anchored>
+			</define_step_att_subwindow>
+			<define_step_mode_button_label>
+				<static> +2 </static>
+				<anchored merge="replace" to="accept_define_subwindow1" width="25" position="left" offset="5"/>
+			</define_step_mode_button_label>
+
+			<define_step_att_subwindow name="accept_define_subwindow2">
+				<script>
+					function getControlCol()
+						return 2
+					end
+				</script>
+				<anchored>
+					<top offset="-5"/>
+					<left offset="30" />
+				</anchored>
+			</define_step_att_subwindow>
+			<define_step_mode_button_label>
+				<static> +1 </static>
+				<anchored merge="replace" to="accept_define_subwindow2" width="25" position="left" offset="5"/>
+			</define_step_mode_button_label>
+
+			<define_step_button_anchor name="button_anchor2" />
+
+			<define_step_mode_button_label>
+				<static> "Reject" Upbringing Attributes </static>
+				<anchored to="button_anchor2" width="200"/>
+			</define_step_mode_button_label>
+
+			<define_step_att_subwindow name="reject_define_subwindow1">
+				<script>
+					function getControlCol()
+						return 3
+					end
+				</script>
+				<anchored>
+					<top offset="-2"/>
+					<left offset="30" />
+				</anchored>
+			</define_step_att_subwindow>
+			<define_step_mode_button_label>
+				<static> +2 </static>
+				<anchored merge="replace" to="reject_define_subwindow1" width="25" position="left" offset="5"/>
+			</define_step_mode_button_label>
+
+			<define_step_att_subwindow name="reject_define_subwindow2">
+				<script>
+					function getControlCol()
+						return 3
+					end
+				</script>
+				<anchored>
+					<top offset="-5"/>
+					<left offset="30" />
+				</anchored>
+			</define_step_att_subwindow>
+			<define_step_mode_button_label>
+				<static> +1 </static>
+				<anchored merge="replace" to="reject_define_subwindow2" width="25" position="left" offset="5"/>
+			</define_step_mode_button_label>
+
+			<define_step_button_anchor name="button_anchor3" />
+
+			<define_step_mode_button_label>
+				<static> Disc Mode: </static>
+				<anchored to="button_anchor3" width="70"/>
+			</define_step_mode_button_label>
+
+			<lifepath_table_mode_button name="upbringing_discipline_mode_select_from" >
+				<anchored width="80" to="button_anchor3"/>
+				<state>
+					<text> Select Options </text>
+				</state>
+				<script>
+					function onInit()
+						self.count = 6
+						self.callback = LifePathDefineHelper.resetDiscSelect
+					end
+					function onFirstLayout()
+						self.onButtonPress()
+					end
+				</script>
+				<backcolor>ff64bca4</backcolor>
+			</lifepath_table_mode_button>
+			<lifepath_table_mode_button name="upbringing_discipline_mode_fixed" >
+				<anchored to="button_anchor3"/>
+				<state>
+					<text> Fixed: 1 </text>
+				</state>
+				<script>
+					function onInit()
+						self.count = 1
+						self.callback = LifePathDefineHelper.resetDiscSelect
+					end
+				</script>
+			</lifepath_table_mode_button>
+
+			<lifepath_table_mode_button name="upbringing_discipline_mode_any" >
+				<anchored to="button_anchor3" />
+				<state>
+					<text> Any </text>
+				</state>
+				<script>
+					function onInit()
+						self.count = 0
+						self.resNode = window.getDatabaseNode().getChild("results").createChild("id-00004")
+						self.callback = LifePathDefineHelper.resetDiscSelect
+					end
+				</script>
+			</lifepath_table_mode_button>
+
+			<lifepath_table_separator>
+				<anchored to="button_anchor3" />
+			</lifepath_table_separator>
+
+			<button_lifepath_table_add_row name="add_button">
+				<anchored to="button_anchor3" />
+			</button_lifepath_table_add_row>
+
+			<button_lifepath_table_discard_row name="discard_button"/>
+
+			<define_step_disc_subwindow name="discipline_define_subwindow">
+				<script>
+					function getControlCol()
+						return 4
+					end
+				</script>
+			</define_step_disc_subwindow>
+
+			discipline<define_step_text_field name="stepNote.text" />
+        </sheetdata>
+    </windowclass>
+</root>

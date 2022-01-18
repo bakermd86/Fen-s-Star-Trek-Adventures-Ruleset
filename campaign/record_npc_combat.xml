@@ -1,0 +1,98 @@
+<root>
+    <windowclass name="npc_combat">
+		<margins control="0,0,0,2" />
+        <sheetdata>
+            <charsheet_c1_anchor/>
+
+
+    <!--      Attacks      -->
+      <npc_ref_list name="attack_rolls">
+            <frame name="lcars_groupbox_dark" offset="10,38,10,8" />
+          <datasource>.attack_rolls</datasource>
+                <anchored >
+                    <top offset="52"/>
+                    <bottom anchor="center"/>
+                </anchored>
+            <class>attack_roll_entry</class>
+          <sortby>
+              <control>name</control>
+          </sortby>
+      </npc_ref_list>
+        <npc_label name="attack_rolls_label">
+            <anchored to="attack_rolls" offset="25,30"/>
+            <static textres="char_label_attack_rolls"/>
+        </npc_label>
+        <scrollbar_list>
+            <anchored to="attack_rolls" />
+            <target>attack_rolls</target>
+        </scrollbar_list>
+
+          <genericcontrol name="attack_label_anchor">
+              <anchored to="attack_rolls" position="insidetopleft" />
+          </genericcontrol>
+         <char_ref_column_label>
+             <anchored to="attack_label_anchor" width="35" >
+                 <left offset="2"/>
+             </anchored>
+             <static>Roll/DC</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="attack_label_anchor" width="150"/>
+             <static>Name</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="attack_label_anchor" width="150"/>
+             <static>Focus</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="attack_label_anchor" width="25"/>
+             <static>Type</static>
+         </char_ref_column_label>
+
+        <!--     Weapons       -->
+        <npc_ref_list name="weapons">
+            <frame name="lcars_groupbox_dark" offset="10,38,10,8" />
+            <datasource>.weapons</datasource>
+            <anchored >
+                <top anchor="center" offset="52"/>
+            </anchored>
+            <class>weapon_entry</class>
+        </npc_ref_list>
+        <npc_label name="weapons_label">
+            <anchored  to="weapons" offset="25,30"/>
+            <static textres="char_label_weapons"/>
+        </npc_label>
+        <scrollbar_list>
+            <anchored to="weapons" />
+            <target>weapons</target>
+        </scrollbar_list>
+
+          <genericcontrol name="weapon_label_anchor">
+              <anchored to="weapons" position="insidetopleft" />
+          </genericcontrol>
+         <char_ref_column_label>
+             <anchored to="weapon_label_anchor" width="85" />
+             <static>Name</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="weapon_label_anchor" width="70"/>
+             <static>Type/Range</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="weapon_label_anchor" width="80"/>
+             <static>Damage</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="weapon_label_anchor" width="100"/>
+             <static>Qualities</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="weapon_label_anchor" >
+                 <right parent="" />
+             </anchored>
+             <static>Cost</static>
+         </char_ref_column_label>
+
+        </sheetdata>
+    </windowclass>
+</root>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+
+    <windowclass name="lifepath_table_define_display">
+		<script>
+			function onInit()
+				self.importedTableNode = nil
+			end
+		</script>
+        <sheetdata>
+			<genericcontrol name="tableanchor">
+				<anchored position="insidetop" offset="-15,5" height="0"/>
+			</genericcontrol>
+
+			<windowlist name="tableheaders">
+				<anchored to="tableanchor" height="20">
+					<top anchor="bottom" relation="relative" offset="7" />
+					<left offset="65"/>
+					<right />
+				</anchored>
+				<class>lp_table_header</class>
+				<noscroll />
+				<skipempty />
+				<columns>
+					<width>150</width>
+					<fillwidth/>
+				</columns>
+			</windowlist>
+			<numberfield name="resultscols">
+				<default>1</default>
+				<anchored position="insidetopleft" width="0" height="0"/>
+			</numberfield>
+			<windowlist name="tablerows">
+				<anchored>
+					<top parent="tableanchor" anchor="bottom" relation="relative" offset="2" />
+					<left offset="5" />
+					<right offset="-5" />
+				</anchored>
+				<datasource>.tablerows</datasource>
+				<class>lp_table_row</class>
+				<noscroll />
+				<sortby><control>fromrange</control></sortby>
+				<child><backcolor>6A63acc8</backcolor></child>
+				<child><backcolor>6A3068ff</backcolor></child>
+				<skipempty />
+			</windowlist>
+			<genericcontrol name="button_anchor">
+				<anchored position="insidebottomright" offset="290,15" height="24"/>
+			</genericcontrol>
+			<button_lifepath_tab name="save_table">
+				<anchored width="135"/>
+				<state>
+					<text> Save This Table</text>
+				</state>
+				<backcolor>ffeec515</backcolor>
+				<script>
+					function onButtonPress()
+						Debug.chat(window.getDatabaseNode())
+						---LifePathDefineHelper.saveTable(window)
+					end
+				</script>
+			</button_lifepath_tab>
+			<button_lifepath_tab name="save_table">
+				<anchored width="145"/>
+				<state>
+					<text> Load Existing Table </text>
+				</state>
+				<backcolor>ffeec515</backcolor>
+				<script>
+					function onButtonPress()
+						Debug.chat(window.getDatabaseNode())
+						---LifePathDefineHelper.saveTable(window)
+					end
+				</script>
+			</button_lifepath_tab>
+        </sheetdata>
+    </windowclass>
+
+	<windowclass name="lp_table_row">
+		<sheetdata>
+			<genericcontrol name="nameAnchor">
+				<anchored position="insidetopleft" height="20" width="0"/>
+			</genericcontrol>
+			<toFromField name="fromrange">
+				<default>1</default>
+				<readonly />
+				<frame merge="delete"/>
+			</toFromField>
+			<label>
+				<anchored to="nameAnchor" width="15">
+					<top />
+					<bottom offset="-2"/>
+					<left anchor="right" relation="relative"/>
+				</anchored>
+                <font>lcars_sheetlabel</font>
+				<static> - </static>
+			</label>
+			<toFromField name="torange">
+				<default>2</default>
+				<readonly />
+				<frame merge="delete"/>
+			</toFromField>
+
+			<buttoncontrol name="edit_button">
+				<anchored to="nameAnchor" width="20"  >
+					<top />
+					<bottom />
+					<left anchor="right" relation="relative" offset="5"/>
+				</anchored>
+				<icon >
+					<normal>button_edit</normal>
+					<pressed>button_edit_down</pressed>
+				</icon>
+				<tooltip> Edit Entry </tooltip>
+				<script>
+					function onButtonPress()
+						window.windowlist.window.parentcontrol.window.loadRow(window.getDatabaseNode())
+					end
+				</script>
+			</buttoncontrol>
+
+			<lifepath_table_separator>
+				<anchored to="nameAnchor" />
+			</lifepath_table_separator>
+
+			<windowlist name="results">
+				<anchored to="nameAnchor" >
+					<top />
+					<bottom />
+					<left anchor="right" relation="relative" offset="5"/>
+					<right parent="" offset="-5"/>
+				</anchored>
+				<datasource>.results</datasource>
+				<skipempty />
+				<class>lp_table_result_item</class>
+				<columns>
+					<fillwidth />
+					<width>150</width>
+				</columns>
+				<script>
+					function onFirstLayout()
+						local cols = window.windowlist.window.resultscols.getValue()
+						local w,h = self.getSize()
+						local colWidth = math.floor(((w - 5) / cols) + 0.5);
+						self.setColumnWidth(colWidth)
+						local resWindows = self.getWindows()
+						resWindows[#resWindows].separator.setVisible(false)
+					end
+				</script>
+			</windowlist>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="lp_table_result_item">
+		<sheetdata>
+			<genericcontrol name="rowAnchor">
+				<anchored width="0" height="26">
+					<left />
+					<top />
+				</anchored>
+			</genericcontrol>
+			<link_tableresult name="resultlink">
+				<anchored to="rowAnchor">
+					<left anchor="right" relation="relative" offset="5"/>
+					<top offset="3"/>
+				</anchored>
+				<invisible />
+				<readonly />
+			</link_tableresult>
+			<stringfield name="result">
+				<anchored to="rowAnchor">
+					<top offset="3" />
+					<left anchor="right" relation="relative" offset="5" />
+					<right parent="" offset="-25" />
+				</anchored>
+				<empty> -- </empty>
+				<nohighlight />
+				<font>lcars_sheettext</font>
+				<readonly />
+			</stringfield>
+
+			<lifepath_table_separator name="separator">
+				<anchored to="rowAnchor" />
+			</lifepath_table_separator>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="lp_table_header">
+		<sheetdata>
+			<stringcontrol name="name">
+				<anchored position="insidetop" height="20" />
+				<readonly />
+				<font>lcars_sheetlabel</font>
+				<center />
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+</root>

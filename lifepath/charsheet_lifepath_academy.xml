@@ -1,0 +1,141 @@
+<root>
+	<windowclass name="charsheet_lifepath_academy">
+		<sheetdata>
+			<lp_step_window name="contents">
+				<class>charsheet_lifepath_academy_contents</class>
+			</lp_step_window>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="charsheet_lifepath_academy_contents">
+		<script file="lifepath/scripts/lifepath_academy.lua" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			<tab_title_frame name="academy_label"/>
+			
+			<tab_content_frame name="lifepath_academy_frame">
+				<anchored>
+					<top parent="academy_label" />
+				</anchored>
+			</tab_content_frame>
+
+			<step_mode_control name="lifepath_academy_genmethod">
+				<anchored to="academy_label" position="insideleft" offset="5,-5" />
+				<script file="lifepath/mode_scripts/lifepath_academy_mode_select.lua" />
+			</step_mode_control>
+			
+			<label name="lifepath_academy_name_manual_label">
+				<invisible />
+				<static>Academy:</static>
+				<anchored to="lifepath_academy_genmethod" position="right" offset="3" width="65" />
+			</label>
+			
+			<stringcontrol name="lifepath_academy_name_manual">
+				<anchored to="lifepath_academy_name_manual_label" position="right" width="150" offset="5"/>
+				<invisible />
+				<lineoffset default="on" mergerule="replace">1</lineoffset>
+				<script>
+					function onValueChanged()
+						ScopeManager.setSummaryVal("academy", getValue());
+					end
+				</script>
+			</stringcontrol>
+
+			<roll_button_control name="lifepath_academy_roll_button">
+				<anchored to="lifepath_academy_genmethod" position="right"/>
+				<script>
+					function onInit()
+						self.genmethod = window.lifepath_academy_genmethod
+					end
+					function getStep()
+						return 4
+					end
+				</script>
+				<tooltip textres="lifepath_roll_academy" />
+			</roll_button_control>
+			
+			<label name="lifepath_academy_roll_label">
+				<static textres="lifepath_roll_academy" />
+				<anchored to="lifepath_academy_roll_button" position="right" width="150" offset="5"/>
+				<readonly />
+			</label>
+
+			<lifepath_add_link_frame/>
+			<lifepath_add_link_list name="lifepath_academy_select_frame">
+				<script>
+					function createControls()
+						self.addControl("focus", 4);
+						self.addControl("focus", 4);
+						self.addControl("focus", 4);
+						self.addControl("value", 4);
+						self.addControl("talent", 4);
+					end
+				</script>
+			</lifepath_add_link_list>
+
+			<ref_list_frame >
+				<anchored  to="lifepath_academy_select_frame">
+					<top anchor="bottom" offset="55"/>
+					<bottom parent="lifepath_academy_frame" />
+				</anchored>
+			</ref_list_frame>
+			<tab_ref_list name="lifepath_academy_ref">
+				<anchored  to="lifepath_academy_select_frame">
+					<top anchor="bottom" offset="55"/>
+					<bottom parent="lifepath_academy_frame" />
+				</anchored>
+			</tab_ref_list>
+
+			<lifepath_select_control_frame/>
+			<lifepath_select_combo name="lifepath_academy_discipline_select">
+				<anchored height="45" width="215">
+					<top parent="columnanchor" anchor="bottom" relation="current" offset="5" />
+					<left />
+				</anchored>
+				<script>
+					function getCounter()
+						return ScopeManager.getAcademyTab().discipline_selection_count
+					end
+					function getStep()
+						return 4
+					end
+				</script>
+			</lifepath_select_combo>
+
+			<numbercontrol name="discipline_selection_count">
+				<anchored to="lifepath_academy_discipline_select" position="insidetopright" relation="relative" offset="0,0" width="20" height="20" />
+				<readonly />
+				<default>4</default>
+			</numbercontrol>
+			<label name="discipline_select_remain">
+				<anchored to="discipline_selection_count" position="left" relation="relative" />
+				<default>Major/Minor Disciplines:</default>
+			</label>
+
+			<lifepath_select_combo name="lifepath_academy_attribute_select">
+				<anchored height="45" width="215">
+					<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
+					<right />
+				</anchored>
+				<script>
+					function getCounter()
+						return ScopeManager.getAcademyTab().attribute_selection_count
+					end
+					function getStep()
+						return 4
+					end
+				</script>
+			</lifepath_select_combo>
+
+			<numbercontrol name="attribute_selection_count">
+				<anchored to="lifepath_academy_attribute_select" position="insidetopright" relation="relative" offset="0,0" width="20" height="20" />
+				<readonly />
+				<default>3</default>
+			</numbercontrol>
+			<label name="attribute_select_remain">
+				<anchored to="attribute_selection_count" position="left" relation="relative" />
+				<default>Attributes:</default>
+			</label>
+		</sheetdata>
+	</windowclass>
+</root>

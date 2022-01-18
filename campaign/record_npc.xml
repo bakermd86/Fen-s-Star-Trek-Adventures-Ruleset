@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+	<windowclass name="npc" merge="join">
+		<placement>
+			<size width="460" height="545" />
+		</placement>
+		<sizelimits>
+			<minimum width="460" height="545" />
+			<dynamic />
+		</sizelimits>
+        <minimize>minimized_npc</minimize>
+        <tooltip field="name" />
+        <nodelete />
+        <softclose />
+        <playercontrol />
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>st_npc_header</class>
+			</sub_record_header>
+
+			<subwindow_record name="combat" insertbefore="notes">
+				<class>npc_combat</class>
+			</subwindow_record>
+			<scrollbar_record insertbefore="tabs">
+				<target>combat</target>
+			</scrollbar_record>
+
+
+			<tabs_recordsheet name="tabs">
+				<tab merge="add">
+					<icon>tab_combat</icon>
+					<subwindow>combat</subwindow>
+				</tab>
+			</tabs_recordsheet>
+
+			<frame_record_content_tabbed name="contentframe" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="st_npc_header" >
+		<script file="campaign/scripts/npc_header.lua" />
+		<margins control="0,0,0,7" />
+		<sheetdata>
+			<link_record_header_id name="link">
+				<class>npc</class>
+			</link_record_header_id>
+
+			<anchor_record_header_right name="rightanchor" />
+			<button_activateid>
+				<anchored to="rightanchor" width="23" height="22">
+					<top offset="-2" />
+					<right anchor="left" relation="relative" offset="-5" />
+				</anchored>
+				<gmvisibleonly merge="delete"/>
+			</button_activateid>
+			<buttoncontrol >
+				<anchored to="rightanchor" width="25" height="25">
+					<top offset="-2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-3" />
+				</anchored>
+				<icon normal="button_roll" pressed="button_roll_down" />
+				<script>
+					function onButtonPress()
+						local w = Interface.openWindow("storytemplate", "")
+						window.name.setValue(w.generate.performTableLookups("[IndividualNameTable]"))
+						w.close()
+					end
+				</script>
+				<gmvisibleonly/>
+			</buttoncontrol>
+			<tokenfield name="token">
+				<anchored to="rightanchor" width="25" height="25">
+					<top offset="-2" />
+					<right parent="rightanchor" anchor="left" relation="relative" offset="-3" />
+				</anchored>
+				<empty>token_empty</empty>
+				<script>
+					function onDoubleClick(x, y)
+						CombatManager.openMap(window.getDatabaseNode());
+					end
+				</script>
+			</tokenfield>
+			<button_record_isidentified name="isidentified" />
+			<icon_record_locked />
+			<button_record_locked />
+
+			<string_record_name_id name="name">
+				<empty textres="library_recordtype_empty_npc" />
+			</string_record_name_id>
+			<string_record_name_id name="nonid_name">
+				<empty textres="library_recordtype_empty_nonid_npc" />
+				<invisible />
+			</string_record_name_id>
+		</sheetdata>
+	</windowclass>
+</root>

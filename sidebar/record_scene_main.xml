@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+  <windowclass name="scene_main">
+    <margins control="0,0,0,2" />
+    <sheetdata>
+
+      <genericcontrol name="height_anchor">
+        <anchored position="insidetop" height="0" width="0"/>
+      </genericcontrol>
+	  <!-- Summary -->
+	  <ep_text name="summary">
+        <anchored height="95">
+          <top offset="8"/>
+        </anchored>
+	  </ep_text>
+	  
+	  <!-- Description -->
+	  <ep_text name="description">
+		<anchored >
+          <bottom anchor="center" offset="100"/>
+        </anchored>
+	  </ep_text>
+      <ep_label>
+        <anchored to="description" />
+        <static textres="scene_label_description" />
+      </ep_label>
+	  
+      <!-- Characters -->
+	  <episode_linked_list name="scene_characters">
+        <datasource>.scene_characters</datasource>
+		<anchored >
+          <top relation="current"/>
+          <right anchor="center"/>
+          <bottom offset="-10"/>
+        </anchored>
+	  </episode_linked_list>
+      <ep_label>
+        <anchored to="scene_characters" />
+        <static textres="scene_label_characters" />
+      </ep_label>
+
+
+      <genericcontrol name="split_frame">
+		<anchored >
+          <left anchor="center" />
+          <right />
+          <top parent="height_anchor" anchor="bottom" offset="28" relation="current"/>
+          <bottom />
+        </anchored>
+      </genericcontrol>
+
+	  <!-- Science -->
+	  <scene_ref_list name="scene_investigations">
+        <datasource>.scene_investigations</datasource>
+        <class>research_entry</class>
+		<anchored to="split_frame" >
+          <bottom anchor="center"/>
+        </anchored>
+	  </scene_ref_list>
+      <ep_label>
+        <anchored to="scene_investigations" />
+        <static textres="scene_label_science" />
+      </ep_label>
+	  
+	  <!-- Traits -->
+	  <scene_ref_list name="scene_active_traits">
+        <datasource>.scene_active_traits</datasource>
+		<anchored to="split_frame" >
+          <bottom offset="-10"/>
+        </anchored>
+	  </scene_ref_list>
+      <ep_label>
+        <anchored to="scene_active_traits" />
+        <static textres="scene_label_traits" />
+      </ep_label>
+
+    </sheetdata>
+  </windowclass>
+
+  <template name="scene_ref_list">
+        <char_ref_list>
+		<anchored >
+          <left offset="10"/>
+          <right offset="-10"/>
+          <top parent="height_anchor" anchor="bottom" offset="28" relation="relative"/>
+        </anchored>
+        <frame name="lcars_groupbox_dark" offset="10,8,10,8"/>
+        </char_ref_list>
+  </template>
+
+  <template name="scene_linked_list">
+    <char_linked_list>
+          <anchored merge="replace">
+            <left offset="15"/>
+            <top offset="35"/>
+            <right offset="-15"/>
+            <bottom offset="-20"/>
+          </anchored>
+          <frame merge="delete"/>
+    </char_linked_list>
+  </template>
+
+</root>

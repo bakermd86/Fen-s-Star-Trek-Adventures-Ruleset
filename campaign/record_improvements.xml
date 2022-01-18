@@ -1,0 +1,242 @@
+<root>
+    <windowclass name="improvement_type_save">
+        <sheetdata>
+        </sheetdata>
+    </windowclass>
+    <windowclass name="improvement_type_give_support">
+        <sheetdata>
+            <lcars_combobox name="supporting_characters">
+                <anchored position="insidetopleft" height="20" width="200" offset="25,35"/>
+				<listdirection>down</listdirection>
+				<buttonoffset>0,3</buttonoffset>
+                <script>
+                    function onInit()
+                        self.addItems(CrewSupportManager.getSupportingCharacterNames())
+                    end
+                </script>
+            </lcars_combobox>
+        </sheetdata>
+    </windowclass>
+    <windowclass name="improvement_type_gain">
+        <sheetdata>
+            <swap_list name="increases" />
+            <windowlist name="list_selectors">
+                <class>improve_select</class>
+                <skipempty />
+                <anchored position="insidetopright" width="270" height="130" />
+                <invisible />
+            </windowlist>
+        </sheetdata>
+        <script>
+            function setTargetClass(targetClass)
+                self.targetClass = targetClass
+            end
+
+            function addScores(scores)
+                increases.setVisible(true)
+                for _, score in ipairs(scores) do
+                    local scoreUp = increases.createWindowWithClass(self.targetClass, "")
+                    scoreUp.score.setStateText(0, string.upper(score), string.upper(score))
+                    scoreUp.score.setStateText(1, string.upper(score), string.upper(score))
+                    scoreUp.scoreName.setValue(string.lower(score))
+                end
+
+            end
+
+            function setOptions(type)
+                list_selectors.setVisible(true)
+                self.addLinkWidget = list_selectors.createWindowWithClass(self.targetClass, getDatabaseNode().getNodeName())
+                self.addLinkWidget.select_button.setType(type)
+                self.addLinkWidget.remove_select.setValue("")
+                self.addLinkWidget.remove_select.setVisible(false)
+            end
+        </script>
+    </windowclass>
+    <windowclass name="improvement_type_swap">
+        <sheetdata>
+            <label>
+                <anchored position="insidetopleft" offset="20,15"/>
+                <static> FROM </static>
+                <font>lcars_sheetlabel</font>
+            </label>
+            <label>
+                <anchored position="insidetopleft" offset="20,85"/>
+                <static> TO </static>
+                <font>lcars_sheetlabel</font>
+            </label>
+            <swap_list name="decreases" />
+            <swap_list name="increases">
+                <anchored offset="0,70"/>
+            </swap_list>
+            <windowlist name="list_selectors">
+                <class>improve_select</class>
+                <skipempty />
+                <anchored position="insidetopright" width="270" height="130" />
+                <invisible />
+            </windowlist>
+        </sheetdata>
+        <script>
+            function setTargetClass(targetClass)
+                self.targetClass = targetClass
+            end
+            function addScores(scores)
+                increases.setVisible(true)
+                decreases.setVisible(true)
+                for _, score in ipairs(scores) do
+                    local scoreUp = increases.createWindowWithClass(self.targetClass, "")
+                    local scoreDown = decreases.createWindowWithClass(self.targetClass, "")
+
+                    scoreUp.score.setStateText(0, string.upper(score), string.upper(score))
+                    scoreUp.score.setStateText(1, string.upper(score), string.upper(score))
+                    scoreUp.scoreName.setValue(string.lower(score))
+                    scoreDown.score.setStateText(0, string.upper(score), string.upper(score))
+                    scoreDown.score.setStateText(1, string.upper(score), string.upper(score))
+                    scoreDown.scoreName.setValue(string.lower(score))
+
+                    scoreDown.scoreVal.setValue(-1)
+                end
+
+            end
+
+            function setOptions(type)
+                list_selectors.setVisible(true)
+                self.addLinkWidget = list_selectors.createWindowWithClass(self.targetClass, getDatabaseNode().getNodeName())
+                self.addLinkWidget.select_button.setType(type)
+            end
+        </script>
+    </windowclass>
+
+
+    <!--  List types  -->
+    <template name="swap_list">
+        <windowlist >
+            <invisible />
+            <skipempty />
+            <class>score_toggle_button</class>
+            <anchored position="insidetopright" width="270" height="60" />
+            <columns>
+                <fillwidth />
+                <width>87</width>
+            </columns>
+            <script>
+                function handleChange(button)
+                    local show = (button.getValue() == 0)
+                    for _, b in ipairs(getWindows()) do
+                        if not(b.score == button) then
+                            b.score.setValue(0)
+                            b.score.setVisible(show)
+                            b.score.setEnabled(show)
+                        end
+                    end
+                end
+            </script>
+        </windowlist>
+    </template>
+
+
+    <!--  Button classes  -->
+
+    <windowclass name="score_toggle_button">
+        <sheetdata>
+            <genericcontrol>
+                <anchored position="insidetopleft" width="85" height="22" />
+            </genericcontrol>
+            <numbercontrol name="scoreVal">
+                <default>1</default>
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <invisible/>
+            </numbercontrol>
+            <stringcontrol name="scoreName">
+                <default>1</default>
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <invisible/>
+            </stringcontrol>
+            <buttoncontrol name="score">
+                <anchored position="insidetopleft" width="81" height="20" offset="2,1"/>
+                <state>
+                    <frame offset="2,0,2,0">lcars_buttonup</frame>
+                </state>
+                <state>
+                    <frame offset="2,0,2,0">lcars_buttondown</frame>
+                </state>
+                <font>lcars_sheetlabel</font>
+                <script>
+                    function onButtonPress()
+                        window.windowlist.handleChange(self)
+                    end
+                </script>
+            </buttoncontrol>
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="ref_link_compat_entry">
+        <sheetdata>
+            <windowreferencecontrol name="link">
+                <anchored position="insidetopleft" height="20" width="20"/>
+                <icon normal="button_link" pressed="button_link_down"/>
+            </windowreferencecontrol>
+            <stringcontrol name="label">
+                <anchored to="link" position="right" height="20" offset="5"/>
+                <invisible />
+                <readonly />
+                <script>
+                    function onValueChanged()
+                        self.setVisible(true)
+                        window.name.setVisible(false)
+                    end
+                </script>
+            </stringcontrol>
+            <stringcontrol name="name">
+                <anchored to="link" position="right" height="20" offset="5"/>
+                <invisible />
+                <readonly />
+                <script>
+                    function onValueChanged()
+                        self.setVisible(true)
+                        window.label.setVisible(false)
+                    end
+                </script>
+            </stringcontrol>
+            <formattedtextcontrol name="text">
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <invisible />
+            </formattedtextcontrol>
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="improve_select">
+        <sheetdata>
+            <genericcontrol>
+                <anchored position="insidetopleft" width="250" height="22" />
+            </genericcontrol>
+
+			<lcars_combobox name="remove_select">
+				<anchored position="insidetopleft" height="20" >
+                    <top offset="20"/>
+                    <right offset="-5"/>
+				</anchored>
+				<listdirection>down</listdirection>
+				<buttonoffset>0,3</buttonoffset>
+				<script>
+                    function setTalents(talents)
+                        local flatTalents = {}
+                        for _, talent in ipairs(talents) do
+                            table.insert(flatTalents, talent.label.getValue())
+                        end
+                        addItems(flatTalents)
+                    end
+				</script>
+			</lcars_combobox>
+            <windowlist name="target">
+                <anchored to="remove_select" position="belowleft"  width="100" height="20" offset="10,60"/>
+                <class>ref_link_compat_entry</class>
+                <skipempty />
+            </windowlist>
+            <lifepath_add_link_button name="select_button">
+                <anchored to="target" position="right" height="20" width="20" >
+                </anchored>
+                <script file="crew_support/scripts/improve_select_button.lua"/>
+            </lifepath_add_link_button>
+        </sheetdata>
+    </windowclass>
+</root>

@@ -1,0 +1,742 @@
+<root>
+    <template name="char_subwindow">
+        <subwindow >
+            <fastinit/>
+            <anchored to="rolls">
+                <top anchor="bottom" offset="30"/>
+                    <right anchor="right" offset="0" />
+                <left anchor="left" offset="0"/>
+                <bottom parent="" anchor="bottom" offset="-10"/>
+            </anchored>
+        </subwindow>
+    </template>
+    <template name="lp_step_window">
+        <subwindow name="contents">
+            <anchored width="475">
+                <top offset="0" />
+                <bottom offset="10" />
+                <left offset="0" />
+            </anchored>
+            <activate />
+            <fastinit />
+        </subwindow>
+    </template>
+    <template name="char_header_label">
+        <lcars_string_labeled >
+            <anchored height="20" width="60">
+                <top />
+                <left anchor="right" relation="relative" offset="5"/>
+            </anchored>
+        </lcars_string_labeled>
+    </template>
+
+
+    <template name="tag_label">
+        <label>
+            <readonly/>
+            <anchored height="22" position="aboveleft" offset="33,6" />
+            <font name="lcars_sheetlabel" />
+            <backcolor>ff000000</backcolor>
+            <margin>
+                <control>10,0,10,0</control>
+            </margin>
+        </label>
+    </template>
+    <template name="orange_tag_left">
+        <genericcontrol>
+            <frame name="field_orange_left" />
+            <anchored width="15" height="20">
+                <top />
+                <right anchor="left"  offset="-10"/>
+            </anchored>
+        </genericcontrol>
+    </template>
+    <template name="purple_tag_left">
+        <genericcontrol>
+            <frame name="field_purple_left" />
+            <anchored width="15" height="20">
+                <top />
+                <right anchor="left"  offset="-10"/>
+            </anchored>
+        </genericcontrol>
+    </template>
+    <template name="right_tag">
+        <genericcontrol>
+            <anchored height="20">
+                <top />
+                <left anchor="right" offset="10"/>
+                <right anchor="left" offset="-5" />
+            </anchored>
+        </genericcontrol>
+    </template>
+    <template name="left_tag">
+        <genericcontrol>
+            <anchored height="20">
+                <top />
+                <right anchor="left" offset="-10" />
+                <left anchor="right" offset="5"/>
+            </anchored>
+        </genericcontrol>
+    </template>
+    <template name="orange_tag_right">
+        <right_tag>
+            <frame name="field_orange_right" />
+        </right_tag>
+    </template>
+    <template name="purple_tag_right">
+        <right_tag>
+            <frame name="field_purple_right" />
+        </right_tag>
+    </template>
+    <template name="blue_tag_right">
+        <right_tag>
+            <frame name="field_blue_right" />
+        </right_tag>
+    </template>
+    <template name="blue_tag_right">
+        <right_tag>
+            <frame name="field_blue_right" />
+        </right_tag>
+    </template>
+    <template name="blue_tag_left">
+        <left_tag>
+            <frame name="field_blue_left" />
+        </left_tag>
+    </template>
+
+    <template name="white_tag_right_inset">
+        <genericcontrol>
+            <frame name="field_white_right" />
+            <anchored >
+                <top offset="1" />
+                <bottom offset="-1"  />
+                <left anchor="right" relation="relative" offset="11"/>
+                <right parent="" anchor="right" offset="-1" />
+            </anchored>
+        </genericcontrol>
+    </template>
+    <template name="char_label">
+        <label>
+            <font name="lcars_sheetlabel" />
+            <anchored height="20" >
+                <top offset="-2"/>
+                <right anchor="right" offset="-7"/>
+            </anchored>
+        </label>
+    </template>
+    <template name="char_label_tag">
+        <genericcontrol>
+<!--            <frame name="field_purple_left" offset="-5"/>-->
+            <frame name="field_mask_left" offset="-5"/>
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getMainColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrame(self, window.getDatabaseNode())
+                end
+            </script>
+            <anchored height="18" >
+                <top offset="1"/>
+                <left offset="10"/>
+                <right anchor="right" offset="-37"/>
+            </anchored>
+            <font name="lcars_sheetlabel" />
+        </genericcontrol>
+    </template>
+    <template name="generic_label_tag">
+        <genericcontrol>
+            <frame name="field_purple_left" offset="-5"/>
+            <anchored height="20" >
+                <top />
+                <left offset="10"/>
+                <right anchor="right" offset="-37"/>
+            </anchored>
+            <font name="lcars_sheetlabel" />
+        </genericcontrol>
+    </template>
+    <template name="att_value_frame">
+        <genericcontrol >
+            <anchored height="20" width="20" >
+                <top />
+                <right offset="-15"/>
+            </anchored>
+            <frame name="field_orange_right" />
+        </genericcontrol>
+    </template>
+    <template name="char_att_value_frame">
+        <genericcontrol >
+            <anchored height="20" width="20" >
+                <top />
+                <right offset="-15"/>
+            </anchored>
+            <frame name="field_mask_right" />
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
+                end
+            </script>
+        </genericcontrol>
+    </template>
+    <template name="score_button">
+        <buttoncontrol>
+            <anchored height="18" width="18" >
+                <top offset="1"/>
+                <right offset="-16"/>
+            </anchored>
+            <state>
+                <frame>field_white_right</frame>
+            </state>
+            <state>
+                <frame>field_orange_right</frame>
+            </state>
+            <script>
+                function onScoreSelect(val)
+                    if self.getValue() == 1 then
+                        self.setValue(0)
+                        window.windowlist.setModifier("", 0)
+                    else
+                        window.windowlist.clearSelections()
+                        self.setValue(1)
+                        window.windowlist.setModifier(window.label.getValue(), val)
+                    end
+                end
+            </script>
+        </buttoncontrol>
+    </template>
+
+    <template name="char_score_button">
+        <buttoncontrol >
+            <anchored height="18" width="18" >
+                <top offset="1"/>
+                <right offset="-16"/>
+            </anchored>
+            <state >
+                <frame>field_mask_right_white</frame>
+            </state>
+            <state >
+                <frame>field_mask_right</frame>
+            </state>
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
+                end
+                function onScoreSelect(val)
+                    if self.getValue() == 1 then
+                        self.setValue(0)
+                        window.windowlist.setModifier("", 0)
+                    else
+                        window.windowlist.clearSelections()
+                        self.setValue(1)
+                        window.windowlist.setModifier(window.label.getValue(), val)
+                    end
+                end
+            </script>
+        </buttoncontrol>
+    </template>
+    <template name="score_field">
+        <numberfield >
+            <anchored height="20" width="20" >
+                <top />
+                <right offset="-16"/>
+            </anchored>
+<!--            <frame name="field_white_right" />-->
+            <script>
+                function onClickDown()
+                    return true
+                end
+                function onClickRelease()
+                    window.selectButton.onScoreSelect(getValue())
+                    return true
+                end
+            </script>
+        </numberfield>
+    </template>
+    <template name="att_field">
+        <score_field>
+            <default>7</default>
+        </score_field>
+    </template>
+    <template name="disc_field">
+        <score_field>
+            <default>1</default>
+        </score_field>
+    </template>
+    <template name="scoreList">
+        <windowlist>
+            <anchored>
+                <top offset="30"/>
+                <bottom offset="-25"/>
+            </anchored>
+            <class>score_entry</class>
+            <skipempty />
+            <nodelete />
+            <noscroll />
+            <readonly />
+            <script>
+                function onInit()
+                    for idx, score in ipairs(self.scores()) do
+                        w = self.createWindow(window.getDatabaseNode())
+                        w.createControl(self.scoreClass(), string.lower(score))
+                        w.label.setValue(string.upper(score))
+                    end
+                end
+              function clearSelections()
+                for _, w in ipairs(self.getWindows()) do
+                    w.selectButton.setValue(0)
+                end
+              end
+                function setModifier(name, value)
+                    self.rollControl().setScore(name, value)
+                end
+            </script>
+        </windowlist>
+    </template>
+
+    <template name="talents_list">
+        <char_linked_list name="talents">
+          <datasource>.talents</datasource>
+            <anchored to="talents_color">
+                <left offset="5"/>
+                <top offset="30"/>
+                <right offset="-35"/>
+                <bottom offset="-25"/>
+            </anchored>
+          <frame name="lcars_frame_shape_right" offset="5,30,35,25"/>
+        </char_linked_list>
+    </template>
+
+    <template name="active_score_frame">
+        <genericcontrol>
+            <anchored  height="20" width="100">
+                <top anchor="bottom" offset="-20"/>
+                <left anchor="left" offset="31" />
+            </anchored>
+            <frame name="field_purple_right" />
+        </genericcontrol>
+    </template>
+    <template name="active_score">
+        <stringcontrol>
+            <readonly />
+            <anchored height="22" >
+                <top anchor="bottom" offset="3"/>
+                <right offset="-50"/>
+            </anchored>
+            <backcolor>ff000000</backcolor>
+            <font>lcars_sheetlabel</font>
+        </stringcontrol>
+    </template>
+    <template name="char_frame_color_alt">
+        <char_frame_color>
+            <script merge="replace">
+                function onInit()
+                    self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
+                end
+            </script>
+        </char_frame_color>
+    </template>
+    <template name="char_frame_color">
+        <genericcontrol>
+            <anchored >
+                <top anchor="bottom"  offset="4"/>
+                <right offset="-2"/>
+                <left offset="2"/>
+                <bottom />
+            </anchored>
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getMainColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrame(self, window.getDatabaseNode())
+                end
+            </script>
+        </genericcontrol>
+    </template>
+    <template name="char_ref_list">
+        <list_text name="list">
+            <skipempty/>
+          <datasource />
+            <newfocus>name</newfocus>
+              <sortby>
+                <control>name</control>
+              </sortby>
+            <anchored >
+                <left  offset="35"/>
+                <right  offset="-35"/>
+                <top offset="25" />
+                <bottom  offset="-25"/>
+            </anchored>
+            <frame name="lcars_frame_shape" offset="35,25,35,25"/>
+            <class>ref_note_item</class>
+          <child merge="delete"/>
+          <child merge="delete"/>
+          <script>
+            function onDrop(x,y,draginfo)
+              if draginfo.isType("shortcut") then
+                local class, datasource = draginfo.getShortcutData();
+                if class == "referencetext" or class == "note" or class == "item"
+                    or class == "weapon" or class == "referencemanualpage" then
+                  local entry = createWindow()
+                    DB.copyNode(draginfo.getDatabaseNode(), entry.getDatabaseNode())
+                end
+              end
+              return true;
+            end
+          </script>
+        </list_text>
+    </template>
+    <template name="char_linked_list">
+        <list_text name="list">
+          <datasource />
+            <newfocus>label</newfocus>
+              <sortby>
+                <control>label</control>
+              </sortby>
+            <anchored >
+                <left  offset="35"/>
+                <right  offset="-35"/>
+                <top offset="25" />
+                <bottom  offset="-25"/>
+            </anchored>
+            <frame name="lcars_frame_shape" offset="35,25,35,25"/>
+          <child merge="delete"/>
+          <child merge="delete"/>
+        <class>link_list_entry</class>
+          <script file="campaign/scripts/linked_list.lua"/>
+        </list_text>
+    </template>
+    <template name="char_focus_list">
+      <list_text name="focuses">
+        <anchored to="focuses_color">
+            <left offset="10"/>
+            <top offset="30"/>
+            <right offset="-35"/>
+            <bottom offset="-25"/>
+        </anchored>
+          <child merge="delete"/>
+          <child merge="delete"/>
+          <frame name="lcars_frame_shape_right" offset="10,30,35,25"/>
+          <datasource>.focuses</datasource>
+        <class>focus_entry</class>
+          <script>
+              function clearSelections()
+                for _, w in ipairs(self.getWindows()) do
+                    w.applyFocus.setValue(0)
+                end
+              end
+              function getSelected()
+                for _, w in ipairs(self.getWindows()) do
+                    if w.applyFocus.getValue() == 1 then return w.name end
+                end
+              end
+          </script>
+      </list_text>
+    </template>
+    <template name="char_ref_column_label">
+         <label>
+             <anchored  >
+                 <left anchor="right" relation="relative" offset="10"/>
+                 <top anchor="top" offset="-15" />
+             </anchored>
+			<font>lcars_sheetlabelmini</font>
+         </label>
+    </template>
+    <template name="lcars_color_pick">
+        <buttoncontrol>
+            <icon name="lcars_color_wheel" />
+            <pressed offset="1,1"/>
+            <script>
+                function onButtonPress()
+                    Interface.openWindow("color_pick", "");
+                end
+            </script>
+        </buttoncontrol>
+    </template>
+    <windowclass name="color_pick">
+        <placement>
+            <size width="150" height="20" />
+        </placement>
+        <nodelete />
+        <frame>recordsheet</frame>
+        <sheetdata>
+            <genericcontrol name="tlanchor">
+                <anchored position="insidetopleft" width="0" height="20"/>
+            </genericcontrol>
+            <stringcontrol name="color">
+                <anchored to="tlanchor" height="20" width="125">
+                    <top />
+                    <left anchor="right" relation="relative" />
+                </anchored>
+                <empty>Enter color code...</empty>
+            </stringcontrol>
+            <buttoncontrol name="control">
+                <anchored to="tlanchor" height="20" width="20">
+                    <top />
+                    <left anchor="right" relation="relative" offset="2"/>
+                </anchored>
+                <icon name="lcars_color_wheel" />
+                <pressed offset="1,1"/>
+                <script>
+                    source = nil
+                    function setSource(source) self.source = source end
+                    function onButtonPress()
+                        if ColorHandler.updateFrames(window.color.getValue()) then
+                            window.close()
+                        end
+                    end
+                </script>
+            </buttoncontrol>
+        </sheetdata>
+    </windowclass>
+    <template name="roll_dice_control">
+        <genericcontrol name="">
+            <frame name="field_orange_left" offset="2,2,2,2"/>
+            <icon name="d20bicon"/>
+            <anchored height="16" width="16">
+                <bottom offset="-1"/>
+                <left anchor="right" offset="20" />
+            </anchored>
+            <script file="campaign/scripts/rollTestControl.lua" />
+        </genericcontrol>
+    </template>
+	<template name="frame_char">
+        <genericcontrol >
+            <anchored >
+                <left  offset="35"/>
+                <right  offset="-35"/>
+                <top offset="25" />
+                <bottom  offset="-25"/>
+            </anchored>
+            <frame name="lcars_frame_shape" offset="35,25,35,25"/>
+        </genericcontrol>
+	</template>
+    <template name="char_dice_field">
+		<diefield>
+<!--			<stateframe>-->
+<!--				<drophilight name="fieldfocus" offset="-2,-2,-2,-2" hidereadonly="true" />-->
+<!--			</stateframe>-->
+			<droptypes>
+				<type>damage_roll</type>
+                <type>dice</type>
+			</droptypes>
+            <frame name="field_orange_right" />
+			<script>
+				---function onInit()
+				---	onValueChanged();
+				---end
+				---function onValueChanged()
+				---	if isEmpty() then
+				---		setFrame("orange_fielddice", 7,5,7,5);
+				---	else
+				---		setFrame("field_orange_right", 2,1,2,1);
+				---	end
+				---end
+                function onDrop(_, __, dragInfo)
+                    if dragInfo.getType() == 'dice' then
+                        local newDice = {}
+                        for i=1,#dragInfo.getDieList() do
+                            table.insert(newDice, {["type"]="dChallenge"})
+                        end
+                        dragInfo.setDieList(newDice)
+                    end
+                end
+                function onDragStart(button, x, y, dragInfo)
+                    dragInfo.setType("damage_roll")
+                    dragInfo.setDieList(getDice())
+                    return true
+                end
+			</script>
+		</diefield>
+    </template>
+    <template name="focus_select">
+        <combobox >
+            <anchored height="16" width="100"/>
+            <frame merge="delete"/>
+            <script>
+                function onInit()
+                    updateFocuses()
+                end
+                function getParent()
+                    return ScopeManager.getNodeAtDepth(window.getDatabaseNode().getNodeName(), 1)
+                end
+                function updateFocuses()
+                    clear()
+                    local items = {""}
+                    local parentNode = self.getParent()
+                    for _, focus in pairs(DB.getChildren(parentNode, "focuses")) do
+                        table.insert(items, DB.getValue(focus, "name"))
+                    end
+                    addItems(items)
+                end
+                function onClickDown(...)
+                    if not _bReadOnly then
+                        updateFocuses()
+                        return true;
+                    end
+                end
+            </script>
+        </combobox>
+    </template>
+    <template name="charsheet_tl_anchor">
+        <genericcontrol name="topLeft">
+            <anchored position="insidetopleft" offset="15, 0" />
+        </genericcontrol>
+    </template>
+    <template name="charsheet_tr_anchor">
+            <genericcontrol name="topRight">
+                <anchored position="insidetopright" offset="5, 0" />
+            </genericcontrol>
+    </template>
+    <template name="charsheet_c1_anchor">
+            <genericcontrol name="colOne">
+                <anchored position="insidetopleft" offset="210, 0" />
+            </genericcontrol>
+    </template>
+    <template name="charsheet_c2_anchor">
+            <genericcontrol name="colTwo">
+                <anchored position="insidetopleft" offset="400, 0" />
+            </genericcontrol>
+    </template>
+    <template name="charsheet_cl_anchor">
+            <genericcontrol name="centerLine">
+                <anchored position="insidetopleft" offset="300, 0" />
+            </genericcontrol>
+    </template>
+    <template name="charsheet_mr_anchor">
+            <genericcontrol name="middleRow">
+                <anchored position="insidetopleft" offset="90, 215" />
+            </genericcontrol>
+    </template>
+    <template name="charsheet_br_anchor">
+            <genericcontrol name="bottomRow">
+                <anchored position="insidetopleft" offset="90, 410" />
+            </genericcontrol>
+    </template>
+    <template name="char_single_field_label">
+       <label >
+           <anchored height="20" width="65">
+               <left />
+               <top anchor="bottom" relation="relative" offset="2"/>
+           </anchored>
+           <frame name="field_purple_left" offset="4,0,2,0"/>
+            <font name="sheetlabel_white" />
+       </label>
+    </template>
+    <template name="char_color_field_label">
+       <label >
+           <anchored height="20" >
+               <left />
+               <right />
+               <top anchor="bottom" relation="relative" offset="2"/>
+           </anchored>
+			<frame name="field_mask_left" />
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getMainColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrame(self, window.getDatabaseNode())
+                end
+            </script>
+            <font name="sheetlabel_white" />
+       </label>
+    </template>
+    <template name="char_single_field_label_h">
+        <char_color_field_label>
+            <anchored merge="replace" height="20">
+                <left anchor="right" relation="relative" offset="10"/>
+                <bottom offset="0"/>
+            </anchored>
+        </char_color_field_label>
+    </template>
+    <template name="char_single_toggle_field">
+        <buttonfield>
+           <anchored height="20" width="20">
+               <left anchor="right" offset="2"/>
+               <top />
+           </anchored>
+              <state>
+                  <frame>field_mask_right_white</frame>
+              </state>
+              <state>
+                  <frame>field_mask_right</frame>
+              </state>
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
+                end
+            </script>
+        </buttonfield>
+    </template>
+    <template name="npc_single_toggle_field">
+        <buttonfield>
+           <anchored height="20" width="20">
+               <left anchor="right" offset="2"/>
+               <top />
+           </anchored>
+              <state>
+                  <frame>field_purple_border_right</frame>
+              </state>
+              <state>
+                  <frame>field_red_right</frame>
+              </state>
+        </buttonfield>
+    </template>
+    <template name="char_single_number_field">
+        <numberfield>
+           <anchored height="20" width="20">
+               <left anchor="right" offset="2"/>
+               <top />
+           </anchored>
+           <frame name="field_purple_border_right" />
+        </numberfield>
+    </template>
+    <template name="char_color_single_number_field">
+        <char_single_number_field>
+            <frame name="field_mask_right_white" />
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
+                end
+            </script>
+        </char_single_number_field>
+    </template>
+    <template name="char_single_number_field_h">
+        <char_color_single_number_field>
+          <anchored merge="replace" height="20" width="20">
+              <left anchor="right" relation="relative" offset="2"/>
+                <bottom offset="0"/>
+          </anchored>
+        </char_color_single_number_field>
+    </template>
+
+   <!-- Link Text Item -->
+  <windowclass name="link_list_entry">
+    <margins control="0,0,0,2"/>
+    <sheetdata>
+      <genericcontrol name="rightanchor">
+        <anchored width="0" height="0">
+          <top/>
+          <right/>
+        </anchored>
+      </genericcontrol>
+      <button_idelete name="idelete">
+        <anchored>
+          <top/>
+          <right offset="-5" relation="relative" anchor="left" parent="rightanchor"/>
+        </anchored>
+      </button_idelete>
+      <string_textlistitem name="label">
+        <anchored height="22">
+          <top />
+          <left offset="22"/>
+          <right offset="-10" relation="relative" anchor="left" parent="rightanchor"/>
+        </anchored>
+          <font>lcars_sheettext</font>
+      </string_textlistitem>
+      <linkfield name="link">
+        <anchored to="label" position="left" offset="2" width="15" height="15"/>
+      </linkfield>
+    </sheetdata>
+  </windowclass>
+</root>

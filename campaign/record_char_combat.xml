@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="charsheet_combat" >
+      <sheetdata>
+            <charsheet_tl_anchor/>
+            <charsheet_tr_anchor/>
+            <charsheet_c1_anchor/>
+            <charsheet_mr_anchor/>
+            <charsheet_br_anchor/>
+
+        <!--     Stress       -->
+            <char_frame_color name="stress_color">
+                <anchored height="120">
+                    <top parent="topLeft" />
+                    <left parent="topLeft" />
+                    <right parent="colOne" />
+                    <bottom merge="delete"/>
+                </anchored>
+            </char_frame_color>
+            <frame_char name="stress_frame">
+                <anchored to="stress_color" />
+            </frame_char>
+        <tag_label name="stress_label">
+            <anchored to="stress_frame" offset="35,6" />
+            <static textres="char_label_stress"/>
+        </tag_label>
+            <char_color_single_number_field name="maxstress" >
+                <anchored to="stress_label" height="19">
+                  <top offset="3"/>
+                  <left offset="0"/>
+                </anchored>
+                <default>8</default>
+            </char_color_single_number_field>
+        <buttongroup_counter name="stresscounter">
+            <anchored to="stress_frame" position="over"/>
+            <stateicons>
+              <on>button_link</on>
+              <off>button_link_empty</off>
+            </stateicons>
+            <spacing>18</spacing>
+            <allowsinglespacing/>
+            <maxslotperrow>7</maxslotperrow>
+            <sourcefields>
+              <maximum>maxstress</maximum>
+              <current>curstress</current>
+            </sourcefields>
+      </buttongroup_counter>
+        <tag_label name="dead_label">
+            <anchored to="stresscounter" position="insidebottomright" offset="27,-25"/>
+            <static> DEAD </static>
+            <gmvisibleonly/>
+        </tag_label>
+          <char_single_toggle_field name="dead">
+              <anchored to="dead_label" height="19">
+                  <top offset="3"/>
+                  <left offset="0"/>
+              </anchored>
+            <gmvisibleonly/>
+            <gmeditonly />
+          </char_single_toggle_field>
+
+<!--          Attack Rolls  -->
+            <char_frame_color name="attack_color">
+                <anchored >
+                    <left parent="colOne" />
+                    <right parent="topRight"/>
+                    <top parent="topLeft" />
+                    <bottom parent="middleRow" />
+                </anchored>
+            </char_frame_color>
+      <char_ref_list name="attack_rolls">
+          <datasource>.attack_rolls</datasource>
+            <anchored to="attack_color">
+                <top offset="30"/>
+            </anchored>
+          <frame offset="35,30,35,25"/>
+            <class>attack_roll_entry</class>
+          <sortby>
+              <control>name</control>
+          </sortby>
+      </char_ref_list>
+        <tag_label name="attack_rolls_label">
+            <anchored to="attack_rolls" offset="33,11"/>
+            <static textres="char_label_attack_rolls"/>
+        </tag_label>
+        <scrollbar_list>
+            <anchored to="attack_rolls" />
+            <target>attack_rolls</target>
+        </scrollbar_list>
+
+          <genericcontrol name="attack_label_anchor">
+              <anchored to="attack_rolls" position="insidetopleft" />
+          </genericcontrol>
+         <char_ref_column_label>
+             <anchored to="attack_label_anchor" width="35" >
+                 <left offset="2"/>
+             </anchored>
+             <static>Roll</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="attack_label_anchor" width="150"/>
+             <static>Name</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="attack_label_anchor" width="150"/>
+             <static>Focus</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="attack_label_anchor" width="25"/>
+             <static>Type</static>
+         </char_ref_column_label>
+
+
+
+<!--Resistance and injuries-->
+        <char_color_field_label name="resistance_label">
+           <static> Resistance</static>
+            <anchored >
+                <top relation="absolute" parent="stress_frame" offset="30"/>
+                <left parent="topLeft" offset="4"/>
+                <right parent="stress_frame" anchor="center" offset="-24"/>
+            </anchored>
+        </char_color_field_label>
+          <char_color_single_number_field name="resistance">
+            <anchored to="resistance_label"/>
+          </char_color_single_number_field>
+
+        <char_color_field_label name="injured_label">
+           <static> Injured</static>
+            <anchored to="resistance_label"/>
+        </char_color_field_label>
+          <char_single_toggle_field name="injured">
+            <anchored to="injured_label"/>
+          </char_single_toggle_field>
+
+
+
+        <char_color_field_label name="avoided_label">
+           <static> Avoided</static>
+            <anchored >
+                <top relation="absolute" parent="stress_frame" offset="30"/>
+                <left parent="stress_frame" anchor="center" offset="2"/>
+                <right parent="colOne" offset="-25"/>
+            </anchored>
+        </char_color_field_label>
+          <char_single_toggle_field name="avoided">
+            <anchored to="avoided_label"/>
+          </char_single_toggle_field>
+
+        <char_color_field_label name="ignored_label">
+           <static> Ignored</static>
+              <anchored to="avoided_label"/>
+        </char_color_field_label>
+          <char_single_toggle_field name="ignored">
+              <anchored to="ignored_label"/>
+          </char_single_toggle_field>
+
+
+        <char_color_field_label name="recover_label">
+           <static> Recover</static>
+            <anchored >
+                <top parent="avoided_label" anchor="bottom" offset="2"/>
+                <left parent="resistance_label" />
+                <right parent="stress_frame" anchor="center" offset="-24"/>
+            </anchored>
+        </char_color_field_label>
+
+        <roll_dice_control name="roll_recovery">
+            <anchored merge="replace" to="recover_label" height="20" width="20">
+               <left anchor="right" relation="relative" offset="0"/>
+               <top />
+            </anchored>
+            <script>
+                function getScoreMod()
+                    local att, disc = self.getScore("Fitness"), self.getScore("Command")
+                    return self.formatMod(att, "Fitness", disc, "Command", 2, window.recovery_focus)
+                end
+                function onInit()
+                    self.setBackColor(ColorHandler.getMainColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrame(self, window.getDatabaseNode())
+                end
+            </script>
+            <frame merge="delete"/>
+        </roll_dice_control>
+          <focus_select name="recovery_focus">
+              <anchored merge="replace" to="recover_label" height="20" >
+               <left anchor="right" relation="relative" offset="0"/>
+               <top />
+                <right parent="colOne" offset="0"/>
+              </anchored>
+                <frame name="field_mask_right_white" />
+                <script>
+                    function onInit()
+                        self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
+                        ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
+                    end
+                </script>
+              <backcolor merge="delete"/>
+          </focus_select>
+
+        <char_color_field_label name="first_aid_label">
+           <static> First Aid</static>
+            <anchored >
+                <top parent="recover_label" anchor="bottom" offset="2"/>
+                <left parent="resistance_label" />
+                <right parent="stress_frame" anchor="center" offset="-24"/>
+            </anchored>
+        </char_color_field_label>
+        <roll_dice_control name="roll_first_aid">
+            <anchored merge="replace" to="first_aid_label" height="20" width="20">
+               <left anchor="right" relation="relative" offset="0"/>
+               <top />
+            </anchored>
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getMainColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrame(self, window.getDatabaseNode())
+                end
+                function getScoreMod()
+                    local att, disc = self.getScore("Daring"), self.getScore("Medicine")
+                    return self.formatMod(att, "Daring", disc, "Medicine", 1, window.first_aid_focus)
+                end
+            </script>
+            <frame merge="delete"/>
+        </roll_dice_control>
+          <focus_select name="first_aid_focus">
+              <anchored merge="replace" to="first_aid_label" height="20" >
+               <left anchor="right" relation="relative" offset="0"/>
+               <top />
+                <right parent="colOne" offset="0"/>
+              </anchored>
+                <frame name="field_mask_right_white" />
+                <script>
+                    function onInit()
+                        self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
+                        ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
+                    end
+                </script>
+              <backcolor merge="delete"/>
+          </focus_select>
+
+<!--     Weapons       -->
+            <char_frame_color_alt name="weapons_color">
+                <anchored >
+                    <left parent="topLeft" />
+                    <right parent="topRight"/>
+                    <top parent="middleRow" />
+                    <bottom parent="" />
+                </anchored>
+            </char_frame_color_alt>
+        <char_ref_list name="weapons">
+          <datasource>.weapons</datasource>
+            <anchored to="weapons_color">
+                <top offset="30"/>
+            </anchored>
+              <frame offset="35,30,35,25"/>
+                <class>weapon_entry</class>
+            </char_ref_list>
+        <tag_label name="weapons_label">
+            <anchored  to="weapons" offset="33,11"/>
+            <static textres="char_label_weapons"/>
+        </tag_label>
+        <scrollbar_list>
+            <anchored to="weapons" />
+            <target>weapons</target>
+        </scrollbar_list>
+
+          <genericcontrol name="weapon_label_anchor">
+              <anchored to="weapons" position="insidetopleft" />
+          </genericcontrol>
+         <char_ref_column_label>
+             <anchored to="weapon_label_anchor" width="85" />
+             <static>Name</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="weapon_label_anchor" width="70"/>
+             <static>Type/Range</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="weapon_label_anchor" width="80"/>
+             <static>Damage</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="weapon_label_anchor" width="100"/>
+             <static>Qualities</static>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="weapon_label_anchor" >
+                 <right parent="" />
+             </anchored>
+             <static>Cost</static>
+         </char_ref_column_label>
+
+      </sheetdata>
+  </windowclass>
+
+    <windowclass name="weapon">
+        <frame name="recordsheet"/>
+		<placement>
+			<size width="350" height="400" />
+		</placement>
+		<sizelimits>
+			<minimum width="350" height="400" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_item</minimize>
+		<nodelete />
+		<playercontrol />
+		<sharable />
+		<tooltip field="name" />
+        <sheetdata>
+			<sub_record_header name="header">
+				<class>item_header</class>
+			</sub_record_header>
+
+            <frame_record_content name="contentframe" />
+
+			<subwindow_record name="main">
+				<class>weapon_main</class>
+				<activate />
+			</subwindow_record>
+
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
+
+			<resize_recordsheet />
+			<close_recordsheet />
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="weapon_main">
+        <sheetdata>
+			<anchor_column name="columnanchor" />
+
+			<label_column name="damage_label" >
+				<static textres="weapon_label_damage" />
+			</label_column>
+            <char_dice_field name="damage">
+                <anchored merge="replace" height="20">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+                    <left offset="97" />
+                    <right offset="-5" />
+                </anchored>
+            </char_dice_field>
+            
+			<label_column name="qualities_label">
+				<static textres="weapon_label_qualities" />
+			</label_column>
+			<string_columnh name="qualities" />
+            
+			<line_column name="divider" />
+            
+			<label_column name="cost_label">
+				<static textres="weapon_label_cost" />
+			</label_column>
+			<string_columnh name="cost" />
+
+			<label_column name="size_label">
+				<static textres="weapon_label_size" />
+			</label_column>
+			<string_columnh name="size" />
+
+			<label_column name="type_label">
+				<static textres="weapon_label_type" />
+			</label_column>
+            <weapon_type name="type">
+                <anchored merge="replace" width="20" height="20">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+                    <left offset="97" />
+                </anchored>
+            </weapon_type>
+
+			<label_column name="range_label">
+				<static textres="weapon_label_range" />
+			</label_column>
+            <weapon_range name="range">
+                <anchored merge="replace" width="20" height="20">
+                    <top parent="columnanchor" anchor="bottom" relation="relative" offset="7" />
+                    <left offset="97" />
+                </anchored>
+            </weapon_range>
+
+
+			<line_column name="divider2" />
+			<ft_columnh name="notes" />
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="weapon_entry">
+        <sheetdata>
+            <genericcontrol name="leftanchor">
+                <anchored position="insidetopleft" height="20"/>
+            </genericcontrol>
+            <string_textlistitem name="name">
+                <anchored width="90" height="15">
+                    <top offset="2"/>
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="25"/>
+                </anchored>
+                <font>lcars_sheetlabelmini</font>
+            </string_textlistitem>
+          <linkcontrol_id name="shortcut">
+            <anchored to="name" position="left" offset="2" width="15" height="15"/>
+            <class>weapon</class>
+                <readonly />
+          </linkcontrol_id>
+            <weapon_type name="type">
+                <frame name="field_mask_left" />
+                <script>
+                    function onInit()
+                        self.setBackColor(ColorHandler.getMainColor(window.windowlist.window.getDatabaseNode()))
+                        ColorHandler.registerColorFrame(self, window.windowlist.window.getDatabaseNode())
+                    end
+                    function onClose()
+                        ColorHandler.unregisterColorFrame(self, window.windowlist.window.getDatabaseNode())
+                    end
+                </script>
+            </weapon_type>
+            <weapon_range name="range" />
+
+            <char_dice_field name="damage">
+                <anchored width="90" height="15">
+                    <top offset="2"/>
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="2"/>
+                </anchored>
+                <frame name="field_mask_right" />
+                <script>
+                    function onInit()
+                        self.setBackColor(ColorHandler.getAltColor(window.windowlist.window.getDatabaseNode()))
+                        ColorHandler.registerColorFrameAlt(self, window.windowlist.window.getDatabaseNode())
+                    end
+                    function onClose()
+                        ColorHandler.unregisterColorFrameAlt(self, window.windowlist.window.getDatabaseNode())
+                    end
+                </script>
+            </char_dice_field>
+            <string_textlistitem name="qualities">
+                <anchored width="100" height="15">
+                    <top offset="2"/>
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="10"/>
+                </anchored>
+                <font>lcars_sheetlabelmini</font>
+            </string_textlistitem>
+            <string_textlistitem name="cost">
+                <anchored  height="15">
+                    <top offset="2"/>
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="10"/>
+                    <right parent="" />
+                </anchored>
+                <font>lcars_sheetlabelmini</font>
+            </string_textlistitem>
+        </sheetdata>
+    </windowclass>
+
+    <template name="weapon_type">
+        <buttonfield >
+            <anchored width="20" height="15">
+                <top offset="2"/>
+                <left parent="leftanchor" anchor="right" relation="relative" offset="5"/>
+            </anchored>
+            <state>
+                <icon>phaser_icon</icon>
+            </state>
+            <state>
+                <icon>knife_icon</icon>
+            </state>
+            <state>
+                <icon>beam_icon</icon>
+            </state>
+            <state>
+                <icon>torpedo_icon</icon>
+            </state>
+        </buttonfield>
+    </template>
+
+    <template name="weapon_range">
+
+        <buttonfield >
+            <anchored width="20" height="15">
+                <top offset="2"/>
+                <left parent="leftanchor" anchor="right" relation="relative" offset="2"/>
+            </anchored>
+            <font>lcars_sheetlabelmini</font>
+            <backcolor>ff60a473</backcolor>
+            <state>
+                <text>C</text>
+            </state>
+            <state>
+                <text>M</text>
+            </state>
+            <state>
+                <text>L</text>
+            </state>
+            <script>
+                function onInit() self.setColor() end
+                function onValueChanged() self.setColor() end
+                function setColor()
+                    if self.getValue() == 0 then
+                        self.setBackColor("ff60a473");
+                    elseif self.getValue() == 1 then
+                        self.setBackColor("ffe7cd6f");
+                    elseif self.getValue() == 2 then
+                        self.setBackColor("fff99d25");
+                    end
+                end
+            </script>
+        </buttonfield>
+    </template>
+
+    <windowclass name="attack_roll_entry">
+        <sheetdata>
+            <roll_dice_control name="roll_attack">
+                <anchored merge="replace" position="insidetopleft" width="18" height="16" />
+                <script>
+                    function onInit()
+                        self.setBackColor(ColorHandler.getMainColor(window.windowlist.window.getDatabaseNode()))
+                        ColorHandler.registerColorFrame(self, window.windowlist.window.getDatabaseNode())
+                    end
+                    function onClose()
+                        ColorHandler.unregisterColorFrame(self, window.windowlist.window.getDatabaseNode())
+                    end
+                    function getScoreMod()
+                        return self.getAttackMod(window.attack_type.getValue(), window.name.getValue(), window.linked_focus)
+                    end
+                    function getScore(scoreName)
+                        local rootNode = window.getDatabaseNode().getParent().getParent()
+                        return DB.getValue(rootNode, string.lower(scoreName))
+                    end
+                </script>
+                <frame name="field_mask_left" merge="replace"/>
+            </roll_dice_control>
+            <numbercontrol name="rollDC">
+                <default>1</default>
+                <min>0</min>
+                <max>5</max>
+                <anchored to="roll_attack" width="16" height="18">
+                    <bottom offset="1"/>
+                    <left anchor="right" offset="0"/>
+                </anchored>
+                <frame name="field_white_right" />
+            </numbercontrol>
+            <combobox name="name">
+                <anchored position="insidetopleft" offset="40,1" height="16"  width="125"/>
+                <script>
+                    function onInit()
+                        updateWeapons()
+                        self.setBackColor(ColorHandler.getMainColor(window.windowlist.window.getDatabaseNode()))
+                        ColorHandler.registerColorFrame(self, window.windowlist.window.getDatabaseNode())
+                    end
+                    function onClose()
+                        ColorHandler.unregisterColorFrame(self, window.windowlist.window.getDatabaseNode())
+                    end
+                    function onClickDown(...)
+                        if not _bReadOnly then
+                            updateWeapons()
+                            return true;
+                        end
+                    end
+                    function updateWeapons()
+                        clear()
+                        local items = {}
+                        local parentNode = DB.getParent(window.windowlist.getDatabaseNode())
+                        for _, weapon in pairs(DB.getChildren(parentNode, "weapons")) do
+                            table.insert(items, DB.getValue(weapon, "name"))
+                        end
+                        addItems(items)
+                    end
+                </script>
+                <frame merge="replace" name="field_empty" />
+<!--              <frame>-->
+<!--                  <name>field_orange_left</name>-->
+<!--                  <offset >7,0,0,0</offset>-->
+<!--              </frame>-->
+            </combobox>
+            <focus_select name="linked_focus">
+                <anchored merge="replace" to="name" position="right" height="16" offset="2">
+                    <top />
+                    <right parent="" offset="-25"/>
+                </anchored>
+                <script>
+                    function onInit()
+                        updateFocuses()
+                        self.setBackColor(ColorHandler.getAltColor(window.windowlist.window.getDatabaseNode()))
+                        ColorHandler.registerColorFrameAlt(self, window.windowlist.window.getDatabaseNode())
+                    end
+                    function onClose()
+                        ColorHandler.unregisterColorFrameAlt(self, window.windowlist.window.getDatabaseNode())
+                    end
+                    function getParent()
+                        return window.getDatabaseNode().getParent().getParent()
+                    end
+                </script>
+            </focus_select>
+            <buttonfield name="attack_type">
+                <invisible />
+                <anchored to="linked_focus" position="right" offset="2,0"  width="16" height="16" />
+                <state>
+                    <frame offset="2,2,2,2">field_yellow_right</frame>
+                    <icon>phaser_icon</icon>
+                </state>
+                <state>
+                    <frame offset="2,2,2,2">field_orange_right</frame>
+                    <icon>ship_icon</icon>
+                </state>
+                <script>
+                    function onValueChanged()
+                        window.name.setValue("")
+                        window.linked_focus.setValue("")
+                    end
+                </script>
+            </buttonfield>
+        </sheetdata>
+    </windowclass>
+</root>

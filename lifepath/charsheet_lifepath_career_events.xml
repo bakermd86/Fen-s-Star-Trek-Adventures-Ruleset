@@ -1,0 +1,142 @@
+<root>
+	<windowclass name="charsheet_lifepath_career_events">
+		<sheetdata>
+			<lp_step_window name="contents">
+				<class>charsheet_lifepath_career_events_contents</class>
+			</lp_step_window>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="charsheet_lifepath_career_events_contents">
+		<script file="lifepath/scripts/lifepath_career_events.lua" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />			
+
+			<tab_title_frame name="career_events_label"/>
+			
+			<tab_content_frame name="lifepath_career_events_frame">
+				<anchored>
+					<top parent="career_events_label" />
+				</anchored>
+			</tab_content_frame>
+
+			<step_mode_control name="lifepath_career_events_genmethod">
+				<anchored to="career_events_label" position="insideleft" offset="5,-5" />
+				<script file="lifepath/mode_scripts/lifepath_career_events_mode_select.lua" />
+			</step_mode_control>
+			
+			<label name="lifepath_career_events_name_manual_label">
+				<invisible />
+				<static>Career Events:</static>
+				<anchored to="lifepath_career_events_genmethod" position="right" offset="3" width="85" />
+			</label>
+			
+			<stringcontrol name="lifepath_career_events1_name_manual">
+				<anchored to="lifepath_career_events_name_manual_label" position="right" width="150" offset="5"/>
+				<invisible />
+				<lineoffset default="on" mergerule="replace">1</lineoffset>
+				<script>
+					function onValueChanged()
+						window.updateManualEvents()
+					end
+				</script>
+			</stringcontrol>
+
+			<stringcontrol name="lifepath_career_events2_name_manual">
+				<anchored to="lifepath_career_events1_name_manual" position="right" width="150" offset="5"/>
+				<invisible />
+				<lineoffset default="on" mergerule="replace">1</lineoffset>
+				<script>
+					function onValueChanged()
+						window.updateManualEvents()
+					end
+				</script>
+			</stringcontrol>
+
+			<roll_button_control name="lifepath_career_events_roll_button">
+				<anchored to="lifepath_career_events_genmethod" position="right"/>
+				<script>
+					function onInit()
+						self.genmethod = window.lifepath_career_events_genmethod
+					end
+					function getStep()
+						return 6
+					end
+				</script>
+				<tooltip textres="lifepath_roll_career_events" />
+			</roll_button_control>
+			
+			<label name="lifepath_career_events_roll_label">
+				<static textres="lifepath_roll_career_events" />
+				<anchored to="lifepath_career_events_roll_button" position="right" width="150" offset="5"/>
+				<readonly />
+			</label>
+
+			<lifepath_select_control_frame/>
+			<lifepath_select_control name="lifepath_career_events_attribute_select">
+				<script>
+					function getCounter()
+						return ScopeManager.getCareerEventsTab().attribute_selection_count
+					end
+					function getStep()
+						return 6
+					end
+				</script>
+			</lifepath_select_control>
+			
+			<numbercontrol name="attribute_selection_count">
+				<anchored to="lifepath_career_events_attribute_select" position="insidetopright" offset="0,0" width="20" height="20" />
+				<readonly />
+				<default>2</default>
+			</numbercontrol>
+			<label name="attribute_select_remain">
+				<anchored to="attribute_selection_count" position="left" relation="relative" />
+				<default>Attributes:</default>
+			</label>
+
+			<lifepath_select_control_frame/>
+			<lifepath_select_control name="lifepath_career_events_discipline_select">
+				<script>
+					function getCounter()
+						return ScopeManager.getCareerEventsTab().discipline_selection_count
+					end
+					function getStep()
+						return 6
+					end
+				</script>
+			</lifepath_select_control>
+			
+			<numbercontrol name="discipline_selection_count">
+				<anchored to="lifepath_career_events_discipline_select" position="insidetopright" offset="0,0" width="20" height="20" />
+				<readonly />
+				<default>2</default>
+			</numbercontrol>
+			<label name="discipline_select_remain">
+				<anchored to="discipline_selection_count" position="left" relation="relative" />
+				<default>Disciplines:</default>
+			</label>
+
+			<lifepath_add_link_frame/>
+			<lifepath_add_link_list name="lifepath_career_events_select_frame">
+				<script>
+					function createControls()
+						self.addControl("focus", 6);
+						self.addControl("focus", 6);
+					end
+				</script>
+			</lifepath_add_link_list>
+
+
+			<ref_list_frame >
+				<anchored  to="lifepath_career_events_select_frame">
+					<bottom parent="lifepath_career_events_frame" />
+				</anchored>
+			</ref_list_frame>
+			<tab_ref_list name="lifepath_career_events_ref">
+				<anchored  to="lifepath_career_events_select_frame">
+					<bottom parent="lifepath_career_events_frame" />
+				</anchored>
+			</tab_ref_list>
+		</sheetdata>
+	</windowclass>	
+</root>

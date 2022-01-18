@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+	<windowclass name="lifepath_define_career">
+		<backcolor>ff8474b8</backcolor>
+		<nodelete />
+		<script file="lifepath_define/scripts/lifepath_define_career.lua" />
+        <sheetdata>
+			<define_step_header name="header">
+				<anchored>
+					<left />
+					<right offset="-60"/>
+				</anchored>
+			</define_step_header>
+			<stringfield name="results.id-00003.result">
+				<anchored position="insidetopleft" height="0" width="0"/>
+				<script>
+					function onValueChanged()
+						window.base_age.setValue(getValue())
+					end
+				</script>
+				<default>25</default>
+			</stringfield>
+			<numbercontrol name="base_age">
+				<anchored to="header" height="20" width="20">
+					<left anchor="right" offset="15"/>
+					<bottom/>
+				</anchored>
+				<frame name="fielddark" offset="8,5,5,5"/>
+				<default>25</default>
+				<script>
+					function onValueChanged()
+						window["results.id-00003.result"].setValue(getValue())
+					end
+				</script>
+			</numbercontrol>
+			<label>
+				<anchored to="header" height="20">
+					<top offset="5" />
+					<left anchor="right"/>
+					<right parent="" />
+				</anchored>
+                <font>lcars_sheetlabelmini</font>
+				<static> Base Age </static>
+			</label>
+
+			<define_step_col_anchor name="columnanchor" />
+			<define_step_button_anchor name="button_anchor" />
+
+			<mode_select_control name="talent_select_mode"/>
+			<step_counter name="step_num">
+				<default>5</default>
+			</step_counter>
+
+			<define_step_mode_button_label>
+				<static> Talent Mode: </static>
+				<anchored to="button_anchor" width="100"/>
+			</define_step_mode_button_label>
+
+			<lifepath_table_mode_button name="career_talent_mode_any" >
+				<anchored width="40"/>
+				<state>
+					<text> Any </text>
+				</state>
+				<script>
+					function onInit()
+						self.count = 0
+						self.resNode = window.getDatabaseNode().getChild("results").createChild("id-00002")
+						self.callback = window.resetTalentSelect
+					end
+					function onFirstLayout()
+						self.onButtonPress()
+					end
+				</script>
+			</lifepath_table_mode_button>
+
+			<lifepath_table_mode_button name="career_talent_mode_fixed" >
+				<anchored width="100"/>
+				<state>
+					<text> Specific Talent </text>
+				</state>
+				<script>
+					function onInit()
+						self.count = 1
+						self.resNode = window.getDatabaseNode().getChild("results").createChild("id-00002")
+						self.callback = window.resetTalentSelect
+					end
+				</script>
+			</lifepath_table_mode_button>
+
+			<lifepath_table_separator>
+				<anchored to="button_anchor" />
+			</lifepath_table_separator>
+			<button_lifepath_table_add_row name="add_button">
+				<anchored to="button_anchor" />
+			</button_lifepath_table_add_row>
+			<button_lifepath_table_discard_row name="discard_button"/>
+
+			<define_step_subwindow name="talent_define_subwindow">
+				<class>lifepath_define_talent_window</class>
+			</define_step_subwindow>
+
+			discipline<define_step_text_field name="stepNote.text" />
+        </sheetdata>
+    </windowclass>
+</root>

@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!--	Logo 	-->
+	<icon name="fen_sta_logo" file="graphics/icons/fen_sta_logo.png" />
+
+	<!-- Buttons -->
+	<icon name="button_star" file="graphics/buttons/button_star.png" />
+	<icon name="button_star_down" file="graphics/buttons/button_star_down.png" />
+
+	<icon name="tab_scene1" file="graphics/icons/tab_scene1.png"/>
+	<icon name="tab_scene2" file="graphics/icons/tab_scene2.png"/>
+	<icon name="tab_scene3" file="graphics/icons/tab_scene3.png"/>
+	<icon name="tab_scene4" file="graphics/icons/tab_scene4.png"/>
+	<icon name="tab_scene5" file="graphics/icons/tab_scene5.png"/>
+	<icon name="tab_scenes" file="graphics/icons/tab_scenes.png"/>
+	<icon name="tab_aliens" file="graphics/icons/tab_aliens.png"/>
+	<icon name="tab_improvements" file="graphics/icons/tab_improvements.png"/>
+	<icon name="tab_players" file="graphics/tabs/tab_players.png"/>
+	<icon name="tab_npcs" file="graphics/tabs/tab_npcs.png"/>
+	<icon name="tab_support" file="graphics/tabs/tab_support.png"/>
+
+<!--	<icon name="button_link_empty" file="graphics/icons/button_link_empty.png"/>-->
+<!--	<icon name="button_link" file="graphics/icons/button_link.png"/>-->
+	<icon name="lcars_color_wheel" file="graphics/icons/lcars_color_wheel.png"/>
+	<icon name="st_icon_check" file="graphics/icons/st_icon_check.png"/>
+	<icon name="st_icon_red_x" file="graphics/icons/st_icon_red_x.png"/>
+	<icon name="phaser_icon" file="graphics/icons/phaser_icon.png"/>
+	<icon name="ship_icon" file="graphics/icons/ship_icon.png"/>
+	<icon name="knife_icon" file="graphics/icons/knife_icon.png"/>
+	<icon name="beam_icon" file="graphics/icons/beam_icon.png"/>
+	<icon name="torpedo_icon" file="graphics/icons/torpedo_icon.png"/>
+	<icon name="button_link" file="graphics/buttons/button_link.png" />
+	<icon name="button_link_down" file="graphics/buttons/button_link_down.png" />
+	<icon name="button_link_empty" file="graphics/buttons/button_link_empty.png" />
+	<icon name="button_score_up" file="graphics/buttons/button_score_up.png" />
+	<icon name="button_score_down" file="graphics/buttons/button_score_down.png" />
+
+	<icon name="dSTAicon" file="graphics/dice/dSTA6icon.png" />
+	<icon name="dSTAicon.1" file="graphics/dice/dSTA6/dSTA6.1.png" />
+	<icon name="dSTAicon.2" file="graphics/dice/dSTA6/dSTA6.2.png" />
+	<icon name="dSTAicon.3" file="graphics/dice/dSTA6/dSTA6.3.png" />
+	<icon name="dSTAicon.4" file="graphics/dice/dSTA6/dSTA6.4.png" />
+	<icon name="dSTAicon.5" file="graphics/dice/dSTA6/dSTA6.5.png" />
+	<icon name="dSTAicon.6" file="graphics/dice/dSTA6/dSTA6.6.png" />
+
+
+	<!--	Charsheet replacement graphics	-->
+	<icon name="tabtop" file="graphics/tabs/tabtop.png" />
+	<icon name="black_pip" file="graphics/icons/black_pip.png" />
+	<icon name="gold_pip" file="graphics/icons/gold_pip.png" />
+	
+	<framedef name="lcars_buttondown">
+		<bitmap file="graphics/frames/lcars_buttondown.png" />
+		<offset>11,9,15,9</offset>
+	</framedef>
+	<framedef name="lcars_buttonup">
+		<bitmap file="graphics/frames/lcars_buttonup.png" />
+		<offset>11,9,15,9</offset>
+	</framedef>
+	<framedef name="buttondisabled">
+		<bitmap file="graphics/frames/buttondisabled.png" />
+		<offset>11,16,15,16</offset>
+	</framedef>
+
+	<!--  LCARS graphics  -->
+	<framedef name="lcars_lifepath_frame">
+		<bitmap file="graphics/frames/lcars_lifepath_frame.png" />
+		<offset>573,65,52,55</offset>
+	</framedef>
+	<framedef name="lcars_lifepath_alerts">
+		<bitmap file="graphics/frames/lcars_lifepath_alerts.png" />
+		<offset>74,29,34,0</offset>
+	</framedef>
+	<framedef name="lcars_lifepath_summary">
+		<bitmap file="graphics/frames/lcars_lifepath_summary.png" />
+		<offset>80,77,48,73</offset>
+	</framedef>
+	<framedef name="lcars_header_frame_shape">
+		<bitmap file="graphics/frames/lcars_header_frame_shape.png"/>
+		<offset>97,6,163,80</offset>
+	</framedef>
+
+	<framedef name="lcars_frame_shape">
+		<bitmap file="graphics/frames/tack_lcars_frame_shape.png"/>
+		<offset>50,65,50,65</offset>
+	</framedef>
+	<framedef name="lcars_frame_shape_left">
+		<bitmap file="graphics/frames/lcars_frame_shape_left.png"/>
+		<offset>60,70,40,70</offset>
+	</framedef>
+	<framedef name="lcars_frame_shape_center">
+		<bitmap file="graphics/frames/lcars_frame_shape_center.png"/>
+		<offset>40,70,40,70</offset>
+	</framedef>
+	<framedef name="lcars_frame_shape_right">
+		<bitmap file="graphics/frames/lcars_frame_shape_right.png"/>
+		<offset>40,70,60,70</offset>
+	</framedef>
+	<framedef name="lcars_frame_shape_top_right">
+		<bitmap file="graphics/frames/lcars_frame_shape_top_right.png"/>
+		<offset>40,70,60,40</offset>
+	</framedef>
+	<framedef name="lcars_frame_shape_bottom_right">
+		<bitmap file="graphics/frames/lcars_frame_shape_bottom_right.png"/>
+		<offset>40,40,60,70</offset>
+	</framedef>
+	<framedef name="lcars_fork_frame_left">
+		<bitmap file="graphics/frames/lcars_fork_frame_left.png"/>
+		<offset>3,18,35,18</offset>
+	</framedef>
+	<framedef name="lcars_groupbox_dark">
+		<bitmap file="graphics/frames/lcars_groupbox_dark.png" />
+		<offset>18,18,17,17</offset>
+	</framedef>
+	<framedef name="lcars_sheet_border">
+		<bitmap file="graphics/frames/lcars_sheet_border.png" />
+		<offset>10,10,10,10</offset>
+	</framedef>
+
+<!--	Default record overrides -->
+	<framedef name="storybox">
+		<bitmap file="graphics/frames/storybox.png" />
+		<offset>95,126,68,133</offset>
+		<insideoffset>0,0,10,5</insideoffset>
+	</framedef>
+	<framedef name="recordsheet">
+		<bitmap file="graphics/frames/recordsheet.png" />
+		<offset>78,85,51,73</offset>
+		<insideoffset>0,0,7,7</insideoffset>
+	</framedef>
+	<framedef name="partysheet">
+		<bitmap file="graphics/frames/recordsheet.png" />
+		<offset>78,85,51,73</offset>
+		<insideoffset>0,0,7,7</insideoffset>
+	</framedef>
+	<framedef name="referencelist">
+		<bitmap file="graphics/frames/recordsheet.png" />
+		<offset>78,85,51,73</offset>
+		<insideoffset>0,0,5,5</insideoffset>
+	</framedef>
+	<framedef name="referencepage">
+		<bitmap file="graphics/frames/recordsheet.png" />
+		<offset>78,85,51,73</offset>
+		<insideoffset>0,0,5,5</insideoffset>
+	</framedef>
+	<framedef name="groupbox">
+		<bitmap file="graphics/frames/groupbox.png" />
+		<offset>18,18,17,17</offset>
+	</framedef>
+	<framedef name="windowtitle">
+		<bitmap file="graphics/frames/windowtitle.png" />
+		<offset>38,0,34,0</offset>
+	</framedef>
+	<framedef name="utilitybox">
+		<bitmap file="graphics/frames/recordsheet.png" />
+		<offset>78,85,51,73</offset>
+		<insideoffset>0,0,10,10</insideoffset>
+	</framedef>
+	<framedef name="utilitybox3">
+		<bitmap file="graphics/frames/utilitybox3.png" />
+		<offset>125,48,76,53</offset>
+		<insideoffset>0,0,5,7</insideoffset>
+	</framedef>
+
+	<!-- Scrollbar -->
+	<framedef name="scrollbar_base">
+		<bitmap file="graphics/frames/scrollbar.png" />
+		<top rect="0,0,20,14" />
+		<middle rect="22,0,20,62" />
+		<bottom rect="0,48,20,14" />
+	</framedef>
+	<framedef name="scrollbutton_normal">
+		<bitmap file="graphics/frames/scrollbutton_normal.png" />
+		<top rect="0,0,20,16" />
+		<middle rect="0,16,20,8" />
+		<bottom rect="0,24,20,16" />
+	</framedef>
+
+	<!-- Character selection -->
+	<framedef name="charselect">
+		<bitmap file="graphics/frames/utilitybox3.png" />
+		<offset>125,48,76,53</offset>
+		<insideoffset>0,0,5,7</insideoffset>
+	</framedef>
+	<framedef name="charselectentry">
+		<bitmap file="graphics/frames/fieldlight.png" />
+		<offset>12,12,12,12</offset>
+	</framedef>
+
+	<!-- Modules -->
+	<framedef name="moduleselectentry">
+		<bitmap file="graphics/frames/fieldlight.png" />
+		<offset>12,12,12,12</offset>
+	</framedef>
+
+	<framedef name="fielddark">
+		<bitmap file="graphics/frames/fielddark.png" />
+		<offset>12,12,12,12</offset>
+	</framedef>
+	<framedef name="fieldlight">
+		<bitmap file="graphics/frames/fieldlight.png" />
+		<offset>12,12,12,12</offset>
+	</framedef>
+	<framedef name="calendarselectentry">
+		<bitmap file="graphics/frames/fieldlight.png" />
+		<offset>12,12,12,12</offset>
+    </framedef>
+	<framedef name="calendarmonthentry">
+		<bitmap file="graphics/frames/fielddark.png" />
+		<offset>12,12,12,12</offset>
+    </framedef>
+	<framedef name="partysheetentry">
+		<bitmap file="graphics/frames/fieldlight.png" />
+		<offset>12,12,12,12</offset>
+	</framedef>
+	<framedef name="tokenbagasset">
+		<bitmap file="graphics/frames/fielddark.png" />
+		<offset>12,12,12,12</offset>
+	</framedef>
+
+
+	<!-- Dice Tower -->
+	<framedef name="dicetower_normal">
+		<bitmap>graphics/frames/dicetower_normal.png</bitmap>
+		<middle>0,0,90,90</middle>
+	</framedef>
+	<framedef name="dicetower_drop">
+		<bitmap>graphics/frames/dicetower_dropped.png</bitmap>
+		<middle>0,0,90,90</middle>
+	</framedef>
+	<icon name="dicetower_icon" file="graphics/icons/dicetower_icon.png" />
+	<!-- Desktop background -->
+<!--	Blank image to hide FG decal-->
+  	<icon name="desktopdecal_sw" file="graphics/frames/blank.png"/>
+	<framedef name="desktop">
+		<bitmap file="graphics/frames/desktop.png" />
+		<top rect="0,1,324,151" />
+		<middle rect="1,154,200,200" />
+		<right rect="450,0,100,144" />
+		<bottomright rect="450,0,100,144" />
+		<bottom rect="219,437,567,132" />
+		<decal rect="600,0,325,240"/>
+	</framedef>
+	<framedef name="shortcuts">
+		<bitmap file="graphics/frames/desktop.png" />
+		<left rect="450,0,25,144" />
+		<middle rect="475,0,50,144" />
+		<right rect="525,0,25,144" />
+	</framedef>
+	<framedef name="hotkeybox">
+		<bitmap file="graphics/frames/hotkeybox.png" />
+		<offset>2,5,2,2</offset>
+	</framedef>
+	<framedef name="hotkeytitlebox">
+		<bitmap file="graphics/frames/hotkeytitlebox.png" />
+		<offset>6,1,6,7</offset>
+	</framedef>
+	<!-- Chat window -->
+	<framedef name="chatbox">
+		<bitmap file="graphics/frames/chatbox.png" />
+		<topleft rect="0,0,30,58" />
+		<top rect="30,0,434,15" />
+		<topright rect="464,0,59,15" />
+		<left rect="0,58,15,382" />
+		<middle rect="58,30,430,380" />
+		<right rect="510,13,13,475" />
+		<bottomleft rect="0,440,30,63" />
+		<bottom rect="30,489,420,14" />
+		<bottomright rect="450,489,73,14" />
+	</framedef>
+
+	<!-- Sidebar -->
+	<framedef name="button_sidebar_dockitem">
+		<bitmap file="graphics/frames/button_sidebar.png" />
+		<offset>10,14,10,14</offset>
+	</framedef>
+	<framedef name="button_sidebar_dockitem_down">
+		<bitmap file="graphics/frames/button_sidebar_down.png" />
+		<offset>10,14,10,14</offset>
+	</framedef>
+
+	<framedef name="orange_fielddice">
+		<bitmap file="graphics/frames/orange_fielddice.png" />
+		<topleft rect="0,0,12,12" />
+		<top rect="12,0,200,12" />
+		<topright rect="212,0,12,12" />
+		<left rect="0,12,12,187" />
+		<middle rect="12,12,200,187" />
+		<right rect="212,12,12,187" />
+		<bottomleft rect="0,199,12,12" />
+		<bottom rect="12,199,200,12" />
+		<bottomright rect="212,199,12,12" />
+		<decal rect="175,212,49,16" />
+	</framedef>
+
+	<framedef name="tabs_shape">
+		<bitmap file="graphics/tabs/tabs_shape.png" />
+		<topleft rect="0,0,18,73" />
+		<left rect="0,73,18,335" />
+		<bottomleft rect="0,408,18,86" />
+	</framedef>
+
+	<framedef name="tabs">
+		<bitmap file="graphics/tabs/tabs.png" />
+		<topleft rect="0,0,18,73" />
+		<left rect="0,73,18,335" />
+		<bottomleft rect="0,408,18,86" />
+	</framedef>
+
+
+<!--	Field shapes -->
+
+	<framedef name="field_mask_right">
+		<bitmap file="graphics/frames/right_pill_mask.png" />
+		<offset>0,7,8,7</offset>
+	</framedef>
+
+	<framedef name="field_mask_left">
+		<bitmap file="graphics/frames/left_pill_mask.png" />
+		<offset>8,7,0,7</offset>
+	</framedef>
+
+	<framedef name="field_mask_right_white">
+		<bitmap file="graphics/frames/right_pill_mask_white.png" />
+		<offset>0,7,8,7</offset>
+	</framedef>
+
+	<framedef name="field_mask_left_white">
+		<bitmap file="graphics/frames/left_pill_mask_white.png" />
+		<offset>8,7,0,7</offset>
+	</framedef>
+
+	<framedef name="field_empty">
+		<bitmap file="graphics/frames/fields/field_empty.png" />
+		<offset>2,1,2,1</offset>
+	</framedef>
+
+	<framedef name="field_orange_right">
+		<bitmap file="graphics/frames/fields/field_orange_right.png" />
+		<offset>0,7,8,7</offset>
+	</framedef>
+
+	<framedef name="field_orange_left">
+		<bitmap file="graphics/frames/fields/field_orange_left.png" />
+		<offset>8,7,0,7</offset>
+	</framedef>
+
+	<framedef name="field_yellow_right">
+		<bitmap file="graphics/frames/fields/field_yellow_right.png" />
+		<offset>0,7,8,7</offset>
+	</framedef>
+
+	<framedef name="field_yellow_left">
+		<bitmap file="graphics/frames/fields/field_yellow_left.png" />
+		<offset>8,7,0,7</offset>
+	</framedef>
+
+	<framedef name="field_purple_right">
+		<bitmap file="graphics/frames/fields/field_purple_right.png" />
+		<offset>0,7,8,7</offset>
+	</framedef>
+
+	<framedef name="field_purple_left">
+		<bitmap file="graphics/frames/fields/field_purple_left.png" />
+		<offset>8,7,0,7</offset>
+	</framedef>
+
+	<framedef name="field_green_right">
+		<bitmap file="graphics/frames/fields/field_green_right.png" />
+		<offset>0,7,8,7</offset>
+	</framedef>
+
+	<framedef name="field_green_left">
+		<bitmap file="graphics/frames/fields/field_green_left.png" />
+		<offset>8,7,0,7</offset>
+	</framedef>
+
+	<framedef name="field_red_right">
+		<bitmap file="graphics/frames/fields/field_red_right.png" />
+		<offset>0,7,8,7</offset>
+	</framedef>
+
+	<framedef name="field_red_left">
+		<bitmap file="graphics/frames/fields/field_red_left.png" />
+		<offset>8,7,0,7</offset>
+	</framedef>
+
+	<framedef name="field_blue_right">
+		<bitmap file="graphics/frames/fields/field_blue_right.png" />
+		<offset>0,7,8,7</offset>
+	</framedef>
+
+	<framedef name="field_blue_left">
+		<bitmap file="graphics/frames/fields/field_blue_left.png" />
+		<offset>8,7,0,7</offset>
+	</framedef>
+
+	<framedef name="field_purple_border_right">
+		<bitmap file="graphics/frames/fields/field_purple_border_right.png" />
+		<offset>2,7,8,7</offset>
+	</framedef>
+
+	<framedef name="field_white_right">
+		<bitmap file="graphics/frames/fields/field_white_right.png" />
+		<offset>0,7,8,7</offset>
+	</framedef>
+
+	<framedef name="field_white_left">
+		<bitmap file="graphics/frames/fields/field_white_left.png" />
+		<offset>8,7,0,7</offset>
+	</framedef>
+</root>

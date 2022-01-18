@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<root>
+  <windowclass name="lifepath_summary_2" >
+        <readonly />
+        <frame name="lcars_lifepath_summary"/>
+        <sheetdata>
+            <genericcontrol name="topLeft">
+                <anchored position="insidetopleft" offset="45, 5" />
+            </genericcontrol>
+            <genericcontrol name="topRight">
+                <anchored position="insidetopright" offset="5, 5" />
+            </genericcontrol>
+
+            <genericcontrol name="colOne">
+                <anchored position="insidetopleft" offset="195, 5" />
+            </genericcontrol>
+            <genericcontrol name="centerLine">
+                <anchored position="insidetopleft" offset="280, 5" />
+            </genericcontrol>
+            <genericcontrol name="colTwo">
+                <anchored position="insidetopleft" offset="365, 5" />
+            </genericcontrol>
+
+            <genericcontrol name="middleRow">
+                <anchored position="insidetopleft" offset="5, 90" />
+            </genericcontrol>
+            <genericcontrol name="bottomRow">
+                <anchored position="insidetopleft" offset="5, 275" />
+            </genericcontrol>
+
+
+<!--            Summary info    -->
+			<char_header_label name="name">
+                <anchored to="topLeft" width="155">
+                    <top anchor="bottom" relation="relative"/>
+                    <left relation="absolute"/>
+                </anchored>
+				<labelres>lifepath_char_label_name</labelres>
+                <readonly />
+			</char_header_label>
+
+			<char_header_label name="species">
+                <anchored to="name" width="155"/>
+				<labelres>lifepath_char_label_species</labelres>
+                <readonly />
+			</char_header_label>
+
+			<char_header_label name="environment">
+                <anchored to="name" width="155" />
+				<labelres>lifepath_char_label_environment</labelres>
+                <readonly />
+			</char_header_label>
+
+			<char_header_label name="upbringing">
+                <anchored to="topLeft" width="155">
+                    <top anchor="bottom" relation="relative" offset="10"/>
+                    <left relation="absolute"/>
+                </anchored>
+				<labelres>lifepath_char_label_upbringing</labelres>
+                <readonly />
+			</char_header_label>
+
+			<char_header_label name="academy">
+                <anchored to="upbringing" width="155"/>
+				<labelres>lifepath_char_label_academy</labelres>
+                <readonly />
+			</char_header_label>
+
+			<char_header_label name="career">
+                <anchored to="upbringing" width="155" />
+				<labelres>lifepath_char_label_career</labelres>
+                <readonly />
+			</char_header_label>
+
+			<char_header_label name="gender">
+                <anchored to="topLeft" width="130">
+                    <top anchor="bottom" relation="relative" offset="10"/>
+                    <left relation="absolute"/>
+                </anchored>
+				<labelres>lifepath_char_label_gender</labelres>
+                <readonly />
+			</char_header_label>
+
+			<char_header_label name="age">
+                <anchored to="gender" width="110"/>
+				<labelres>lifepath_char_label_age</labelres>
+                <readonly />
+			</char_header_label>
+
+			<char_header_label name="height">
+                <anchored to="gender" width="110" />
+				<labelres>lifepath_char_label_height</labelres>
+                <readonly />
+			</char_header_label>
+
+			<char_header_label name="weight">
+                <anchored to="gender" width="110"/>
+				<labelres>lifepath_char_label_weight</labelres>
+                <readonly />
+			</char_header_label>
+
+<!--        Attributes      -->
+
+            <scoreList name="attList">
+                <readonly />
+                <anchored >
+                    <top parent="middleRow" anchor="bottom" offset="35" />
+                    <right parent="colOne" offset="-5"/>
+                    <left parent="topLeft" offset="5"/>
+                    <bottom parent="bottomRow" offset="-5"/>
+                </anchored>
+                <script>
+                    ---function basePage() return 100 end
+                    function scores()
+                        return ScopeManager.ALL_ATTRIBUTES
+                    end
+                    function scoreClass()
+                        return "att_field"
+                    end
+                    function rollControl()
+                        return window.activeAttribute
+                    end
+                </script>
+            </scoreList>
+            <genericcontrol>
+                <anchored to="attList" position="over" >
+                    <left offset="25"/>
+                </anchored>
+            </genericcontrol>
+            <tag_label name="attribute_label">
+                <anchored to="attList" merge="replace" position="aboveleft" offset="33,4" height="20"/>
+                <static textres="char_label_attributes"/>
+            </tag_label>
+            <blue_tag_left >
+                <anchored to="attribute_label" />
+            </blue_tag_left>
+            <blue_tag_right>
+                <anchored to="attribute_label">
+                <top offset="1"/>
+                <left offset="0"/>
+                    <right parent="colOne"/>
+                </anchored>
+            </blue_tag_right>
+            
+<!--            Disciplines     -->
+
+            <scoreList name="discList">
+                <readonly />
+                <anchored >
+                    <top parent="bottomRow"  offset="32"/>
+                    <right parent="colOne" offset="-5"/>
+                    <left parent="topLeft" offset="5"/>
+                    <bottom parent="" offset="-5"/>
+                </anchored>
+                <script>
+                    ---function basePage() return 106 end
+                    function scores()
+                        return ScopeManager.ALL_DISCIPLINES
+                    end
+                    function scoreClass()
+                        return "disc_field"
+                    end
+                    function rollControl()
+                        return window.activeDiscipline
+                    end
+                </script>
+                <default>1</default>
+            </scoreList>
+            <genericcontrol>
+                <anchored to="discList" position="over" >
+                    <left offset="25"/>
+                </anchored>
+            </genericcontrol>
+            <tag_label name="discipline_label">
+                <anchored to="discList" />
+                <static textres="char_label_disciplines"/>
+            </tag_label>
+            <blue_tag_left >
+                <anchored to="discipline_label" merge="replace" position="aboveleft" offset="33,4" height="20"/>
+            </blue_tag_left>
+            <blue_tag_right>
+                <anchored to="discipline_label">
+                    <top offset="1"/>
+                    <left offset="0"/>
+                    <right parent="colOne"/>
+                </anchored>
+            </blue_tag_right>
+
+        <!--     Values       -->
+        <ro_ref_list name="values">
+          <datasource>.values</datasource>
+            <anchored >
+                <left parent="colOne" offset="12"/>
+                <right parent="colTwo" />
+                <top parent="middleRow" />
+                <bottom parent="bottomRow"/>
+            </anchored>
+        </ro_ref_list>
+        <tag_label name="values_label">
+            <anchored merge="replace" to="values" position="aboveleft" offset="33,4" height="20" />
+            <static textres="char_label_values"/>
+        </tag_label>
+        <blue_tag_right >
+            <anchored to="values_label">
+                <top offset="1"/>
+                <left offset="0"/>
+                <right parent="colTwo"/>
+            </anchored>
+        </blue_tag_right>
+        <blue_tag_left>
+            <anchored to="values_label" >
+                <top offset="1"/>
+                <right offset="0"/>
+                <left parent="colOne"/>
+            </anchored>
+        </blue_tag_left>
+
+<!--            Focuses     -->
+          <ro_ref_list name="focuses">
+            <anchored >
+                <left parent="colOne" offset="12"/>
+                <right parent="colTwo" offset="-5"/>
+                <top parent="bottomRow" offset="32"/>
+                <bottom parent="" offset="-20"/>
+            </anchored>
+              <datasource>.focuses</datasource>
+          </ro_ref_list>
+        <tag_label name="focuses_label">
+            <anchored merge="replace" to="focuses" position="aboveleft" offset="33,4" height="20" />
+            <static textres="char_label_focuses"/>
+        </tag_label>
+        <blue_tag_right>
+            <anchored to="focuses_label">
+                <top offset="1"/>
+                <left offset="0"/>
+                <right parent="colTwo"/>
+            </anchored>
+        </blue_tag_right>
+        <blue_tag_left>
+            <anchored to="focuses_label" >
+                <top offset="1"/>
+                <right offset="0"/>
+                <left parent="colOne"/>
+            </anchored>
+        </blue_tag_left>
+
+        <!--     Career Events       -->
+        <ro_linked_list name="career_events">
+          <datasource>.career_events</datasource>
+            <anchored height="80">
+                <left parent="colTwo" offset="12"/>
+                <right parent="topRight" />
+                <top parent="middleRow" />
+                <bottom merge="delete"/>
+            </anchored>
+        </ro_linked_list>
+        <tag_label name="career_events_label">
+            <anchored merge="replace" to="career_events" position="aboveleft" offset="33,4" height="20" />
+            <static textres="char_label_career_events"/>
+        </tag_label>
+        <blue_tag_right >
+            <anchored to="career_events_label">
+                <top offset="1"/>
+                <left offset="0"/>
+                <right parent="topRight"/>
+            </anchored>
+        </blue_tag_right>
+        <blue_tag_left>
+            <anchored to="career_events_label" >
+                <top offset="1"/>
+                <right offset="0"/>
+                <left parent="colTwo"/>
+            </anchored>
+        </blue_tag_left>
+
+        <!--     Traits       -->
+        <ro_ref_list name="traits">
+          <datasource>.traits</datasource>
+            <anchored >
+                <left parent="colTwo" offset="12"/>
+                <right parent="topRight" />
+                <top parent="career_events" anchor="bottom" />
+                <bottom parent="bottomRow"/>
+            </anchored>
+        </ro_ref_list>
+        <tag_label name="traits_label">
+            <anchored merge="replace" to="traits" position="aboveleft" offset="33,4" height="20" />
+            <static textres="char_label_traits"/>
+        </tag_label>
+        <blue_tag_right name="traits_tag">
+            <anchored to="traits_label">
+                <top offset="1"/>
+                <left offset="0"/>
+                <right parent="topRight"/>
+            </anchored>
+        </blue_tag_right>
+        <blue_tag_left>
+            <anchored to="traits_label" >
+                <top offset="1"/>
+                <right offset="0"/>
+                <left parent="colTwo"/>
+            </anchored>
+        </blue_tag_left>
+
+        <!--     Talents       -->
+        <ro_linked_list name="talents">
+          <datasource>.talents</datasource>
+            <anchored >
+                <left parent="colTwo" offset="12"/>
+                <right parent="topRight" offset="-5"/>
+                <top parent="bottomRow"   offset="32"/>
+                <bottom parent="" offset="-20"/>
+            </anchored>
+        </ro_linked_list>
+        <tag_label name="talents_label">
+            <anchored merge="replace" to="talents" position="aboveleft" offset="33,4" height="20" />
+            <static textres="char_label_talents"/>
+        </tag_label>
+        <blue_tag_right >
+            <anchored to="talents_label">
+                <top offset="1"/>
+                <left offset="0"/>
+                <right parent="topRight"/>
+            </anchored>
+        </blue_tag_right>
+        <blue_tag_left>
+            <anchored to="talents_label" >
+                <top offset="1"/>
+                <right offset="0"/>
+                <left parent="colTwo"/>
+            </anchored>
+        </blue_tag_left>
+
+        </sheetdata>
+  </windowclass>
+
+    <template name="summary_score_2">
+		<basicnumberc >
+			<anchored height="25" width="25" >
+                <top />
+				<left anchor="right" offset="10"/>
+			</anchored>
+			<readonly />
+			<default>1</default>
+            <frame name="field_yellow_right"/>
+		</basicnumberc>
+    </template>
+</root>

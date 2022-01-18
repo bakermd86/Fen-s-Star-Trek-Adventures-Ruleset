@@ -1,0 +1,134 @@
+<root>
+
+    <windowclass name="reminder_window">
+	    <frame>recordsheet</frame>
+		<placement>
+			<size width="250" height="610" />
+		</placement>
+		<sizelimits>
+			<minimum width="250" height="610" />
+			<dynamic />
+		</sizelimits>
+        <nodelete />
+        <softclose />
+        <sheetdata>
+            <stringfield name="episode_name">
+                <anchored position="insidetop" offset="-35,30" height="20"/>
+                <frame name="groupbox" offset="10,8,10,8" />
+                <font>sheettext</font>
+            </stringfield>
+
+
+            <genericcontrol name="bonus_box">
+                <frame name="groupbox" offset="10,8,10,8" />
+                <anchored to="episode_name" position="below" offset="0, 25" height="30"/>
+            </genericcontrol>
+            <npc_label>
+                <anchored to="bonus_box"/>
+                <static> Bonus Skill </static>
+            </npc_label>
+            <lcars_combobox name="attSelect">
+                <anchored to="bonus_box" height="20">
+                    <left offset="5"/>
+                    <top offset="5"/>
+                    <right anchor="center" offset="-5" />
+                </anchored>
+                <script>
+                    function onInit()
+                        self.addItems(ScopeManager.ALL_ATTRIBUTES)
+                        local curVal = window.active_att.getValue()
+                        if (curVal or "") ~= "" then
+                            setValue(curVal)
+                        end
+                    end
+                    function onValueChanged()
+                        window.active_att.setValue(getValue())
+                    end
+                </script>
+              <frame>
+                  <name>field_yellow_left</name>
+                  <offset >3,0,7,0</offset>
+              </frame>
+            </lcars_combobox>
+            <stringfield name="active_att">
+                <anchored to="attSelect" position="over" width="0" height="0"/>
+                <invisible />
+            </stringfield>
+            <lcars_combobox name="discSelect">
+                <anchored to="bonus_box" height="20">
+                    <right offset="-5"/>
+                    <top offset="5"/>
+                    <left anchor="center" offset="5" />
+                </anchored>
+                <script>
+                    function onInit()
+                        self.addItems(ScopeManager.ALL_DISCIPLINES)
+                        local curVal = window.active_disc.getValue()
+                        if (curVal or "") ~= "" then
+                            setValue(curVal)
+                        end
+                    end
+                    function onValueChanged()
+                        window.active_disc.setValue(getValue())
+                    end
+                </script>
+                  <frame>
+                      <name>field_yellow_right</name>
+                      <offset >3,0,7,0</offset>
+                  </frame>
+            </lcars_combobox>
+            <stringfield name="active_disc">
+                <anchored to="discSelect" position="over" width="0" height="0"/>
+                <invisible />
+            </stringfield>
+
+
+            <windowlist name="values_box">
+                <class>pc_value_list</class>
+                <frame name="groupbox" offset="10,8,10,8" />
+                <anchored to="bonus_box" position="below" offset="0, 25" >
+                    <bottom parent="" offset="-30"/>
+                </anchored>
+                <script>
+                    function onInit()
+                        setDatabaseNode(".charsheet")
+                    end
+
+                    function onFilter(charSheet)
+                        return CrewSupportManager.isSheetPc(charSheet.getDatabaseNode())
+                    end
+                </script>
+            </windowlist>
+            <npc_label>
+                <anchored to="values_box"/>
+                <static> PC Values </static>
+            </npc_label>
+		<resize_recordsheet />
+		<close_recordsheet />
+        </sheetdata>
+
+    </windowclass>
+    <windowclass name="pc_value_list">
+        <sheetdata>
+            <genericcontrol name="sizeAnchor">
+                <anchored position="insidetop" height="150"/>
+            </genericcontrol>
+            <stringfield name="name">
+                <anchored to="sizeAnchor" position="insidetopleft" height="20" width="100"/>
+                <font>sheettext</font>
+                <readonly/>
+            </stringfield>
+            <char_ref_list name="values">
+              <datasource>.values</datasource>
+                <anchored to="sizeAnchor" position="over" >
+                    <left offset="10"/>
+                    <top offset="25"/>
+                    <right offset="-10"/>
+                    <bottom offset="-8"/>
+                </anchored>
+                <frame name="lcars_groupbox_dark" offset="10,8,10,8"/>
+            </char_ref_list>
+        </sheetdata>
+
+    </windowclass>
+</root>

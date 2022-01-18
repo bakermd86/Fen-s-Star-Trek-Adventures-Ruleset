@@ -1,0 +1,129 @@
+<root>
+	<windowclass name="charsheet_lifepath_species">
+		<sheetdata>
+			<lp_step_window name="contents">
+				<class>charsheet_lifepath_species_contents</class>
+			</lp_step_window>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="charsheet_lifepath_species_contents">
+		<script file="lifepath/scripts/lifepath_species.lua" />
+		<sheetdata>
+			<anchor_column name="columnanchor" />
+			<tab_title_frame name="species_label"/>
+
+			<tab_content_frame name="lifepath_species_frame">
+				<anchored>
+					<top parent="species_label" />
+				</anchored>
+			</tab_content_frame>
+			
+			<step_mode_control name="lifepath_species_genmethod">
+				<anchored to="species_label" position="insideleft" offset="5,-5" />
+				<script file="lifepath/mode_scripts/lifepath_species_mode_select.lua" />
+			</step_mode_control>
+			
+			<label name="lifepath_species_name_manual_label">
+				<invisible />
+				<static>Name:</static>
+				<anchored to="lifepath_species_genmethod" position="right" offset="3" width="60" />
+			</label>
+			
+			<stringcontrol name="lifepath_species_name_manual">
+				<anchored to="lifepath_species_name_manual_label" position="right" width="150" offset="5"/>
+				<invisible />
+				<lineoffset default="on" mergerule="replace">1</lineoffset>
+				<script>
+					function onValueChanged()
+						ScopeManager.setSummaryVal("species", getValue());
+					end
+				</script>
+			</stringcontrol>
+
+			<roll_button_control name="lifepath_species_roll_button">
+				<anchored to="lifepath_species_genmethod" position="right"/>
+				<script>
+					function onInit()
+						self.genmethod = window.lifepath_species_genmethod
+					end
+					function getStep()
+						return 1
+					end
+				</script>
+				<tooltip textres="lifepath_roll_species" />
+			</roll_button_control>
+
+			<label name="lifepath_species_roll_label">
+				<static textres="lifepath_roll_species" />
+				<anchored to="lifepath_species_roll_button" position="right" width="115" offset="5"/>
+				<readonly />
+			</label>
+
+			<roll_button_control name="lifepath_species_reroll_name_button">
+				<anchored to="lifepath_species_roll_label" position="right" offset="5"/>
+				<script>
+					function getStep()
+						return -2
+					end
+
+					function onButtonPress()
+						ScopeManager.getLifepathWindow().newRandomSpeciesName()
+					end
+				</script>
+				<tooltip>Reroll Name</tooltip>
+				<invisible />
+			</roll_button_control>
+
+			<label name="lifepath_species_reroll_name_label">
+				<static>Reroll Name</static>
+				<anchored to="lifepath_species_reroll_name_button" position="right" width="115" offset="5"/>
+				<readonly />
+				<invisible />
+			</label>
+
+			<lifepath_select_control_frame/>
+			<lifepath_select_control name="lifepath_species_attribute_select">
+				<script>
+					function getCounter()
+						return ScopeManager.getSpeciesTab().attribute_selection_count
+					end
+					function getStep()
+						return 1
+					end
+				</script>
+			</lifepath_select_control>
+
+			<lifepath_add_link_frame/>
+			<lifepath_add_link_list name="lifepath_species_select_frame">
+				<script>
+					function createControls()
+						self.addControl("talent", 1);
+					end
+				</script>
+			</lifepath_add_link_list>
+			
+			<numbercontrol name="attribute_selection_count">
+				<anchored to="lifepath_species_attribute_select" position="insidetopright" relation="relative" offset="0,0" width="20" height="20" />
+				<readonly />
+				<default>3</default>
+			</numbercontrol>
+			<label name="attribute_select_remain">
+				<anchored to="attribute_selection_count" position="left" relation="relative" />
+				<default>Attributes:</default>
+			</label>
+
+			<ref_list_frame >
+				<anchored  to="lifepath_species_select_frame">
+					<bottom parent="lifepath_species_frame" />
+				</anchored>
+			</ref_list_frame>
+			<tab_ref_list name="lifepath_species_ref">
+				<anchored  to="lifepath_species_select_frame">
+					<bottom parent="lifepath_species_frame" />
+				</anchored>
+			</tab_ref_list>
+			
+		</sheetdata>
+	</windowclass>
+</root>

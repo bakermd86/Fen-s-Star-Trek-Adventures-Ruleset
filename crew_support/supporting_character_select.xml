@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+	<windowclass name="supporting_character_select">
+		<frame name="utilitybox3" />
+		<placement>
+			<size width="745" height="650" />
+		</placement>
+		<nodelete />
+		<readonly />
+		<playercontrol />
+		<script file="crew_support/scripts/supporting_character_select.lua" />
+		<sheetdata>
+			<anchor_title_charsheet name="contentanchor" />
+			<genericcontrol name="crew_support_frame">
+				<anchored to="contentanchor" position="insidetopleft" width="275" height="50" offset="32,-8"/>
+				<frame name="groupbox" offset="10,10,10,10" />
+			</genericcontrol>
+			<stringcontrol name="current_episode">
+				<anchored to="crew_support_frame" position="insidetop" height="20"/>
+				<readonly />
+				<empty>Episode Name...</empty>
+				<script>
+					function onInit()
+						local node = CrewSupportManager.episodeNameNode()
+						if not(node.getValue() == nil) then
+							setValue(node.getValue())
+						end
+						DB.addHandler(node.getNodeName(), "onUpdate", self.handleChangeName)
+					end
+
+					function handleChangeName(node)
+						setValue(node.getValue())
+						window.handleMode("available", window.available)
+					end
+
+				</script>
+				<gmvisibleonly />
+				<frame name="fielddark"  offset="5,5,5,5" />
+			</stringcontrol>
+
+			<label name="crew_support_label">
+				<anchored to="crew_support_frame" position="insidetopleft" height="20" offset="0,25"/>
+				<static>Crew Support:</static>
+			</label>
+			<numberfield name="current_crew_support">
+				<anchored to="crew_support_label" position="right" width="20" offset="5"/>
+				<default>0</default>
+				<gmeditonly />
+				<frame name="fielddark"  offset="5,5,5,5" />
+			</numberfield>
+
+			<label name="crew_support_max_label">
+				<anchored to="current_crew_support" position="right" offset="15"/>
+				<static>Max:</static>
+			</label>
+			<numberfield name="max_crew_support">
+				<anchored to="crew_support_max_label" position="right" width="20" offset="5"/>
+				<default>0</default>
+				<gmeditonly />
+				<frame name="fielddark"  offset="5,5,5,5" />
+			</numberfield>
+
+			<genericcontrol name="tab_anchor">
+				<anchored to="crew_support_frame">
+					<top offset="0"/>
+					<bottom offset="0"/>
+					<left anchor="right" offset="15"/>
+					<right parent="contentanchor" anchor="right" offset="10"/>
+				</anchored>
+				<frame name="groupbox" offset="10,10,10,10" />
+			</genericcontrol>
+			<buttoncontrol name="available">
+				<anchored to="tab_anchor" position="insideleft" width="80" offset="2,-5" />
+				<state textres="crew_available_label" frame="fieldlight"/>
+				<state textres="crew_available_label" frame="fielddark"/>
+				<pressed offset="1,1" />
+				<font>button-large</font>
+				<script>
+					function onFirstLayout()
+						window.handleMode("available", self)
+					end
+					function onButtonPress()
+						window.handleMode("available", self)
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="active">
+				<anchored to="available" position="right" width="65" offset="2,0" />
+				<state textres="crew_active_label" frame="fieldlight"/>
+				<state textres="crew_active_label" frame="fielddark"/>
+				<pressed offset="1,1" />
+				<font>button-large</font>
+				<script>
+					function onButtonPress()
+						window.handleMode("active", self)
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="dead">
+				<anchored to="active" position="right" width="75" offset="2,0" />
+				<pressed offset="1,1" />
+				<state textres="crew_dead_label" frame="fieldlight"/>
+				<state textres="crew_dead_label" frame="fielddark"/>
+				<font>button-large</font>
+				<script>
+					function onButtonPress()
+						window.handleMode("dead", self)
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="template">
+				<anchored to="dead" position="right" width="80" offset="2,0" />
+				<pressed offset="1,1" />
+				<state textres="template_crew_label" frame="fieldlight"/>
+				<state textres="template_crew_label" frame="fielddark"/>
+				<font>button-large</font>
+				<script>
+					function onButtonPress()
+						window.handleMode("template", self)
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="custom">
+				<anchored to="template" position="right" width="80" offset="2,0" />
+				<pressed offset="1,1" />
+				<state textres="custom_crew_label" frame="fieldlight"/>
+				<state textres="custom_crew_label" frame="fielddark"/>
+				<font>button-large</font>
+				<script>
+					function onButtonPress()
+						window.handleMode("custom", self)
+					end
+				</script>
+			</buttoncontrol>
+			<windowlist name="crew_manifest">
+				<datasource>.charsheet</datasource>
+				<script>
+					function onInit()
+						self.mode = "available"
+						window.reTargetManifest()
+						self.applyFilter()
+					end
+
+					function setMode(mode)
+						self.mode = mode
+						if self.mode == "template" then
+							self.setDatabaseNode(STAModuleManager.getPathMain("npctemplate"))
+						else
+							self.setDatabaseNode("charsheet")
+						end
+						window.reTargetManifest()
+						self.applyFilter()
+					end
+
+					function onFilter(crewEntry)
+						return CrewSupportManager.crewState(crewEntry.getDatabaseNode()) == self.mode
+					end
+
+					function clearButtons()
+						window.clearManifestSelections()
+					end
+				</script>
+				<anchored >
+					<top parent="crew_support_frame" anchor="bottom" relation="relative" offset="10" />
+					<left parent="crew_support_frame"  />
+					<right parent="crew_support_frame" />
+					<bottom offset="-28" />
+				</anchored>
+				<frame name="groupbox" offset="10,10,10,10" />
+            	<class>crew_entry</class>
+				<skipempty />
+				<readonly />
+			</windowlist>
+			<windowlist name="custom_controls">
+				<script>
+					function onInit()
+						self.mode = "custom"
+					end
+				</script>
+				<anchored >
+					<top parent="crew_support_frame" anchor="bottom" relation="relative" offset="10" />
+					<left parent="crew_support_frame"  />
+					<right parent="crew_support_frame" />
+					<bottom offset="-28" />
+				</anchored>
+				<frame name="groupbox" offset="10,10,10,10" />
+            	<class>support_att_select</class>
+				<skipempty />
+				<invisible />
+			</windowlist>
+
+			<windowlist name="main_frame">
+				<anchored >
+					<top parent="tab_anchor" anchor="bottom" relation="relative" offset="10" />
+					<left parent="tab_anchor"  />
+					<right parent="tab_anchor" />
+					<bottom offset="-28" />
+				</anchored>
+				<frame name="groupbox" offset="10,10,10,10" />
+				<class>crew_main</class>
+				<skipempty />
+				<readonly />
+				<script>
+					function onInit()
+						self.npcNode = CrewSupportManager.getNewNPCNode(self.handleNPCNode)
+						self.saving = false
+					end
+					function handleNPCNode(oobMsg)
+						if oobMsg.user == User.getUsername() then
+							self.npcNode = oobMsg.nodeName
+						end
+					end
+					function onClose()
+						if not (self.saving) then
+							DB.deleteNode(self.npcNode)
+						end
+					end
+					function onListChanged()
+						window.handleCrewFrame(self.getWindowCount())
+					end
+					function addNPC(sourceNode, copy)
+						window.resetAttributeSelect()
+						self.closeAll()
+						if sourceNode and copy then
+							DB.copyNode(sourceNode, self.npcNode)
+							self.createWindowWithClass("supporting_character_header", self.npcNode)
+							self.createWindow(self.npcNode)
+							window.rollCombinedDetails()
+						elseif sourceNode then
+							self.createWindowWithClass("supporting_character_header", sourceNode)
+							---self.createWindowWithClass("charsheet_main", sourceNode)
+							self.createWindow(sourceNode)
+						else
+    						DB.deleteChildren(self.npcNode)
+							self.createWindowWithClass("supporting_character_header", self.npcNode)
+							self.createWindow(self.npcNode)
+							window.rollCombinedDetails()
+						end
+					end
+				</script>
+			</windowlist>
+			<genericcontrol name="control_block">
+				<anchored to="main_frame" position="over"/>
+			</genericcontrol>
+			<buttoncontrol name="activate_crew">
+				<anchored to="main_frame" position="insidebottomright" offset="55,8" height="45" width="75"/>
+				<frame name="fieldlight" offset="5,5,5,5" />
+				<stateframe>
+					<pressed name="fielddark" offset="5,5,5,5" nobaseframe="true" />
+				</stateframe>
+				<font>button-large</font>
+				<pressed offset="1,1" />
+				<state textres="active_crew_label" />
+				<script>
+					function onButtonPress()
+						CrewSupportManager.activateSupportingCharacter(window)
+					end
+				</script>
+			</buttoncontrol>
+			<lifepath_select_control name="species_attribute_select">
+				<class>support_attribute_item</class>
+				<invisible />
+				<anchored to="main_frame" position="insidebottomleft" offset="10,2" height="60" width="215">
+					<right merge="delete"/>
+					<top merge="delete"/>
+				</anchored>
+				<script>
+					function getCounter()
+						return window.attribute_selection_count
+					end
+					function incrementAttribute(name, source)
+						window.incrementAttribute(name, source)
+					end
+					function decrementAttribute(name, source)
+						window.decrementAttribute(name, source)
+					end
+					function scoreSelected(name, source)
+						window.scoreSelected(name, source)
+					end
+					function scoreDeselected(name, source)
+						window.scoreDeselected(name, source)
+					end
+				</script>
+			</lifepath_select_control>
+
+			<stringcontrol name="species">
+				<invisible />
+				<anchored to="species_attribute_select" position="aboveleft"  width="374" offset="0,5"/>
+				<empty>Species Name</empty>
+				<frame name="fielddark" offset="7,5,7,5" />
+				<script>
+					function onValueChanged()
+						DB.setValue(window.main_frame.getWindows()[2].getDatabaseNode(), "species", "string", getValue())
+					end
+				</script>
+			</stringcontrol>
+
+			<buttoncontrol name="roll_support_species">
+				<invisible />
+				<anchored to="species" position="aboveleft" offset="0, 5" width="15" height="15" />
+				<script>
+					function onButtonPress()
+						local w = Interface.openWindow("storytemplate", "")
+						local rawVal = "";
+    					if STAModuleManager.modLoaded(STAModuleManager.MODULE_MAIN) then
+							rawVal = w.generate.performTableLookups("[Random Alien Type]")
+						elseif STAModuleManager.modLoaded(STAModuleManager.MODULE_EXTRA) then
+							rawVal = w.generate.performTableLookups("[Memory Alpha Weighted Species]")
+						else
+							w.close()
+							return
+						end
+						w.close()
+						f = string.gmatch(rawVal, "[|]([^|]+)")
+						class, link, name = f(), f(), f()
+						window.species_link.setValue(class, link)
+						window.species.setValue(name)
+					end
+				</script>
+				<icon normal="button_roll" pressed="button_roll_down" />
+			</buttoncontrol>
+			<linkcontrol name="species_link">
+				<invisible />
+				<anchored to="roll_support_species" position="right"  offset="2,2" width="20" height="20"/>
+			</linkcontrol>
+			<label name="attribute_select_remain">
+				<invisible />
+				<anchored to="species_link" position="right" offset="2,0" height="20" >
+					<right parent="species" offset="-25"/>
+				</anchored>
+				<default>Select/roll species and add attributes:</default>
+			</label>
+			<numbercontrol name="attribute_selection_count">
+				<invisible />
+				<anchored to="attribute_select_remain" position="right" offset="5,0"  />
+				<readonly />
+				<default>3</default>
+			</numbercontrol>
+
+
+			<stringcontrol name="focus1">
+				<invisible />
+				<anchored to="roll_support_species" position="aboveleft" offset="0,5" width="118"/>
+				<empty>Focus</empty>
+				<frame name="fielddark" offset="7,5,7,5" />
+				<script>
+					function onValueChanged()
+						CrewSupportManager.updateFocuses(window)
+					end
+				</script>
+			</stringcontrol>
+
+			<stringcontrol name="focus2">
+				<invisible />
+				<anchored to="focus1" position="right" offset="10,0" width="118"/>
+				<empty>Focus</empty>
+				<frame name="fielddark" offset="7,5,7,5" />
+				<script>
+					function onValueChanged()
+						CrewSupportManager.updateFocuses(window)
+					end
+				</script>
+			</stringcontrol>
+
+			<stringcontrol name="focus3">
+				<invisible />
+				<anchored to="focus2" position="right" offset="10,0" width="118"/>
+				<empty>Focus</empty>
+				<frame name="fielddark" offset="7,5,7,5" />
+				<script>
+					function onValueChanged()
+						CrewSupportManager.updateFocuses(window)
+					end
+				</script>
+			</stringcontrol>
+			<label name="focus_label">
+				<invisible />
+				<anchored to="focus1" position="aboveleft" offset="0,5" height="20" />
+				<default>Add 3 focuses, at least 1 related to chosen role:</default>
+			</label>
+
+
+			<stringcontrol name="name_select">
+				<invisible />
+				<anchored to="focus_label" position="aboveleft" offset="0,5" width="374"/>
+				<empty>Enter Name....</empty>
+				<frame name="fielddark" offset="7,5,7,5" />
+				<script>
+					function onValueChanged()
+						if window.main_frame.getWindows()[1] then
+							window.main_frame.getWindows()[1].name.setValue(getValue())
+						end
+					end
+				</script>
+			</stringcontrol>
+			<buttoncontrol name="roll_support_name">
+				<invisible />
+				<anchored to="name_select" position="aboveleft" offset="0,5" width="15" height="15"/>
+				<script>
+					function onButtonPress()
+						local w = Interface.openWindow("storytemplate", "")
+						window.name_select.setValue(w.generate.performTableLookups("[IndividualNameTable]"))
+						w.close()
+					end
+				</script>
+				<icon normal="button_roll" pressed="button_roll_down" />
+			</buttoncontrol>
+
+			<label name="name_label">
+				<invisible />
+				<anchored to="roll_support_name" position="right" offset="5,2" height="20" />
+				<default>Enter or roll a name for this supporting character:</default>
+			</label>
+			<close_recordsheet />
+        </sheetdata>
+    </windowclass>
+
+	<windowclass name="crew_entry">
+		<nodelete />
+		<sheetdata>
+			<stringfield name="name">
+				<anchored position="insidetopleft" height="0" width="0"/>
+				<frame name="fieldlight" offset="5,5,5,5" />
+				<font>button-white-small</font>
+				<invisible />
+				<script>
+					function onInit()
+						self.setButtonText()
+					end
+					function setButtonText()
+						window.select_button.setStateText(0, formatText(), formatText())
+						window.select_button.setStateText(1, formatText(), formatText())
+					end
+					function formatText()
+						if User.isHost() then
+							local owner = DB.getOwner(window.getDatabaseNode())
+							if owner and not(owner == "") then
+								return getValue() .. " ("..owner..")"
+							end
+						else
+							local owner = DB.isOwner(window.getDatabaseNode())
+							if owner then
+								return getValue() .. " (owned)"
+							end
+						end
+						return getValue()
+					end
+					function onValueChanged()
+						self.setButtonText()
+					end
+				</script>
+			</stringfield>
+			<buttoncontrol name="select_button">
+				<anchored position="insidetopleft" height="25" offset="5,0">
+					<right anchor="right" />
+				</anchored>
+
+				<state frame="fieldlight"/>
+				<state frame="fielddark"/>
+				<pressed offset="1,1" />
+				<script>
+					function setTarget(target)
+						self.target = target
+						self.copy = CrewSupportManager.crewState(window.getDatabaseNode()) == "template"
+					end
+
+					function onButtonPress()
+						window.windowlist.clearButtons()
+						self.setValue(1)
+						self.target.addNPC(window.getDatabaseNode().getNodeName(), self.copy)
+					end
+				</script>
+			</buttoncontrol>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="support_attribute_item">
+		<sheetdata>
+			<genericcontrol name="tlanchor">
+				<anchored position="insidetopleft" height="26" width="0" />
+			</genericcontrol>
+			<button_lifepath_toggle_select name="lifepath_attribute_select_control">
+				<anchored to="tlanchor" position="insidetopleft" height="18" width="60" offset="4,4"/>
+				<script file="crew_support/scripts/toggle_select.lua" />
+			</button_lifepath_toggle_select>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="support_att_select">
+		<sheetdata>
+			<numbercontrol name="step_id">
+				<anchored position="insidetopleft" height="0" width="0"/>
+				<invisible/>
+			</numbercontrol>
+			<numbercontrol name="counter">
+				<anchored position="insidetopleft" height="0" width="0"/>
+				<invisible/>
+			</numbercontrol>
+			<numbercontrol name="multicount">
+				<anchored position="insidetopleft" height="0" width="0"/>
+				<invisible/>
+			</numbercontrol>
+			<label name="label">
+				<anchored position="insidetop" height="20" offset="0"/>
+			</label>
+			<lifepath_select_control name="att_select">
+				<anchored to="label" position="below" height="50">
+					<top merge="delete"/>
+				</anchored>
+				<class>crew_custom_attribute_item</class>
+				<script>
+					function setScoreType(scoreType)
+						self.availableScores = {}
+						self.scoreType = scoreType
+					end
+					function setWindow(window)
+						self.parentWindow = window
+					end
+					function getCounter()
+						return window.counter
+					end
+					function getMultiCount()
+						if window.multicount == nil then return 0 end
+						return window.multicount.getValue()
+					end
+					function getStep()
+						if window.step_id == nil then return 0 end
+						return window.step_id.getValue()
+					end
+					function onFilter(attEntry)
+						return (self.availableScores[attEntry.lifepath_attribute_select_control.attName] or
+						attEntry.lifepath_attribute_select_control.selected) and
+						(attEntry.lifepath_attribute_select_control.isVisible())
+					end
+					function addScores(scores)
+						for _, score in ipairs(scores) do
+							self.availableScores[string.lower(score)] = true
+							local w = self.createWindow()
+							w.lifepath_attribute_select_control.setSource(self)
+							w.lifepath_attribute_select_control.setName(score)
+							w.lifepath_attribute_select_control.setMultiCount(self.getMultiCount())
+						end
+					end
+					function incrementAttribute(name, source)
+						self.parentWindow.incrementAttribute(name, source)
+					end
+					function decrementAttribute(name, source)
+						self.parentWindow.decrementAttribute(name, source)
+					end
+					function scoreSelected(name, source)
+						self.parentWindow.scoreSelected(name, source)
+					end
+					function scoreDeselected(name, source)
+						self.parentWindow.scoreDeselected(name, source)
+					end
+				</script>
+				<columns>
+					<width>65</width>
+					<fillwidth />
+				</columns>
+			</lifepath_select_control>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="crew_custom_attribute_item">
+		<sheetdata>
+			<margins control="8,8,8,8" />
+			<genericcontrol name="tlanchor">
+				<anchored position="insidetopleft" height="26" width="0" />
+			</genericcontrol>
+			<button_lifepath_toggle_select name="lifepath_attribute_select_control">
+				<anchored to="tlanchor" position="insidetopleft" height="18" width="60" offset="4,4"/>
+				<script file="crew_support/scripts/toggle_select.lua"/>
+			</button_lifepath_toggle_select>
+		</sheetdata>
+
+	</windowclass>
+	<windowclass name="name_only_frame">
+		<frame>recordsheet</frame>
+		<placement>
+			<size width="200" height="250" />
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<sheetdata>
+			<windowlist name="names">
+				<anchored position="over" offset="-15,-25" />
+				<class>name_only_entry</class>
+				<skipempty />
+			</windowlist>
+			<resize_recordsheet />
+		</sheetdata>
+	</windowclass>
+	<windowclass name="name_only_entry">
+		<margins control="0,0,0,7" />
+		<sheetdata>
+			<genericcontrol name="contentanchor">
+				<anchored position="over" offset="5,5"/>
+			</genericcontrol>
+			<buttoncontrol name="activate">
+				<anchored to="contentanchor" position="insidetopright" offset="15,5" width="20" height="20"/>
+				<icon normal="button_speak" pressed="button_speak_down" />
+				<script>
+					function onButtonPress()
+						GmIdentityManager.addIdentity(window.name.getValue());
+					end
+				</script>
+				<gmvisibleonly />
+			</buttoncontrol>
+			<stringcontrol name="name">
+				<anchored to="activate" position="left" offset="5" >
+					<left parent="contentanchor" anchor="left" offset="15" />
+				</anchored>
+				<gmvisibleonly />
+				<frame name="fieldlight" offset="7,3,7,3"/>
+			</stringcontrol>
+		</sheetdata>
+	</windowclass>
+</root>
+
