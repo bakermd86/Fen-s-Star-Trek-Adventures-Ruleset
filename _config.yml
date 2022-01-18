@@ -1,1 +1,15 @@
-theme: jekyll-theme-minimal
+remote_theme: "mmistakes/minimal-mistakes@4.23.0"
+minimal_mistakes_skin: "contrast" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum" "sunrise"
+title: "Fen's Star Trek Adventures Extension Documentation"
+search: true
+search_full_content: true
+plugins:
+  - jekyll-include-cache
+defaults:
+  - values:
+      show_date: true
+      layout: single
+      classes: wide
+      sidebar:
+        - title: "Extension Documentation"
+          text: "Documentation for extension features and functionality for my homebrew Fantasy Grounds Unity extension for the Modophius 2d20 Star Trek Adventures tabletop gaming product"        - nav: "docs"
