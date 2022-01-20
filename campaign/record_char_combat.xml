@@ -171,9 +171,12 @@
                <top />
             </anchored>
             <script>
+                function createRoll()
+                    return RollManager.buildSkillRoll(window, self.getDice(false), self.getScoreMod())
+                end
                 function getScoreMod()
                     local att, disc = self.getScore("Fitness"), self.getScore("Command")
-                    return self.formatMod(att, "Fitness", disc, "Command", 2, window.recovery_focus)
+                    return RollManager.formatMod(att, "Fitness", disc, "Command", 2, window.recovery_focus)
                 end
                 function onInit()
                     self.setBackColor(ColorHandler.getMainColor(window.getDatabaseNode()))
@@ -218,7 +221,10 @@
                 end
                 function getScoreMod()
                     local att, disc = self.getScore("Daring"), self.getScore("Medicine")
-                    return self.formatMod(att, "Daring", disc, "Medicine", 1, window.first_aid_focus)
+                    return RollManager.formatMod(att, "Daring", disc, "Medicine", 1, window.first_aid_focus)
+                end
+                function createRoll()
+                    return RollManager.buildSkillRoll(window, self.getDice(false), self.getScoreMod())
                 end
             </script>
             <frame merge="delete"/>
@@ -525,6 +531,9 @@
                     function getScore(scoreName)
                         local rootNode = window.getDatabaseNode().getParent().getParent()
                         return DB.getValue(rootNode, string.lower(scoreName))
+                    end
+                    function createRoll()
+                        return RollManager.buildSkillRoll(window, self.getDice(false), self.getScoreMod())
                     end
                 </script>
                 <frame name="field_mask_left" merge="replace"/>

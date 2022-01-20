@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<root>
+
+	<windowclass name="saved_lptableset">
+        <frame name="recordsheet"/>
+		<placement>
+			<size width="300" height="400"/>
+		</placement>
+		<sizelimits>
+			<minimum width="300" height="400" />
+			<dynamic />
+		</sizelimits>
+		<minimize>minimized_item</minimize>
+		<nodelete />
+		<tooltip field="name" />
+		<sheetdata>
+			<sub_record_header name="header">
+				<class>item_header</class>
+			</sub_record_header>
+
+            <frame_record_content name="contentframe" />
+
+			<subwindow_record name="main">
+				<class>lptableset_main</class>
+				<activate />
+			</subwindow_record>
+
+			<scrollbar_record>
+				<target>main</target>
+			</scrollbar_record>
+			<resize_recordsheet />
+			<close_recordsheet />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="lptableset_main">
+		<script>
+			function onInit()
+				update();
+			end
+			function update()
+				local nodeRecord = getDatabaseNode();
+				local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
+
+				step_1_link.setReadOnly(bReadOnly);
+				step_2_link.setReadOnly(bReadOnly);
+				step_3_link.setReadOnly(bReadOnly);
+				step_4_link.setReadOnly(bReadOnly);
+				step_5_link.setReadOnly(bReadOnly);
+				step_6_link.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+            <anchor_column name="columnanchor" />
+
+            <label_column>
+                <static>Set as default</static>
+            </label_column>
+			<lp_default_check/>
+
+            <label_column>
+                <static>Species Table</static>
+            </label_column>
+			<lptable_link name="step_1_link">
+				<namecontrol>step_1_name</namecontrol>
+			</lptable_link>
+            <lptable_name name="step_1_name"/>
+			<line_column/>
+
+            <label_column>
+                <static>Environment Table</static>
+            </label_column>
+			<lptable_link name="step_2_link">
+				<namecontrol>step_2_name</namecontrol>
+			</lptable_link>
+            <lptable_name name="step_2_name"/>
+			<line_column/>
+
+            <label_column>
+                <static>Upbringing Table</static>
+            </label_column>
+			<lptable_link name="step_3_link">
+				<namecontrol>step_3_name</namecontrol>
+			</lptable_link>
+            <lptable_name name="step_3_name"/>
+			<line_column/>
+
+            <label_column>
+                <static>Academy Table</static>
+            </label_column>
+			<lptable_link name="step_4_link">
+				<namecontrol>step_4_name</namecontrol>
+			</lptable_link>
+            <lptable_name name="step_4_name"/>
+			<line_column/>
+
+            <label_column>
+                <static>Career Table</static>
+            </label_column>
+			<lptable_link name="step_5_link">
+				<namecontrol>step_5_name</namecontrol>
+			</lptable_link>
+            <lptable_name name="step_5_name"/>
+			<line_column/>
+
+            <label_column>
+                <static>Career Events Table</static>
+            </label_column>
+			<lptable_link name="step_6_link">
+				<namecontrol>step_6_name</namecontrol>
+			</lptable_link>
+            <lptable_name name="step_6_name"/>
+			<line_column/>
+		</sheetdata>
+	</windowclass>
+
+	<template name="lp_default_check">
+		<button_checkbox_column name="default" >
+			<anchored>
+				<left offset="120" />
+			</anchored>
+			<script>
+				function onValueChanged(a)
+					if getValue() == 1 then
+						for _, node in pairs(DB.getChildren(".saved_lptableset")) do
+							if node.getNodeName() ~= window.getDatabaseNode().getNodeName() then
+								DB.setValue(node, "default", "number", 0)
+							end
+						end
+					end
+				end
+			</script>
+		</button_checkbox_column>
+	</template>
+
+	<template name="lptable_name">
+		<string_column>
+			<anchored>
+				<left offset="150" />
+			</anchored>
+			<readonly/>
+		</string_column>
+	</template>
+
+	<template name="lptable_link">
+		<linkfield >
+			<anchored width="20" height="20">
+				<top parent="columnanchor" anchor="bottom" relation="current" offset="7" />
+				<left offset="120" />
+			</anchored>
+			<script>
+				function onInit()
+					local class, datasource = getValue()
+					if datasource ~= nil then
+						self.setSource(datasource)
+					end
+				end
+				function onDrop(x, u, dragdata)
+					if dragdata.isType("shortcut") then
+						local class, datasource = dragdata.getShortcutData();
+						if class == "table" then
+							self.clearSource()
+							self.setSource(datasource)
+							self.setValue(class, datasource)
+						end
+					end
+				end
+				function clearSource()
+					local class, datasource = getValue()
+					window[namecontrol[1]].setValue("")
+					DB.removeHandler(datasource..".name", "onUpdate", self.handleNameChange)
+				end
+				function setSource(datasource)
+					window[namecontrol[1]].setValue(DB.getValue(datasource..".name"))
+					DB.addHandler(datasource..".name", "onUpdate", self.handleNameChange)
+				end
+				function handleNameChange(nodeChanged)
+					window[namecontrol[1]].setValue(nodeChanged.getValue())
+				end
+			</script>
+		</linkfield>
+	</template>
+
+</root>

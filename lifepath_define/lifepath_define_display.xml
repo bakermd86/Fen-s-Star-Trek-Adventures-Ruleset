@@ -5,7 +5,13 @@
     <windowclass name="lifepath_table_define_display">
 		<script>
 			function onInit()
-				self.importedTableNode = nil
+				self.step = 1
+			end
+			function setStep(step)
+				self.step = step
+			end
+			function getStep()
+				return step
 			end
 		</script>
         <sheetdata>
@@ -45,35 +51,33 @@
 				<child><backcolor>6A3068ff</backcolor></child>
 				<skipempty />
 			</windowlist>
-			<genericcontrol name="button_anchor">
-				<anchored position="insidebottomright" offset="290,15" height="24"/>
-			</genericcontrol>
-			<button_lifepath_tab name="save_table">
-				<anchored width="135"/>
-				<state>
-					<text> Save This Table</text>
-				</state>
-				<backcolor>ffeec515</backcolor>
-				<script>
-					function onButtonPress()
-						Debug.chat(window.getDatabaseNode())
-						---LifePathDefineHelper.saveTable(window)
-					end
-				</script>
-			</button_lifepath_tab>
-			<button_lifepath_tab name="save_table">
-				<anchored width="145"/>
-				<state>
-					<text> Load Existing Table </text>
-				</state>
-				<backcolor>ffeec515</backcolor>
-				<script>
-					function onButtonPress()
-						Debug.chat(window.getDatabaseNode())
-						---LifePathDefineHelper.saveTable(window)
-					end
-				</script>
-			</button_lifepath_tab>
+<!--			<genericcontrol name="button_anchor">-->
+<!--				<anchored position="insidebottomright" offset="290,15" height="24"/>-->
+<!--			</genericcontrol>-->
+<!--			<sta_tab_button name="save_table">-->
+<!--				<anchored width="135"/>-->
+<!--				<state>-->
+<!--					<text> Save This Table</text>-->
+<!--				</state>-->
+<!--				<backcolor>ffeec515</backcolor>-->
+<!--				<script>-->
+<!--					function onButtonPress()-->
+<!--						window.saveTable()-->
+<!--					end-->
+<!--				</script>-->
+<!--			</sta_tab_button>-->
+<!--			<sta_tab_button name="save_table">-->
+<!--				<anchored width="145"/>-->
+<!--				<state>-->
+<!--					<text> Load Existing Table </text>-->
+<!--				</state>-->
+<!--				<backcolor>ffeec515</backcolor>-->
+<!--				<script>-->
+<!--					function onButtonPress()-->
+<!--						window.loadTable()-->
+<!--					end-->
+<!--				</script>-->
+<!--			</sta_tab_button>-->
         </sheetdata>
     </windowclass>
 
@@ -115,7 +119,7 @@
 				<tooltip> Edit Entry </tooltip>
 				<script>
 					function onButtonPress()
-						window.windowlist.window.parentcontrol.window.loadRow(window.getDatabaseNode())
+						window.windowlist.window.parentcontrol.window.loadRow(window)
 					end
 				</script>
 			</buttoncontrol>

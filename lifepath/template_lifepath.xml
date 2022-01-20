@@ -17,7 +17,7 @@
 				<top  offset="45" />
 				<left />
 				<right />
-				<bottom parent="" offset="-52" />
+				<bottom parent="" offset="-45" />
 			</anchored>
 			<fastinit />
 		</subwindow>
@@ -105,21 +105,6 @@
 			<pressed offset="1,1" />
 			<tooltip textres="lifepath_tooltip_back" />
 			<state textres="lifepath_prevpage" />
-		</buttoncontrol>
-	</template>
-	<template name="button_lifepath_tab">
-		<buttoncontrol>
-			<anchored height="24" width="50" to="button_anchor">
-				<bottom/>
-				<left anchor="right" relation="relative" offset="5"/>
-			</anchored>
-			<stateframe>
-				<pressed  offset="5,5,5,5"  />
-			</stateframe>
-			<font>button-white-large</font>
-			<pressed offset="1,1" />
-			<tooltip textres="" />
-			<state textres="" />
 		</buttoncontrol>
 	</template>
 	<template name="button_lifepath_toggle_select">
@@ -584,7 +569,7 @@
 				</anchored>
 			</genericcontrol>
 
-			<button_lifepath_tab name="filtered_talents_button">
+			<sta_tab_button name="filtered_talents_button">
 				<anchored width="120" />
                 <state><text>Requirements Met</text></state>
 				<script>
@@ -597,9 +582,9 @@
 						window.all_talents_button.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
 					end
 				</script>
-			</button_lifepath_tab>
+			</sta_tab_button>
 
-			<button_lifepath_tab name="all_talents_button">
+			<sta_tab_button name="all_talents_button">
 				<anchored width="100" />
                 <state><text>All Talents</text></state>
 				<script>
@@ -612,7 +597,7 @@
 						window.filtered_talents_button.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
 					end
 				</script>
-			</button_lifepath_tab>
+			</sta_tab_button>
 
 			<formattedtextcontrol name="talent_preview">
 				<anchored position="insidetopleft" width="475">
@@ -707,5 +692,15 @@
 			</buttoncontrol>
 		</sheetdata>
 	</windowclass>
-
+	<template name="lifepath_tab_button">
+		<sta_tab_button>
+			<anchored height="30" />
+			<backcolor>ffc86763</backcolor>
+			<script>
+				function onButtonPress()
+					window.tabs.activateTab(tabnum[1])
+				end
+			</script>
+		</sta_tab_button>
+	</template>
 </root>	

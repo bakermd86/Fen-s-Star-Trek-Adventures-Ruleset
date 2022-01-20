@@ -1,5 +1,6 @@
 function onInit()
     self.header.subwindow.setName("Academy Track Name")
+    self.name_header.subwindow.name.setValue("Step 4 - Academy")
     self.usedVals = {}
     self.disc_mode_controls = {
         self.academy_discipline_mode_select_from

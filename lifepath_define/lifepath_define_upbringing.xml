@@ -2,10 +2,12 @@
 
 <root>
 	<windowclass name="lifepath_define_upbringing">
-		<backcolor>ff8474b8</backcolor>
+<!--		<backcolor>ff8474b8</backcolor>-->
 		<nodelete />
 		<script file="lifepath_define/scripts/lifepath_define_upbringing.lua" />
         <sheetdata>
+			<step_table_name_header name="name_header"/>
+			<step_color_frame />
 			<define_step_header name="header" />
 			<define_step_col_anchor name="columnanchor" />
 			<define_step_button_anchor name="button_anchor" />

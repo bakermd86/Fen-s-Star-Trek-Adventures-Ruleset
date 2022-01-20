@@ -1,6 +1,10 @@
 function onInit()
+    self.rollSourceNode = nil
+    self.sourceRollWindows = {}
+    self.lastRollControlWindow = nil
 	GameSystem.actions["character_score"] = { };
 	ActionsManager.registerResultHandler("character_score", handleScoreResult);
+	ChatManager.registerDropCallback("dice", handleManualDrop)
 	GameSystem.actions["damage_roll"] = { };
 	ActionsManager.registerResultHandler("damage_roll", handleDamageResult);
     if User.isLocal() or User.isHost() then
@@ -12,6 +16,125 @@ function onInit()
             end
         end
     end
+end
+
+function determinationUsed(window)
+    if not window or type(window) ~= "charsheet" then return nil end
+    local detControl = window.header.subwindow.determinationDieControl
+    if detControl.getValue() == 1 then
+        detControl.setValue(0)
+        return "TRUE"
+    end
+    return nil
+end
+
+function getScoreMod(window)
+    local att, attName = window.activeAttribute.getValue(), window.activeAttributeName.getValue()
+    local disc, discName = window.activeDiscipline.getValue(), window.activeDisciplineName.getValue()
+    local dc = window.rollDC.getValue()
+    local focus ;
+    if window.focuses then
+        focus = window.focuses.getSelected()
+    end
+    return formatMod(att, attName, disc, discName, dc, focus)
+end
+
+function formatMod(att, attName, disc, discName, dc, focus)
+    local desc = "[" .. attName.." ("..att..") + "..discName.." ("..disc.. ")]"
+    if focus and not(focus.getValue() == "") then desc = desc .. "\n[Focus: " .. focus.getValue() .. " ]" end
+    return { att, disc, dc, focus, desc, attName, discName }
+end
+
+function handleScoreSelected(sourceRollWindow)
+    if self.rollSourceNode ~= sourceRollWindow.window.getDatabaseNode() then
+        self.clearScoreSelect()
+        self.rollSourceNode = sourceRollWindow.window.getDatabaseNode()
+    end
+    table.insert(self.sourceRollWindows, sourceRollWindow)
+    self.lastRollControlWindow = sourceRollWindow.rollControl().window
+end
+
+function clearScoreSelect()
+    for _, w in ipairs(self.sourceRollWindows) do
+        w.clearSelections()
+    end
+    self.sourceRollWindows = {}
+    self.rollSourceNode = nil
+    if self.lastRollControlWindow ~= nil then
+        self.lastRollControlWindow.activeAttribute.setScore("", 0)
+        self.lastRollControlWindow.activeDiscipline.setScore("", 0)
+    end
+    self.lastRollControlWindow = nil
+end
+
+function buildSkillRoll(window, dice, scoreOverride)
+    local att, disc, dc, focus, desc, attName, discName;
+    if scoreOverride ~= nil then
+        att, disc, dc, focus, desc, attName, discName = unpack(scoreOverride)
+    else
+        att, disc, dc, focus, desc, attName, discName = unpack(getScoreMod(window))
+    end
+    local roll = {
+        ["aDice"] =dice,
+        ["sType"]="character_score",
+        ["desc"]=desc,
+        ["nMod"]=0,
+        ["att"]=att,
+        ["attName"]=attName,
+        ["disc"]=disc,
+        ["discName"]=discName,
+        ["dc"]=dc,
+        ["focus"]=nil,
+        ['sUser']=User.getUsername(),
+        ['determination']=determinationUsed(window),
+        ["sNode"]=window.getDatabaseNode().getNodeName()
+    }
+    if focus and not(focus.getValue() == "")then
+        roll['focus'] = focus.getValue()
+    end
+    return roll
+end
+
+function checkRoll(rRoll)
+    if not rRoll then return false
+    else return (rRoll.att > 0) and (rRoll.disc > 0)
+    end
+end
+
+function handleManualDrop(draginfo)
+    local dice = draginfo.getDieList()
+    if dice[1]['type'] ~= "d20" then return false
+    elseif #self.sourceRollWindows < 2 then return false
+    end
+    local rRoll = buildSkillRoll(lastRollControlWindow, dice)
+    buildScoreDrag(draginfo, rRoll)
+end
+
+function buildScoreDrag(draginfo, rRoll)
+    if not checkRoll(rRoll) then return false end
+    draginfo.setType(rRoll["sType"])
+    draginfo.setDieList(rRoll["aDice"])
+    for k, v in pairs(rRoll) do
+        draginfo.setMetaData(k, v)
+    end
+    local sNode = DB.findNode(rRoll["sNode"])
+    if sNode then
+        local source_type = sNode.getParent().getNodeName()
+        if (source_type == "charsheet") then
+            draginfo.addShortcut("charsheet", sNode.getNodeName())
+        else
+            draginfo.addShortcut("npc", sNode.getNodeName())
+        end
+        if (source_type == "crewmate") and Extension.getExtensionInfo("Fen's NPC Portrait Workaround") ~= nil then
+            draginfo.setMetaData("crew_token", NPCPortraitManager.formatDynamicPortraitName(sNode))
+        end
+    end
+    return true
+end
+
+function displayRawRoll(rSource, rTarget, rRoll)
+    local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
+    Comm.deliverChatMessage(rMessage);
 end
 
 function handleDamageResult(rSource, rTarget, rRoll)
@@ -72,7 +195,8 @@ function handleScoreResult(source, target, rRoll)
         elseif val == 1 then successes = successes + 1 end
         if val == 20 then complications = complications + 1 end
     end
-    skillChatMessage(source, rRoll, successes, complications, dc, rRoll['crew_sender'], rRoll['crew_token'])
+    skillChatMessage(source, rRoll, successes, complications, dc, rRoll['crew_token'])
+    self.clearScoreSelect()
 end
 
 function sumDice(dice)
@@ -87,7 +211,7 @@ function handleGender(die)
     local nTotal = die['result']
 	local gender;
 	if nTotal == 1 then
-		gender = "None";
+		gender = "None/Other";
 	elseif nTotal == 20 then
 		gender = "2 Or More";
 	elseif nTotal % 2 == 0 then
@@ -116,10 +240,14 @@ function handleWeight(dice, height)
     return weight
 end
 
-function skillChatMessage(rSource, rRoll, successes, complications, dc, crew_sender, crew_token)
+function skillChatMessage(rSource, rRoll, successes, complications, dc, crew_token)
+    if not rSource and (rRoll['sNode'] or "") ~= "" then
+        rSource = ActorManager.resolveActor(rRoll['sNode'])
+    end
     local rMessage = ActionsManager.createActionMessage(rSource, rRoll)
-    if not(crew_sender == nil) then
-        rMessage.sender = crew_sender .. " (" .. rRoll.sUser .. ")"
+    if not rSource and (rRoll['sNode'] or "") ~= "" then
+        local dbName = DB.getValue(DB.findNode(rRoll['sNode']), "name", "")
+        if dbName ~= "" then rMessage.sender = dbName .. " (" .. rRoll.sUser .. ")" end
     end
     if not(crew_token == nil) then
         rMessage.icon = "portrait_" .. crew_token .. "_chat"

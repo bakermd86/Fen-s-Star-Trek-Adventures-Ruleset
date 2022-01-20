@@ -14,7 +14,7 @@
         <subwindow name="contents">
             <anchored width="475">
                 <top offset="0" />
-                <bottom offset="10" />
+                <bottom offset="0" />
                 <left offset="0" />
             </anchored>
             <activate />
@@ -126,7 +126,6 @@
     </template>
     <template name="char_label_tag">
         <genericcontrol>
-<!--            <frame name="field_purple_left" offset="-5"/>-->
             <frame name="field_mask_left" offset="-5"/>
             <script>
                 function onInit()
@@ -288,6 +287,7 @@
               end
                 function setModifier(name, value)
                     self.rollControl().setScore(name, value)
+                    RollManager.handleScoreSelected(self)
                 end
             </script>
         </windowlist>
@@ -320,7 +320,7 @@
             <readonly />
             <anchored height="22" >
                 <top anchor="bottom" offset="3"/>
-                <right offset="-50"/>
+                <right offset="-48"/>
             </anchored>
             <backcolor>ff000000</backcolor>
             <font>lcars_sheetlabel</font>
@@ -646,6 +646,26 @@
                 <bottom offset="0"/>
             </anchored>
         </char_color_field_label>
+    </template>
+    <template name="char_single_toggle_control">
+        <buttoncontrol>
+           <anchored height="20" width="20">
+               <left anchor="right" offset="2"/>
+               <top />
+           </anchored>
+              <state>
+                  <frame>field_mask_right_white</frame>
+              </state>
+              <state>
+                  <frame>field_mask_right</frame>
+              </state>
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
+                end
+            </script>
+        </buttoncontrol>
     </template>
     <template name="char_single_toggle_field">
         <buttonfield>

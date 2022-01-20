@@ -103,14 +103,17 @@
                 <anchored to="attList"/>
             </active_score>
             <numbercontrol name="activeAttribute">
-                <anchored to="activeAttributeName" position="rightlow" height="19" width="18" offset="2,0"/>
+                <anchored to="activeAttributeName" position="rightlow" height="19" width="18" />
                 <script>
                     function setScore(name, value)
                         self.setValue(value)
                         if name == "" then
                             window.activeAttributeName.setValue(name)
+                            self.setVisible(false)
+
                         else
                             window.activeAttributeName.setValue(" "..name.." ")
+                            self.setVisible(true)
                         end
                     end
                     function onInit()
@@ -120,18 +123,25 @@
                 </script>
 <!--                <frame name="field_purple_border_right" />-->
                 <frame name="field_mask_right_white" />
+                <invisible />
             </numbercontrol>
             <active_score name="activeDisciplineName">
                 <anchored to="discList" >
-                    <right offset="-48"/>
+                    <right offset="-46"/>
                 </anchored>
             </active_score>
             <numbercontrol name="activeDiscipline">
-                <anchored to="activeDisciplineName" position="rightlow" height="19" width="18" offset="2,0"/>
+                <anchored to="activeDisciplineName" position="rightlow" height="19" width="18" />
                 <script>
                     function setScore(name, value)
                         self.setValue(value)
-                        window.activeDisciplineName.setValue(" "..name.." ")
+                        if name == "" then
+                            window.activeDisciplineName.setValue(name)
+                            self.setVisible(false)
+                        else
+                            window.activeDisciplineName.setValue(" "..name.." ")
+                            self.setVisible(true)
+                        end
                     end
                     function onInit()
                         self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
@@ -139,6 +149,7 @@
                     end
                 </script>
                 <frame name="field_mask_right_white" />
+                <invisible />
             </numbercontrol>
 
         <!--     Focuses       -->

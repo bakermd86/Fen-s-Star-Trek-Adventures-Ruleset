@@ -75,6 +75,7 @@
 
 <!--		Lifepath table definition  -->
 		<includefile source="lifepath_define/lifepath_define.xml" />
+		<includefile source="lifepath_define/lifepath_tableset.xml" />
 		<includefile source="lifepath_define/lifepath_define_template.xml" />
 		<includefile source="lifepath_define/lifepath_define_display.xml" />
 		<includefile source="lifepath_define/lifepath_define_species.xml" />

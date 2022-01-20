@@ -1,24 +1,27 @@
 
+
+
 function createRoll(assist)
-    local att, disc, dc, focus, desc, attName, discName = unpack(self.getScoreMod())
-    local roll = {
-        ["aDice"] =self.getDice(assist),
-        ["sType"]="character_score",
-        ["desc"]=desc,
-        ["nMod"]=0,
-        ["att"]=att,
-        ["attName"]=attName,
-        ["disc"]=disc,
-        ["discName"]=discName,
-        ["dc"]=dc,
-        ["focus"]=nil,
-        ['sUser']=User.getUsername(),
-        ['determination']=self.determinationUsed()
-    }
-    if focus and not(focus.getValue() == "")then
-        roll['focus'] = focus.getValue()
-    end
-    return roll
+    return RollManager.buildSkillRoll(window, self.getDice(assist))
+--     local att, disc, dc, focus, desc, attName, discName = unpack(self.getScoreMod())
+--     local roll = {
+--         ["aDice"] =self.getDice(assist),
+--         ["sType"]="character_score",
+--         ["desc"]=desc,
+--         ["nMod"]=0,
+--         ["att"]=att,
+--         ["attName"]=attName,
+--         ["disc"]=disc,
+--         ["discName"]=discName,
+--         ["dc"]=dc,
+--         ["focus"]=nil,
+--         ['sUser']=User.getUsername(),
+--         ['determination']=self.determinationUsed()
+--     }
+--     if focus and not(focus.getValue() == "")then
+--         roll['focus'] = focus.getValue()
+--     end
+--     return roll
 end
 
 function getDice(assist)
@@ -28,44 +31,41 @@ end
 
 function determinationUsed()
     local charWindow = ScopeManager.getCharacterWindow(window.getDatabaseNode().getNodeName())
-    if not charWindow then return nil end
-    local detControl = charWindow.header.subwindow.determinationDieControl
-    if detControl.getValue() == 1 then
-        detControl.setValue(0)
-        return "TRUE"
-    end
-    return nil
+    return RollManager.determinationUsed(charWindow)
 end
 
 function onDoubleClick()
-    local rRoll = createRoll(Input.isControlPressed())
-    if not(checkRoll(rRoll)) then return false end
+    local rRoll = self.createRoll(Input.isControlPressed())
+    if not(RollManager.checkRoll(rRoll)) then return false end
     local throw = ActionsManager.buildThrow(window.getDatabaseNode().getNodeName(), nil, rRoll, nil)
     Comm.throwDice(throw)
 end
 
-function checkRoll(rRoll)
-    return (rRoll.att > 0) and (rRoll.disc > 0)
-end
+-- function checkRoll(rRoll)
+--     return (rRoll.att > 0) and (rRoll.disc > 0)
+-- end
 
 function onDragStart(button, x, y, draginfo)
-    local rRoll = createRoll(Input.isControlPressed() or (button == 2))
-    if not(checkRoll(rRoll)) then return false end
-    draginfo.setType(rRoll["sType"])
-    draginfo.setDieList(rRoll["aDice"])
-    for k, v in pairs(rRoll) do
-        draginfo.setMetaData(k, v)
-    end
-    local source_type = window.getDatabaseNode().getParent().getNodeName()
-    if (source_type == "charsheet") then
-        draginfo.addShortcut("charsheet", window.getDatabaseNode().getNodeName())
-    end
-    if (source_type == "crewmate") and (Extension.getExtensionInfo("Fen's NPC Portrait Workaround") ~= nil)then
-        draginfo.setMetaData("crew_sender", DB.getValue(window.getDatabaseNode(), "name", "name"))
-        draginfo.setMetaData("crew_token", NPCPortraitManager.formatDynamicPortraitName(window.getDatabaseNode()))
-    end
-    return true
+    local rRoll = self.createRoll(Input.isControlPressed() or (button == 2))
+    return RollManager.buildScoreDrag(draginfo, rRoll)
 end
+--     if not(checkRoll(rRoll)) then return false end
+--     draginfo.setType(rRoll["sType"])
+--     draginfo.setDieList(rRoll["aDice"])
+--     for k, v in pairs(rRoll) do
+--         draginfo.setMetaData(k, v)
+--     end
+--     local source_type = window.getDatabaseNode().getParent().getNodeName()
+--     if (source_type == "charsheet") then
+--         draginfo.addShortcut("charsheet", window.getDatabaseNode().getNodeName())
+--     else
+--         draginfo.addShortcut("npc", window.getDatabaseNode().getNodeName())
+--     end
+--     if (source_type == "crewmate") and Extension.getExtensionInfo("Fen's NPC Portrait Workaround") ~= nil then
+--         draginfo.setMetaData("crew_token", NPCPortraitManager.formatDynamicPortraitName(window.getDatabaseNode()))
+--     end
+--     return true
+-- end
 
 
 function getScore(scoreName)
@@ -84,11 +84,11 @@ function getWeaponType(weaponName, typeNode)
     return weaponType
 end
 
-function formatMod(att, attName, disc, discName, dc, focus)
-    local desc = "[" .. attName.." ("..att..") + "..discName.." ("..disc.. ")]"
-    if focus and not(focus.getValue() == "") then desc = desc .. "\n[Focus: " .. focus.getValue() .. " ]" end
-    return { att, disc, dc, focus, desc, attName, discName }
-end
+-- function formatMod(att, attName, disc, discName, dc, focus)
+--     local desc = "[" .. attName.." ("..att..") + "..discName.." ("..disc.. ")]"
+--     if focus and not(focus.getValue() == "") then desc = desc .. "\n[Focus: " .. focus.getValue() .. " ]" end
+--     return { att, disc, dc, focus, desc, attName, discName }
+-- end
 
 function getAttackMod(attackType, weaponName, focus)
     local typeNode = "weapons"
@@ -107,12 +107,13 @@ function getAttackMod(attackType, weaponName, focus)
 end
 
 function getScoreMod()
-    local att, attName = window.activeAttribute.getValue(), window.activeAttributeName.getValue()
-    local disc, discName = window.activeDiscipline.getValue(), window.activeDisciplineName.getValue()
-    local dc = window.rollDC.getValue()
-    local focus ;
-    if window.focuses then
-        focus = window.focuses.getSelected()
-    end
-    return formatMod(att, attName, disc, discName, dc, focus)
+    return RollManager.getScoreMod(window)
+--     local att, attName = window.activeAttribute.getValue(), window.activeAttributeName.getValue()
+--     local disc, discName = window.activeDiscipline.getValue(), window.activeDisciplineName.getValue()
+--     local dc = window.rollDC.getValue()
+--     local focus ;
+--     if window.focuses then
+--         focus = window.focuses.getSelected()
+--     end
+--     return formatMod(att, attName, disc, discName, dc, focus)
 end

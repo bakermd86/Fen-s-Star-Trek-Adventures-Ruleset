@@ -1,5 +1,6 @@
 function onInit()
     self.header.subwindow.setName("Career Experience")
+    self.name_header.subwindow.name.setValue("Step 5 - Career")
     self.usedVals = {}
     self.talent_mode_controls = {
         self.career_talent_mode_any,

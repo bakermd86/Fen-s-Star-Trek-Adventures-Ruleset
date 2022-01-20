@@ -1,5 +1,6 @@
 function onInit()
     self.header.subwindow.setName("Environment Name")
+    self.name_header.subwindow.name.setValue("Step 3 - Upbringing")
     self.usedVals = {}
     self.att_mode_controls = nil
     self.disc_mode_controls = {

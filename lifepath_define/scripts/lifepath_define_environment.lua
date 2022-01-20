@@ -1,5 +1,6 @@
 function onInit()
     self.header.subwindow.setName("Environment Name")
+    self.name_header.subwindow.name.setValue("Step 2 - Environment")
     self.usedVals = {}
     self.att_mode_controls = {
         self.environment_attribute_mode_select_from,

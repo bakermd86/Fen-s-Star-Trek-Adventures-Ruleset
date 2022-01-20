@@ -1,5 +1,6 @@
 function onInit()
     self.header.subwindow.setName("Species Name")
+    self.name_header.subwindow.name.setValue("Step 1 - Species")
     self.usedVals = {}
     self.att_mode_controls = {
         self.species_attribute_mode_fixed,

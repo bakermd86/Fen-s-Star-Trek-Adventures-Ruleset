@@ -124,7 +124,6 @@
                     <right offset="-39"/>
                 </anchored>
             </char_label>
-<!--            <char_att_value_frame />-->
             <char_score_button name="selectButton"/>
         </sheetdata>
     </windowclass>
@@ -154,8 +153,8 @@
                   </state>
                 <script>
                     function onInit()
-                        self.setBackColor(ColorHandler.getColor(window.windowlist.window.getDatabaseNode()))
-                        ColorHandler.registerColorFrame(self, window.windowlist.window.getDatabaseNode())
+                        self.setBackColor(ColorHandler.getAltColor(window.windowlist.window.getDatabaseNode()))
+                        ColorHandler.registerColorFrameAlt(self, window.windowlist.window.getDatabaseNode())
                     end
                     function onClose()
                         ColorHandler.unregisterColorFrameAlt(self, window.windowlist.window.getDatabaseNode())

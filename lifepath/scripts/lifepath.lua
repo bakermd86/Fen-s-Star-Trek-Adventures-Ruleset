@@ -54,32 +54,32 @@ function onInit()
 		{}, {}, {}, {}, {}, {}, {}
 	}
 
-	Module.onModuleLoad = onModuleLoad
-	if STAModuleManager.checkModules() then
-		autoRoll()
-	end
-end
-
-function onModuleLoad(module)
-	if module == ScopeManager.MODULE_MAIN then
-		autoRoll()
-	end
-end
-
-function autoRoll()
-	self.rollCombinedDetails()  ---Kick off gender, height and weight rolls at this point
--- 	for i=2,6 do
--- 		self.rollStep(i)
+-- 	Module.onModuleLoad = onModuleLoad
+	self.rollCombinedDetails()
+-- 	if STAModuleManager.checkModules() then
+-- 		autoRoll()
 -- 	end
-	Module.onModuleLoad = nil
 end
+
+-- function onModuleLoad(module)
+-- 	if module == ScopeManager.MODULE_MAIN then
+-- 		autoRoll()
+-- 	end
+-- end
+
+-- function autoRoll()
+-- 	self.rollCombinedDetails()  ---Kick off gender, height and weight rolls at this point
+-- -- 	for i=2,6 do
+-- -- 		self.rollStep(i)
+-- -- 	end
+-- 	Module.onModuleLoad = nil
+-- end
 
 function rollSteps(steps)
 	for _, i in ipairs(steps) do
 		self.rollStep(i)
 	end
 end
-
 
 function onClose()
 	self.closing = true
@@ -186,7 +186,7 @@ function parseSpeciesColumns(tableName)
 	elseif #columns == 5 then
 		textDesc = columns[1] .. getFirstWord(columns[2]) .. columns[3] ..getFirstWord(columns[4]) .. columns[5]
 	else
-		Debug.chat("Bad column length, probably got nested redirects. Reroll: " .. #columns)
+		Debug.console("Bad column length, probably got nested redirects. Reroll: " .. #columns)
 		return false
 	end
 

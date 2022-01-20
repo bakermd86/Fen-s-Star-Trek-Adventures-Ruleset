@@ -165,90 +165,54 @@
 				<frame name="field_yellow_left" />
 			</genericcontrol>
 
-			<button_lifepath_tab name="lifepath_speciestab" >
+			<lifepath_tab_button name="lifepath_speciestab" >
 				<anchored width="45"/>
 				<state textres="lifepath_speciestab_label" />
-				<script>
+				<tabnum>1</tabnum>
+			</lifepath_tab_button>
 
-					function onButtonPress()
-						window.tabs.activateTab(1);
-					end
-				</script>
-				<backcolor>ffc86763</backcolor>
-			</button_lifepath_tab>
-
-			<button_lifepath_tab name="lifepath_environmenttab" >
+			<lifepath_tab_button name="lifepath_environmenttab" >
 				<anchored width="100"/>
 				<state textres="lifepath_environmenttab_label" />
-				<script>
-					function onButtonPress()
-						window.tabs.activateTab(2);
-					end
-				</script>
-				<backcolor>ffc86763</backcolor>
-			</button_lifepath_tab>
+				<tabnum>2</tabnum>
+			</lifepath_tab_button>
 
-			<button_lifepath_tab name="lifepath_upbringingtab" >
+			<lifepath_tab_button name="lifepath_upbringingtab" >
 				<anchored width="90"/>
 				<state textres="lifepath_upbringingtab_label" />
-				<script>
-					function onButtonPress()
-						window.tabs.activateTab(3);
-					end
-				</script>
-				<backcolor>ffc86763</backcolor>
-			</button_lifepath_tab>
+				<tabnum>3</tabnum>
+			</lifepath_tab_button>
 
-			<button_lifepath_tab name="lifepath_academytab" >
+			<lifepath_tab_button name="lifepath_academytab" >
 				<anchored width="65"/>
 				<state textres="lifepath_academytab_label" />
-				<script>
-					function onButtonPress()
-						window.tabs.activateTab(4);
-					end
-				</script>
-				<backcolor>ffc86763</backcolor>
-			</button_lifepath_tab>
+				<tabnum>4</tabnum>
+			</lifepath_tab_button>
 
-			<button_lifepath_tab name="lifepath_careertab" >
+			<lifepath_tab_button name="lifepath_careertab" >
 				<state textres="lifepath_careertab_label" />
-				<script>
-					function onButtonPress()
-						window.tabs.activateTab(5);
-					end
-				</script>
-				<backcolor>ffc86763</backcolor>
-			</button_lifepath_tab>
+				<tabnum>5</tabnum>
+			</lifepath_tab_button>
 
-			<button_lifepath_tab name="lifepath_career_eventtab" >
+			<lifepath_tab_button name="lifepath_career_eventtab" >
 				<state textres="lifepath_career_eventtab_label" />
-				<script>
-					function onButtonPress()
-						window.tabs.activateTab(6);
-					end
-				</script>
-				<backcolor>ffc86763</backcolor>
-			</button_lifepath_tab>
+				<tabnum>6</tabnum>
+			</lifepath_tab_button>
 
 
-			<button_lifepath_tab name="lifepath_finishing_touchestab" >
+			<lifepath_tab_button name="lifepath_finishing_touchestab" >
 				<state textres="lifepath_finishing_touchestab_label" />
-				<script>
-					function onButtonPress()
-						window.tabs.activateTab(7);
-					end
-				</script>
-				<backcolor>ffc86763</backcolor>
-			</button_lifepath_tab>
-			<button_lifepath_tab name="save_button" >
+				<tabnum>7</tabnum>
+			</lifepath_tab_button>
+
+			<lifepath_tab_button name="save_button" >
 				<state textres="lifepath_tooltip_save" />
 				<script>
 					function onButtonPress()
 						LifePathSaveHelper.checkSaveReady()
 					end
 				</script>
-				<backcolor>ffc86763</backcolor>
-			</button_lifepath_tab>
+			</lifepath_tab_button>
 
 
 			<lp_step_subwindow name="gen_species">

@@ -1,4 +1,5 @@
 TEST_TABLE_NAME = "LPTest1"
+TABLESET_NODE = ".saved_lptableset"
 STEP_NAMES = {
     "species",
     "environment",
@@ -9,17 +10,36 @@ STEP_NAMES = {
 }
 
 function getAllActiveTables()
-    return {
-        TEST_TABLE_NAME
-    }
+    allTables = {}
+    for _, tableNode in pairs(DB.getChildren(TABLESET_NODE)) do
+        if DB.getValue(tableNode, "name", "") ~= "" then
+            table.insert(allTables, DB.getValue(tableNode, "name"))
+        end
+    end
+    return allTables
 end
 
 function getDefaultTable()
-    return TEST_TABLE_NAME
+    for _, tableNode in pairs(DB.getChildren(TABLESET_NODE)) do
+        if DB.getValue(tableNode, "default", 0) == 1 and DB.getValue(tableNode, "name", "") ~= "" then
+            return DB.getValue(tableNode, "name")
+        end
+    end
+    return "MANUAL"
 end
 
 function getActiveStepName(table_name, step_num)
-    return table_name .. "-step" .. step_num .. "-" .. STEP_NAMES[step_num]
+    local stepTable = nil
+    Debug.chat(table_name)
+    for _, tableNode in pairs(DB.getChildren(TABLESET_NODE)) do
+        Debug.chat(DB.getValue(tableNode, "name", ""))
+        if DB.getValue(tableNode, "name", "") == table_name then
+            Debug.chat(DB.getChild(tableNode, "step_"..step_num.."_link"))
+            _, stepTable = DB.getChild(tableNode, "step_"..step_num.."_link").getValue()
+            Debug.chat(stepTable)
+        end
+    end
+    return DB.getValue(stepTable..".name")
 end
 
 function populateAttributes(attributes, step_attributes)

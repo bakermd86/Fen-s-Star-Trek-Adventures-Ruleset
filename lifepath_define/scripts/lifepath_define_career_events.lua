@@ -1,5 +1,6 @@
 function onInit()
     self.header.subwindow.setName("Career Event Name")
+    self.name_header.subwindow.name.setValue("Step 6 - Career Events")
     self.usedVals = {}
     self.att_mode_controls = {
         self.career_events_attribute_mode_fixed,

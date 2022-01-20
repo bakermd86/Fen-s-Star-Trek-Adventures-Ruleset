@@ -31,7 +31,7 @@
 				<font>lcars_sheetlabel</font>
 			</label_title_frame>
 
-			<stringfield name="name">
+			<stringfield name="set_name">
 				<anchored to="nametitle" position="below"  height="24"/>
 				<font>lcars_sheettext_bold</font>
 				<empty> Enter category for table set... </empty>
@@ -39,13 +39,13 @@
 				<center />
 			</stringfield>
 
-			<button_lifepath_tab name="save_lifepath_tables">
+			<sta_tab_button name="save_lifepath_tables">
 				<anchored merge="replace" to="nametitle" width="75" height="48">
 					<left anchor="right" offset="2"/>
 					<top />
 				</anchored>
 				<state>
-					<text> Save All </text>
+					<text> Save Set </text>
 				</state>
 				<backcolor>ffeec515</backcolor>
 				<script>
@@ -53,32 +53,32 @@
 						LifePathDefineHelper.saveAllTables(window)
 					end
 				</script>
-			</button_lifepath_tab>
+			</sta_tab_button>
 
-			<button_lifepath_tab name="load_lifepath_tables">
+			<sta_tab_button name="load_lifepath_tables">
 				<anchored merge="replace" to="nametitle" width="75" height="48">
 					<right anchor="left" offset="2"/>
 					<top />
 				</anchored>
 				<state>
-					<text> Load All </text>
+					<text> Load Set </text>
 				</state>
 				<backcolor>ffeec515</backcolor>
 				<script>
 					function onButtonPress()
-						LifePathDefineHelper.loadAllTables(window)
+						LifePathDefineHelper.loadTableSet(window)
 					end
 				</script>
-			</button_lifepath_tab>
+			</sta_tab_button>
 			
 			<genericcontrol name="button_anchor">
 				<anchored to="contentanchor" position="insidetopleft" offset="10,75" width="0" height="0"/>
 			</genericcontrol>
-			<genericcontrol>
+			<genericcontrol name="button_frame">
 				<anchored to="contentanchor" position="insidetop" offset="0,42" height="35"/>
 				<backcolor>ff3068ff</backcolor>
 			</genericcontrol>
-			<button_lifepath_tab name="lifepath_speciestab" >
+			<sta_tab_button name="lifepath_speciestab" >
 				<anchored width="45" height="30"/>
 				<state textres="lifepath_speciestab_label" />
 				<script>
@@ -90,8 +90,8 @@
 					end
 				</script>
 				<backcolor>ff64bca4</backcolor>
-			</button_lifepath_tab>
-			<button_lifepath_tab name="lifepath_environmenttab" >
+			</sta_tab_button>
+			<sta_tab_button name="lifepath_environmenttab" >
 				<anchored width="100" height="30"/>
 				<state textres="lifepath_environmenttab_label" />
 				<script>
@@ -103,8 +103,8 @@
 					end
 				</script>
 				<backcolor>ff424242</backcolor>
-			</button_lifepath_tab>
-			<button_lifepath_tab name="lifepath_upbringingtab" >
+			</sta_tab_button>
+			<sta_tab_button name="lifepath_upbringingtab" >
 				<anchored width="90" height="30"/>
 				<state textres="lifepath_upbringingtab_label" />
 				<script>
@@ -116,8 +116,8 @@
 					end
 				</script>
 				<backcolor>ff424242</backcolor>
-			</button_lifepath_tab>
-			<button_lifepath_tab name="lifepath_academytab" >
+			</sta_tab_button>
+			<sta_tab_button name="lifepath_academytab" >
 				<anchored width="65" height="30"/>
 				<state textres="lifepath_academytab_label" />
 				<script>
@@ -129,8 +129,8 @@
 					end
 				</script>
 				<backcolor>ff424242</backcolor>
-			</button_lifepath_tab>
-			<button_lifepath_tab name="lifepath_careertab" >
+			</sta_tab_button>
+			<sta_tab_button name="lifepath_careertab" >
 				<anchored  height="30"/>
 				<state textres="lifepath_careertab_label" />
 				<script>
@@ -142,8 +142,8 @@
 					end
 				</script>
 				<backcolor>ff424242</backcolor>
-			</button_lifepath_tab>
-			<button_lifepath_tab name="lifepath_career_eventstab" >
+			</sta_tab_button>
+			<sta_tab_button name="lifepath_career_eventstab" >
 				<anchored  height="30"/>
 				<state textres="lifepath_career_eventtab_label" />
 				<script>
@@ -155,7 +155,7 @@
 					end
 				</script>
 				<backcolor>ff424242</backcolor>
-			</button_lifepath_tab>
+			</sta_tab_button>
 			
 			<lp_define_step_subwindow name="subwindow_def_species">
 				<class>lifepath_define_species</class>

@@ -45,6 +45,8 @@ function onInit()
     self.saving = false
     self.table_nodes = {}
     self.rowNodes = {}
+    self.org_table_nodes = {}
+    self.selectedTableSet = nil
     self.createTableStructure()
     self.setDataSources()
     self.populateTableDisplay(1)
@@ -64,6 +66,10 @@ function calcColumnWidths(columns)
 	return math.floor(((w - 5) / columns) + 0.5);
 end
 
+function getStepWindow(step_num)
+    return self[TAB_MAP[step_num]].subwindow
+end
+
 function populateTableDisplay(stepNum)
     local stepNode = self.table_nodes[stepNum]
     self.subwindow_table_display.setValue("lifepath_table_define_display", stepNode)
@@ -75,6 +81,7 @@ function populateTableDisplay(stepNum)
         local w = self.subwindow_table_display.subwindow.tableheaders.createWindow()
         w.name.setValue(colString)
     end
+    self.subwindow_table_display.subwindow.setStep(stepNum)
     self.subwindow_table_display.subwindow.tableheaders.setColumnWidth(calcColumnWidths(columns))
 end
 
@@ -168,10 +175,6 @@ function deselectButtons()
     self.lifepath_career_eventstab.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
 end
 
-function setSelectorState(scoreSelector, selectedScores)
-
-end
-
 function addRow(sourceWindow, resultColumns)
     local stepNum = sourceWindow.step_num.getValue()
     local sourceNode = sourceWindow.getDatabaseNode()
@@ -179,17 +182,29 @@ function addRow(sourceWindow, resultColumns)
     local tableRows = DB.getChild(stepNode, "tablerows")
     local rowNode = DB.createChild(tableRows)
     DB.copyNode(sourceNode, rowNode)
-    self.rowNodes[rowNode] = sourceWindow
 end
 
-function loadRow(rowNode)
-    local sourceWindow = self.rowNodes[rowNode]
+function loadRow(rowWindow)
+    local sourceWindow = getStepWindow(rowWindow.windowlist.window.getStep())
+    Debug.chat(sourceWindow)
     local sourceNode = sourceWindow.getDatabaseNode()
+    local rowNode = rowWindow.getDatabaseNode()
     DB.copyNode(rowNode, sourceNode)
     sourceWindow.onRowLoad()
-    self.rowNodes[rowNode] = nil
     DB.deleteNode(rowNode)
 end
+
+-- function loadTable(sourceWindow)
+--     local w = Interface.openWindow("table_load_window", "")
+--
+-- --     local stepNode = self.table_nodes[stepNum]
+-- --     self.org_table_nodes[stepNode.getNodeName()] = orgTableNode
+-- --     DB.copyNode(orgTableNode, stepNode)
+-- end
+--
+-- function saveTable(sourceWindow)
+--     Debug.chat(sourceWindow)
+-- end
 
 function onClose()
     if not self.saving then

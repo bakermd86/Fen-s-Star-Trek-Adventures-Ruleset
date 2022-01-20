@@ -312,7 +312,7 @@
     </windowclass>
 
     <template name="charsheet_tab_button">
-        <button_lifepath_tab>
+        <sta_tab_button>
             <script>
                 function onFirstLayout()
                     window.parentcontrol.window.registerTabButton(self, self.stepNum())
@@ -324,7 +324,7 @@
                     window.parentcontrol.window.setTabColors(self.stepNum())
                 end
             </script>
-        </button_lifepath_tab>
+        </sta_tab_button>
     </template>
 
     <windowclass name="charsheet_tab_window">

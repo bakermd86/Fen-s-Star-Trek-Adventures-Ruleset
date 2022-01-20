@@ -40,6 +40,12 @@ function onInit()
             sRecordDisplayClass = "sta_episode",
             sListDisplayClass = "masterindexitem",
         }
+        new_aRecords["saved_lptableset"] = {
+            bExport = true,
+            aDataMap = { "saved_lptableset", "reference.saved_lptableset"},
+            sRecordDisplayClass = "saved_lptableset",
+            sListDisplayClass = "masterindexitem",
+        }
     end
 	for kRecordType,vRecordType in pairs(new_aRecords) do
 		LibraryData.setRecordTypeInfo(kRecordType, vRecordType);

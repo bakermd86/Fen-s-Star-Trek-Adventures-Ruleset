@@ -80,6 +80,7 @@
 	<string name="library_recordtype_label_investigations">Investigations</string>
 	<string name="library_recordtype_label_scene_traits">Scene Traits</string>
 	<string name="library_recordtype_label_supporting_characters">Crew Support</string>
+	<string name="library_recordtype_label_saved_lptableset">Lifepath Tablesets</string>
 
 	<!-- Scenes -->
 	<string name="scene_label_characters">Characters</string>

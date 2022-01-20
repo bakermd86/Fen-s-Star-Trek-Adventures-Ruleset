@@ -275,4 +275,20 @@
             </script>
 		</genericcontrol>
 	</template>
+
+	<template name="sta_tab_button">
+		<buttoncontrol>
+			<anchored height="24" width="50" to="button_anchor">
+				<bottom/>
+				<left anchor="right" relation="relative" offset="5"/>
+			</anchored>
+			<stateframe>
+				<pressed  offset="5,5,5,5"  />
+			</stateframe>
+			<font>button-white-large</font>
+			<pressed offset="1,1" />
+			<tooltip textres="" />
+			<state textres="" />
+		</buttoncontrol>
+	</template>
 </root>

@@ -87,10 +87,11 @@
 			</char_header_label>
             <!--      Roll Controls      -->
             <roll_dice_control name="rollTestControl">
-                <anchored merge="replace" to="name" height="16" width="16">
+                <anchored merge="replace" to="name" height="16" width="18">
                     <top anchor="bottom" offset="2" />
                     <left anchor="left" />
                 </anchored>
+                <frame name="field_white_left" />
             </roll_dice_control>
             <numbercontrol name="rollDC">
                 <default>1</default>
@@ -98,30 +99,34 @@
                 <max>5</max>
                 <anchored to="rollTestControl" width="16" height="20">
                     <top offset="-2"/>
-                    <left anchor="right" offset="2"/>
+                    <left anchor="right" />
                 </anchored>
                 <frame name="field_white_right" />
             </numbercontrol>
 
-            <char_single_field_label name="focus_label">
+            <char_color_field_label name="focus_label">
                <static> Foc</static>
-                <anchored merge="replace" to="rollDC" height="20" >
+                <anchored merge="replace" to="rollDC" height="18" >
                    <left anchor="right" offset="10"/>
-                   <top />
+                   <top offset="1"/>
                 </anchored>
-            </char_single_field_label>
-            <buttoncontrol name="focus_selected">
-               <anchored to="focus_label" height="20" width="20">
-                   <left anchor="right" offset="2"/>
-                   <top />
-               </anchored>
-                  <state>
-                      <frame>field_purple_border_right</frame>
-                  </state>
-                  <state>
-                      <frame>field_yellow_right</frame>
-                  </state>
-            </buttoncontrol>
+                <script>
+                    function onInit()
+                        self.setBackColor(ColorHandler.getMainColor(window.parentcontrol.window.windowlist.window.getDatabaseNode()))
+                        ColorHandler.registerColorFrame(self, window.parentcontrol.window.windowlist.window.getDatabaseNode())
+                    end
+                </script>
+                <font name="sheetlabel_white" />
+            </char_color_field_label>
+            <char_single_toggle_control name="focus_selected">
+                <anchored to="focus_label" height="18"/>
+                <script>
+                    function onInit()
+                        self.setBackColor(ColorHandler.getAltColor(window.parentcontrol.window.windowlist.window.getDatabaseNode()))
+                        ColorHandler.registerColorFrameAlt(self, window.parentcontrol.window.windowlist.window.getDatabaseNode())
+                    end
+                </script>
+            </char_single_toggle_control>
             <genericcontrol name="focuses">
                 <anchored to="focus_label" position="over" height="0" width="0" />
                 <invisible/>
@@ -203,7 +208,6 @@
                     <top parent="topLeft" offset="45"/>
                 </anchored>
                 <script>
-                    ---function basePage() return 100 end
                     function scores()
                         return ScopeManager.ALL_ATTRIBUTES
                     end
@@ -223,6 +227,7 @@
                     end
                 end
                 </script>
+                <class>crew_score_entry</class>
             </scoreList>
             <scoreList name="discList">
                 <anchored merge="replace" height="130">
@@ -231,7 +236,6 @@
                     <top parent="topLeft" offset="45"/>
                 </anchored>
                 <script>
-                    ---function basePage() return 100 end
                     function scores()
                         return ScopeManager.ALL_DISCIPLINES
                     end
@@ -246,14 +250,35 @@
                         w = self.createWindow(window.getDatabaseNode())
                         w.createControl(self.scoreClass(), string.lower(score))
                         w.label.setValue(string.upper(string.sub(score, 1, 3)))
-                        ---w.link.setVisible(false)
                         w.selectButton.setReadOnly(true)
                         w[string.lower(score)].setReadOnly(true)
                     end
                 end
                 </script>
+                <class>crew_score_entry</class>
             </scoreList>
         </sheetdata>
     </windowclass>
 
+    <windowclass name="crew_score_entry">
+        <sheetdata>
+            <genericcontrol>
+                <anchored position="insidetopleft" width="0" height="20"/>
+            </genericcontrol>
+            <char_label_tag>
+                <script>
+                    function onInit()
+                    self.setBackColor(ColorHandler.getMainColor(window.windowlist.window.windowlist.window.getDatabaseNode()))
+                    ColorHandler.registerColorFrame(self, window.windowlist.window.windowlist.window.getDatabaseNode())
+                    end
+                </script>
+            </char_label_tag>
+            <char_label name="label" >
+                <anchored>
+                    <right offset="-39"/>
+                </anchored>
+            </char_label>
+            <char_score_button name="selectButton"/>
+        </sheetdata>
+    </windowclass>
 </root>

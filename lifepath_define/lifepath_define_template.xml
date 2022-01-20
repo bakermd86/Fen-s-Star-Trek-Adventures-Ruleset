@@ -2,6 +2,86 @@
 
 <root>
 
+	<windowclass name="table_load_window">
+        <frame name="recordsheet"/>
+		<placement>
+			<size width="200" height="120"/>
+		</placement>
+		<sheetdata>
+			<label_title_frame>
+				<anchored position="insidetop" height="24" offset="-10,10"/>
+				<static> Select Table Set </static>
+			</label_title_frame>
+			<lcars_combobox name="select_tableset">
+				<anchored position="insidetop" height="24" offset="-10,36"/>
+				<listdirection>down</listdirection>
+				<buttonoffset>0,3</buttonoffset>
+                <script>
+                    function onInit()
+						local tableNames = {}
+						for _, tableset in pairs(DB.getChildren(".saved_lptableset")) do
+							table.insert(tableNames, DB.getValue(tableset, "name"))
+						end
+                        self.addItems(tableNames)
+                    end
+                </script>
+			</lcars_combobox>
+			<sta_tab_button>
+				<anchored merge="replace" position="insidebottomleft" offset="10,15" height="24" width="60"/>
+                <state><text> Cancel </text></state>
+				<script>
+					function onButtonPress()
+						window.close()
+					end
+				</script>
+				<backcolor>ffeec515</backcolor>
+			</sta_tab_button>
+			<sta_tab_button name="load">
+				<anchored merge="replace" position="insidebottomright" offset="10,15" height="24" width="50"/>
+				<state><text> Load </text></state>
+                <script>
+                    function onInit()
+						self.source = nil
+					end
+					function setSource(source)
+						self.source = source
+					end
+					function onButtonPress()
+						LifePathDefineHelper.loadTableSetCallback(self.source, window.select_tableset.getValue())
+						window.close()
+					end
+				</script>
+				<backcolor>ffeec515</backcolor>
+			</sta_tab_button>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="lifepathTableNameHeader">
+		<nodelete />
+		<backcolor>ff3068ff</backcolor>
+        <sheetdata>
+			<genericcontrol name="tableNameAnchor">
+				<anchored position="insidetopleft" offset="15,0" width="0" height="45"/>
+			</genericcontrol>
+			<label>
+				<anchored to="tableNameAnchor" width="100" height="20">
+					<top />
+					<left anchor="right" relation="relative" offset="5"/>
+				</anchored>
+                <font>lcars_sheetlabelmini</font>
+				<static>Table Name</static>
+			</label>
+			<stringfield name="name">
+				<anchored to="tableNameAnchor" height="20">
+					<top offset="20" />
+					<left />
+					<right parent="" offset="-15"/>
+				</anchored>
+				<frame name="fielddark" offset="5,5,5,5"/>
+			</stringfield>
+		</sheetdata>
+	</windowclass>
+
     <windowclass name="lifepathDefineHeader">
 		<nodelete />
 		<script>
@@ -180,10 +260,10 @@
     <template name="lp_define_step_subwindow">
 		<subwindow>
 			<anchored to="contentanchor">
-				<top offset="80" />
 				<left />
 				<right />
 				<bottom parent="" offset="-52" />
+				<top parent="button_frame" anchor="bottom"/>
 			</anchored>
 			<fastinit />
 		</subwindow>
@@ -289,7 +369,7 @@
 	</template>
 
 	<template name="lifepath_table_mode_button">
-		<button_lifepath_tab>
+		<sta_tab_button>
 			<anchored width="60"/>
 			<script>
 				function onButtonPress()
@@ -298,11 +378,11 @@
 				end
 			</script>
 			<backcolor>ff424242</backcolor>
-		</button_lifepath_tab>
+		</sta_tab_button>
 	</template>
 
 	<template name="button_lifepath_table_add_row">
-		<button_lifepath_tab >
+		<sta_tab_button >
 			<anchored width="65">
 				<left merge="delete" />
 				<right parent="" offset="-15"/>
@@ -319,11 +399,11 @@
 				end
 			</script>
 			<backcolor>ffeec515</backcolor>
-		</button_lifepath_tab>
+		</sta_tab_button>
 	</template>
 
 	<template name="button_lifepath_table_discard_row">
-		<button_lifepath_tab >
+		<sta_tab_button >
 			<anchored width="65" merge="replace" to="add_button" position="left" offset="5"/>
 			<state>
 				<text> Discard </text>
@@ -334,7 +414,7 @@
 				end
 			</script>
 			<backcolor>ffeec515</backcolor>
-		</button_lifepath_tab>
+		</sta_tab_button>
 	</template>
 
 	<template name="mode_select_control">
@@ -353,13 +433,34 @@
 		</numbercontrol>
 	</template>
 
+	<template name="step_table_name_header">
+		<subwindow >
+			<anchored position="insidetop" height="45" />
+			<class>lifepathTableNameHeader</class>
+			<activate />
+			<fastinit />
+		</subwindow>
+	</template>
+
 	<template name="define_step_header">
 		<subwindow >
-			<anchored position="insidetop" height="45"/>
+			<anchored position="insidetop" height="45" offset="0,50"/>
 			<class>lifepathDefineHeader</class>
 			<activate />
 			<fastinit />
 		</subwindow>
+	</template>
+
+	<template name="step_color_frame">
+		<genericcontrol>
+			<anchored>
+				<left />
+				<right />
+				<bottom />
+				<top anchor="bottom" parent="name_header" offset="3"/>
+			</anchored>
+			<backcolor>ff8474b8</backcolor>
+		</genericcontrol>
 	</template>
 
 	<template name="define_step_col_anchor">
