@@ -698,7 +698,7 @@
 			<backcolor>ffc86763</backcolor>
 			<script>
 				function onButtonPress()
-					window.tabs.activateTab(tabnum[1])
+					window.tabs.activateTab(tonumber(tabnum[1]))
 				end
 			</script>
 		</sta_tab_button>

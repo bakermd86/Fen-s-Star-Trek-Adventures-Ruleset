@@ -102,7 +102,7 @@
 	<string name="crew_active_label">Active</string>
 	<string name="crew_dead_label">Memorial</string>
 	<string name="template_crew_label">Template</string>
-	<string name="custom_crew_label">Custom</string>
+	<string name="custom_crew_label">Create</string>
 	<string name="active_crew_label">Activate</string>
 	<string name="crew_names_label"> Random Names </string>
 	<string name="crew_overview_label"> Overview </string>

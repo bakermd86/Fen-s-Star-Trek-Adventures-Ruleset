@@ -102,60 +102,36 @@
     </windowclass>
 
 	<windowclass name="supporting_character_header">
-		<margins control="0,0,0,7" />
 		<sheetdata>
-			<anchor_record_header_right name="rightanchor" />
-			<genericcontrol name="detail_frame">
-				<frame name="groupbox" />
-				<anchored position="insidetop" offset="-5,5" height="40" />
-			</genericcontrol>
-			<genericcontrol name="detail_anchor" >
-				<anchored to="detail_frame" position="insidetopleft" offset="10,7" width="0" height="0"/>
-			</genericcontrol>
+            <genericcontrol name="row_1">
+                <anchored position="insidetopleft" offset="5,0" height="28" width="0" />
+            </genericcontrol>
 
-			<string_labeled name="name">
-				<anchored to="detail_anchor" width="80">
-					<top />
-					<left relation="relative" anchor="right" offset="4"/>
-				</anchored>
+			<char_header_label name="name">
+				<anchored to="row_1" width="100" />
 				<labelres>char_label_name</labelres>
-			</string_labeled>
+			</char_header_label>
 
-			<string_labeled name="rank">
-				<anchored to="detail_anchor" width="50">
-					<top />
-					<left relation="relative" anchor="right" offset="4"/>
-				</anchored>
+			<char_header_label name="rank">
+				<anchored to="row_1" width="50" />
 				<labelres>char_label_rank</labelres>
-			</string_labeled>
-			<string_labeled name="gender" >
-				<anchored to="detail_anchor" width="50">
-					<top />
-					<left relation="relative" anchor="right" offset="4"/>
-				</anchored>
+			</char_header_label>
+			<char_header_label name="gender" >
+				<anchored to="row_1" width="50" />
 				<labelres>char_label_gender</labelres>
-			</string_labeled>
-			<string_labeled name="age">
-				<anchored to="detail_anchor" width="40">
-					<top />
-					<left relation="relative" anchor="right" offset="4"/>
-				</anchored>
+			</char_header_label>
+			<char_header_label name="age">
+				<anchored to="row_1" width="40" />
 				<labelres>char_label_age</labelres>
-			</string_labeled>
-			<string_labeled name="height">
-				<anchored to="detail_anchor" width="50">
-					<top />
-					<left relation="relative" anchor="right" offset="4"/>
-				</anchored>
+			</char_header_label>
+			<char_header_label name="height">
+				<anchored to="row_1" width="50" />
 				<labelres>char_label_height</labelres>
-			</string_labeled>
-			<string_labeled name="weight" >
-				<anchored to="detail_anchor" width="50">
-					<top />
-					<left relation="relative" anchor="right" offset="4"/>
-				</anchored>
+			</char_header_label>
+			<char_header_label name="weight" >
+				<anchored to="row_1" width="50" />
 				<labelres>char_label_weight</labelres>
-			</string_labeled>
+			</char_header_label>
 
 		</sheetdata>
 	</windowclass>

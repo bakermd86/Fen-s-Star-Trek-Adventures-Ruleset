@@ -44,7 +44,6 @@ function deselectButtons()
     self.available.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
     self.active.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
     self.dead.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
-    self.template.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
     self.custom.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
 end
 
@@ -275,7 +274,6 @@ function handleMode(mode, modeControl)
     available.setValue(0)
     active.setValue(0)
     dead.setValue(0)
-    template.setValue(0)
     custom.setValue(0)
     modeControl.setValue(1)
     if not(mode == self.mode) then

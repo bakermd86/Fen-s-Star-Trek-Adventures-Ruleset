@@ -44,8 +44,10 @@
 				function onInit()
 					if labelres then
 						labelwidget = addTextWidget("sheetlabelinline", string.upper(Interface.getString(labelres[1])));
-					else
+					elseif label then
 						labelwidget = addTextWidget("sheetlabelinline", string.upper(label[1]));
+					else
+						return
 					end
 					if labelwidget then
 						local w,h = labelwidget.getSize();
@@ -66,8 +68,10 @@
 				function onInit()
 					if labelres then
 						labelwidget = addTextWidget("sheetlabelinline", string.upper(Interface.getString(labelres[1])));
-					else
+					elseif label then
 						labelwidget = addTextWidget("sheetlabelinline", string.upper(label[1]));
+					else
+						return
 					end
 					if labelwidget then
 						local w,h = labelwidget.getSize();
