@@ -550,8 +550,10 @@
     </template>
     <template name="focus_select">
         <combobox >
-            <anchored height="16" width="100"/>
-            <frame merge="delete"/>
+            <anchored height="20">
+                <left offset="5"/>
+            </anchored>
+            <frame merge="replace" name="field_mask_right_white" offset="5,0,0,0"/>
             <script>
                 function onInit()
                     updateFocuses()
@@ -575,6 +577,7 @@
                     end
                 end
             </script>
+              <backcolor merge="delete"/>
         </combobox>
     </template>
     <template name="charsheet_tl_anchor">

@@ -111,12 +111,14 @@
 
 	<!--	Character sheet stuff	-->
 	<string name="char_label_name">NAME</string>
+	<string name="char_label_nonid_name">NONID NAME</string>
 	<string name="char_label_species">SPECIES</string>
 	<string name="char_label_environment">ENVIRONMENT</string>
 	<string name="char_label_upbringing">UPBRINGING</string>
 	<string name="char_label_assignment">ASSIGNMENT</string>
 	<string name="char_label_vessel">VESSEL</string>
 	<string name="char_label_rank">RANK</string>
+	<string name="char_label_affiliation">AFFILIATION</string>
 
 	<string name="char_label_determination"> DETERMINATION </string>
 	<string name="char_label_attributes"> ATTRIBUTES </string>

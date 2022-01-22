@@ -1,65 +1,220 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <root>
-	<windowclass name="npc" merge="join">
+	<windowclass name="npc" mergerule="replace">
 		<placement>
-			<size width="460" height="545" />
+			<size width="450" height="585" />
 		</placement>
-		<sizelimits>
-			<minimum width="460" height="545" />
-			<dynamic />
-		</sizelimits>
         <minimize>minimized_npc</minimize>
-        <tooltip field="name" />
-        <nodelete />
-        <softclose />
-        <playercontrol />
+		<tooltip field="name" />
+		<nodelete />
+		<gmexport>npc</gmexport>
+		<script file="campaign/scripts/npc.lua" />
 		<sheetdata>
-			<sub_record_header name="header">
+            <char_frame_color_alt name="sheet_color">
+                <anchored merge="replace" >
+                    <top />
+                    <left />
+                    <bottom />
+                    <right />
+                </anchored>
+                <frame name="lcars_sheet_border" offset="0,0,0,0"/>
+            </char_frame_color_alt>
+            <char_frame_color_alt name="header_color">
+                <anchored merge="replace" position="insidetop" height="110">
+                    <right anchor="right" offset="-5" />
+                    <left offset="5"/>
+                    <right anchor="right" offset="-5" />
+                    <top offset="6"/>
+                </anchored>
+            </char_frame_color_alt>
+            <char_frame_color>
+                <anchored merge="replace" position="insideright" to="header_color" width="160"/>
+            </char_frame_color>
+			<subwindow name="header">
 				<class>st_npc_header</class>
-			</sub_record_header>
+                <anchored position="insidetop" height="110">
+                    <left offset="5"/>
+                    <right anchor="right" offset="-5" />
+                    <top offset="6"/>
+                </anchored>
+                <fastinit/>
+			    <activate />
+			</subwindow>
+            <subwindow name="general" >
+                <anchored to="header" height="34" position="below">
+                    <top anchor="bottom" offset="-5" />
+                </anchored>
+                <class>npc_tabs</class>
+                <fastinit/>
+			    <activate />
+            </subwindow>
 
-			<subwindow_record name="combat" insertbefore="notes">
-				<class>npc_combat</class>
-			</subwindow_record>
-			<scrollbar_record insertbefore="tabs">
-				<target>combat</target>
-			</scrollbar_record>
+<!--			<frame_record_content_tabbed name="contentframe" />-->
 
 
-			<tabs_recordsheet name="tabs">
-				<tab merge="add">
+			<ship_npc_window name="main">
+				<class>st_npc_main</class>
+			</ship_npc_window>
+			<ship_npc_window name="combat" >
+				<class>st_npc_combat</class>
+			</ship_npc_window>
+
+            <ship_npc_window name="notes">
+                <class>ship_npc_notes</class>
+            </ship_npc_window>
+
+<!--			<scrollbar_record insertbefore="tabs">-->
+<!--				<target>combat</target>-->
+<!--			</scrollbar_record>-->
+
+
+			<buttongroup_tabs name="tabs">
+				<anchored position="insidetopleft" width="0" height="0"/>
+				<invisible />
+				<tab>
+					<icon>tab_main</icon>
+					<subwindow>main</subwindow>
+				</tab>
+				<tab>
 					<icon>tab_combat</icon>
 					<subwindow>combat</subwindow>
 				</tab>
-			</tabs_recordsheet>
+				<tab>
+					<icon>tab_notes</icon>
+					<subwindow>notes</subwindow>
+				</tab>
+			</buttongroup_tabs>
 
-			<frame_record_content_tabbed name="contentframe" />
 		</sheetdata>
 	</windowclass>
 
 	<windowclass name="st_npc_header" >
-		<script file="campaign/scripts/npc_header.lua" />
-		<margins control="0,0,0,7" />
+        <frame name="lcars_header_frame_shape" />
+		<script >
+			function onInit()
+				update();
+				updateIDState();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+				nonid_name.setReadOnly(bReadOnly);
+				token.setReadOnly(bReadOnly);
+				species.setReadOnly(bReadOnly);
+				rank.setReadOnly(bReadOnly);
+				gender.setReadOnly(bReadOnly);
+				affiliation.setReadOnly(bReadOnly);
+				token.setReadOnly(bReadOnly);
+			end
+			function updateIDState()
+				local bID = LibraryData.getIDState("npc", getDatabaseNode(), true);
+				if not Session.IsHost then
+					name.setVisible(bID)
+				end
+				nonid_name.setVisible(not bID);
+			end
+		</script>
 		<sheetdata>
-			<link_record_header_id name="link">
-				<class>npc</class>
-			</link_record_header_id>
+            <genericcontrol name="heightAnchor">
+                <anchored position="insidetop" height="110" />
+            </genericcontrol>
+            <genericcontrol name="row_1">
+                <anchored position="insidetopright" offset="5,0" height="20" width="0" />
+            </genericcontrol>
+            <genericcontrol name="row_2">
+                <anchored position="insidetopleft" offset="65,35" height="20" width="0"/>
+            </genericcontrol>
 
-			<anchor_record_header_right name="rightanchor" />
+            <genericcontrol name="rightanchor">
+                <anchored height="20" >
+                    <right offset="-5"/>
+                    <bottom parent="heightAnchor" offset="-15"/>
+                </anchored>
+            </genericcontrol>
+
+			<reverse_header_label name="species">
+                <anchored to="row_1" width="120" />
+				<labelres>char_label_species</labelres>
+			</reverse_header_label>
+
+			<reverse_header_label name="nonid_name">
+                <anchored to="row_1">
+					<left parent="" offset="210"/>
+				</anchored>
+				<empty textres="library_recordtype_empty_nonid_npc" />
+				<labelres>char_label_nonid_name</labelres>
+				<invisible/>
+			</reverse_header_label>
+
+			<reverse_header_label name="name">
+                <anchored to="row_1">
+					<left parent="" offset="90"/>
+				</anchored>
+				<empty textres="library_recordtype_empty_npc" />
+				<labelres>char_label_name</labelres>
+			</reverse_header_label>
+
+			<tokenfield name="token">
+				<anchored to="row_1" width="22" height="22">
+					<top />
+					<right anchor="left" relation="relative" offset="-5"/>
+				</anchored>
+				<empty>token_empty</empty>
+				<script>
+					function onDoubleClick(x, y)
+						CombatManager.openMap(window.getDatabaseNode());
+					end
+				</script>
+			</tokenfield>
+
+			<char_header_label name="rank">
+                <anchored to="row_2"  width="100"/>
+				<labelres>char_label_rank</labelres>
+			</char_header_label>
+
+<!--			<char_header_label name="height">-->
+<!--				<anchored to="row_2"  width="40"/>-->
+<!--				<labelres>char_label_height</labelres>-->
+<!--			</char_header_label>-->
+
+<!--			<char_header_label name="weight">-->
+<!--				<anchored to="row_2"  width="40"/>-->
+<!--				<labelres>char_label_weight</labelres>-->
+<!--			</char_header_label>-->
+
+			<char_header_label name="gender">
+                <anchored to="row_2" width="50"/>
+				<labelres>char_label_gender</labelres>
+			</char_header_label>
+
+			<char_header_label name="affiliation">
+				<anchored to="row_2" >
+					<right parent="" offset="-10"/>
+				</anchored>
+				<labelres>char_label_affiliation</labelres>
+			</char_header_label>
+
+		<!--		righanchor controls 	-->
+
+			<button_record_isidentified name="isidentified" />
+
 			<button_activateid>
-				<anchored to="rightanchor" width="23" height="22">
-					<top offset="-2" />
-					<right anchor="left" relation="relative" offset="-5" />
+				<anchored to="rightanchor" width="22" height="22">
+					<top />
+					<right anchor="left" relation="relative" offset="-5"/>
 				</anchored>
-				<gmvisibleonly merge="delete"/>
 			</button_activateid>
+
 			<buttoncontrol >
-				<anchored to="rightanchor" width="25" height="25">
-					<top offset="-2" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-3" />
+				<anchored to="rightanchor" width="22" height="22">
+					<top />
+					<right anchor="left" relation="relative" offset="-5"/>
 				</anchored>
-				<icon normal="button_roll" pressed="button_roll_down" />
+				<state icon="d20bicon">
+					<tooltip>Generate Random Name</tooltip>
+				</state>
+				<pressed offset="1,1" icon="d20ricon" />
 				<script>
 					function onButtonPress()
 						local w = Interface.openWindow("storytemplate", "")
@@ -69,29 +224,97 @@
 				</script>
 				<gmvisibleonly/>
 			</buttoncontrol>
-			<tokenfield name="token">
-				<anchored to="rightanchor" width="25" height="25">
-					<top offset="-2" />
-					<right parent="rightanchor" anchor="left" relation="relative" offset="-3" />
-				</anchored>
-				<empty>token_empty</empty>
-				<script>
-					function onDoubleClick(x, y)
-						CombatManager.openMap(window.getDatabaseNode());
-					end
-				</script>
-			</tokenfield>
-			<button_record_isidentified name="isidentified" />
-			<icon_record_locked />
-			<button_record_locked />
 
-			<string_record_name_id name="name">
-				<empty textres="library_recordtype_empty_npc" />
-			</string_record_name_id>
-			<string_record_name_id name="nonid_name">
-				<empty textres="library_recordtype_empty_nonid_npc" />
-				<invisible />
-			</string_record_name_id>
+			<button_record_locked >
+				<anchored>
+					<right offset="-5"/>
+				</anchored>
+			</button_record_locked>
+
+			<link_record_header_id name="link">
+				<class>npc</class>
+				<bounds merge="delete"/>
+				<anchored to="rightanchor" width="20" height="22">
+					<top />
+					<right anchor="left" relation="relative" offset="-3"/>
+				</anchored>
+			</link_record_header_id>
+
+<!--			<string_record_name_id name="name">-->
+<!--				<empty textres="library_recordtype_empty_npc" />-->
+<!--			</string_record_name_id>-->
+<!--			<string_record_name_id name="nonid_name">-->
+<!--				<empty textres="library_recordtype_empty_nonid_npc" />-->
+<!--				<invisible />-->
+<!--			</string_record_name_id>-->
 		</sheetdata>
 	</windowclass>
+
+	<windowclass name="npc_tabs">
+        <noscroll/>
+        <sheetdata>
+            <genericcontrol name="button_anchor">
+                <anchored position="insidetopleft" offset="10,8" height="24" width="0" />
+            </genericcontrol>
+
+            <alt_color_field_left>
+                <anchored to="button_anchor" height="24" width="24" >
+                    <bottom />
+                    <left anchor="right" offset="2" relation="relative"/>
+                </anchored>
+            </alt_color_field_left>
+
+            <charsheet_tab_button>
+                <anchored width="35" />
+                <state><text>Main</text></state>
+                <script>
+                    function stepNum()
+                        return 1
+                    end
+                    function onFirstLayout()
+                        window.parentcontrol.window.registerTabButton(self, self.stepNum())
+                        self.setBackColor(ColorHandler.getMainColor(window.parentcontrol.window.getDatabaseNode()))
+                        ColorHandler.registerColorFrame(self, window.parentcontrol.window.getDatabaseNode())
+                    end
+                </script>
+            </charsheet_tab_button>
+
+            <charsheet_tab_button>
+                <anchored width="55" />
+                <state><text>Combat</text></state>
+                <script>
+                    function stepNum()
+                        return 2
+                    end
+                </script>
+            </charsheet_tab_button>
+
+            <charsheet_tab_button>
+                <anchored width="45"/>
+                <state><text>Notes</text></state>
+                <script>
+                    function stepNum()
+                        return 3
+                    end
+                </script>
+            </charsheet_tab_button>
+
+            <alt_color_field_right>
+                <anchored to="button_anchor" height="24" >
+                    <bottom />
+                    <left anchor="right" offset="5" relation="relative"/>
+					<right parent="" offset="-10"/>
+                </anchored>
+            </alt_color_field_right>
+		</sheetdata>
+	</windowclass>
+
+	<template name="reverse_header_label">
+        <lcars_string_labeled >
+            <anchored height="20" width="60">
+                <top />
+                <right anchor="left" relation="relative" offset="-5"/>
+            </anchored>
+		</lcars_string_labeled>
+	</template>
 </root>

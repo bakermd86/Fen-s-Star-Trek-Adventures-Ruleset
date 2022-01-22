@@ -40,6 +40,14 @@ function getCrewDefineFrames()
     }
 end
 
+function deselectButtons()
+    self.available.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
+    self.active.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
+    self.dead.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
+    self.template.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
+    self.custom.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
+end
+
 function getCrewRollFrames()
     if STAModuleManager.modLoaded(STAModuleManager.MODULE_EXTRA) then
         table.insert(self.crewDefineFrames, roll_support_species)

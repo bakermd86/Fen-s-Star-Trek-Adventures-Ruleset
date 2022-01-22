@@ -1,6 +1,5 @@
 <root>
-    <windowclass name="npc_main">
-		<margins control="0,0,0,2" />
+    <windowclass name="st_npc_main">
         <script>
             function onInit()
                 update();
@@ -11,16 +10,16 @@
                 focuses.setReadOnly(bReadOnly)
                 values.setReadOnly(bReadOnly)
                 talents.setReadOnly(bReadOnly)
+                traits.setReadOnly(bReadOnly)
+                episodes.setReadOnly(bReadOnly)
                 for _, w in ipairs(attList.getWindows()) do
-                    local score = string.lower(w.label.getValue())
-                    w[score].setReadOnly(bReadOnly)
+                    w.selectButton.setReadOnly(bReadOnly)
+                    w.score.setReadOnly(bReadOnly)
                 end
                 for _, w in ipairs(discList.getWindows()) do
-                    local score = string.lower(w.label.getValue())
-                    w[score].setReadOnly(bReadOnly)
+                    w.selectButton.setReadOnly(bReadOnly)
+                    w.score.setReadOnly(bReadOnly)
                 end
-                resistance.setReadOnly(bReadOnly)
-                maxstress.setReadOnly(bReadOnly)
             end
         </script>
         <sheetdata>
@@ -30,18 +29,35 @@
             <genericcontrol name="topRight">
                 <anchored position="insidetopright" offset="0, 0" />
             </genericcontrol>
-            <genericcontrol name="middleRow">
+            <genericcontrol name="rowOne">
+                <anchored position="insidetopleft" offset="0, 185" />
+            </genericcontrol>
+            <genericcontrol name="rowTwo">
                 <anchored position="insidetopleft" offset="0, 315" />
             </genericcontrol>
+            <genericcontrol name="colOne">
+                <anchored position="insidetopleft" offset="135, 0" />
+            </genericcontrol>
+            <genericcontrol name="colTwo">
+                <anchored position="insidetopleft" offset="240, 0" />
+            </genericcontrol>
+
+            <char_frame_color name="attColor">
+                <anchored merge="replace" >
+                    <left offset="5" />
+                    <top />
+                    <right parent="colOne" />
+                    <bottom parent="rowOne" offset="-5"/>
+                </anchored>
+            </char_frame_color>
 
             <scoreList name="attList">
-                <anchored merge="replace" height="135">
-                    <left parent="topLeft" offset="10" />
-                    <right parent="" anchor="center" />
-                    <top parent="topLeft" offset="10"/>
+                <anchored to="attColor">
+                    <left offset="35" />
+                    <right offset="-5"/>
                 </anchored>
+                <frame name="lcars_frame_shape_left" offset="35,30,5,25"/>
                 <script>
-                    ---function basePage() return 100 end
                     function scores()
                         return ScopeManager.ALL_ATTRIBUTES
                     end
@@ -49,22 +65,42 @@
                         return "att_field"
                     end
                     function rollControl()
-                        return window.activeAttribute
+                        return window.activeAttribute;
+                    end
+                    function onInit()
+                        for idx, score in ipairs(self.scores()) do
+                            w = self.createWindow(window.getDatabaseNode())
+                            w.score = w.createControl(self.scoreClass(), string.lower(score))
+                            w.label.setValue(string.upper(string.sub(score, 1, 3)))
+                        end
                     end
                 </script>
+                <class>mini_score_entry</class>
             </scoreList>
-            <npc_label>
-                <anchored to="attList" offset="25,-6"/>
-                <static textres="char_label_attributes"/>
-            </npc_label>
-            <scoreList name="discList">
-                <anchored merge="replace"  height="135">
-                    <left parent="" anchor="center" />
-                    <right parent="topRight" offset="-10"/>
-                    <top parent="topLeft" offset="10"/>
+                <tag_label name="attribute_label">
+                    <anchored to="attList" offset="25,9"/>
+                    <static> ATT </static>
+                </tag_label>
+<!--            <npc_label>-->
+<!--                <anchored to="attList" offset="25,-6"/>-->
+<!--                <static textres="char_label_attributes"/>-->
+<!--            </npc_label>-->
+
+            <char_frame_color name="discColor">
+                <anchored merge="replace" >
+                    <top />
+                    <left parent="colOne" />
+                    <right parent="colTwo" />
+                    <bottom parent="rowOne" offset="-5"/>
                 </anchored>
+            </char_frame_color>
+            <scoreList name="discList">
+                <anchored to="discColor">
+                    <left offset="5"/>
+                    <right offset="-5"/>
+                </anchored>
+                <frame name="lcars_frame_shape_center" offset="5,30,5,25"/>
                 <script>
-                    ---function basePage() return 106 end
                     function scores()
                         return ScopeManager.ALL_DISCIPLINES
                     end
@@ -74,16 +110,46 @@
                     function rollControl()
                         return window.activeDiscipline
                     end
+                    function onInit()
+                        for idx, score in ipairs(self.scores()) do
+                            w = self.createWindow(window.getDatabaseNode())
+                            w.score = w.createControl(self.scoreClass(), string.lower(score))
+                            w.label.setValue(string.upper(string.sub(score, 1, 3)))
+                        end
+                    end
                 </script>
+                <class>mini_score_entry</class>
             </scoreList>
-            <npc_label>
-                <anchored to="discList" offset="25,-6"/>
-                <static textres="char_label_disciplines"/>
-            </npc_label>
+
+            <tag_label name="discipline_label">
+                <anchored to="discList" offset="25,9" />
+                <static> DISC </static>
+            </tag_label>
+<!--            <npc_label>-->
+<!--                <anchored to="discList" offset="25,-6"/>-->
+<!--                <static textres="char_label_disciplines"/>-->
+<!--            </npc_label>-->
+
+
+            <!--     Focuses       -->
+
+            <char_frame_color name="focuses_color">
+                <anchored merge="replace" >
+                    <top />
+                    <left parent="colTwo" />
+                    <right parent="" offset="-5" />
+                    <bottom parent="rowOne" offset="-5"/>
+                </anchored>
+            </char_frame_color>
+            <char_focus_list name="focuses"/>
+            <tag_label name="focuses_label">
+                <anchored to="focuses" offset="25,9"/>
+                <static textres="char_label_focuses"/>
+            </tag_label>
 
                 <!--      Roll Controls      -->
             <genericcontrol name="dieAnchor">
-                <anchored to="attList" position="belowright" offset="-20,-15" height="20" width="40"/>
+                <anchored to="attList" position="belowright" offset="-26,4" height="20" width="40"/>
             </genericcontrol>
             <roll_dice_control name="rollTestControl">
                 <anchored merge="replace" to="dieAnchor" position="insideleft" offset="2" height="20" width="18"/>
@@ -134,103 +200,142 @@
                 <invisible/>
             </active_score>
 
-            <!--     Focuses       -->
-            <char_focus_list name="focuses">
-			    <frame name="lcars_groupbox_dark" offset="10,8,10,8" />
-                <anchored merge="replace">
-                    <top parent="attList" anchor="bottom" offset="15"/>
-                    <left parent="topLeft" offset="10"/>
-                    <right parent="" anchor="center" offset="-10"/>
-                    <bottom parent="" anchor="center" offset="100"/>
+
+            <char_frame_color_alt name="values_color">
+                <anchored merge="replace" >
+                    <left offset="5" />
+                    <right parent="" anchor="center"/>
+                    <top parent="rowOne"/>
+                    <bottom parent="rowTwo"/>
                 </anchored>
-            </char_focus_list>
-
-            <npc_label>
-                <anchored to="focuses"/>
-                <static textres="char_label_focuses"/>
-            </npc_label>
-
-        <npc_ref_list name="values">
-          <datasource>.values</datasource>
-            <anchored>
-                <bottom anchor="center" offset="100"/>
-                <left anchor="center"/>
-                <top parent="discList" anchor="bottom" offset="15"/>
-                <right parent="topRight" />
-            </anchored>
-        </npc_ref_list>
-        <npc_label>
-            <anchored to="values" />
-            <static textres="char_label_values"/>
-        </npc_label>
-
-        <npc_link_list name="talents">
-          <datasource>.talents</datasource>
-            <anchored>
-                <right anchor="center"/>
-                <bottom />
-                <top parent="focuses" anchor="bottom"/>
-                <left parent="topLeft" />
-            </anchored>
-        </npc_link_list>
-        <npc_label>
-            <anchored to="talents" />
-            <static textres="char_label_talents"/>
-        </npc_label>
+            </char_frame_color_alt>
+            <char_ref_list name="values">
+              <datasource>.values</datasource>
+                <anchored to="values_color" >
+                    <left offset="35"/>
+                    <top offset="30"/>
+                    <right offset="-5"/>
+                    <bottom offset="-5"/>
+                </anchored>
+                <frame name="lcars_frame_shape_top_left" offset="35,30,5,5"/>
+            </char_ref_list>
+            <tag_label >
+                <anchored to="values" offset="25,9"/>
+                <static textres="char_label_values"/>
+            </tag_label>
 
 
-        <npc_ref_list name="traits">
+            <char_frame_color_alt name="talents_color">
+                <anchored merge="replace" >
+                    <left parent="" anchor="center" />
+                    <top parent="rowOne"/>
+                    <right offset="-5" />
+                    <bottom parent="rowTwo"/>
+                </anchored>
+            </char_frame_color_alt>
+            <talents_list name="talents">
+                <anchored>
+                    <bottom offset="-5"/>
+                </anchored>
+                <frame name="lcars_frame_shape_top_right" offset="5,30,35,5"/>
+            </talents_list>
+            <tag_label >
+                <anchored to="talents" offset="25,9" position="aboveright"/>
+                <static textres="char_label_talents"/>
+            </tag_label>
+
+
+
+            <char_frame_color_alt name="traits_color">
+                <anchored merge="replace" >
+                    <left offset="5" />
+                    <right parent="" anchor="center"/>
+                    <top parent="rowTwo"/>
+                    <bottom parent=""/>
+                </anchored>
+            </char_frame_color_alt>
+        <char_ref_list name="traits">
           <datasource>.traits</datasource>
-            <anchored >
-                <left anchor="center"/>
-                <bottom offset="-50"/>
-                <top parent="values" anchor="bottom" />
-                <right parent="topRight" offset="-10"/>
+            <anchored to="traits_color">
+                <left offset="35"/>
+                <top offset="5"/>
+                <right offset="-5"/>
+                <bottom offset="-25"/>
             </anchored>
-        </npc_ref_list>
-        <npc_label>
-            <anchored to="traits" />
-            <static textres="char_label_traits"/>
-        </npc_label>
+                <frame name="lcars_frame_shape_bottom_left" offset="35,5,5,25"/>
+        </char_ref_list>
+            <tag_label >
+                <anchored to="traits" position="insidebottomleft" offset="25,-25"/>
+                <static textres="char_label_traits"/>
+            </tag_label>
 
-        <char_single_field_label name="resistance_label">
-           <static>Resistance</static>
-            <anchored >
-                <top relation="absolute" parent="traits" anchor="bottom" offset="8"/>
-                <left parent="" anchor="center" offset="2"/>
+
+            <char_frame_color_alt name="episodes_color">
+                <anchored merge="replace" >
+                    <left parent="" anchor="center" />
+                    <top parent="rowTwo"/>
+                    <right offset="-5" />
+                    <bottom parent=""/>
+                </anchored>
+            </char_frame_color_alt>
+        <char_linked_list name="episodes">
+          <datasource>.episodes</datasource>
+            <anchored to="episodes_color">
+                <left offset="5"/>
+                <top offset="5"/>
+                <right offset="-35"/>
+                <bottom offset="-25"/>
             </anchored>
-        </char_single_field_label>
-          <char_single_number_field name="resistance">
-            <anchored to="resistance_label"/>
-          </char_single_number_field>
+                <frame name="lcars_frame_shape_bottom_right" offset="5,5,35,25"/>
+        </char_linked_list>
+            <tag_label >
+                <anchored to="episodes" position="insidebottomright" offset="25,-25"/>
+                <static> EPISODES </static>
+            </tag_label>
 
-        <char_single_field_label name="injured_label">
-           <static>Injured</static>
-            <anchored >
-                <top relation="absolute" parent="traits" anchor="bottom" offset="8"/>
-                <left merge="delete"/>
-                <right parent="topRight" offset="-23"/>
-            </anchored>
-        </char_single_field_label>
-          <npc_single_toggle_field name="injured">
-            <anchored to="injured_label"/>
-          </npc_single_toggle_field>
 
-        <char_single_field_label name="maxstress_label">
-           <static>Stress Max</static>
-            <anchored to="resistance_label"/>
-        </char_single_field_label>
-          <char_single_number_field name="maxstress">
-            <anchored to="maxstress_label"/>
-          </char_single_number_field>
+<!--        <char_color_field_label name="stress_label">-->
+<!--           <static>  Stress CUR/MAX</static>-->
+<!--            <anchored to="controls_color" merge="replace" height="20">-->
+<!--                <top offset="8"/>-->
+<!--                <left offset="19" />-->
+<!--                <right offset="-86"/>-->
+<!--            </anchored>-->
+<!--            <frame name="field_mask_pill"/>-->
+<!--        </char_color_field_label>-->
+<!--          <char_color_single_number_field name="curstress">-->
+<!--            <anchored to="stress_label"/>-->
+<!--            <frame name="field_mask_left_white" />-->
+<!--          </char_color_single_number_field>-->
+<!--          <char_color_single_number_field name="maxstress">-->
+<!--            <anchored to="curstress"/>-->
+<!--          </char_color_single_number_field>-->
 
-        <char_single_field_label name="curstress_label">
-           <static>Current</static>
-            <anchored to="injured_label"/>
-        </char_single_field_label>
-          <char_single_number_field name="curstress">
-            <anchored to="curstress_label"/>
-          </char_single_number_field>
+<!--        <char_color_field_label name="resistance_label">-->
+<!--           <static>  Resistance</static>-->
+<!--            <anchored to="stress_label" >-->
+<!--                <right offset="22"/>-->
+<!--            </anchored>-->
+<!--        </char_color_field_label>-->
+<!--          <char_color_single_number_field name="resistance">-->
+<!--            <anchored to="resistance_label"/>-->
+<!--          </char_color_single_number_field>-->
+
+<!--        <char_color_field_label name="injured_label">-->
+<!--           <static>  Injured</static>-->
+<!--            <anchored to="resistance_label"/>-->
+<!--        </char_color_field_label>-->
+<!--          <char_single_toggle_field name="injured">-->
+<!--            <anchored to="injured_label"/>-->
+<!--          </char_single_toggle_field>-->
+
+<!--        <char_color_field_label name="dead_label">-->
+<!--           <static>  Dead</static>-->
+<!--            <anchored to="injured_label"/>-->
+<!--        </char_color_field_label>-->
+<!--          <char_single_toggle_field name="dead">-->
+<!--            <anchored to="dead_label"/>-->
+<!--          </char_single_toggle_field>-->
 
         </sheetdata>
     </windowclass>

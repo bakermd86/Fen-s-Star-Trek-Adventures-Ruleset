@@ -1,97 +1,232 @@
 <root>
-    <windowclass name="npc_combat">
+    <windowclass name="st_npc_combat">
 		<margins control="0,0,0,2" />
+        <script>
+            function onInit()
+                update();
+            end
+            function update()
+                local nodeRecord = getDatabaseNode();
+                local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
+                resistance.setReadOnly(bReadOnly)
+                injured.setReadOnly(bReadOnly)
+                stress_counter.setReadOnly(bReadOnly)
+                maxstress.setReadOnly(bReadOnly)
+                dead.setReadOnly(bReadOnly)
+                weapons.setReadOnly(bReadOnly)
+                attack_rolls.setReadOnly(bReadOnly)
+            end
+        </script>
         <sheetdata>
-            <charsheet_c1_anchor/>
+            <ship_tl_anchor/>
+            <charsheet_tr_anchor/>
+            <charsheet_cl_anchor>
+                <anchored offset="185, 0" />
+            </charsheet_cl_anchor>
 
-
-    <!--      Attacks      -->
-      <npc_ref_list name="attack_rolls">
-            <frame name="lcars_groupbox_dark" offset="10,38,10,8" />
-          <datasource>.attack_rolls</datasource>
-                <anchored >
-                    <top offset="52"/>
-                    <bottom anchor="center"/>
+<!--        Color Frames    -->
+            <char_frame_color name="stress_color">
+                <anchored height="125">
+                    <top parent="topLeft" offset="0"/>
+                    <left parent="topLeft" />
+                    <right parent="centerLine" offset="0"/>
+                    <bottom merge="delete"/>
                 </anchored>
-            <class>attack_roll_entry</class>
-          <sortby>
-              <control>name</control>
-          </sortby>
-      </npc_ref_list>
-        <npc_label name="attack_rolls_label">
-            <anchored to="attack_rolls" offset="25,30"/>
-            <static textres="char_label_attack_rolls"/>
-        </npc_label>
-        <scrollbar_list>
-            <anchored to="attack_rolls" />
-            <target>attack_rolls</target>
-        </scrollbar_list>
+            </char_frame_color>
+            <frame_char name="stress_frame">
+                <anchored to="stress_color" >
+                    <top offset="30"/>
+                    <left offset="35"/>
+                    <right offset="-5"/>
+                    <bottom offset="-25"/>
+                </anchored>
+                <frame name="lcars_frame_shape_left" offset="35,30,5,25"/>
+            </frame_char>
+            <tag_label name="stress_label">
+                <anchored to="stress_frame" offset="34,9"/>
+                <static> STRESS </static>
+            </tag_label>
+            <char_color_single_number_field name="maxstress" >
+                <anchored merge="replace" to="stress_label" position="rightlow" offset="0,2" height="19" width="18" />
+                <default>8</default>
+            </char_color_single_number_field>
 
-          <genericcontrol name="attack_label_anchor">
-              <anchored to="attack_rolls" position="insidetopleft" />
-          </genericcontrol>
-         <char_ref_column_label>
-             <anchored to="attack_label_anchor" width="35" >
-                 <left offset="2"/>
-             </anchored>
-             <static>Roll/DC</static>
-         </char_ref_column_label>
-         <char_ref_column_label>
-             <anchored to="attack_label_anchor" width="150"/>
-             <static>Name</static>
-         </char_ref_column_label>
-         <char_ref_column_label>
-             <anchored to="attack_label_anchor" width="150"/>
-             <static>Focus</static>
-         </char_ref_column_label>
-         <char_ref_column_label>
-             <anchored to="attack_label_anchor" width="25"/>
-             <static>Type</static>
-         </char_ref_column_label>
+            <tag_label name="resistance_label">
+                 <anchored to="stress_frame" merge="replace" height="22" position="belowleft" offset="40,3"/>
+                <static textres="ship_label_resistance"/>
+            </tag_label>
+            <char_color_single_number_field name="resistance" >
+                <anchored merge="replace" to="resistance_label" position="rightlow" height="19" width="18" />
+                <default>0</default>
+            </char_color_single_number_field>
 
-        <!--     Weapons       -->
-        <npc_ref_list name="weapons">
-            <frame name="lcars_groupbox_dark" offset="10,38,10,8" />
-            <datasource>.weapons</datasource>
-            <anchored >
-                <top anchor="center" offset="52"/>
-            </anchored>
-            <class>weapon_entry</class>
-        </npc_ref_list>
-        <npc_label name="weapons_label">
-            <anchored  to="weapons" offset="25,30"/>
+            <char_frame_color name="controls_color">
+                <anchored >
+                    <top parent="topLeft" offset="0"/>
+                    <left parent="centerLine" offset="0"/>
+                    <right parent="topRight" />
+                    <bottom parent="stress_color" anchor="bottom" offset="0"/>
+                </anchored>
+                <frame name="lcars_frame_shape_right" />
+            </char_frame_color>
+
+            <char_frame_color_alt name="weapons_color">
+                <anchored height="150">
+                    <top parent="stress_color" />
+                    <left parent="topLeft" />
+                    <right parent="topRight" />
+                    <bottom merge="delete"/>
+                </anchored>
+            </char_frame_color_alt>
+
+            <char_frame_color name="attacks_color">
+                <anchored>
+                    <top parent="weapons_color" />
+                    <left parent="topLeft" />
+                    <right parent="topRight" />
+                    <bottom parent=""/>
+                </anchored>
+            </char_frame_color>
+
+
+            <!--       Stress     -->
+
+            <buttongroup_counter name="stress_counter">
+                <anchored to="stress_frame" position="over"/>
+                <stateicons>
+                  <on>button_link</on>
+                  <off>button_link_empty</off>
+                </stateicons>
+                <spacing>18</spacing>
+                <allowsinglespacing/>
+                <maxslotperrow>7</maxslotperrow>
+                <sourcefields>
+                  <maximum>maxstress</maximum>
+                  <current>curstress</current>
+                </sourcefields>
+          </buttongroup_counter>
+
+<!--      Weapons      -->
+            <char_ref_list name="weapons">
+                <datasource>.weapons</datasource>
+                <anchored to="weapons_color">
+                    <top offset="30"/>
+                    <bottom />
+                </anchored>
+                <frame offset="35,30,35,25"/>
+                <class>weapon_entry</class>
+            </char_ref_list>
+        <tag_label >
+            <anchored  to="weapons"  offset="33,11"/>
             <static textres="char_label_weapons"/>
-        </npc_label>
-        <scrollbar_list>
-            <anchored to="weapons" />
-            <target>weapons</target>
-        </scrollbar_list>
+        </tag_label>
+            <char_ref_list name="attack_rolls">
+                <datasource>.attack_rolls</datasource>
+                <anchored to="attacks_color">
+                    <top offset="30"/>
+                    <bottom />
+                </anchored>
+                <frame offset="35,30,35,25"/>
+                <class>attack_roll_entry</class>
+            </char_ref_list>
+        <tag_label >
+            <anchored  to="attack_rolls"  offset="33,11"/>
+            <static textres="char_label_attack_rolls"/>
+        </tag_label>
 
-          <genericcontrol name="weapon_label_anchor">
-              <anchored to="weapons" position="insidetopleft" />
-          </genericcontrol>
-         <char_ref_column_label>
-             <anchored to="weapon_label_anchor" width="85" />
-             <static>Name</static>
-         </char_ref_column_label>
-         <char_ref_column_label>
-             <anchored to="weapon_label_anchor" width="70"/>
-             <static>Type/Range</static>
-         </char_ref_column_label>
-         <char_ref_column_label>
-             <anchored to="weapon_label_anchor" width="80"/>
-             <static>Damage</static>
-         </char_ref_column_label>
-         <char_ref_column_label>
-             <anchored to="weapon_label_anchor" width="100"/>
-             <static>Qualities</static>
-         </char_ref_column_label>
-         <char_ref_column_label>
-             <anchored to="weapon_label_anchor" >
-                 <right parent="" />
-             </anchored>
-             <static>Cost</static>
-         </char_ref_column_label>
+<!--            State controls -->
+
+        <char_color_field_label name="injured_label">
+           <static>  Injured</static>
+            <anchored to="controls_color" merge="replace" height="20">
+                <top offset="25"/>
+                <left offset="20" />
+                <right anchor="center" offset="-32"/>
+            </anchored>
+        </char_color_field_label>
+          <char_single_toggle_field name="injured">
+            <anchored to="injured_label"/>
+          </char_single_toggle_field>
+
+        <char_color_field_label name="dead_label">
+           <static>  Dead</static>
+            <anchored to="controls_color" merge="replace" height="20">
+                <top offset="25"/>
+                <left anchor="center" offset="-10"/>
+                <right offset="-65"/>
+            </anchored>
+        </char_color_field_label>
+          <char_single_toggle_field name="dead">
+            <anchored to="dead_label"/>
+          </char_single_toggle_field>
+
+        <char_color_field_label name="recover_label">
+           <static> Recover</static>
+            <anchored to="injured_label">
+                <right offset="8"/>
+            </anchored>
+        </char_color_field_label>
+
+        <roll_dice_control name="roll_recovery">
+            <anchored merge="replace" to="recover_label" height="20" width="20">
+               <left anchor="right" relation="relative" offset="0"/>
+               <top />
+            </anchored>
+            <script>
+                function createRoll()
+                    return RollManager.buildSkillRoll(window, self.getDice(false), self.getScoreMod())
+                end
+                function getScoreMod()
+                    local att, disc = self.getScore("Fitness"), self.getScore("Command")
+                    return RollManager.formatMod(att, "Fitness", disc, "Command", 2, window.recovery_focus)
+                end
+                function onInit()
+                    self.setBackColor(ColorHandler.getMainColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrame(self, window.getDatabaseNode())
+                end
+            </script>
+            <frame merge="delete"/>
+        </roll_dice_control>
+          <focus_select name="recovery_focus">
+              <anchored to="recover_label" >
+               <left anchor="right" relation="relative" />
+               <top />
+                <right parent="dead" offset="0"/>
+              </anchored>
+                <frame name="field_mask_right_white" />
+          </focus_select>
+        <char_color_field_label name="first_aid_label">
+            <static> First Aid</static>
+            <anchored to="recover_label"/>
+        </char_color_field_label>
+        <roll_dice_control name="roll_first_aid">
+            <anchored merge="replace" to="first_aid_label" height="20" width="20">
+               <left anchor="right" relation="relative" offset="0"/>
+               <top />
+            </anchored>
+            <script>
+                function onInit()
+                    self.setBackColor(ColorHandler.getMainColor(window.getDatabaseNode()))
+                    ColorHandler.registerColorFrame(self, window.getDatabaseNode())
+                end
+                function getScoreMod()
+                    local att, disc = self.getScore("Daring"), self.getScore("Medicine")
+                    return RollManager.formatMod(att, "Daring", disc, "Medicine", 1, window.first_aid_focus)
+                end
+                function createRoll()
+                    return RollManager.buildSkillRoll(window, self.getDice(false), self.getScoreMod())
+                end
+            </script>
+            <frame merge="delete"/>
+        </roll_dice_control>
+          <focus_select name="first_aid_focus">
+              <anchored to="first_aid_label" >
+               <left anchor="right" relation="relative" />
+               <top />
+                <right parent="dead" offset="0"/>
+              </anchored>
+                <frame name="field_mask_right_white" />
+          </focus_select>
 
         </sheetdata>
     </windowclass>

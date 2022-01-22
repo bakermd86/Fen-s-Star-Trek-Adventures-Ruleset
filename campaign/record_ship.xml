@@ -1,7 +1,7 @@
 <root>
     <windowclass name="ship" >
 		<placement>
-			<size width="450" height="545" />
+			<size width="450" height="575" />
 		</placement>
         <minimize>minimized_npc</minimize>
         <tooltip field="name" />
@@ -75,24 +75,24 @@
             </subwindow>
             <subwindow name="general" >
                 <anchored to="header" height="34" position="below">
-                    <top anchor="bottom" offset="-12" />
+                    <top anchor="bottom" offset="-5" />
                 </anchored>
-                <class>ship_general</class>
+                <class>ship_tabs</class>
                 <fastinit/>
 			    <activate />
             </subwindow>
 
-            <ship_window name="main">
+            <ship_npc_window name="main">
                 <class>record_ship_main</class>
-            </ship_window>
+            </ship_npc_window>
 
-            <ship_window name="combat">
+            <ship_npc_window name="combat">
                 <class>record_ship_combat</class>
-            </ship_window>
+            </ship_npc_window>
 
-            <ship_window name="notes">
-                <class>ship_notes</class>
-            </ship_window>
+            <ship_npc_window name="notes">
+                <class>ship_npc_notes</class>
+            </ship_npc_window>
 
 
             <buttongroup_tabs name="tabs">
@@ -120,10 +120,10 @@
                 <anchored position="insidetop" height="110" />
             </genericcontrol>
             <genericcontrol name="row_1">
-                <anchored position="insidetopleft" offset="80,0" height="20" width="0" />
+                <anchored position="insidetopright" offset="5,0" height="20" width="0" />
             </genericcontrol>
             <genericcontrol name="row_2">
-                <anchored to="row_1" position="belowleft" offset="0,15" height="20" width="0"/>
+                <anchored position="insidetopleft" offset="65,35" height="20" width="0"/>
             </genericcontrol>
 
             <genericcontrol name="csAnchor">
@@ -145,39 +145,71 @@
                   <left anchor="right" relation="relative" offset="-10"/>
                     <top />
               </anchored>
+            <tooltip> Open Crew Support Window</tooltip>
             <script>
                 function onButtonPress()
-                    ---CrewSupportManager.setPlayerSupportNodes(window.getDatabaseNode())
                     local w = Interface.openWindow("supporting_character_select", window.getDatabaseNode())
                 end
             </script>
         </buttoncontrol>
-        <char_single_field_label_h >
-           <static> CUR </static>
-            <anchored to="csAnchor" />
-        </char_single_field_label_h>
-          <char_single_number_field_h name="current_crew_support">
-            <anchored to="csAnchor"/>
-          </char_single_number_field_h>
-        <char_single_field_label_h >
-           <static> MAX </static>
-            <anchored to="csAnchor"/>
-        </char_single_field_label_h>
-          <char_single_number_field_h name="max_crew_support">
-            <anchored to="csAnchor"/>
-              <script>
-                  function onInit()
-                        if getValue() == 0 then
-                            setValue(DB.getValue(getDatabaseNode().getParent(), "scale"))
-                        end
-                  end
-              </script>
-          </char_single_number_field_h>
+<!--        <char_single_field_label_h >-->
+<!--           <static> CUR </static>-->
+<!--            <anchored to="csAnchor" />-->
+<!--        </char_single_field_label_h>-->
+<!--          <char_single_number_field_h name="current_crew_support">-->
+<!--            <anchored to="csAnchor"/>-->
+<!--          </char_single_number_field_h>-->
+<!--        <char_single_field_label_h >-->
+<!--           <static> MAX </static>-->
+<!--            <anchored to="csAnchor"/>-->
+<!--        </char_single_field_label_h>-->
+<!--          <char_single_number_field_h name="max_crew_support">-->
+<!--            <anchored to="csAnchor"/>-->
+<!--              <script>-->
+<!--                  function onInit()-->
+<!--                        if getValue() == 0 then-->
+<!--                            setValue(DB.getValue(getDatabaseNode().getParent(), "scale"))-->
+<!--                        end-->
+<!--                  end-->
+<!--              </script>-->
+<!--          </char_single_number_field_h>-->
+
+			<link_record_header_id name="link">
+				<class>ship</class>
+			</link_record_header_id>
+			<button_record_locked >
+				<anchored to="link" width="20" height="20" merge="replace">
+					<left anchor="right" offset="3"/>
+					<top />
+				</anchored>
+			</button_record_locked>
+
+
+			<reverse_header_label name="registry_number">
+                <anchored to="row_1" width="120" />
+				<labelres>ship_label_registry</labelres>
+			</reverse_header_label>
+			<reverse_header_label name="nonid_name">
+                <anchored to="row_1">
+					<left parent="" offset="210"/>
+				</anchored>
+                <empty> Unidentified Vessel </empty>
+				<labelres>char_label_nonid_name</labelres>
+				<invisible/>
+			</reverse_header_label>
+
+			<reverse_header_label name="name">
+                <anchored to="row_1">
+					<left parent="" offset="90"/>
+				</anchored>
+				<empty textres="library_recordtype_empty_npc" />
+				<labelres>char_label_name</labelres>
+			</reverse_header_label>
 
 			<tokenfield name="token">
-				<anchored to="row_1" width="25" height="25">
+				<anchored to="row_1" width="22" height="22">
 					<top />
-					<left anchor="right" relation="relative" offset="2" />
+					<right anchor="left" relation="relative" offset="-5"/>
 				</anchored>
 				<empty>token_empty</empty>
 				<script>
@@ -186,14 +218,6 @@
 					end
 				</script>
 			</tokenfield>
-			<char_header_label name="name">
-                <anchored to="row_1" width="151"/>
-				<labelres>char_label_name</labelres>
-			</char_header_label>
-			<char_header_label name="registry_number">
-                <anchored to="row_1" width="151"/>
-				<labelres>ship_label_registry</labelres>
-			</char_header_label>
 
 
 			<char_header_label name="space_frame">
@@ -207,12 +231,14 @@
 			</char_header_label>
 
 			<char_header_label name="commanding_officer" >
-				<anchored to="row_2" width="117" />
+				<anchored to="row_2" >
+                    <right parent="" offset="-10"/>
+                </anchored>
 				<labelres>ship_label_commanding_officer</labelres>
 			</char_header_label>
         </sheetdata>
     </windowclass>
-    <windowclass name="ship_general">
+    <windowclass name="ship_tabs">
         <noscroll/>
         <sheetdata>
 <!--            Scale   -->
@@ -263,9 +289,10 @@
             </charsheet_tab_button>
 
             <alt_color_field_right>
-                <anchored to="button_anchor" height="24" width="24" >
+                <anchored to="button_anchor" height="24" >
                     <bottom />
                     <left anchor="right" offset="5" relation="relative"/>
+                    <right parent="" offset="-10"/>
                 </anchored>
             </alt_color_field_right>
 <!--            Power   -->
@@ -281,28 +308,6 @@
 <!--            </genericcontrol>-->
 
 
-            <char_single_field_label_h >
-                <static>SCALE </static>
-                <anchored to="button_anchor" />
-            </char_single_field_label_h>
-            <char_single_number_field_h name="scale">
-                <anchored to="button_anchor"/>
-            </char_single_number_field_h>
-
-            <char_single_field_label_h >
-                <static> POW </static>
-                <anchored to="button_anchor" />
-            </char_single_field_label_h>
-            <char_single_number_field_h name="power_current">
-                <anchored to="button_anchor"/>
-            </char_single_number_field_h>
-            <char_single_field_label_h >
-                <static> MAX </static>
-                <anchored to="button_anchor" />
-            </char_single_field_label_h>
-            <char_single_number_field_h name="power_max">
-                <anchored to="button_anchor"/>
-            </char_single_number_field_h>
 <!--            <tag_label name="powerLabel">-->
 <!--                <anchored merge="replace" to="power_frame" height="20" >-->
 <!--                    <left anchor="right" offset="0" />-->
@@ -316,7 +321,7 @@
         </sheetdata>
     </windowclass>
 
-    <template name="ship_window">
+    <template name="ship_npc_window">
         <subwindow>
             <fastinit/>
             <anchored >

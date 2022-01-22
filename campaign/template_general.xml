@@ -240,6 +240,12 @@
 		</genericcontrol>
 	</template>
 
+	<template name="sta_help">
+		<help>
+			<urlres>help_homepage_url</urlres>
+		</help>
+	</template>
+
 	<template name="alt_color_field_right">
 		<genericcontrol>
 			<frame name="field_mask_right"/>

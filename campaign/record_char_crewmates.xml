@@ -259,6 +259,32 @@
             </scoreList>
         </sheetdata>
     </windowclass>
+    <windowclass name="mini_score_entry">
+        <script>
+            function onInit()
+                self.score = nil
+            end
+        </script>
+        <sheetdata>
+            <genericcontrol>
+                <anchored position="insidetopleft" width="0" height="20"/>
+            </genericcontrol>
+            <char_label_tag>
+                <script>
+                    function onInit()
+                        self.setBackColor(ColorHandler.getMainColor(window.windowlist.window.getDatabaseNode()))
+                        ColorHandler.registerColorFrame(self, window.windowlist.window.getDatabaseNode())
+                    end
+                </script>
+            </char_label_tag>
+            <char_label name="label" >
+                <anchored>
+                    <right offset="-39"/>
+                </anchored>
+            </char_label>
+            <char_score_button name="selectButton"/>
+        </sheetdata>
+    </windowclass>
 
     <windowclass name="crew_score_entry">
         <sheetdata>

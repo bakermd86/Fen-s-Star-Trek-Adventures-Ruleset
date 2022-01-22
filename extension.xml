@@ -38,6 +38,7 @@
 		<!--	General/merge files		-->
 
 		<includefile source="strings/strings_campaign.xml" />
+		<includefile source="strings/help_urls.xml" />
 		<includefile source="graphics/graphics.xml" />
 		<includefile source="graphics/graphics_fonts.xml" />
 		<includefile source="campaign/campaign_chars.xml" />
@@ -101,6 +102,5 @@
 		<includefile source="campaign/record_ship.xml" />
 		<includefile source="campaign/record_ship_main.xml" />
 		<includefile source="campaign/record_ship_combat.xml" />
-		<includefile source="campaign/record_ship_notes.xml" />
 	</base>
 </root>

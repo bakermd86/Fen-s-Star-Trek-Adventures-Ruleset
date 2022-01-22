@@ -5,12 +5,14 @@ new_aRecords = {
 		aDataMap = { "talent", "reference.talent"},
 		sRecordDisplayClass = "sta_talent",
 		sListDisplayClass = "masterindexitem",
+		sSidebarCategory = "create"
 	},
 	["shiptalents"] = {
 		bExport = true,
 		aDataMap = { "shiptalent", "reference.shiptalent"},
 		sRecordDisplayClass = "sta_talent",
 		sListDisplayClass = "masterindexitem",
+		sSidebarCategory = "create"
 	},
 	["ships"] ={
 		bExport = true,
@@ -23,6 +25,7 @@ new_aRecords = {
 		aDataMap = { "weapon", "reference.weapons" },
 		sRecordDisplayClass = "weapon",
 		sListDisplayClass = "masterindexitem",
+		sSidebarCategory = "create"
 	},
 };
 
@@ -45,6 +48,7 @@ function onInit()
             aDataMap = { "saved_lptableset", "reference.saved_lptableset"},
             sRecordDisplayClass = "saved_lptableset",
             sListDisplayClass = "masterindexitem",
+		    sSidebarCategory = "library"
         }
     end
 	for kRecordType,vRecordType in pairs(new_aRecords) do

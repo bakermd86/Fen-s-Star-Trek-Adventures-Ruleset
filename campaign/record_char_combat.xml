@@ -186,19 +186,11 @@
             <frame merge="delete"/>
         </roll_dice_control>
           <focus_select name="recovery_focus">
-              <anchored merge="replace" to="recover_label" height="20" >
-               <left anchor="right" relation="relative" offset="0"/>
+              <anchored to="recover_label"  >
+               <left anchor="right" relation="relative"/>
                <top />
                 <right parent="colOne" offset="0"/>
               </anchored>
-                <frame name="field_mask_right_white" />
-                <script>
-                    function onInit()
-                        self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
-                        ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
-                    end
-                </script>
-              <backcolor merge="delete"/>
           </focus_select>
 
         <char_color_field_label name="first_aid_label">
@@ -230,19 +222,11 @@
             <frame merge="delete"/>
         </roll_dice_control>
           <focus_select name="first_aid_focus">
-              <anchored merge="replace" to="first_aid_label" height="20" >
-               <left anchor="right" relation="relative" offset="0"/>
+              <anchored to="first_aid_label" >
+               <left anchor="right" relation="relative" />
                <top />
                 <right parent="colOne" offset="0"/>
               </anchored>
-                <frame name="field_mask_right_white" />
-                <script>
-                    function onInit()
-                        self.setBackColor(ColorHandler.getAltColor(window.getDatabaseNode()))
-                        ColorHandler.registerColorFrameAlt(self, window.getDatabaseNode())
-                    end
-                </script>
-              <backcolor merge="delete"/>
           </focus_select>
 
 <!--     Weapons       -->
@@ -435,9 +419,6 @@
                         self.setBackColor(ColorHandler.getAltColor(window.windowlist.window.getDatabaseNode()))
                         ColorHandler.registerColorFrameAlt(self, window.windowlist.window.getDatabaseNode())
                     end
-                    function onClose()
-                        ColorHandler.unregisterColorFrameAlt(self, window.windowlist.window.getDatabaseNode())
-                    end
                 </script>
             </char_dice_field>
             <string_textlistitem name="qualities">
@@ -549,15 +530,12 @@
                 <frame name="field_white_right" />
             </numbercontrol>
             <combobox name="name">
-                <anchored position="insidetopleft" offset="40,1" height="16"  width="125"/>
+                <anchored position="insidetopleft" offset="50,1" height="16"  width="125"/>
                 <script>
                     function onInit()
+                        self.setBackColor(ColorHandler.getMainColor(getParent()))
+                        ColorHandler.registerColorFrame(self, getParent())
                         updateWeapons()
-                        self.setBackColor(ColorHandler.getMainColor(window.windowlist.window.getDatabaseNode()))
-                        ColorHandler.registerColorFrame(self, window.windowlist.window.getDatabaseNode())
-                    end
-                    function onClose()
-                        ColorHandler.unregisterColorFrame(self, window.windowlist.window.getDatabaseNode())
                     end
                     function onClickDown(...)
                         if not _bReadOnly then
@@ -574,27 +552,22 @@
                         end
                         addItems(items)
                     end
+                    function getParent()
+                        return window.getDatabaseNode().getParent().getParent()
+                    end
+                    function onClose()
+                        ColorHandler.unregisterColorFrame(self, getParent())
+                    end
                 </script>
-                <frame merge="replace" name="field_empty" />
-<!--              <frame>-->
-<!--                  <name>field_orange_left</name>-->
-<!--                  <offset >7,0,0,0</offset>-->
-<!--              </frame>-->
+                <frame merge="replace" name="field_mask_left_white" offset="10,0,0,0"/>
+              <backcolor merge="delete"/>
             </combobox>
             <focus_select name="linked_focus">
-                <anchored merge="replace" to="name" position="right" height="16" offset="2">
+                <anchored merge="replace" to="name" position="right" height="16" offset="7">
                     <top />
                     <right parent="" offset="-25"/>
                 </anchored>
                 <script>
-                    function onInit()
-                        updateFocuses()
-                        self.setBackColor(ColorHandler.getAltColor(window.windowlist.window.getDatabaseNode()))
-                        ColorHandler.registerColorFrameAlt(self, window.windowlist.window.getDatabaseNode())
-                    end
-                    function onClose()
-                        ColorHandler.unregisterColorFrameAlt(self, window.windowlist.window.getDatabaseNode())
-                    end
                     function getParent()
                         return window.getDatabaseNode().getParent().getParent()
                     end

@@ -6,10 +6,6 @@
 		<placement>
 			<size width="1050" height="655" />
 		</placement>
-<!--		<sizelimits>-->
-<!--			<minimum width="1050" height="655" />-->
-<!--			<dynamic />-->
-<!--		</sizelimits>-->
 		<nodelete />
         <script file="lifepath_define/scripts/lifepath_define.lua"/>
         <sheetdata>

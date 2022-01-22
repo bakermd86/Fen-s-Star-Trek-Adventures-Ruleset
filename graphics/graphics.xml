@@ -49,6 +49,14 @@
 	<icon name="dSTAicon.5" file="graphics/dice/dSTA6/dSTA6.5.png" />
 	<icon name="dSTAicon.6" file="graphics/dice/dSTA6/dSTA6.6.png" />
 
+	<!--	Sidebar		-->
+    <icon name="sidebar_icon_recordtype_crewmates" file="graphics/sidebar/sidebar_icon_charsheet_2.png" />
+    <icon name="sidebar_icon_recordtype_weapons" file="graphics/sidebar/sidebar_icon_battle_3.png" />
+    <icon name="sidebar_icon_recordtype_ships" file="graphics/sidebar/sidebar_icon_spaceship_3.png" />
+    <icon name="sidebar_icon_recordtype_saved_lptableset" file="graphics/sidebar/sidebar_icon_table.png" />
+    <icon name="sidebar_icon_recordtype_episodes" file="graphics/sidebar/sidebar_icon_story.png" />
+    <icon name="sidebar_icon_recordtype_talents" file="graphics/sidebar/sidebar_icon_class.png" />
+    <icon name="sidebar_icon_recordtype_shiptalents" file="graphics/sidebar/sidebar_icon_spaceship_2.png" />
 
 	<!--	Charsheet replacement graphics	-->
 	<icon name="tabtop" file="graphics/tabs/tabtop.png" />
@@ -102,13 +110,25 @@
 		<bitmap file="graphics/frames/lcars_frame_shape_right.png"/>
 		<offset>40,70,60,70</offset>
 	</framedef>
+	<framedef name="lcars_frame_shape_top_center">
+		<bitmap file="graphics/frames/lcars_frame_shape_top_center.png"/>
+		<offset>40,70,40,40</offset>
+	</framedef>
 	<framedef name="lcars_frame_shape_top_right">
 		<bitmap file="graphics/frames/lcars_frame_shape_top_right.png"/>
 		<offset>40,70,60,40</offset>
 	</framedef>
+	<framedef name="lcars_frame_shape_top_left">
+		<bitmap file="graphics/frames/lcars_frame_shape_top_left.png"/>
+		<offset>60,70,40,40</offset>
+	</framedef>
 	<framedef name="lcars_frame_shape_bottom_right">
 		<bitmap file="graphics/frames/lcars_frame_shape_bottom_right.png"/>
 		<offset>40,40,60,70</offset>
+	</framedef>
+	<framedef name="lcars_frame_shape_bottom_left">
+		<bitmap file="graphics/frames/lcars_frame_shape_bottom_left.png"/>
+		<offset>60,40,40,70</offset>
 	</framedef>
 	<framedef name="lcars_fork_frame_left">
 		<bitmap file="graphics/frames/lcars_fork_frame_left.png"/>
@@ -325,15 +345,23 @@
 		<bitmap file="graphics/frames/left_pill_mask.png" />
 		<offset>8,7,0,7</offset>
 	</framedef>
+	<framedef name="field_mask_pill">
+		<bitmap file="graphics/frames/pill_mask.png" />
+		<offset>8,7,8,7</offset>
+	</framedef>
+	<framedef name="field_mask_pill_white">
+		<bitmap file="graphics/frames/pill_mask_white.png" />
+		<offset>8,7,8,7</offset>
+	</framedef>
 
 	<framedef name="field_mask_right_white">
 		<bitmap file="graphics/frames/right_pill_mask_white.png" />
-		<offset>0,7,8,7</offset>
+		<offset>2,7,16,7</offset>
 	</framedef>
 
 	<framedef name="field_mask_left_white">
 		<bitmap file="graphics/frames/left_pill_mask_white.png" />
-		<offset>8,7,0,7</offset>
+		<offset>16,7,2,7</offset>
 	</framedef>
 
 	<framedef name="field_empty">

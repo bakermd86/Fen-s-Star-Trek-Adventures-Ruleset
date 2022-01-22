@@ -2,7 +2,7 @@
 
 <root>
 	<windowclass name="supporting_character_select">
-		<frame name="utilitybox3" />
+		<frame name="lcars_lifepath_frame" />
 		<placement>
 			<size width="745" height="650" />
 		</placement>
@@ -68,71 +68,77 @@
 					<left anchor="right" offset="15"/>
 					<right parent="contentanchor" anchor="right" offset="10"/>
 				</anchored>
-				<frame name="groupbox" offset="10,10,10,10" />
 			</genericcontrol>
-			<buttoncontrol name="available">
-				<anchored to="tab_anchor" position="insideleft" width="80" offset="2,-5" />
-				<state textres="crew_available_label" frame="fieldlight"/>
-				<state textres="crew_available_label" frame="fielddark"/>
-				<pressed offset="1,1" />
-				<font>button-large</font>
+
+			<genericcontrol name="button_anchor">
+				<anchored to="contentanchor" position="insidetopleft" offset="10,75" width="0" height="0"/>
+			</genericcontrol>
+
+			<sta_tab_button name="available">
+				<anchored width="80" />
+				<state textres="crew_available_label" />
 				<script>
 					function onFirstLayout()
 						window.handleMode("available", self)
 					end
 					function onButtonPress()
+						window.deselectButtons()
+						self.setBackColor(LifePathAlertHelper.COLOR_OK)
 						window.handleMode("available", self)
 					end
 				</script>
-			</buttoncontrol>
-			<buttoncontrol name="active">
-				<anchored to="available" position="right" width="65" offset="2,0" />
-				<state textres="crew_active_label" frame="fieldlight"/>
-				<state textres="crew_active_label" frame="fielddark"/>
-				<pressed offset="1,1" />
-				<font>button-large</font>
+				<backcolor>ff64bca4</backcolor>
+			</sta_tab_button>
+			<sta_tab_button name="active">
+				<anchored width="65" />
+				<state textres="crew_active_label" />
 				<script>
 					function onButtonPress()
+						window.deselectButtons()
+						self.setBackColor(LifePathAlertHelper.COLOR_OK)
 						window.handleMode("active", self)
 					end
 				</script>
-			</buttoncontrol>
-			<buttoncontrol name="dead">
-				<anchored to="active" position="right" width="75" offset="2,0" />
-				<pressed offset="1,1" />
-				<state textres="crew_dead_label" frame="fieldlight"/>
-				<state textres="crew_dead_label" frame="fielddark"/>
-				<font>button-large</font>
+				<backcolor>ff424242</backcolor>
+			</sta_tab_button>
+			<sta_tab_button name="dead">
+				<anchored width="75" />
+				<state textres="crew_dead_label" />
 				<script>
 					function onButtonPress()
+						window.deselectButtons()
+						self.setBackColor(LifePathAlertHelper.COLOR_OK)
 						window.handleMode("dead", self)
 					end
 				</script>
-			</buttoncontrol>
-			<buttoncontrol name="template">
-				<anchored to="dead" position="right" width="80" offset="2,0" />
-				<pressed offset="1,1" />
-				<state textres="template_crew_label" frame="fieldlight"/>
-				<state textres="template_crew_label" frame="fielddark"/>
-				<font>button-large</font>
+				<backcolor>ff424242</backcolor>
+			</sta_tab_button>
+			<sta_tab_button name="template">
+				<anchored width="80" />
+				<state textres="template_crew_label" />
 				<script>
 					function onButtonPress()
+						window.deselectButtons()
+						self.setBackColor(LifePathAlertHelper.COLOR_OK)
 						window.handleMode("template", self)
 					end
 				</script>
-			</buttoncontrol>
-			<buttoncontrol name="custom">
-				<anchored to="template" position="right" width="80" offset="2,0" />
-				<pressed offset="1,1" />
-				<state textres="custom_crew_label" frame="fieldlight"/>
-				<state textres="custom_crew_label" frame="fielddark"/>
+				<backcolor>ff424242</backcolor>
+			</sta_tab_button>
+			<sta_tab_button name="custom">
+				<anchored width="80" />
+				<state textres="custom_crew_label" />
 				<font>button-large</font>
 				<script>
 					function onButtonPress()
+						window.deselectButtons()
+						self.setBackColor(LifePathAlertHelper.COLOR_OK)
 						window.handleMode("custom", self)
 					end
 				</script>
-			</buttoncontrol>
+				<backcolor>ff424242</backcolor>
+			</sta_tab_button>
+
 			<windowlist name="crew_manifest">
 				<datasource>.charsheet</datasource>
 				<script>
@@ -167,7 +173,6 @@
 					<right parent="crew_support_frame" />
 					<bottom offset="-28" />
 				</anchored>
-				<frame name="groupbox" offset="10,10,10,10" />
             	<class>crew_entry</class>
 				<skipempty />
 				<readonly />

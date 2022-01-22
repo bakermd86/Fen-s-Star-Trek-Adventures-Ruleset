@@ -7,13 +7,17 @@
 		<placement>
 			<size width="200" height="120"/>
 		</placement>
+		<sizelimits>
+			<minimum width="200" height="120"/>
+			<dynamic />
+		</sizelimits>
 		<sheetdata>
 			<label_title_frame>
-				<anchored position="insidetop" height="24" offset="-10,10"/>
+				<anchored position="insidetop" height="24" offset="-13,10"/>
 				<static> Select Table Set </static>
 			</label_title_frame>
 			<lcars_combobox name="select_tableset">
-				<anchored position="insidetop" height="24" offset="-10,36"/>
+				<anchored position="insidetop" height="24" offset="-13,36"/>
 				<listdirection>down</listdirection>
 				<buttonoffset>0,3</buttonoffset>
                 <script>
@@ -53,6 +57,7 @@
 				</script>
 				<backcolor>ffeec515</backcolor>
 			</sta_tab_button>
+			<resize_recordsheet />
 		</sheetdata>
 	</windowclass>
 
