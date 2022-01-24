@@ -75,7 +75,7 @@
 					end
 					if labelwidget then
 						local w,h = labelwidget.getSize();
-						labelwidget.setPosition("bottomleft", w/2, h/2-4);
+						labelwidget.setPosition("bottomleft", w/2, h/2);
 					end
 				end
 			</script>

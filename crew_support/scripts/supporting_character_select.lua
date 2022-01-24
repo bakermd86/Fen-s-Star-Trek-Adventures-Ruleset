@@ -27,15 +27,13 @@ end
 function getCrewDefineFrames()
     return {
         species_attribute_select,
-        attribute_select_remain,
         attribute_selection_count,
         focus1,
         focus2,
         focus3,
         species,
-        focus_label,
+        random_focuses,
         name_select,
-        name_label,
         species_link
     }
 end
@@ -52,7 +50,6 @@ function getCrewRollFrames()
         table.insert(self.crewDefineFrames, roll_support_species)
         table.insert(self.crewDefineFrames, roll_support_name)
         return {
-            roll_support_species,
             roll_support_name,
         }
     end
@@ -85,7 +82,7 @@ end
 
 function incrementAttribute(attName, source)
 	local attribute = string.lower(attName);
-    local npcNode = main_frame.getWindows()[2].getDatabaseNode()
+    local npcNode = main_frame.subwindow.getDatabaseNode()
     DB.setValue(npcNode, attribute, "number", DB.getValue(npcNode, attribute) + 1)
     --npc[attribute].setValue(npc[attribute].getValue() + 1)
     local remaining = source.getCount() - 1;
@@ -98,7 +95,7 @@ end
 function decrementAttribute(attName, source)
     if main_frame == nil then return end
 	local attribute = string.lower(attName);
-    local npc = main_frame.getWindows()[2]
+    local npc = main_frame.subwindow
     if not(npc == nil) then
         local npcNode = npc.getDatabaseNode()
         DB.setValue(npcNode, attribute, "number", DB.getValue(npcNode, attribute) - 1)
@@ -124,9 +121,11 @@ function resetAttributeSelect()
     name_select.setValue("")
 end
 
-function handleCrewFrame(count)
-    if (count == 2) and ((self.mode == "template") or (self.mode == "custom")) then
-        for _, frame in ipairs(self.crewDefineFrames) do frame.setVisible(true) end
+function handleCrewFrame()
+    if self.mode == "custom" then
+        for _, frame in ipairs(self.crewDefineFrames) do
+            frame.setVisible(true)
+        end
         for _, button in ipairs(self.crewRollFrames) do button.onButtonPress() end
     end
 end
@@ -262,6 +261,7 @@ function checkCustom(mode)
             w.att_select.applyFilter()
         end
         main_frame.addNPC()
+        random_focuses.onButtonPress()
     else
         main_frame.closeAll()
         crew_manifest.setVisible(true)
@@ -286,4 +286,5 @@ function handleMode(mode, modeControl)
         for _, frame in ipairs(self.crewDefineFrames) do frame.setVisible(false) end
     end
     checkCustom(mode)
+    handleCrewFrame()
 end

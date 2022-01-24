@@ -87,12 +87,14 @@ end
 
 function handleSupportingCharacterImprovementRequest(oobMsg)
     if User.isHost() or User.isLocal() then
+        addEpisodeUsed(oobMsg.node)
         addSupportingCharacterImprovement(oobMsg.node)
     end
 end
 
 function requestSupportingCharacterImprovement(node)
     if DB.isOwner(node, User.getUsername()) then
+        addEpisodeUsed(node)
         addSupportingCharacterImprovement(node.getNodeName())
     else
         local oobMsg = {
@@ -105,8 +107,13 @@ end
 
 function addSupportingCharacterImprovement(nodeName)
     local m = DB.createChild(nodeName, "saved_milestones").createChild()
-    DB.setValue(m, "source", "string", DB.getValue(".crew_support.episode_name"))
+    DB.setValue(m, "source", "string", DB.getValue(".crew_support.episode_name", ""))
     DB.setValue(m, "type", "number", 3)
+end
+
+function addEpisodeUsed(node)
+    local usedIn = DB.createChild(node, "episodes").createChild()
+    DB.setValue(usedIn, "label", "string", DB.getValue(".crew_support.episode_name", ""))
 end
 
 function activateCrewMember(identity)
@@ -234,7 +241,7 @@ function doGmReuse(node)
 end
 
 function updateFocuses(window)
-    local char_main = window.main_frame.getWindows()[2]
+    local char_main = window.main_frame.subwindow
     if char_main then
         local node = char_main.getDatabaseNode()
         DB.deleteChildren(node, "focuses")
@@ -263,9 +270,9 @@ function activateSupportingCharacter(window)
                 "Unable to proceed", "okcancel")
         return
     end
-    if (not (window.main_frame.getWindowCount() == 2)) or window.mode == "dead" then return end
-    window.main_frame.saving = ((window.mode == "template") or (window.mode == "custom"))
-    local charWindow = window.main_frame.getWindows()[2]
+    if window.mode == "dead" then return end
+    window.main_frame.saving = (window.mode == "custom")
+    local charWindow = window.main_frame.subwindow
     local node = charWindow.getDatabaseNode()
     DB.deleteChild(node, "token")
     local name = DB.getValue(node, "name")
@@ -286,33 +293,30 @@ function activateSupportingCharacter(window)
             DB.setValue(node, "maxstress", "number", DB.getValue(node, "fitness", 7) + DB.getValue(node, "security", 1))
             User.requestIdentity("", "charsheet", "name", node, handleIdentity)
             table.insert(self.pendingDeleteNodes, node.getNodeName())
+            addEpisodeUsed(node)
         else
             User.onIdentityActivation = onIdentityActivation -- For some reason the callback is not being invoked below
             User.requestIdentity(node.getName(), "charsheet", "name", node, handleIdentity)
-            if not(window.mode == "active") then
-                requestSupportingCharacterImprovement(node)
-            end
+            requestSupportingCharacterImprovement(node, not(window.mode == "active"))
         end
     end
 end
 
-function getRandFromNode(node)
-    local val = math.random(node.getChildCount())
-    local idx = 1
-    for _, child in pairs(node.getChildren()) do
-        if idx == val then return child end
-        idx = idx + 1
-    end
+function getRandFromNodes(nodes)
+    local val = math.random(#nodes)
+    return nodes[val]
 end
 
 function getFocus()
-    local node = DB.findNode(STAModuleManager.getPathMain("reference.focuses"))
-    return getRandFromNode(node)
+    local focuses = STAModuleManager.getAllFromModules("focuses", "reference.focuses")
+    if #focuses >= 1 then return getRandFromNodes(focuses) else
+    return "" end
 end
 
 function getValue()
-    local node = DB.findNode(STAModuleManager.getPathMain("reference.values"))
-    return getRandFromNode(node)
+    local values = STAModuleManager.getAllFromModules("values", "reference.values")
+    if #values >= 1 then return getRandFromNodes(values) else
+    return "" end
 end
 
 function releaseCrew(node)
@@ -349,9 +353,9 @@ function crewIsAvailable(crewNode)
             (DB.getValue(crewNode, "available", 0) == 1)
 end
 
-function crewIsTemplate(crewNode)
-    return crewNode.getParent().getNodeName() == TEMPLATE_NODE..STAModuleManager.MODULE_MAIN
-end
+-- function crewIsTemplate(crewNode)
+--     return crewNode.getParent().getNodeName() == TEMPLATE_NODE..STAModuleManager.MODULE_MAIN
+-- end
 
 function crewIsActive(crewNode)
     return (DB.getValue(crewNode, "active", 0) == 1) and
@@ -363,8 +367,7 @@ function isSheetPc(crewNode)
 end
 
 function crewState(crewNode)
-    if crewIsTemplate(crewNode) then return "template"
-    elseif crewIsDead(crewNode) then return "dead"
+    if crewIsDead(crewNode) then return "dead"
     elseif crewIsActive(crewNode) then return "active"
     elseif crewIsAvailable(crewNode) then return "available"
     end

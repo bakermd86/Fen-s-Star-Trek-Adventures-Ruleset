@@ -354,6 +354,44 @@
 		</sheetdata>
 	</windowclass>
 
+	<windowclass name="lifepath_talent_entry">
+		  <placement>
+			<size width="350" height="500" />
+		  </placement>
+		<sheetdata>
+			<subwindow name="talent_def">
+				<anchored position="over"/>
+				<class>sta_talent</class>
+				<activate/>
+			</subwindow>
+
+			<button_lifepath_disard_note name="disard_control">
+				<anchored to="talent_def" position="insidebottomleft" height="25" width="60" />
+				<script>
+					function onButtonPress()
+						window.close();
+					end
+				</script>
+			</button_lifepath_disard_note>
+			<button_lifepath_save_note name="save_control">
+				<anchored to="talent_def" position="insidebottomright" height="25" width="60"/>
+				<script>
+					function setSaveCallback(callback)
+						self.saveCallback = callback;
+					end
+
+					function onButtonPress()
+						if self.saveCallback then
+							self.saveCallback(window.talent_def.subwindow);
+						end
+						window.close();
+						ScopeManager.updateAlerts()
+					end
+				</script>
+			</button_lifepath_save_note>
+		</sheetdata>
+	</windowclass>
+
 	<windowclass name="lifepath_note_entry">
 	  <frame>recordsheet</frame>
 	  <placement>

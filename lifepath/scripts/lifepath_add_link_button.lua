@@ -77,7 +77,7 @@ function handleRandomTalent(talents)
     local talents = doScoreFilter(talents, scores)
     local orderedTalents = {}
 
-    for _, tDef in pairs(talents) do
+    for _, tDef in ipairs(talents) do
         t, __ = unpack(tDef)
         table.insert(orderedTalents, t)
     end
@@ -96,15 +96,13 @@ function doScoreFilter(talents, scores)
         selectedTalents[talent.label.getValue()] = 1
     end
     local talentsOut = {}
-    for key, node in pairs(talents) do
-        if not (key == "type") then
-            local talentName = node.getChild("name").getValue()
-            if selectedTalents[talentName] == 1 then
-            elseif self.talentAllowed(node, scores) then
-                talentsOut[key]={node, 1}
-            else
-                talentsOut[key]={node, 0}
-            end
+    for _, node in ipairs(talents) do
+        local talentName = node.getChild("name").getValue()
+        if selectedTalents[talentName] == 1 then
+        elseif self.talentAllowed(node, scores) then
+            table.insert(talentsOut, {node, 1})
+        else
+            table.insert(talentsOut, {node, 0})
         end
     end
     return talentsOut
@@ -165,6 +163,11 @@ function onButtonPress()
     end
 end
 
+function onNewTalentAdd()
+    local n = Interface.openWindow("lifepath_talent_entry", "");
+    n.save_control.setSaveCallback(self.handleSaveNewTalent);
+end
+
 function onValueAdd()
     local n = Interface.openWindow("lifepath_note_entry", "");
     n.save_control.setSaveCallback(self.handleSaveNote);
@@ -178,30 +181,19 @@ function onFocusAdd()
 end
 
 function getAllTalents()
-    local allTalents = {}
     local sourceName = "talent"
     if self.source == "ship_talent" then
         sourceName = "shiptalent"
     end
-    for name, node in pairs(DB.getChildren("reference."..sourceName)) do
-        allTalents[name] = node
-    end
-    for _, module in ipairs(Module.getModules()) do
-        for name, node in pairs(DB.getChildren("reference." .. sourceName .. "@".. module)) do
-            allTalents[name] = node
-        end
-    end
-    for name, node in pairs(DB.getChildren(sourceName)) do
-        allTalents[name] = node
-    end
-    return allTalents
+    return STAModuleManager.getAllFromModules(sourceName, "reference."..sourceName)
 end
 
 function onTalentAdd()
     self.talentSelect = Interface.openWindow("lifepath_talent_filter_list", "");
+    self.talentSelect.new_talent_button.setTalentSource(self)
     self.talentSelect.talent_list.closeAll()
     local scores = self.getScores()
-    for _, nodeDef in pairs(doScoreFilter(getAllTalents(), scores)) do
+    for _, nodeDef in ipairs(doScoreFilter(getAllTalents(), scores)) do
         local node, filterKey = unpack(nodeDef)
         local w = self.talentSelect.talent_list.createWindow()
         local name = DB.getValue(node, "name")
@@ -262,6 +254,17 @@ function saveLinkToList(name, class)
     self.setSelect();
 end
 
+function saveTalentToList(name, requirements, text)
+    self.summaryLink = self.getTarget(self.target).createWindow("ref_talent_item");
+    Debug.chat(self.summaryLink)
+    self.summaryLink.name.setValue(name)
+    if (text or "") ~= "" then
+        self.summaryLink.text.setValue(text)
+    end
+    DB.setValue(self.summaryLink.getDatabaseNode(), "requirements", "string", requirements)
+    self.setSelect()
+end
+
 function handleSaveFocus(noteFrame)
     local name = noteFrame.header.subwindow["name"].getValue();
     self.saveTextToList(name, nil)
@@ -271,4 +274,11 @@ function handleSaveNote(noteFrame)
     local name = noteFrame.header.subwindow["name"].getValue();
     local text = noteFrame.text.getValue();
     self.saveTextToList(name, text)
+end
+
+function handleSaveNewTalent(talentFrame)
+    local name = talentFrame.header.subwindow["name"].getValue();
+    local requirements = talentFrame.requirements.getValue();
+    local text = talentFrame.text.getValue();
+    self.saveTalentToList(name, requirements, text)
 end

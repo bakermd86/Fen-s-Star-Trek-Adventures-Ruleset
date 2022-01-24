@@ -57,6 +57,8 @@
     <icon name="sidebar_icon_recordtype_episodes" file="graphics/sidebar/sidebar_icon_story.png" />
     <icon name="sidebar_icon_recordtype_talents" file="graphics/sidebar/sidebar_icon_class.png" />
     <icon name="sidebar_icon_recordtype_shiptalents" file="graphics/sidebar/sidebar_icon_spaceship_2.png" />
+    <icon name="sidebar_icon_recordtype_focuses" file="graphics/sidebar/sidebar_icon_skill.png" />
+    <icon name="sidebar_icon_recordtype_values" file="graphics/sidebar/sidebar_icon_fire.png" />
 
 	<!--	Charsheet replacement graphics	-->
 	<icon name="tabtop" file="graphics/tabs/tabtop.png" />

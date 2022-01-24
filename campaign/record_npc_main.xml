@@ -7,6 +7,9 @@
             function update()
                 local nodeRecord = getDatabaseNode();
                 local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
+                self.setReadOnly(bReadOnly)
+            end
+            function setReadOnly(bReadOnly)
                 focuses.setReadOnly(bReadOnly)
                 values.setReadOnly(bReadOnly)
                 talents.setReadOnly(bReadOnly)

@@ -179,10 +179,11 @@
                     <top />
                     <left anchor="right" relation="relative" offset="5"/>
                 </anchored>
+                <gmvisibleonly/>
 			</button_charactivate>
 
 			<char_header_label name="name">
-                <anchored to="row_1" width="150"/>
+                <anchored to="row_1" width="170"/>
 				<labelres>char_label_name</labelres>
 			</char_header_label>
 
@@ -206,7 +207,9 @@
             </windowreferencefield>
 
 			<char_header_label name="ship" >
-                <anchored to="row_1" width="100" />
+                <anchored to="row_1" >
+                    <right parent="" offset="2"/>
+                </anchored>
 				<labelres>char_label_vessel</labelres>
 			</char_header_label>
 

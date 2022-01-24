@@ -412,6 +412,41 @@
 	</template>
 
 	  <!-- Link Text Item -->
+  <windowclass name="ref_talent_item">
+    <margins control="0,0,0,2"/>
+    <sheetdata>
+      <genericcontrol name="rightanchor">
+        <anchored width="0" height="0">
+          <top/>
+          <right/>
+        </anchored>
+      </genericcontrol>
+      <button_idelete name="idelete">
+        <anchored>
+          <top/>
+          <right offset="-5" relation="relative" anchor="left" parent="rightanchor"/>
+        </anchored>
+      </button_idelete>
+      <string_textlistitem name="name">
+        <anchored height="22">
+          <top />
+          <left offset="22"/>
+          <right offset="-10" relation="relative" anchor="left" parent="rightanchor"/>
+        </anchored>
+	  	<font>lcars_sheettext</font>
+      </string_textlistitem>
+      <linkcontrol_id name="shortcut">
+        <anchored to="name" position="left" offset="2" width="15" height="15"/>
+        <class>sta_talent</class>
+            <readonly />
+      </linkcontrol_id>
+		<formattedtextfield name="text">
+			<anchored position="insidetopright" width="0" height="0"/>
+			<invisible/>
+		</formattedtextfield>
+    </sheetdata>
+  </windowclass>
+
   <windowclass name="ref_note_item">
     <margins control="0,0,0,2"/>
     <sheetdata>
@@ -580,6 +615,7 @@
                     	self.setBackColor(LifePathAlertHelper.COLOR_OK)
 						window.talent_list.setMode("require")
 						window.all_talents_button.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
+						window.new_talent_button.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
 					end
 				</script>
 			</sta_tab_button>
@@ -595,6 +631,27 @@
                     	self.setBackColor(LifePathAlertHelper.COLOR_OK)
 						window.talent_list.setMode("all")
 						window.filtered_talents_button.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
+						window.new_talent_button.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
+					end
+				</script>
+			</sta_tab_button>
+
+			<sta_tab_button name="new_talent_button">
+				<anchored width="100" />
+                <state><text>New Talent</text></state>
+				<script>
+					function onInit()
+						self.source = nil
+					end
+					function onFirstLayout()
+                    	self.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
+					end
+					function setTalentSource(source)
+						self.source = source
+					end
+					function onButtonPress()
+                    	self.source.onNewTalentAdd()
+						window.close()
 					end
 				</script>
 			</sta_tab_button>

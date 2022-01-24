@@ -129,11 +129,11 @@
 				<anchored  to="lifepath_finishing_touches_select_frame">
 					<bottom parent="lifepath_finishing_touches_frame" />
 				</anchored>
-				<script>
-					function onInit()
-						self.createWindow(STAModuleManager.getPathMain("reference.creation.finishing_touches"))
-					end
-				</script>
+<!--				<script>-->
+<!--					function onInit()-->
+<!--						self.createWindow(STAModuleManager.getPathMain("reference.creation.finishing_touches"))-->
+<!--					end-->
+<!--				</script>-->
 			</tab_ref_list>
 		</sheetdata>
 	</windowclass>	

@@ -7,6 +7,20 @@ new_aRecords = {
 		sListDisplayClass = "masterindexitem",
 		sSidebarCategory = "create"
 	},
+	["focuses"] = {
+		bExport = true,
+		aDataMap = { "focuses", "reference.focuses"},
+		sRecordDisplayClass = "note",
+		sListDisplayClass = "masterindexitem_note",
+		sSidebarCategory = "create"
+	},
+	["values"] = {
+		bExport = true,
+		aDataMap = { "values", "reference.values"},
+		sRecordDisplayClass = "note",
+		sListDisplayClass = "masterindexitem_note",
+		sSidebarCategory = "create"
+	},
 	["shiptalents"] = {
 		bExport = true,
 		aDataMap = { "shiptalent", "reference.shiptalent"},

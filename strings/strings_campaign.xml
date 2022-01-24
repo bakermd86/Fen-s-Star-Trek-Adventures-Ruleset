@@ -81,6 +81,8 @@
 	<string name="library_recordtype_label_scene_traits">Scene Traits</string>
 	<string name="library_recordtype_label_supporting_characters">Crew Support</string>
 	<string name="library_recordtype_label_saved_lptableset">Lifepath Tablesets</string>
+	<string name="library_recordtype_label_focuses">Focuses</string>
+	<string name="library_recordtype_label_values">Values</string>
 
 	<!-- Scenes -->
 	<string name="scene_label_characters">Characters</string>

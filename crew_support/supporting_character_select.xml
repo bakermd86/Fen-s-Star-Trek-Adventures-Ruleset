@@ -25,9 +25,9 @@
 
 			<label_title_frame name="nametitle">
 				<anchored to="contentanchor" position="insidetop" height="24" >
-					<left offset="110"/>
+					<left offset="80"/>
 					<top offset="-15" />
-					<right offset="-110" />
+					<right offset="-140" />
 				</anchored>
 				<static> Deploy Supporting Characters </static>
 				<font>lcars_sheetlabel</font>
@@ -38,6 +38,22 @@
 				<backcolor>ff3068ff</backcolor>
 				<readonly />
 			</stringfield>
+
+			<sta_tab_button name="activate_crew">
+				<anchored merge="replace" to="nametitle" width="75" height="48">
+					<left anchor="right" offset="2"/>
+					<top />
+				</anchored>
+				<state>
+					<text> Energize </text>
+				</state>
+				<backcolor>ffeec515</backcolor>
+				<script>
+					function onButtonPress()
+						CrewSupportManager.activateSupportingCharacter(window)
+					end
+				</script>
+			</sta_tab_button>
 
 			<genericcontrol name="button_anchor">
 				<anchored position="insidetopleft" offset="478,64" width="0" height="0"/>
@@ -95,16 +111,22 @@
 				<backcolor>ff424242</backcolor>
 			</sta_tab_button>
 
-
-
-			<windowlist name="main_frame">
-				<anchored width="475">
+			<subwindow name="header_frame">
+				<anchored width="475" height="30">
 					<top offset="70"/>
+					<left offset="0" />
+				</anchored>
+				<class>supporting_character_header</class>
+				<activate />
+			</subwindow>
+
+			<subwindow name="main_frame">
+				<anchored width="475">
+					<top offset="100"/>
 					<left offset="0" />
 					<bottom offset="-55" />
 				</anchored>
 				<class>st_npc_main</class>
-				<skipempty />
 				<readonly />
 				<script>
 					function onInit()
@@ -121,47 +143,44 @@
 							DB.deleteNode(self.npcNode)
 						end
 					end
-					function onListChanged()
-						window.handleCrewFrame(self.getWindowCount())
+					function closeAll()
+						window.header_frame.setValue("", "")
+						self.setValue("", "")
 					end
 					function addNPC(sourceNode, copy)
 						window.resetAttributeSelect()
-						self.closeAll()
 						if sourceNode and copy then
 							DB.copyNode(sourceNode, self.npcNode)
-							self.createWindowWithClass("supporting_character_header", self.npcNode)
-							self.createWindow(self.npcNode)
+							window.header_frame.setValue("supporting_character_header", self.npcNode)
+							self.setValue("st_npc_main", self.npcNode)
 							window.rollCombinedDetails()
 						elseif sourceNode then
-							self.createWindowWithClass("supporting_character_header", sourceNode)
-							---self.createWindowWithClass("charsheet_main", sourceNode)
-							self.createWindow(sourceNode)
+							window.header_frame.setValue("supporting_character_header", sourceNode)
+							self.setValue("st_npc_main", sourceNode)
 						else
     						DB.deleteChildren(self.npcNode)
-							self.createWindowWithClass("supporting_character_header", self.npcNode)
-							self.createWindow(self.npcNode)
+							window.header_frame.setValue("supporting_character_header", self.npcNode)
+							self.setValue("st_npc_main", self.npcNode)
 							window.rollCombinedDetails()
 						end
+						self.subwindow.setReadOnly(true)
 					end
 				</script>
-			</windowlist>
+				<activate />
+			</subwindow>
 
 			<windowlist name="crew_manifest">
 				<datasource>.charsheet</datasource>
 				<script>
 					function onInit()
 						self.mode = "available"
+						self.setDatabaseNode("charsheet")
 						window.reTargetManifest()
 						self.applyFilter()
 					end
 
 					function setMode(mode)
 						self.mode = mode
-						---if self.mode == "template" then
-						---	self.setDatabaseNode(STAModuleManager.getPathMain("npctemplate"))
-						---else
-						---	self.setDatabaseNode("charsheet")
-						---end
 						window.reTargetManifest()
 						self.applyFilter()
 					end
@@ -183,43 +202,12 @@
 				<skipempty />
 				<readonly />
 			</windowlist>
-			<windowlist name="custom_controls">
-				<script>
-					function onInit()
-						self.mode = "custom"
-					end
-				</script>
-				<anchored width="250">
-					<top offset="65"/>
-					<bottom offset="-165"/>
-					<right offset="-10"/>
-				</anchored>
-            	<class>support_att_select</class>
-				<skipempty />
-				<invisible />
-			</windowlist>
-
-<!--			<genericcontrol name="control_block">-->
-<!--				<anchored to="main_frame" position="over"/>-->
-<!--			</genericcontrol>-->
-<!--			<buttoncontrol name="activate_crew">-->
-<!--				<anchored to="main_frame" position="insidebottomright" offset="55,8" height="45" width="75"/>-->
-<!--				<frame name="fieldlight" offset="5,5,5,5" />-->
-<!--				<stateframe>-->
-<!--					<pressed name="fielddark" offset="5,5,5,5" nobaseframe="true" />-->
-<!--				</stateframe>-->
-<!--				<font>button-large</font>-->
-<!--				<pressed offset="1,1" />-->
-<!--				<state textres="active_crew_label" />-->
-<!--				<script>-->
-<!--					function onButtonPress()-->
-<!--						CrewSupportManager.activateSupportingCharacter(window)-->
-<!--					end-->
-<!--				</script>-->
-<!--			</buttoncontrol>-->
 
 			<genericcontrol name="text_controls">
-				<anchored to="custom_controls" position="below" offset="5" height="0"/>
+				<anchored height="0" width="250">
+					<top offset="65"/>
+					<right offset="-10"/>
+				</anchored>
 			</genericcontrol>
 
 
@@ -233,8 +221,8 @@
 				<empty>Enter Name....</empty>
 				<script>
 					function onValueChanged()
-						if window.main_frame.getWindows()[1] then
-							window.main_frame.getWindows()[1].name.setValue(getValue())
+						if window.header_frame.subwindow then
+							window.header_frame.subwindow.name.setValue(getValue())
 						end
 					end
 				</script>
@@ -250,14 +238,115 @@
 						w.close()
 					end
 				</script>
-				<icon normal="button_roll" pressed="button_roll_down" />
+				<icon normal="d20bicon" pressed="d20ricon" />
+			</buttoncontrol>
+
+
+			<linkcontrol name="species_link">
+				<invisible />
+				<anchored to="text_controls" width="18" height="18">
+					<top anchor="bottom" relation="relative" offset="12"/>
+					<left offset="2"/>
+				</anchored>
+			</linkcontrol>
+
+			<buttoncontrol name="roll_support_species">
+				<invisible />
+				<anchored to="species_link" position="right"  offset="2" width="18" height="18"/>
+				<script>
+					function onButtonPress()
+						local w = Interface.openWindow("storytemplate", "")
+						local rawVal = "";
+						local defaultMode = LifePathTableManager.getDefaultTable()
+						if defaultMode == "MANUAL" then
+							if STAModuleManager.modLoaded(STAModuleManager.MODULE_EXTRA) then
+								rawVal = w.generate.performTableLookups("[Memory Alpha Weighted Species]")
+							else
+								w.close()
+								return
+							end
+						else
+							local tableName = LifePathTableManager.getActiveStepName(defaultMode, 1)
+							rawVal = w.generate.performTableLookups("[".. tableName .."]")
+						end
+						w.close()
+						f = string.gmatch(rawVal, "[|]([^|]+)")
+						class, link, name = f(), f(), f()
+						window.species_link.setValue(class, link)
+						window.species.setValue(name)
+					end
+				</script>
+				<icon normal="d20bicon" pressed="d20ricon" />
+			</buttoncontrol>
+
+			<lcars_stringc_labeled name="species">
+				<invisible />
+				<anchored to="roll_support_species" position="right" offset="2,-1">
+					<right parent="" />
+				</anchored>
+				<empty>Species Name</empty>
+				<script>
+					function onValueChanged()
+						DB.setValue(window.main_frame.subwindow.getDatabaseNode(), "species", "string", getValue())
+					end
+				</script>
+				<label>Select Species, apply attributes</label>
+			</lcars_stringc_labeled>
+
+			<lifepath_select_control name="species_attribute_select">
+				<class>support_attribute_item</class>
+				<invisible />
+				<anchored merge="replace" to="text_controls" width="210">
+					<top anchor="bottom" relation="relative" offset="12"/>
+					<right />
+				</anchored>
+				<script>
+					function getCounter()
+						return window.attribute_selection_count
+					end
+					function incrementAttribute(name, source)
+						window.incrementAttribute(name, source)
+					end
+					function decrementAttribute(name, source)
+						window.decrementAttribute(name, source)
+					end
+					function scoreSelected(name, source)
+						window.scoreSelected(name, source)
+					end
+					function scoreDeselected(name, source)
+						window.scoreDeselected(name, source)
+					end
+				</script>
+			</lifepath_select_control>
+
+			<numbercontrol name="attribute_selection_count">
+				<invisible />
+				<anchored position="insidetopleft" height="0" width="0"  />
+				<readonly />
+				<default>3</default>
+			</numbercontrol>
+
+			<buttoncontrol name="random_focuses">
+				<anchored to="text_controls" width="18" height="18">
+					<top anchor="bottom" relation="current" offset="0" />
+					<left offset="1" />
+				</anchored>
+				<icon normal="d20bicon" pressed="d20ricon" />
+				<invisible />
+				<script>
+					function onButtonPress()
+						window.focus1.setValue(DB.getValue(CrewSupportManager.getFocus(), ""))
+						window.focus2.setValue(DB.getValue(CrewSupportManager.getFocus(), ""))
+						window.focus3.setValue(DB.getValue(CrewSupportManager.getFocus(), ""))
+					end
+				</script>
 			</buttoncontrol>
 
 			<lcars_stringc_labeled name="focus1">
 				<invisible />
 				<anchored to="text_controls" width="80">
-					<top anchor="bottom" relation="relative" offset="8" />
-					<left offset="2"/>
+					<top anchor="bottom" relation="relative" offset="0" />
+					<left offset="20"/>
 				</anchored>
 				<empty>Focus...</empty>
 				<script>
@@ -265,7 +354,7 @@
 						CrewSupportManager.updateFocuses(window)
 					end
 				</script>
-				<label>Select 3 focuses, at least one related to chosen role</label>
+				<label>3 focuses, at least one related to role</label>
 			</lcars_stringc_labeled>
 
 			<lcars_stringc_labeled name="focus2">
@@ -290,110 +379,22 @@
 				</script>
 			</lcars_stringc_labeled>
 
-
-			<lcars_stringc_labeled name="species">
-				<invisible />
-				<anchored to="text_controls">
-					<top anchor="bottom" relation="relative" offset="8"/>
-					<left offset="42"/>
-					<right />
-				</anchored>
-				<empty>Species Name</empty>
+			<windowlist name="custom_controls">
 				<script>
-					function onValueChanged()
-						DB.setValue(window.main_frame.getWindows()[2].getDatabaseNode(), "species", "string", getValue())
+					function onInit()
+						self.mode = "custom"
 					end
 				</script>
-				<labelres>char_label_species</labelres>
-			</lcars_stringc_labeled>
-
-			<buttoncontrol name="roll_support_species">
-				<invisible />
-				<anchored to="species" position="left" offset="2" width="18" height="18" />
-				<script>
-					function onButtonPress()
-						local w = Interface.openWindow("storytemplate", "")
-						local rawVal = "";
-    					if STAModuleManager.modLoaded(STAModuleManager.MODULE_MAIN) then
-							rawVal = w.generate.performTableLookups("[Random Alien Type]")
-						elseif STAModuleManager.modLoaded(STAModuleManager.MODULE_EXTRA) then
-							rawVal = w.generate.performTableLookups("[Memory Alpha Weighted Species]")
-						else
-							w.close()
-							return
-						end
-						w.close()
-						f = string.gmatch(rawVal, "[|]([^|]+)")
-						class, link, name = f(), f(), f()
-						window.species_link.setValue(class, link)
-						window.species.setValue(name)
-					end
-				</script>
-				<icon normal="d20bicon" pressed="d20ricon" />
-			</buttoncontrol>
-
-			<lifepath_select_control name="species_attribute_select">
-				<class>support_attribute_item</class>
-				<invisible />
-				<anchored merge="replace" to="text_controls">
-					<top anchor="bottom" relation="relative" offset="10"/>
+				<anchored to="text_controls" >
 					<left />
 					<right />
+					<top anchor="bottom" relation="relative" offset="14"/>
+					<bottom parent="" offset="-15"/>
 				</anchored>
-				<script>
-					function getCounter()
-						return window.attribute_selection_count
-					end
-					function incrementAttribute(name, source)
-						window.incrementAttribute(name, source)
-					end
-					function decrementAttribute(name, source)
-						window.decrementAttribute(name, source)
-					end
-					function scoreSelected(name, source)
-						window.scoreSelected(name, source)
-					end
-					function scoreDeselected(name, source)
-						window.scoreDeselected(name, source)
-					end
-				</script>
-			</lifepath_select_control>
-
-<!--			<stringcontrol name="species">-->
-<!--				<invisible />-->
-<!--				<anchored to="species_attribute_select" position="aboveleft"  width="374" offset="0,5"/>-->
-<!--				<empty>Species Name</empty>-->
-<!--				<frame name="fielddark" offset="7,5,7,5" />-->
-<!--				<script>-->
-<!--					function onValueChanged()-->
-<!--						DB.setValue(window.main_frame.getWindows()[2].getDatabaseNode(), "species", "string", getValue())-->
-<!--					end-->
-<!--				</script>-->
-<!--			</stringcontrol>-->
-
-			<linkcontrol name="species_link">
+            	<class>support_att_select</class>
+				<skipempty />
 				<invisible />
-				<anchored to="roll_support_species" position="right"  offset="2,2" width="20" height="20"/>
-			</linkcontrol>
-			<label name="attribute_select_remain">
-				<invisible />
-				<anchored to="species_link" position="right" offset="2,0" height="20" >
-					<right parent="species" offset="-25"/>
-				</anchored>
-				<default>Select/roll species and add attributes:</default>
-			</label>
-			<numbercontrol name="attribute_selection_count">
-				<invisible />
-				<anchored to="attribute_select_remain" position="right" offset="5,0"  />
-				<readonly />
-				<default>3</default>
-			</numbercontrol>
-
-<!--			<label name="focus_label">-->
-<!--				<invisible />-->
-<!--				<anchored to="focus1" position="aboveleft" offset="0,5" height="20" />-->
-<!--				<default>Add 3 focuses, at least 1 related to chosen role:</default>-->
-<!--			</label>-->
+			</windowlist>
 
 			<close_recordsheet />
         </sheetdata>
@@ -485,9 +486,10 @@
 			<label name="label">
 				<anchored position="insidetopright" height="20" offset="0"/>
 				<font>lcars_sheettext</font>
+				<center/>
 			</label>
 			<lifepath_select_control name="att_select">
-				<anchored merge="replace" to="label" height="50" width="195">
+				<anchored merge="replace" to="label" height="50" width="210">
 					<top anchor="bottom"/>
 					<right />
 				</anchored>
@@ -538,10 +540,6 @@
 						self.parentWindow.scoreDeselected(name, source)
 					end
 				</script>
-				<columns>
-					<width>65</width>
-					<fillwidth />
-				</columns>
 			</lifepath_select_control>
 		</sheetdata>
 	</windowclass>
