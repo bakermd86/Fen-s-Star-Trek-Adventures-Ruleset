@@ -112,6 +112,14 @@
 		<bitmap file="graphics/frames/lcars_frame_shape_right.png"/>
 		<offset>40,70,60,70</offset>
 	</framedef>
+	<framedef name="lcars_frame_shape_top">
+		<bitmap file="graphics/frames/lcars_frame_shape_top.png"/>
+		<offset>60,70,60,40</offset>
+	</framedef>
+	<framedef name="lcars_frame_shape_bottom">
+		<bitmap file="graphics/frames/lcars_frame_shape_bottom.png"/>
+		<offset>60,40,60,70</offset>
+	</framedef>
 	<framedef name="lcars_frame_shape_top_center">
 		<bitmap file="graphics/frames/lcars_frame_shape_top_center.png"/>
 		<offset>40,70,40,40</offset>

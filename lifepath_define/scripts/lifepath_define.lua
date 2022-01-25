@@ -186,7 +186,6 @@ end
 
 function loadRow(rowWindow)
     local sourceWindow = getStepWindow(rowWindow.windowlist.window.getStep())
-    Debug.chat(sourceWindow)
     local sourceNode = sourceWindow.getDatabaseNode()
     local rowNode = rowWindow.getDatabaseNode()
     DB.copyNode(rowNode, sourceNode)

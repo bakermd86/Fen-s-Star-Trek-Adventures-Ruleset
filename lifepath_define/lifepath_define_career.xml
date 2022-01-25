@@ -102,7 +102,7 @@
 				<class>lifepath_define_talent_window</class>
 			</define_step_subwindow>
 
-			discipline<define_step_text_field name="stepNote.text" />
+			<define_step_text_field name="stepNote.text" />
         </sheetdata>
     </windowclass>
 </root>

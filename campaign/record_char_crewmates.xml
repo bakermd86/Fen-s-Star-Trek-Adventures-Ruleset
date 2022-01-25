@@ -220,10 +220,10 @@
                 function onInit()
                     for idx, score in ipairs(self.scores()) do
                         w = self.createWindow(window.getDatabaseNode())
-                        w.createControl(self.scoreClass(), string.lower(score))
+                        w.createControl(self.scoreClass(), "score", string.lower(score))
                         w.label.setValue(string.upper(string.sub(score, 1, 3)))
                         w.selectButton.setReadOnly(true)
-                        w[string.lower(score)].setReadOnly(true)
+                        w.score.setReadOnly(true)
                     end
                 end
                 </script>
@@ -248,10 +248,10 @@
                 function onInit()
                     for idx, score in ipairs(self.scores()) do
                         w = self.createWindow(window.getDatabaseNode())
-                        w.createControl(self.scoreClass(), string.lower(score))
+                        w.createControl(self.scoreClass(), "score", string.lower(score))
                         w.label.setValue(string.upper(string.sub(score, 1, 3)))
                         w.selectButton.setReadOnly(true)
-                        w[string.lower(score)].setReadOnly(true)
+                        w.score.setReadOnly(true)
                     end
                 end
                 </script>

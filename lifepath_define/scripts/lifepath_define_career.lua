@@ -12,13 +12,24 @@ end
 function onRowLoad()
     local node = self.getDatabaseNode()
     local class, talentNodePath = DB.getValue(node.getChild("results").getChild("id-00002"), "resultlink")
-    Debug.chat(class)
-    Debug.chat(talentNodePath)
     if talentNodePath ~= "" then
         local talentNode = DB.findNode(talentNodePath)
-        self.career_talent_mode_fixed.onButtonPress()
-        self.talent_define_subwindow.subwindow.talent_select.getWindows()[1].lifepath_drop_target.setLink(talentNode)
+        if talentNode then
+            self.career_talent_mode_fixed.onButtonPress()
+            self.talent_define_subwindow.subwindow.talent_select.getWindows()[1].lifepath_drop_target.setLink(talentNode)
+        end
     end
+end
+
+function saveCustomTalent(name, requirements, text)
+    local resNode = self.career_talent_mode_fixed.resNode
+    self.saveTalent(name, "sta_talent", resNode)
+    DB.setValue(resNode, "name", "string", name)
+    if (text or "") ~= "" then
+        DB.setValue(resNode, "text", "formattedtext", text)
+    end
+    DB.setValue(resNode, "link", "windowreference", class, resNode.getNodeName())
+    DB.setValue(resNode, "requirements", "string", requirements)
 end
 
 function saveTalent(name, class, node)

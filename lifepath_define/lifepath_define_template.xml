@@ -242,6 +242,9 @@
 				<script>
 					function saveLinkToList(name, class)
 						window.windowlist.window.parentcontrol.window.saveTalent(name, class, self.node)
+						self.onTalentSelected(name)
+					end
+					function onTalentSelected(name)
 						window.display.setValue(name)
 						window.lifepath_drop_target_label.setVisible(false)
     					self.setSelect();
@@ -250,6 +253,16 @@
 						window.display.setValue("")
 						window.lifepath_drop_target_label.setVisible(true)
 						window.windowlist.window.parentcontrol.window.deleteTalentNode()
+					end
+					function getScores()
+						return "ALLOW_ALL"
+					end
+					function getTalents()
+						return {}
+					end
+					function saveTalentToList(name, requirements, text)
+						window.windowlist.window.parentcontrol.window.saveCustomTalent(name, requirements, text)
+						self.onTalentSelected(name)
 					end
 				</script>
 			</lifepath_add_link_button>

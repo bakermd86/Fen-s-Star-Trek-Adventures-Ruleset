@@ -1,104 +1,184 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <root>
-  <windowclass name="scene_main">
-    <margins control="0,0,0,2" />
+  <windowclass name="episode_scene">
+    <script>
+        function onInit()
+            self.setBackColor(ColorHandler.getMainColor(parentcontrol.window.getDatabaseNode()))
+            ColorHandler.registerColorFrame(self, parentcontrol.window.getDatabaseNode())
+        end
+    </script>
     <sheetdata>
+        <ship_tl_anchor/>
+        <charsheet_tr_anchor/>
 
-      <genericcontrol name="height_anchor">
-        <anchored position="insidetop" height="0" width="0"/>
-      </genericcontrol>
-	  <!-- Summary -->
-	  <ep_text name="summary">
-        <anchored height="95">
-          <top offset="8"/>
-        </anchored>
-	  </ep_text>
-	  
-	  <!-- Description -->
-	  <ep_text name="description">
-		<anchored >
-          <bottom anchor="center" offset="100"/>
-        </anchored>
-	  </ep_text>
-      <ep_label>
-        <anchored to="description" />
-        <static textres="scene_label_description" />
-      </ep_label>
-	  
-      <!-- Characters -->
-	  <episode_linked_list name="scene_characters">
-        <datasource>.scene_characters</datasource>
-		<anchored >
-          <top relation="current"/>
-          <right anchor="center"/>
-          <bottom offset="-10"/>
-        </anchored>
-	  </episode_linked_list>
-      <ep_label>
-        <anchored to="scene_characters" />
-        <static textres="scene_label_characters" />
-      </ep_label>
+            <genericcontrol name="description_color">
+                <anchored merge="replace" >
+                    <top parent="topLeft" />
+                    <right />
+                    <left />
+                    <bottom parent="" anchor="center"/>
+                </anchored>
+                <frame name="lcars_frame_shape_top" />
+            </genericcontrol>
+
+            <notes_field name="description">
+                <anchored merge="replace" to="description_color">
+                    <left offset="40"/>
+                    <top offset="25"/>
+                    <right offset="-40"/>
+                    <bottom offset="-10"/>
+                </anchored>
+            </notes_field>
+            <tag_label >
+                <anchored to="description" />
+                <static> SCENE DESCRIPTION </static>
+            </tag_label>
+
+            <genericcontrol name="scene_characters_color">
+                <anchored to="description_color" merge="replace" >
+                    <top anchor="bottom"/>
+                    <right anchor="center"/>
+                    <left />
+                    <bottom parent=""/>
+                </anchored>
+                <frame name="lcars_frame_shape_bottom_left" />
+            </genericcontrol>
+            <char_linked_list name="scene_characters">
+                <datasource>.scene_characters</datasource>
+                <anchored to="scene_characters_color">
+                    <top offset="5"/>
+                    <left offset="35"/>
+                    <right offset="-5"/>
+                    <bottom offset="-25"/>
+                </anchored>
+                <frame merge="delete"/>
+            </char_linked_list>
+            <tag_label >
+                <anchored to="scene_characters" position="insidebottomleft" offset="25,-25"/>
+                <static> SCENE CHARACTERS </static>
+            </tag_label>
+
+            <genericcontrol name="scene_active_traits_color">
+                <anchored to="description_color" merge="replace" >
+                    <top anchor="bottom"/>
+                    <right />
+                    <left anchor="center"/>
+                    <bottom parent=""/>
+                </anchored>
+                <frame name="lcars_frame_shape_bottom_right" />
+            </genericcontrol>
+            <char_ref_list name="scene_active_traits">
+                <datasource>.scene_active_traits</datasource>
+                <anchored to="scene_active_traits_color">
+                    <top offset="5"/>
+                    <left offset="5"/>
+                    <right offset="-35"/>
+                    <bottom offset="-25"/>
+                </anchored>
+                <frame merge="delete"/>
+            </char_ref_list>
+            <tag_label >
+                <anchored to="scene_active_traits" position="insidebottomright" offset="25,-25"/>
+                <static> SCENE TRAITS </static>
+            </tag_label>
 
 
-      <genericcontrol name="split_frame">
-		<anchored >
-          <left anchor="center" />
-          <right />
-          <top parent="height_anchor" anchor="bottom" offset="28" relation="current"/>
-          <bottom />
-        </anchored>
-      </genericcontrol>
 
-	  <!-- Science -->
-	  <scene_ref_list name="scene_investigations">
-        <datasource>.scene_investigations</datasource>
-        <class>research_entry</class>
-		<anchored to="split_frame" >
-          <bottom anchor="center"/>
-        </anchored>
-	  </scene_ref_list>
-      <ep_label>
-        <anchored to="scene_investigations" />
-        <static textres="scene_label_science" />
-      </ep_label>
-	  
-	  <!-- Traits -->
-	  <scene_ref_list name="scene_active_traits">
-        <datasource>.scene_active_traits</datasource>
-		<anchored to="split_frame" >
-          <bottom offset="-10"/>
-        </anchored>
-	  </scene_ref_list>
-      <ep_label>
-        <anchored to="scene_active_traits" />
-        <static textres="scene_label_traits" />
-      </ep_label>
+<!--      <genericcontrol name="height_anchor">-->
+<!--        <anchored position="insidetop" height="0" width="0"/>-->
+<!--      </genericcontrol>-->
+<!--	  &lt;!&ndash; Summary &ndash;&gt;-->
+<!--	  <ep_text name="summary">-->
+<!--        <anchored height="95">-->
+<!--          <top offset="8"/>-->
+<!--        </anchored>-->
+<!--	  </ep_text>-->
+<!--	  -->
+<!--	  &lt;!&ndash; Description &ndash;&gt;-->
+<!--	  <ep_text name="description">-->
+<!--		<anchored >-->
+<!--          <bottom anchor="center" offset="100"/>-->
+<!--        </anchored>-->
+<!--	  </ep_text>-->
+<!--      <ep_label>-->
+<!--        <anchored to="description" />-->
+<!--        <static textres="scene_label_description" />-->
+<!--      </ep_label>-->
+<!--	  -->
+<!--      &lt;!&ndash; Characters &ndash;&gt;-->
+<!--	  <episode_linked_list name="scene_characters">-->
+<!--        <datasource>.scene_characters</datasource>-->
+<!--		<anchored >-->
+<!--          <top relation="current"/>-->
+<!--          <right anchor="center"/>-->
+<!--          <bottom offset="-10"/>-->
+<!--        </anchored>-->
+<!--	  </episode_linked_list>-->
+<!--      <ep_label>-->
+<!--        <anchored to="scene_characters" />-->
+<!--        <static textres="scene_label_characters" />-->
+<!--      </ep_label>-->
+
+
+<!--      <genericcontrol name="split_frame">-->
+<!--		<anchored >-->
+<!--          <left anchor="center" />-->
+<!--          <right />-->
+<!--          <top parent="height_anchor" anchor="bottom" offset="28" relation="current"/>-->
+<!--          <bottom />-->
+<!--        </anchored>-->
+<!--      </genericcontrol>-->
+
+<!--	  &lt;!&ndash; Science &ndash;&gt;-->
+<!--	  <scene_ref_list name="scene_investigations">-->
+<!--        <datasource>.scene_investigations</datasource>-->
+<!--        <class>research_entry</class>-->
+<!--		<anchored to="split_frame" >-->
+<!--          <bottom anchor="center"/>-->
+<!--        </anchored>-->
+<!--	  </scene_ref_list>-->
+<!--      <ep_label>-->
+<!--        <anchored to="scene_investigations" />-->
+<!--        <static textres="scene_label_science" />-->
+<!--      </ep_label>-->
+<!--	  -->
+<!--	  &lt;!&ndash; Traits &ndash;&gt;-->
+<!--	  <scene_ref_list name="scene_active_traits">-->
+<!--        <datasource>.scene_active_traits</datasource>-->
+<!--		<anchored to="split_frame" >-->
+<!--          <bottom offset="-10"/>-->
+<!--        </anchored>-->
+<!--	  </scene_ref_list>-->
+<!--      <ep_label>-->
+<!--        <anchored to="scene_active_traits" />-->
+<!--        <static textres="scene_label_traits" />-->
+<!--      </ep_label>-->
 
     </sheetdata>
   </windowclass>
 
-  <template name="scene_ref_list">
-        <char_ref_list>
-		<anchored >
-          <left offset="10"/>
-          <right offset="-10"/>
-          <top parent="height_anchor" anchor="bottom" offset="28" relation="relative"/>
-        </anchored>
-        <frame name="lcars_groupbox_dark" offset="10,8,10,8"/>
-        </char_ref_list>
-  </template>
+<!--  <template name="scene_ref_list">-->
+<!--        <char_ref_list>-->
+<!--		<anchored >-->
+<!--          <left offset="10"/>-->
+<!--          <right offset="-10"/>-->
+<!--          <top parent="height_anchor" anchor="bottom" offset="28" relation="relative"/>-->
+<!--        </anchored>-->
+<!--        <frame name="lcars_groupbox_dark" offset="10,8,10,8"/>-->
+<!--        </char_ref_list>-->
+<!--  </template>-->
 
-  <template name="scene_linked_list">
-    <char_linked_list>
-          <anchored merge="replace">
-            <left offset="15"/>
-            <top offset="35"/>
-            <right offset="-15"/>
-            <bottom offset="-20"/>
-          </anchored>
-          <frame merge="delete"/>
-    </char_linked_list>
-  </template>
+<!--  <template name="scene_linked_list">-->
+<!--    <char_linked_list>-->
+<!--          <anchored merge="replace">-->
+<!--            <left offset="15"/>-->
+<!--            <top offset="35"/>-->
+<!--            <right offset="-15"/>-->
+<!--            <bottom offset="-20"/>-->
+<!--          </anchored>-->
+<!--          <frame merge="delete"/>-->
+<!--    </char_linked_list>-->
+<!--  </template>-->
 
 </root>

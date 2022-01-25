@@ -1,5 +1,18 @@
 <root>
     <windowclass name="record_ship_combat" >
+        <script>
+            function onInit()
+                update();
+            end
+            function update()
+                local nodeRecord = getDatabaseNode();
+                local bReadOnly = WindowManager.getReadOnlyState(nodeRecord);
+                resistance.setReadOnly(bReadOnly)
+                shields_counter.setReadOnly(bReadOnly)
+                shields_max.setReadOnly(bReadOnly)
+                weapons.setReadOnly(bReadOnly)
+            end
+        </script>
         <sheetdata>
             <ship_tl_anchor/>
             <charsheet_tr_anchor/>

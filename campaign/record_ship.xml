@@ -8,40 +8,7 @@
         <nodelete />
         <softclose />
         <playercontrol />
-        <script>
-            _tabButtons = {}
-            function onInit()
-                registerMenuItem("Edit Colors", "categorystyle", 7)
-                if User.isHost() or User.isLocal() then
-                    registerMenuItem("Set As Crew Ship", "linkshareall", 8)
-                end
-            end
-            function onMenuSelection(selectNum)
-                if selectNum == 7 then
-                    local w = Interface.openWindow("lcars_color_select", getDatabaseNode())
-                elseif selectNum == 8 then
-                    local cv = DB.createChild("crew_support", "crew_vessel", "string")
-                    DB.setValue(cv, "", "string", getDatabaseNode().getNodeName())
-                    DB.setPublic(cv, true)
-                    DB.setPublic(getDatabaseNode(), true)
-                end
-            end
-            function registerTabButton(tab, pageNum)
-                _tabButtons[pageNum] = tab
-            end
-            function setTabColors(pageNum)
-                for p, button in ipairs(_tabButtons) do
-                    local color = LifePathAlertHelper.COLOR_DESELECT
-                    if p == pageNum then
-                        color = ColorHandler.getMainColor(getDatabaseNode())
-                    elseif p == self.activeTab then
-                        ColorHandler.unregisterColorFrame(button, getDatabaseNode())
-                    end
-                    button.setBackColor(color)
-                end
-                self.activeTab = pageNum
-            end
-        </script>
+        <script file="campaign/scripts/ship.lua" />
         <sheetdata>
             <char_frame_color_alt name="sheet_color">
                 <anchored merge="replace" >
@@ -61,7 +28,7 @@
                 </anchored>
             </char_frame_color_alt>
             <char_frame_color>
-                <anchored merge="replace" position="insideright" to="header_color" width="162"/>
+                <anchored merge="replace" position="insideright" to="header_color" width="160"/>
             </char_frame_color>
             <subwindow name="header" >
                 <anchored position="insidetop" height="110">
@@ -115,6 +82,27 @@
     </windowclass>
     <windowclass name="ship_header">
         <frame name="lcars_header_frame_shape" />
+		<script >
+			function onInit()
+				update();
+				updateIDState();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				name.setReadOnly(bReadOnly);
+				nonid_name.setReadOnly(bReadOnly);
+				token.setReadOnly(bReadOnly);
+				registry_number.setReadOnly(bReadOnly);
+				space_frame.setReadOnly(bReadOnly);
+				role.setReadOnly(bReadOnly);
+				commanding_officer.setReadOnly(bReadOnly);
+			end
+			function updateIDState()
+				local bID = (DB.getValue(getDatabaseNode(), "isidentified", 1) == 1)
+				name.setVisible(bID)
+				nonid_name.setVisible(not bID);
+			end
+		</script>
         <sheetdata>
             <genericcontrol name="heightAnchor">
                 <anchored position="insidetop" height="110" />
@@ -126,32 +114,32 @@
                 <anchored position="insidetopleft" offset="65,35" height="20" width="0"/>
             </genericcontrol>
 
-            <genericcontrol name="csAnchor">
-                <anchored height="20" >
-                    <right offset="-146"/>
-                    <bottom parent="heightAnchor" offset="-14"/>
-                </anchored>
-            </genericcontrol>
-            <tag_label name="csLabel">
-                <anchored merge="replace" to="csAnchor" height="20" >
-                    <right anchor="left" offset="-15"/>
-                    <top />
-                </anchored>
-                <static textres="ship_label_crew_support"/>
-            </tag_label>
-        <buttoncontrol>
-            <icon normal="button_effect" pressed="button_effect_down"/>
-              <anchored to="csAnchor" height="20" width="20">
-                  <left anchor="right" relation="relative" offset="-10"/>
-                    <top />
-              </anchored>
-            <tooltip> Open Crew Support Window</tooltip>
-            <script>
-                function onButtonPress()
-                    local w = Interface.openWindow("supporting_character_select", window.getDatabaseNode())
-                end
-            </script>
-        </buttoncontrol>
+<!--            <genericcontrol name="csAnchor">-->
+<!--                <anchored height="20" >-->
+<!--                    <right offset="-146"/>-->
+<!--                    <bottom parent="heightAnchor" offset="-14"/>-->
+<!--                </anchored>-->
+<!--            </genericcontrol>-->
+<!--            <tag_label name="csLabel">-->
+<!--                <anchored merge="replace" to="csAnchor" height="20" >-->
+<!--                    <right anchor="left" offset="-15"/>-->
+<!--                    <top />-->
+<!--                </anchored>-->
+<!--                <static textres="ship_label_crew_support"/>-->
+<!--            </tag_label>-->
+<!--        <buttoncontrol>-->
+<!--            <icon normal="button_effect" pressed="button_effect_down"/>-->
+<!--              <anchored to="csAnchor" height="20" width="20">-->
+<!--                  <left anchor="right" relation="relative" offset="-10"/>-->
+<!--                    <top />-->
+<!--              </anchored>-->
+<!--            <tooltip> Open Crew Support Window</tooltip>-->
+<!--            <script>-->
+<!--                function onButtonPress()-->
+<!--                    local w = Interface.openWindow("supporting_character_select", window.getDatabaseNode())-->
+<!--                end-->
+<!--            </script>-->
+<!--        </buttoncontrol>-->
 <!--        <char_single_field_label_h >-->
 <!--           <static> CUR </static>-->
 <!--            <anchored to="csAnchor" />-->
@@ -174,26 +162,27 @@
 <!--              </script>-->
 <!--          </char_single_number_field_h>-->
 
-			<link_record_header_id name="link">
-				<class>ship</class>
-			</link_record_header_id>
-			<button_record_locked >
-				<anchored to="link" width="20" height="20" merge="replace">
-					<left anchor="right" offset="3"/>
-					<top />
-				</anchored>
-			</button_record_locked>
+<!--			<link_record_header_id name="link">-->
+<!--				<class>ship</class>-->
+<!--			</link_record_header_id>-->
+<!--			<button_record_locked >-->
+<!--				<anchored to="link" width="20" height="20" merge="replace">-->
+<!--					<left anchor="right" offset="3"/>-->
+<!--					<top />-->
+<!--				</anchored>-->
+<!--			</button_record_locked>-->
 
 
 			<reverse_header_label name="registry_number">
                 <anchored to="row_1" width="120" />
 				<labelres>ship_label_registry</labelres>
 			</reverse_header_label>
+
 			<reverse_header_label name="nonid_name">
                 <anchored to="row_1">
-					<left parent="" offset="210"/>
+					<left parent="" offset="90"/>
 				</anchored>
-                <empty> Unidentified Vessel </empty>
+				<empty textres="library_recordtype_empty_nonid_ship" />
 				<labelres>char_label_nonid_name</labelres>
 				<invisible/>
 			</reverse_header_label>
@@ -202,7 +191,7 @@
                 <anchored to="row_1">
 					<left parent="" offset="90"/>
 				</anchored>
-				<empty textres="library_recordtype_empty_npc" />
+				<empty textres="library_recordtype_empty_ship" />
 				<labelres>char_label_name</labelres>
 			</reverse_header_label>
 
@@ -218,7 +207,6 @@
 					end
 				</script>
 			</tokenfield>
-
 
 			<char_header_label name="space_frame">
 				<anchored to="row_2" width="110" />
@@ -236,6 +224,51 @@
                 </anchored>
 				<labelres>ship_label_commanding_officer</labelres>
 			</char_header_label>
+
+		<!--		righanchor controls 	-->
+            <genericcontrol name="rightanchor">
+                <anchored height="20" >
+                    <right offset="-5"/>
+                    <bottom parent="heightAnchor" offset="-15"/>
+                </anchored>
+            </genericcontrol>
+
+			<button_record_isidentified name="isidentified" />
+<!--			<button_activateid>-->
+<!--				<anchored to="rightanchor" width="22" height="22">-->
+<!--					<top />-->
+<!--					<right anchor="left" relation="relative" offset="-5"/>-->
+<!--				</anchored>-->
+<!--			</button_activateid>-->
+
+			<button_record_locked >
+				<anchored>
+					<right offset="-5"/>
+				</anchored>
+			</button_record_locked>
+<!--        <buttoncontrol>-->
+<!--            <icon normal="button_effect" pressed="button_effect_down"/>-->
+<!--				<anchored to="rightanchor" width="20" height="22">-->
+<!--					<top />-->
+<!--					<right anchor="left" relation="relative" offset="-3"/>-->
+<!--				</anchored>-->
+<!--            <tooltip> Deploy Supporting Characters </tooltip>-->
+<!--            <script>-->
+<!--                function onButtonPress()-->
+<!--                    local w = Interface.openWindow("supporting_character_select", window.getDatabaseNode())-->
+<!--                end-->
+<!--            </script>-->
+<!--        </buttoncontrol>-->
+
+			<link_record_header_id name="link">
+				<class>ship</class>
+				<bounds merge="delete"/>
+				<anchored to="rightanchor" width="20" height="22">
+					<top />
+					<right anchor="left" relation="relative" offset="-3"/>
+				</anchored>
+			</link_record_header_id>
+
         </sheetdata>
     </windowclass>
     <windowclass name="ship_tabs">
@@ -284,6 +317,19 @@
                 <script>
                     function stepNum()
                         return 3
+                    end
+                </script>
+            </charsheet_tab_button>
+
+            <charsheet_tab_button>
+                <anchored width="150"/>
+                <state><text> Supporting Characters </text></state>
+                <script>
+                    function stepNum()
+                        return 4
+                    end
+                    function onButtonPress()
+                        local w = Interface.openWindow("supporting_character_select", window.getDatabaseNode())
                     end
                 </script>
             </charsheet_tab_button>

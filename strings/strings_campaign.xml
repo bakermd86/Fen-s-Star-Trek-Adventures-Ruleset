@@ -113,7 +113,7 @@
 
 	<!--	Character sheet stuff	-->
 	<string name="char_label_name">NAME</string>
-	<string name="char_label_nonid_name">NONID NAME</string>
+	<string name="char_label_nonid_name">NAME - UNIDENTIFIED</string>
 	<string name="char_label_species">SPECIES</string>
 	<string name="char_label_environment">ENVIRONMENT</string>
 	<string name="char_label_upbringing">UPBRINGING</string>
@@ -162,6 +162,8 @@
 	<string name="tooltip_lcars_color_primary">Change primary LCARS color</string>
 	<string name="tooltip_lcars_color_secondary">Change secondary LCARS color</string>
 	<string name="tooltip_lcars_color_reset">Reset colors to default</string>
+	<string name="tooptil_set_current_episode">Set as Current Episode</string>
+
 <!--	ships -->
 	<string name="ship_label_registry">REGISTRY NUMBER</string>
 	<string name="ship_label_space_frame">SPACE FRAME</string>
@@ -188,5 +190,11 @@
 	<string name="weapon_label_cost">Cost</string>
 	<string name="weapon_label_size">Size</string>
 
+
+	<string name="library_recordtype_empty_npc">&#171; New Personality &#187;</string>
+	<string name="library_recordtype_empty_nonid_npc">&#171; New Unidentified Personality &#187;</string>
+	<string name="library_recordtype_empty_ship">&#171; New Ship &#187;</string>
+	<string name="library_recordtype_empty_nonid_ship">&#171; New Unidentified Ship &#187;</string>
+	<string name="library_recordtype_empty_episode">&#171; Untitled Episode &#187;</string>
 
 </root>

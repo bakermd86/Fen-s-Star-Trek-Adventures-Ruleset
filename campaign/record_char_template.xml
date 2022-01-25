@@ -276,7 +276,7 @@
                 function onInit()
                     for idx, score in ipairs(self.scores()) do
                         w = self.createWindow(window.getDatabaseNode())
-                        w.createControl(self.scoreClass(), string.lower(score))
+                        w.createControl(self.scoreClass(), "score", string.lower(score))
                         w.label.setValue(string.upper(score))
                     end
                 end

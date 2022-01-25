@@ -30,13 +30,9 @@ end
 
 function getActiveStepName(table_name, step_num)
     local stepTable = nil
-    Debug.chat(table_name)
     for _, tableNode in pairs(DB.getChildren(TABLESET_NODE)) do
-        Debug.chat(DB.getValue(tableNode, "name", ""))
         if DB.getValue(tableNode, "name", "") == table_name then
-            Debug.chat(DB.getChild(tableNode, "step_"..step_num.."_link"))
             _, stepTable = DB.getChild(tableNode, "step_"..step_num.."_link").getValue()
-            Debug.chat(stepTable)
         end
     end
     return DB.getValue(stepTable..".name")

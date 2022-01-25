@@ -6,13 +6,6 @@ _namesMap = {
 
 function onInit()
     self.loaded_tables = {}
-    self.loadSavedLPTables()
-end
-
-function loadSavedLPTables()
-    for _, node in ipairs(DB.getChildren(".saved_lptableset")) do
-        Debug.chat(node)
-    end
 end
 
 function clearSelectControl(control)

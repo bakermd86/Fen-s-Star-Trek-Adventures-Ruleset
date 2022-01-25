@@ -28,8 +28,11 @@ end
 function lockTalent(talentRef)
 	local button = self.lifepath_career_select_frame.talentSelect.lifepath_drop_target
 	if button.selected then button.setDeselect() end
-	button.setLink(DB.findNode(talentRef))
-	button.setReadOnly(true)
+	local talentNode = DB.findNode(talentRef)
+	if talentNode then
+        button.setLink(talentNode)
+        button.setReadOnly(true)
+    end
 end
 
 function updateSummary(summary, careerLevel, talentRef)

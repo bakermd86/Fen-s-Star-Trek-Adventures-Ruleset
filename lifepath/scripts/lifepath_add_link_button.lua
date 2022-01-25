@@ -54,7 +54,8 @@ function talentAllowed(talentNode, scores)
 --     local reqLine = string.match(body, reqLinePattern)
     local reqLine = talentNode.getChild("requirements").getValue()
 --     local noScoreRequire = string.match(body, "<h>Requirement[ :]+([a-zA-Z]+).*</h>")
-    if not reqLine or (reqLine == "") or string.find(reqLine, "None") or string.find(reqLine, "Main Character")then
+    if scores == "ALLOW_ALL" then return true
+    elseif not reqLine or (reqLine == "") or string.find(reqLine, "None") or string.find(reqLine, "Main Character")then
         return true
     elseif (self.getSpecies() or "") ~= "" and string.find(reqLine, self.getSpecies()) then
         return true
@@ -210,13 +211,6 @@ function onTalentAdd()
 end
 
 function setDeselect()
-    if self.node then
-        if self.created then
-            self.node.delete();
-            self.created = false;
-        end
-        self.node = nil;
-    end
     self.cleanUp()
     self.setIcons("button_add", "button_add_down");
     self.selected = false;
@@ -253,15 +247,18 @@ function saveLinkToList(name, class)
     self.summaryLink.link.setVisible(true);
     self.setSelect();
 end
-
 function saveTalentToList(name, requirements, text)
-    self.summaryLink = self.getTarget(self.target).createWindow("ref_talent_item");
-    Debug.chat(self.summaryLink)
-    self.summaryLink.name.setValue(name)
+    self.summaryLink = self.getTarget(self.target).createWindow();
+    self.summaryLink.label.setValue(name)
+    self.node = self.summaryLink.getDatabaseNode()
+
+    DB.setValue(self.node, "name", "string", name)
     if (text or "") ~= "" then
-        self.summaryLink.text.setValue(text)
+        DB.setValue(self.node, "text", "formattedtext", text)
     end
-    DB.setValue(self.summaryLink.getDatabaseNode(), "requirements", "string", requirements)
+    DB.setValue(self.node, "requirements", "string", requirements)
+    DB.setValue(self.node, "link", "windowreference", "sta_talent", self.node.getNodeName())
+
     self.setSelect()
 end
 
