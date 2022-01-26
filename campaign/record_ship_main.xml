@@ -257,7 +257,7 @@
             </anchored>
             <frame name="lcars_frame_shape_left" offset="35,30,5,25"/>
             <script>
-                ---function basePage() return 100 end
+                function basePage() return 100 end
                 function scores()
                     return ShipHelper.ALL_SYSTEMS
                 end
@@ -289,7 +289,7 @@
                 <bottom offset="-5"/>
             </anchored>
             <script>
-                ---function basePage() return 100 end
+                function basePage() return 100 end
                 function scores()
                     return ScopeManager.ALL_DISCIPLINES
                 end

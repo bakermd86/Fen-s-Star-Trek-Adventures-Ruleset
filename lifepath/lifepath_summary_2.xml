@@ -110,7 +110,7 @@
                     <bottom parent="bottomRow" offset="-5"/>
                 </anchored>
                 <script>
-                    ---function basePage() return 100 end
+                    function basePage() return 100 end
                     function scores()
                         return ScopeManager.ALL_ATTRIBUTES
                     end
@@ -153,7 +153,7 @@
                     <bottom parent="" offset="-5"/>
                 </anchored>
                 <script>
-                    ---function basePage() return 106 end
+                    function basePage() return 106 end
                     function scores()
                         return ScopeManager.ALL_DISCIPLINES
                     end

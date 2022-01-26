@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <root logo="logo.png">
-	<announcement text="Fen's StarTrekAdventures Extension (v0.3) " font="emotefont" icon="fen_sta_logo" />
+	<announcement text="Fen's StarTrekAdventures Extension (v1.0) " font="emotefont" icon="fen_sta_logo" />
 
 	<properties>
 		<name>Fen's StarTrekAdventures Extension</name>
-		<version>0.3</version>
+		<version>1.0</version>
 		
 		<author>Fen</author>
 		<description>Extension for playing Modiphius 2d20 Star Trek Adventures ruleset</description>
