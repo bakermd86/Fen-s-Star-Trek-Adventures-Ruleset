@@ -203,7 +203,8 @@
 
 	<template name="button_activateid">
 		<buttoncontrol>
-			<icon normal="button_speak" pressed="button_speak_down" />
+			<state icon="button_speak" />
+			<pressed icon="button_speak_down" />
 			<script>
 				function onButtonPress()
 					local node = window.getDatabaseNode();

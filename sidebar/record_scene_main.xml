@@ -9,7 +9,7 @@
         function update()
             local bReadOnly = WindowManager.getReadOnlyState(parentcontrol.window.parentcontrol.window.getDatabaseNode());
             summary.setReadOnly(bReadOnly);
-            scene_characters.setReadOnly(bReadOnly);
+            scene_encounters.setReadOnly(bReadOnly);
             scene_active_traits.setReadOnly(bReadOnly);
             description.setReadOnly(bReadOnly);
         end
@@ -56,8 +56,9 @@
                 <static> SCENE HOOK </static>
             </tag_label>
 
-            <char_linked_list name="scene_characters">
-                <datasource>.scene_characters</datasource>
+            <list_text name="scene_encounters">
+                <datasource>.scene_encounters</datasource>
+                <class>episode_encounter_link</class>
                 <anchored merge="replace" to="lists_color">
                     <top offset="25"/>
                     <left offset="35"/>
@@ -65,10 +66,19 @@
                     <bottom offset="-5"/>
                 </anchored>
                 <frame merge="replace" name="lcars_frame_shape_top_left" offset="35,25,5,5"/>
-            </char_linked_list>
+                <skipempty />
+                <newfocus>name</newfocus>
+                  <sortby>
+                    <control>name</control>
+                  </sortby>
+                <acceptdrop>
+                    <class>battle</class>
+					<field>*</field>
+                </acceptdrop>
+            </list_text>
             <tag_label >
-                <anchored to="scene_characters" position="insidetopleft" offset="25,-28"/>
-                <static> CHARACTERS IN SCENE </static>
+                <anchored to="scene_encounters" position="insidetopleft" offset="25,-28"/>
+                <static> SCENE ENCOUNTERS </static>
             </tag_label>
 
             <char_ref_list name="scene_active_traits">

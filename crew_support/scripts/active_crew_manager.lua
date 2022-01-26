@@ -30,13 +30,6 @@ function onInit()
     self.pendingDeleteNodes = {}
     self.pendingWindow = nil
     math.randomseed(os.time() - os.clock() * 1000);
-    Comm.registerSlashHandler("reminders", openReminders)
-end
-
-function openReminders(sCommands, sParams)
-    if User.isHost() or User.isLocal() then
-        Interface.openWindow('reminder_window', '.crew_support')
-    end
 end
 
 function releaseCharacter(oobMsg)
@@ -50,14 +43,6 @@ end
 
 function episodeNameNode()
     return csNode().createChild("episode_name", "string")
-end
-
-function bonusAtt()
-    return DB.getValue(csNode(), "active_att", "")
-end
-
-function bonusDisc()
-    return DB.getValue(csNode(), "active_disc", "")
 end
 
 function getSupportingCharacterByName(name)

@@ -82,8 +82,8 @@
                     <right  offset="-35"/>
                     <bottom offset="-5"/>
                 </anchored>
-                <skipempty />
                 <frame name="lcars_frame_shape_top_right" offset="5,25,35,5"/>
+                <skipempty />
                 <newfocus>name</newfocus>
                   <sortby>
                     <control>name</control>
@@ -126,23 +126,46 @@
 
     <windowclass name="episode_map_link">
         <sheetdata>
-            <genericcontrol name="leftanchor">
-                <anchored position="insidetopleft" height="20"/>
-            </genericcontrol>
-            <string_textlistitem name="name">
-                <anchored height="15">
-                    <right offset="-5" />
-                    <top offset="2"/>
-                    <left parent="leftanchor" anchor="right" relation="relative" offset="25"/>
-                </anchored>
-                <font>lcars_sheetlabelmini</font>
-            </string_textlistitem>
-              <linkcontrol_id name="link">
-                <anchored to="name" position="left" offset="2" width="15" height="15"/>
+            <link_item_anchor/>
+            <link_item_name/>
+            <link_item_link>
                 <class>imagewindow</class>
-                    <readonly />
-              </linkcontrol_id>
+            </link_item_link>
         </sheetdata>
     </windowclass>
+
+    <windowclass name="episode_encounter_link">
+        <sheetdata>
+            <link_item_anchor/>
+            <link_item_name/>
+            <link_item_link>
+                <class>battle</class>
+            </link_item_link>
+        </sheetdata>
+    </windowclass>
+
+    <template name="link_item_anchor">
+        <genericcontrol name="leftanchor">
+            <anchored position="insidetopleft" height="20"/>
+        </genericcontrol>
+    </template>
+
+    <template name="link_item_name">
+        <string_textlistitem name="name">
+            <anchored height="15">
+                <right offset="-5" />
+                <top offset="2"/>
+                <left parent="leftanchor" anchor="right" relation="relative" offset="25"/>
+            </anchored>
+            <font>lcars_sheetlabelmini</font>
+        </string_textlistitem>
+    </template>
+
+    <template name="link_item_link">
+          <linkcontrol_id name="link">
+            <anchored to="name" position="left" offset="2" width="15" height="15"/>
+            <readonly />
+          </linkcontrol_id>
+    </template>
 
 </root>

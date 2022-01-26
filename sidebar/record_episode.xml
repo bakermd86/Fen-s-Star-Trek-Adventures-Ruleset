@@ -210,14 +210,15 @@
                 _tabButtons[pageNum] = nil
             end
             function setTabColors(pageNum)
-                local dead_buttons = {}
-                for p, button in ipairs(_tabButtons) do
+                for p, button in pairs(_tabButtons) do
                     local color = LifePathAlertHelper.COLOR_DESELECT
+
                     if p == pageNum then
                         color = ColorHandler.getAltColor(parentcontrol.window.getDatabaseNode())
                     elseif p == self.activeTab then
                         ColorHandler.unregisterColorFrameAlt(button, parentcontrol.window.getDatabaseNode())
                     end
+                    button.setBackColor(color)
                 end
                 self.activeTab = pageNum
             end
@@ -344,7 +345,7 @@
 					<top />
 					<right anchor="left" relation="relative" offset="-5"/>
 				</anchored>
-                <tooltipres>tooptil_set_current_episode</tooltipres>
+                <state tooltipres="tooptil_set_current_episode" />
 				<script>
 					function onButtonPress()
 						CrewSupportManager.changeEpisode(window.name.getValue())
