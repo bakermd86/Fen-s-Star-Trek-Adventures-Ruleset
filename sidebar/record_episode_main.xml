@@ -2,195 +2,147 @@
 
 <root>
   <windowclass name="episode_main">
+    <script >
+        function onInit()
+            update();
+        end
+        function update()
+            local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+            summary.setReadOnly(bReadOnly);
+            episode_characters.setReadOnly(bReadOnly);
+            episode_maps.setReadOnly(bReadOnly);
+            cold_open.setReadOnly(bReadOnly);
+        end
+    </script>
     <sheetdata>
             <ship_tl_anchor/>
             <charsheet_tr_anchor/>
 
-            <char_frame_color name="summary_color">
-                <anchored merge="replace" >
-                    <top parent="topLeft" />
-                    <right parent="topRight" />
-                    <left parent="topLeft" />
-                    <bottom parent="" anchor="center"/>
+            <genericcontrol name="topHalf">
+                <anchored>
+                    <top parent="topLeft"/>
+                    <left  parent="topLeft"/>
+                    <right  parent="topRight"/>
+                    <bottom anchor="center"/>
                 </anchored>
-                <frame name="lcars_frame_shape_top" />
+            </genericcontrol>
+
+            <char_frame_color name="summary_color">
+                <anchored merge="replace" to="topHalf">
+                    <left />
+                    <top />
+                    <right />
+                    <bottom anchor="center" offset="-2"/>
+                </anchored>
             </char_frame_color>
+            <char_frame_color_alt name="lists_color">
+                <anchored merge="replace" to="topHalf">
+                    <left />
+                    <top anchor="center" offset="2"/>
+                    <right />
+                    <bottom />
+                </anchored>
+            </char_frame_color_alt>
 
             <notes_field name="summary">
                 <anchored merge="replace" to="summary_color">
-                    <left offset="40"/>
+                    <left offset="35"/>
                     <top offset="25"/>
-                    <right offset="-40"/>
-                    <bottom offset="-10"/>
+                    <right offset="-35"/>
+                    <bottom offset="-25"/>
                 </anchored>
+                <frame name="lcars_frame_shape" offset="35,25,35,25"/>
             </notes_field>
             <tag_label >
                 <anchored to="summary" />
                 <static> EPISODE SUMMARY </static>
             </tag_label>
+
+            <char_linked_list name="episode_characters">
+                <datasource>.episode_characters</datasource>
+                <anchored merge="replace" to="lists_color">
+                    <top offset="25"/>
+                    <left offset="35"/>
+                    <right anchor="center" offset="-5"/>
+                    <bottom offset="-5"/>
+                </anchored>
+                <frame merge="replace" name="lcars_frame_shape_top_left" offset="35,25,5,5"/>
+            </char_linked_list>
+            <tag_label >
+                <anchored to="episode_characters" position="insidetopleft" offset="25,-28"/>
+                <static> EPISODE NPCs </static>
+            </tag_label>
+
+            <list_text name="episode_maps">
+                <datasource>.episode_maps</datasource>
+                <class>episode_map_link</class>
+                <anchored to="lists_color">
+                    <top offset="25"/>
+                    <left anchor="center" offset="5"/>
+                    <right  offset="-35"/>
+                    <bottom offset="-5"/>
+                </anchored>
+                <skipempty />
+                <frame name="lcars_frame_shape_top_right" offset="5,25,35,5"/>
+                <newfocus>name</newfocus>
+                  <sortby>
+                    <control>name</control>
+                  </sortby>
+                <acceptdrop>
+                    <class>imagewindow</class>
+					<field>*</field>
+                </acceptdrop>
+            </list_text>
+            <tag_label >
+                <anchored to="episode_maps" position="insidetopright" offset="25,-28"/>
+                <static> EPISODE MAPS/IMAGES </static>
+            </tag_label>
         
-            <char_frame_color name="cold_open_color">
+            <char_frame_color_alt name="cold_open_color">
                 <anchored merge="replace">
-                    <top parent="summary_color" anchor="bottom" />
+                    <top anchor="center" />
                     <right parent="topRight" />
                     <left parent="topLeft" />
                     <bottom parent="" />
                 </anchored>
                 <frame name="lcars_frame_shape_bottom" />
-            </char_frame_color>
+            </char_frame_color_alt>
 
             <notes_field name="cold_open">
                 <anchored merge="replace" to="cold_open_color" >
-                    <left offset="40"/>
-                    <top offset="10"/>
-                    <right offset="-40"/>
-                    <bottom offset="-25"/>
+                    <left offset="35"/>
+                    <top offset="15"/>
+                    <right offset="-35"/>
+                    <bottom offset="-10"/>
                 </anchored>
             </notes_field>
             <tag_label >
-                <anchored to="cold_open" position="insidebottomleft" offset="25,-25"/>
+                <anchored to="cold_open" position="insidebottomleft" offset="25,-10"/>
                 <static> COLD OPEN CAPTAINS LOG </static>
             </tag_label>
-
-<!--            <char_frame_color_alt name="characters_color">-->
-<!--                <anchored merge="replace" to="cold_open_color" position="belowleft" >-->
-<!--                    <right anchor="center" />-->
-<!--                    <bottom parent="" />-->
-<!--                </anchored>-->
-<!--            </char_frame_color_alt>-->
-<!--            <char_linked_list name="episode_characters">-->
-<!--                <anchored merge="replace" to="characters_color">-->
-<!--                    <left offset="35"/>-->
-<!--                    <top offset="5"/>-->
-<!--                    <right offset="-5"/>-->
-<!--                    <bottom offset="-30"/>-->
-<!--                </anchored>-->
-<!--                <frame name="lcars_frame_shape_bottom_left" offset="35,5,5,30"/>-->
-<!--                <skipempty />-->
-<!--            </char_linked_list>-->
-<!--            <tag_label >-->
-<!--                <anchored to="episode_characters" position="insidebottomleft" offset="25,-30"/>-->
-<!--                <static> CHARACTERS </static>-->
-<!--            </tag_label>-->
-
-
-
-<!--            <char_frame_color_alt name="encounters_color">-->
-<!--                <anchored merge="replace" to="cold_open_color" position="belowright" >-->
-<!--                    <left anchor="center" />-->
-<!--                    <bottom parent="" />-->
-<!--                </anchored>-->
-<!--            </char_frame_color_alt>-->
-<!--            <char_linked_list name="episode_encounters">-->
-<!--                <anchored merge="replace" to="encounters_color">-->
-<!--                    <left offset="5"/>-->
-<!--                    <top offset="5"/>-->
-<!--                    <right offset="-35"/>-->
-<!--                    <bottom offset="-30"/>-->
-<!--                </anchored>-->
-<!--                <frame name="lcars_frame_shape_bottom_right" offset="5,5,35,30"/>-->
-<!--                <skipempty />-->
-<!--            </char_linked_list>-->
-<!--            <windowlist name="episode_encounters">-->
-<!--                <anchored merge="replace" to="encounters_color">-->
-<!--                    <left offset="5"/>-->
-<!--                    <top offset="5"/>-->
-<!--                    <right offset="-35"/>-->
-<!--                    <bottom offset="-30"/>-->
-<!--                </anchored>-->
-<!--                <frame name="lcars_frame_shape_bottom_right" offset="5,5,35,30"/>-->
-<!--                <skipempty />-->
-<!--                <class>encounter_item</class>-->
-<!--                <datasource>episode_encounters</datasource>-->
-<!--                <acceptdrop>-->
-<!--                    <class>battle</class>-->
-<!--                    <field><fields>name</fields></field>-->
-<!--                </acceptdrop>-->
-<!--            </windowlist>-->
-<!--            <tag_label >-->
-<!--                <anchored to="episode_encounters" position="insidebottomright" offset="25,-30"/>-->
-<!--                <static> ENCOUNTERS </static>-->
-<!--            </tag_label>-->
-
-<!--      &lt;!&ndash; Characters &ndash;&gt;-->
-<!--	  <episode_linked_list name="episode_characters">-->
-<!--        <datasource>.episode_characters</datasource>-->
-<!--		<anchored >-->
-<!--          <top relation="current"/>-->
-<!--          <bottom offset="-10"/>-->
-<!--          <right anchor="center" offset="-50"/>-->
-<!--        </anchored>-->
-<!--	  </episode_linked_list>-->
-<!--      <ep_label>-->
-<!--        <anchored to="episode_characters" />-->
-<!--        <static textres="episode_label_characters" />-->
-<!--      </ep_label>-->
-<!--	  -->
-<!--	  &lt;!&ndash; Writer/Director &ndash;&gt;-->
-<!--	  <ep_text name="writer_director">-->
-<!--		<anchored >-->
-<!--          <bottom offset="-10"/>-->
-<!--          <left parent="episode_characters" anchor="right" offset="20"/>-->
-<!--        </anchored>-->
-<!--	  </ep_text>-->
-<!--      <ep_label>-->
-<!--        <anchored to="writer_director" />-->
-<!--        <static textres="episode_label_writer_director" />-->
-<!--      </ep_label>-->
 
     </sheetdata>
   </windowclass>
 
-<!--    <windowclass name="encounter_item">-->
-<!--            <genericcontrol name="leftanchor">-->
-<!--                <anchored position="insidetopleft" height="18"/>-->
-<!--            </genericcontrol>-->
-<!--            <string_textlistitem name="name">-->
-<!--                <anchored height="18">-->
-<!--                    <top offset="2"/>-->
-<!--                    <left offset="25"/>-->
-<!--                    <right  offset="-5"/>-->
-<!--                </anchored>-->
-<!--                <font>lcars_sheetlabelmini</font>-->
-<!--            </string_textlistitem>-->
-<!--          <linkcontrol_id name="shortcut">-->
-<!--            <anchored to="name" position="left" offset="2" width="18" height="18"/>-->
-<!--            <class>battle</class>-->
-<!--                <readonly />-->
-<!--          </linkcontrol_id>-->
-<!--    </windowclass>-->
-
-<!--  <template name="ep_label">-->
-<!--    <label_frametop>-->
-<!--      <anchored position="insidetop" offset="0,-20" merge="replace"/>-->
-<!--    </label_frametop>-->
-<!--  </template>-->
-
-<!--  <template name="ep_text">-->
-<!--	  <ft_record >-->
-<!--        <frame name="fieldlight" offset="10,8,10,8"/>-->
-<!--		<anchored >-->
-<!--          <left offset="10"/>-->
-<!--          <right offset="-10"/>-->
-<!--          <top parent="height_anchor" anchor="bottom" offset="28" relation="relative"/>-->
-<!--        </anchored>-->
-<!--	  </ft_record>-->
-<!--  </template>-->
-
-<!--  <template name="episode_linked_list">-->
-<!--      <list_text >-->
-<!--        <datasource />-->
-<!--        <newfocus>label</newfocus>-->
-<!--        <sortby><control>label</control></sortby>-->
-<!--        <frame name="lcars_groupbox_dark" offset="10,8,10,8"/>-->
-<!--        <class>link_list_entry</class>-->
-<!--        <script file="campaign/scripts/linked_list.lua"/>-->
-<!--&lt;!&ndash;		<anchored >&ndash;&gt;-->
-<!--&lt;!&ndash;          <left offset="10"/>&ndash;&gt;-->
-<!--&lt;!&ndash;          <right offset="-10"/>&ndash;&gt;-->
-<!--&lt;!&ndash;          <top parent="height_anchor" anchor="bottom" offset="28" relation="relative"/>&ndash;&gt;-->
-<!--&lt;!&ndash;        </anchored>&ndash;&gt;-->
-<!--      </list_text>-->
-<!--  </template>-->
+    <windowclass name="episode_map_link">
+        <sheetdata>
+            <genericcontrol name="leftanchor">
+                <anchored position="insidetopleft" height="20"/>
+            </genericcontrol>
+            <string_textlistitem name="name">
+                <anchored height="15">
+                    <right offset="-5" />
+                    <top offset="2"/>
+                    <left parent="leftanchor" anchor="right" relation="relative" offset="25"/>
+                </anchored>
+                <font>lcars_sheetlabelmini</font>
+            </string_textlistitem>
+              <linkcontrol_id name="link">
+                <anchored to="name" position="left" offset="2" width="15" height="15"/>
+                <class>imagewindow</class>
+                    <readonly />
+              </linkcontrol_id>
+        </sheetdata>
+    </windowclass>
 
 </root>

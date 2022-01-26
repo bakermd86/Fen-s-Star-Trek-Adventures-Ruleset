@@ -1,119 +1,15 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <root>
-<!--	<windowclass name="sta_episode">-->
-<!--		<script>-->
-<!--			function onInit()-->
-<!--				local node = getDatabaseNode();-->
-<!--				for index, control in ipairs(getControls()) do-->
-<!--					local control_name = control.getName();-->
-<!--					if string.sub(control_name, 1, string.len("scene_"))  == "scene_" then-->
-<!--						control.setValue("scene_main", node.createChild(control_name).getNodeName());-->
-<!--					end-->
-<!--				end-->
-<!--			end-->
-<!--		</script>-->
-<!--	  <frame>recordsheet</frame>-->
-<!--	  <placement>-->
-<!--		<size width="510" height="650" />-->
-<!--	  </placement>-->
-<!--	  <sizelimits>-->
-<!--		<dynamic />-->
-<!--		<minimum width="510" height="650" />-->
-<!--	  </sizelimits>-->
-<!--	  <sharable />-->
-<!--	  <tooltip field="name" />-->
-<!--	  <nodelete />-->
-<!--	  <softclose />-->
-<!--	  <tooltip>-->
-<!--		<field>name</field>-->
-<!--	  </tooltip>-->
-<!--	  <sheetdata>-->
-<!--		-->
-<!--		<sub_record_header name="header">-->
-<!--			<class>episode_header</class>-->
-<!--		</sub_record_header>-->
-<!--		-->
-<!--		-->
-<!--		  <genericcontrol name="contentframe" >-->
-<!--				<anchored>-->
-<!--					<top parent="header" anchor="bottom" offset="5" />-->
-<!--					<left offset="20" />-->
-<!--					<right offset="-33" />-->
-<!--					<bottom offset="-29" />-->
-<!--				</anchored>-->
-<!--				<frame name="groupbox" offset="10,8,10,8" />-->
-<!--				<disabled />-->
-<!--		  </genericcontrol>-->
-<!--		-->
-<!--		<subwindow name="episode_main">-->
-<!--			<anchored to="contentframe" position="over"/>-->
-<!--			<class>episode_main</class>-->
-<!--		</subwindow>-->
-<!--		<subwindow name="scene_1">-->
-<!--			<anchored to="contentframe" position="over"/>-->
-<!--		</subwindow>-->
-<!--		<subwindow name="scene_2">-->
-<!--			<anchored to="contentframe" position="over"/>-->
-<!--		</subwindow>-->
-<!--		<subwindow name="scene_3">-->
-<!--			<anchored to="contentframe" position="over"/>-->
-<!--		</subwindow>-->
-<!--		<subwindow name="scene_4">-->
-<!--			<anchored to="contentframe" position="over"/>-->
-<!--		</subwindow>-->
-<!--			<ft_record name="aliens">-->
-<!--				<anchored to="contentframe" position="over" />-->
-<!--				<empty textres="ft_empty" hidereadonly="true" />-->
-<!--				<invisible />-->
-<!--			</ft_record>-->
-
-<!--			<scrollbar_record>-->
-<!--				<target>episode_main</target>-->
-<!--			</scrollbar_record>-->
-<!--			<scrollbar_record>-->
-<!--				<target>notes</target>-->
-<!--			</scrollbar_record>-->
-
-<!--			<tabs_recordsheet>-->
-<!--				<tab>-->
-<!--					<icon>tab_main</icon>-->
-<!--					<subwindow>episode_main</subwindow>-->
-<!--				</tab>-->
-<!--				<tab>-->
-<!--					<icon>tab_aliens</icon>-->
-<!--					<subwindow>aliens</subwindow>-->
-<!--				</tab>-->
-<!--				<tab>-->
-<!--					<icon>tab_scene1</icon>-->
-<!--					<subwindow>scene_1</subwindow>-->
-<!--				</tab>-->
-<!--				<tab>-->
-<!--					<icon>tab_scene2</icon>-->
-<!--					<subwindow>scene_2</subwindow>-->
-<!--				</tab>-->
-<!--				<tab>-->
-<!--					<icon>tab_scene3</icon>-->
-<!--					<subwindow>scene_3</subwindow>-->
-<!--				</tab>-->
-<!--				<tab>-->
-<!--					<icon>tab_scene4</icon>-->
-<!--					<subwindow>scene_4</subwindow>-->
-<!--				</tab>-->
-<!--			</tabs_recordsheet>-->
-<!--		<close_recordsheet />-->
-<!--		<resize_recordsheet />-->
-<!--	  </sheetdata>-->
-<!--	</windowclass>-->
 
 	<windowclass name="sta_episode">
 		<placement>
-			<size width="450" height="585" />
+			<size width="550" height="675" />
 		</placement>
-<!--		<sizelimits>-->
-<!--			<minimum width="450" height="585" />-->
-<!--			<dynamic />-->
-<!--		</sizelimits>-->
+		<sizelimits>
+			<minimum width="450" height="585" />
+			<dynamic />
+		</sizelimits>
 		<nodelete />
 		<script file="campaign/scripts/episode.lua"/>
 		<sheetdata>
@@ -185,37 +81,7 @@
                     </tab>
             </buttongroup_tabs>
 
-<!--			<genericcontrol name="notesframe">-->
-<!--				<anchored>-->
-<!--					<top offset="45"/>-->
-<!--					<bottom anchor="center" offset="25"/>-->
-<!--					<left offset="485"/>-->
-<!--					<right offset="0"/>-->
-<!--				</anchored>-->
-<!--			</genericcontrol>-->
-<!--            <notes_field name="notes">-->
-<!--        		<frame name="lcars_groupbox_dark" offset="10,8,10,8"/>-->
-<!--				<anchored merge="replace" to="notesframe" >-->
-<!--					<top offset="8"/>-->
-<!--					<left offset="10"/>-->
-<!--					<right offset="-10"/>-->
-<!--					<bottom offset="-8"/>-->
-<!--				</anchored>-->
-<!--			</notes_field>-->
-<!--			<ep_label_dark>-->
-<!--				<anchored to="notes" />-->
-<!--				<static>EPISODE NOTES</static>-->
-<!--			</ep_label_dark>-->
-<!--			<episode_linked_list name="episode_characters" >-->
-<!--        		<datasource>.episode_characters</datasource>-->
-<!--				<anchored to="notes" position="below" offset="0,31">-->
-<!--					<bottom parent="" offset="-27"/>-->
-<!--				</anchored>-->
-<!--			</episode_linked_list>-->
-<!--			<ep_label_dark>-->
-<!--				<anchored to="episode_characters" />-->
-<!--				<static>EPISODE NPCS</static>-->
-<!--			</ep_label_dark>-->
+            <resize_recordsheet/>
 		</sheetdata>
 	</windowclass>
 
@@ -265,12 +131,6 @@
                         return 2
                     end
                 </script>
-<!--                    function onButtonPress()-->
-<!--                        local new_scene = window.scene_buttons.createWindow()-->
-<!--                        local scene_num = tonumber(string.sub(new_scene.getDatabaseNode().getName(), 4))-->
-<!--                        new_scene.scene_tab_button.setStateText(1, "Scene " .. scene_num, "Scene " .. scene_num)-->
-<!--                    end-->
-<!--                </script>-->
             </charsheet_tab_button>
 
             <charsheet_tab_button>
@@ -308,12 +168,15 @@
                         self.setBackColor(LifePathAlertHelper.COLOR_DESELECT)
                     end
                     function onButtonPress()
-                        ColorHandler.registerColorFrame(self, window.windowlist.window.parentcontrol.window.getDatabaseNode())
+                        ColorHandler.registerColorFrameAlt(self, window.windowlist.window.parentcontrol.window.getDatabaseNode())
                         window.windowlist.window.activateScene(window.getDatabaseNode())
                         window.windowlist.window.setTabColors(self.stepNum())
                     end
                     function stepNum()
                         return self.step
+                    end
+                    function onClose()
+                        window.windowlist.window.unRegisterTabButton(self.stepNum())
                     end
                 </script>
             </charsheet_tab_button>
@@ -327,30 +190,48 @@
 
     <windowclass name="episode_scene_list">
         <script>
+            function onInit()
+                update();
+            end
+            function update()
+                local bReadOnly = WindowManager.getReadOnlyState(parentcontrol.window.getDatabaseNode());
+                if scene_display.subwindow then
+                    scene_display.subwindow.update()
+                end
+                scene_buttons.setReadOnly(bReadOnly);
+                add_scene_button.setVisible((not bReadOnly));
+                edit.setVisible((not bReadOnly));
+            end
             _tabButtons = {}
             function registerTabButton(tab, pageNum)
                 _tabButtons[pageNum] = tab
             end
+            function unRegisterTabButton(pageNum)
+                _tabButtons[pageNum] = nil
+            end
             function setTabColors(pageNum)
+                local dead_buttons = {}
                 for p, button in ipairs(_tabButtons) do
                     local color = LifePathAlertHelper.COLOR_DESELECT
                     if p == pageNum then
-                        color = ColorHandler.getMainColor(parentcontrol.getDatabaseNode())
+                        color = ColorHandler.getAltColor(parentcontrol.window.getDatabaseNode())
                     elseif p == self.activeTab then
-                        ColorHandler.unregisterColorFrame(button, parentcontrol.getDatabaseNode())
+                        ColorHandler.unregisterColorFrameAlt(button, parentcontrol.window.getDatabaseNode())
                     end
-                    button.setBackColor(color)
                 end
                 self.activeTab = pageNum
             end
             function activateScene(node)
                 scene_display.setValue("episode_scene", node.getNodeName())
                 scene_display.setVisible(true)
+                if scene_display.subwindow then
+                    scene_display.subwindow.update()
+                end
             end
         </script>
         <sheetdata>
             <windowlist name="scene_buttons">
-                <anchored height="24" position="insidetop" offset="-30,5"/>
+                <anchored height="24" position="insidetop" offset="-32,0"/>
                 <datasource>.scenes</datasource>
 				<columns>
 					<width>60</width>
@@ -395,15 +276,9 @@
             <subwindow name="scene_display">
                 <class>episode_scene</class>
                 <anchored position="insidetop" offset="-5,30">
-                    <bottom offset="-10"/>
+                    <bottom />
                 </anchored>
             </subwindow>
-
-        </sheetdata>
-    </windowclass>
-
-    <windowclass name="episode_scene">
-        <sheetdata>
 
         </sheetdata>
     </windowclass>
@@ -493,5 +368,4 @@
 			</link_record_header_id>
 		</sheetdata>
 	</windowclass>
-
 </root>

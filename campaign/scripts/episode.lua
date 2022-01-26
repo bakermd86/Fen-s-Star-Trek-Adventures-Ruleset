@@ -40,9 +40,12 @@ function onStateChanged()
 	if header.subwindow then
 		header.subwindow.update();
 	end
--- 	if main.subwindow then
--- 		main.subwindow.update();
--- 	end
+	if main.subwindow then
+		main.subwindow.update();
+	end
+	if scenes.subwindow then
+	    scenes.subwindow.update();
+	end
 	if notes.subwindow then
 		notes.subwindow.update();
 	end
