@@ -1,7 +1,7 @@
 
-MODES = {
-	"MANUAL"
-};
+-- MODES = {
+-- 	"MANUAL"
+-- };
 
 CUSTOM_ATTRIBUTE_LABELS = {
     {2, 2, "+2 to one Attributes"},
@@ -10,7 +10,7 @@ CUSTOM_ATTRIBUTE_LABELS = {
 
 function onInit()
     super.onInit()
-    addItems(MODES)
+--     addItems(MODES)
     addItems(LifePathTableManager.getAllActiveTables())
     self.setValue(LifePathTableManager.getDefaultTable())
     onValueChanged()

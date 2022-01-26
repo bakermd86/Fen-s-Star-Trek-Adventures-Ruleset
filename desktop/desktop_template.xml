@@ -1,8 +1,14 @@
 <root>
 	<windowclass name="episode_name" >
         <sheetdata>
+            <genericcontrol name="panelanchor">
+                <anchored position="insidetopleft" height="50" width="0"/>
+            </genericcontrol>
             <stringcontrol>
-                <anchored position="insidetop" height="24" />
+                <anchored to="panelanchor" height="24" width="300">
+                    <top />
+                    <left anchor="right" relation="current" />
+                </anchored>
                 <readonly />
                 <font>lcars_sheetlabel</font>
                 <center />
@@ -12,19 +18,242 @@
             <stringcontrol name="episode_name">
                 <script>
                     function onInit()
-                        setValue(DB.getValue("crew_support.episode_name"), "")
+                        setValue(DB.getValue("crew_support.episode_name", ""))
                         DB.addHandler("crew_support.episode_name", "onUpdate", self.handleNameChange)
                     end
                     function handleNameChange(nodeUpdated)
-                        setValue(DB.getValue(nodeUpdated), "")
+                        setValue(DB.getValue(nodeUpdated, ""))
                     end
+					function onClickDown()
+						return true;
+					end
+
+					function onClickRelease()
+                        local class, link = DB.getValue("crew_support.episode_link")
+                        if (link or "") ~= "" then
+                            Interface.openWindow(class, link)
+                        end
+					end
                 </script>
                 <readonly/>
-                <anchored position="insidebottom" height="24" />
+                <anchored to="panelanchor" height="24" width="300">
+                    <bottom />
+                    <left anchor="right" relation="relative" />
+                </anchored>
                 <backcolor>ff424242</backcolor>
 			    <font>button-white-large</font>
                 <center />
             </stringcontrol>
+
+            <stringcontrol>
+                <anchored to="panelanchor" height="24" width="300">
+                    <top />
+                    <left anchor="right" relation="current" offset="5"/>
+                </anchored>
+                <readonly />
+                <font>lcars_sheetlabel</font>
+                <center />
+                <static>Crew Vessel</static>
+                <backcolor>ff424242</backcolor>
+            </stringcontrol>
+
+            <stringcontrol name="crew_vessel">
+                <script>
+                    function onInit()
+                        handleNameChange("crew_support.crew_vessel")
+                        DB.addHandler("crew_support.crew_vessel", "onUpdate", self.handleNameChange)
+                    end
+                    function handleNameChange(nodeUpdated)
+                        local sNodeName = DB.getValue(nodeUpdated, "")
+                        if (sNodeName or "") ~= "" then
+                            setValue(DB.getValue(sNodeName..".name", ""))
+                        end
+                    end
+					function onClickDown()
+						return true;
+					end
+
+					function onClickRelease()
+                        if DB.getValue("crew_support.crew_vessel") ~= "" then
+                            Interface.openWindow("ship", DB.getValue("crew_support.crew_vessel"))
+                        end
+					end
+                </script>
+                <readonly/>
+                <anchored to="panelanchor" height="24" width="300">
+                    <bottom />
+                    <left anchor="right" relation="relative" offset="5"/>
+                </anchored>
+                <backcolor>ff424242</backcolor>
+			    <font>button-white-large</font>
+                <center />
+            </stringcontrol>
+
+            <sta_tab_button>
+                <state><text>Lifepath Table Settings</text></state>
+                <anchored to="panelanchor" width="200">
+                    <bottom merge="delete"/>
+                    <top />
+                    <left relation="current" />
+                </anchored>
+                <script>
+                    function onButtonPress()
+                        Interface.openWindow("lp_table_settings", LifePathTableManager.TABLESET_SETTINGS)
+                    end
+                </script>
+                <backcolor>ffaa87de</backcolor>
+            </sta_tab_button>
+
+            <sta_tab_button>
+                <state><text>Open Crew Support</text></state>
+                <anchored to="panelanchor" width="200">
+                    <left relation="relative"/>
+                </anchored>
+                <script>
+                    function onButtonPress()
+                        Interface.openWindow("supporting_character_select", "")
+                    end
+                </script>
+                <backcolor>ff37c8ab</backcolor>
+            </sta_tab_button>
+
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="lp_table_settings">
+        <frame name="recordsheet"/>
+		<placement>
+			<size width="360" height="180" />
+		</placement>
+		<sizelimits>
+			<minimum width="360" height="180" />
+			<dynamic />
+		</sizelimits>
+		<nodelete />
+        <sheetdata>
+			<windowtitlebar name="title">
+				<resource>lpsettings_window_title</resource>
+			</windowtitlebar>
+            <genericcontrol name="setting_anchor">
+                <anchored position="insidetop" height="0" width="0" offset="-15,40"/>
+            </genericcontrol>
+
+            <label>
+                <anchored to="setting_anchor" height="20">
+                    <left />
+                    <top anchor="bottom" offset="5" relation="current"/>
+                </anchored>
+                <static> Default Lifepath Tableset: </static>
+            </label>
+            <combobox name="default_lp_table">
+                <readonly/>
+                <anchored to="setting_anchor" height="20">
+                    <right />
+                    <left anchor="center"/>
+                    <top  anchor="bottom" offset="5" relation="relative"/>
+                </anchored>
+                <script>
+                    function onInit()
+                        self.updateTableSet()
+                        DB.addHandler(LifePathTableManager.TABLESET_NODE, "onChildUpdate", self.updateTableSet)
+                        DB.addHandler(LifePathTableManager.TABLESET_NODE, "onChildAdded", self.updateTableSet)
+                        DB.addHandler(LifePathTableManager.TABLESET_NODE, "onChildDeleted", self.updateTableSet)
+                        DB.addHandler(LifePathTableManager.TABLESET_SETTINGS..".allow_generated", "onUpdate", self.updateTableSet)
+                        DB.addHandler(LifePathTableManager.TABLESET_SETTINGS..".allow_wiki", "onUpdate", self.updateTableSet)
+                    end
+                    function updateTableSet()
+                        clear()
+                        addItems(LifePathTableManager.getAllActiveTables())
+                        setValue(LifePathTableManager.getDefaultTable())
+                    end
+                    function onValueChanged()
+                        LifePathTableManager.setDefaultTableByName(getValue())
+                    end
+                </script>
+            </combobox>
+            <label>
+                <static> Create or Edit Lifepath Tableset </static>
+                <anchored to="setting_anchor" height="20">
+                    <left />
+                    <top anchor="bottom" offset="5"  relation="current"/>
+                </anchored>
+            </label>
+
+            <buttoncontrol >
+                <state icon="button_add"/>
+                <pressed icon="button_add_down" />
+                <anchored to="setting_anchor" merge="replace" width="20" height="20">
+                    <right />
+                    <top anchor="bottom" offset="5" relation="relative"/>
+                </anchored>
+                <script>
+                    function onButtonPress()
+                        ScopeManager.openLPDefine()
+                    end
+                </script>
+            </buttoncontrol>
+
+            <label>
+                <anchored to="setting_anchor" height="20">
+                    <left />
+                    <top anchor="bottom" offset="5" relation="current"/>
+                </anchored>
+                <static> Enable Wiki Species Table: </static>
+                <script>
+                    function onInit()
+                        self.updateVis()
+                        ModuleManager.onModuleLoad = self.updateVis
+                    end
+                    function updateVis()
+                        if STAModuleManager.modLoaded(STAModuleManager.MODULE_EXTRA) then
+                            self.setVisible(true)
+                            window.allow_generated.setVisible(true)
+                        else
+                            self.setVisible(false)
+                            window.allow_generated.setVisible(false)
+                        end
+                    end
+                </script>
+            </label>
+
+            <button_checkbox name="allow_wiki">
+                <anchored to="setting_anchor" height="20" width="20">
+                    <right />
+                    <top  anchor="bottom" offset="5" relation="relative"/>
+                </anchored>
+            </button_checkbox>
+
+            <label>
+                <anchored to="setting_anchor" height="20">
+                    <left />
+                    <top anchor="bottom" offset="5" relation="current"/>
+                </anchored>
+                <static> Enable generated Species Table: </static>
+                <script>
+                    function onInit()
+                        self.updateVis()
+                        ModuleManager.onModuleLoad = self.updateVis
+                    end
+                    function updateVis()
+                        if STAModuleManager.modLoaded(STAModuleManager.MODULE_EXTRA) then
+                            self.setVisible(true)
+                            window.allow_wiki.setVisible(true)
+                        else
+                            self.setVisible(false)
+                            window.allow_wiki.setVisible(false)
+                        end
+                    end
+                </script>
+            </label>
+
+            <button_checkbox name="allow_generated">
+                <anchored to="setting_anchor" height="20" width="20">
+                    <right />
+                    <top  anchor="bottom" offset="5" relation="relative"/>
+                </anchored>
+            </button_checkbox>
+
+            <resize_recordsheet />
         </sheetdata>
     </windowclass>
 

@@ -197,4 +197,6 @@
 	<string name="library_recordtype_empty_nonid_ship">&#171; New Unidentified Ship &#187;</string>
 	<string name="library_recordtype_empty_episode">&#171; Untitled Episode &#187;</string>
 
+	<string name="lpsettings_window_title">Lifepath Table Settings</string>
+
 </root>

@@ -45,6 +45,10 @@ function episodeNameNode()
     return csNode().createChild("episode_name", "string")
 end
 
+function episodeLinkNode()
+    return csNode().createChild("episode_link", "windowreference")
+end
+
 function getSupportingCharacterByName(name)
     for _, charsheet in pairs(DB.getChildren("charsheet")) do
         if (DB.getValue(charsheet, "dead", 0) == 0) and
@@ -314,18 +318,18 @@ function releaseCrew(node)
     }, User.getIdentityOwner(node.getName()))
 end
 
-function changeEpisode(episodeName)
-    if not (episodeName == nil) and not(episodeName == episodeNameNode().getValue()) then
-        episodeNameNode().setValue(episodeName)
-        for nodeName, node in pairs(DB.getChildren("charsheet")) do
-            local state = crewState(node)
-            if (state == "available") or (state == "dead") or (state == "active") then
-                releaseCrew(node)
-            end
+function changeEpisode(episodeNode)
+    local episodeName = DB.getValue(episodeNode, "name", "Untitled Episode")
+    episodeNameNode().setValue(episodeName)
+    episodeLinkNode().setValue("sta_episode", episodeNode.getNodeName())
+    for nodeName, node in pairs(DB.getChildren("charsheet")) do
+        local state = crewState(node)
+        if (state == "available") or (state == "dead") or (state == "active") then
+            releaseCrew(node)
         end
-        for nodeName, node in pairs(DB.getChildren("ship")) do
-            DB.setValue(node, "current_crew_support", "number", DB.getValue(node, "max_crew_support", 0))
-        end
+    end
+    for nodeName, node in pairs(DB.getChildren("ship")) do
+        DB.setValue(node, "current_crew_support", "number", DB.getValue(node, "max_crew_support", 0))
     end
 end
 

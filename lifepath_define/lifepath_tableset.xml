@@ -128,6 +128,7 @@
 								DB.setValue(node, "default", "number", 0)
 							end
 						end
+						DB.setValue(LifePathTableManager.TABLESET_SETTINGS..".default_lp_table", "string", DB.getValue(window.getDatabaseNode(), "name", ""))
 					end
 				end
 			</script>

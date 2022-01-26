@@ -1,3 +1,5 @@
+GET_NPC_PORTRAIT = "get_npc_portrait"
+
 function onInit()
     self.rollSourceNode = nil
     self.sourceRollWindows = {}
@@ -7,13 +9,14 @@ function onInit()
 	ChatManager.registerDropCallback("dice", handleManualDrop)
 	GameSystem.actions["damage_roll"] = { };
 	ActionsManager.registerResultHandler("damage_roll", handleDamageResult);
-    if User.isLocal() or User.isHost() then
-        ChatManager.registerDeliverMessageCallback(insertNpcPortraits)
-        -- Call change handler for all existing NPCs and charsheets at startup to create the dummy portraits (for NPCs) and map the names (for both)
-        if Extension.getExtensionInfo("Fen's NPC Portrait Workaround") ~= nil then
-            for _, npc_node in pairs(DB.getChildren("crewmate")) do
-                NPCPortraitManager.handleNPCAdded(npc_node.getParent(), npc_node)
-            end
+	Interface.onDesktopInit = onDesktopInit
+end
+
+function onDesktopInit()
+    -- Call change handler for all existing NPCs and charsheets at startup to create the dummy portraits (for NPCs) and map the names (for both)
+    if NPCPortraitManager and NPCPortraitManager.handleNPCAdded then
+        for _, npc_node in pairs(DB.getChildren("crewmate")) do
+            NPCPortraitManager.handleNPCAdded(npc_node.getParent(), npc_node)
         end
     end
 end
@@ -125,9 +128,6 @@ function buildScoreDrag(draginfo, rRoll)
         else
             draginfo.addShortcut("npc", sNode.getNodeName())
         end
-        if (source_type == "crewmate") and Extension.getExtensionInfo("Fen's NPC Portrait Workaround") ~= nil then
-            draginfo.setMetaData("crew_token", NPCPortraitManager.formatDynamicPortraitName(sNode))
-        end
     end
     return true
 end
@@ -195,7 +195,7 @@ function handleScoreResult(source, target, rRoll)
         elseif val == 1 then successes = successes + 1 end
         if val == 20 then complications = complications + 1 end
     end
-    skillChatMessage(source, rRoll, successes, complications, dc, rRoll['crew_token'])
+    skillChatMessage(source, rRoll, successes, complications, dc)
     self.clearScoreSelect()
 end
 
@@ -240,17 +240,25 @@ function handleWeight(dice, height)
     return weight
 end
 
-function skillChatMessage(rSource, rRoll, successes, complications, dc, crew_token)
+function skillChatMessage(rSource, rRoll, successes, complications, dc)
+    local sourceName = ""
     if not rSource and (rRoll['sNode'] or "") ~= "" then
         rSource = ActorManager.resolveActor(rRoll['sNode'])
     end
+    if rSource and rSource["sName"] ~= "" then sourceName = rSource["sName"] end
     local rMessage = ActionsManager.createActionMessage(rSource, rRoll)
-    if not rSource and (rRoll['sNode'] or "") ~= "" then
-        local dbName = DB.getValue(DB.findNode(rRoll['sNode']), "name", "")
-        if dbName ~= "" then rMessage.sender = dbName .. " (" .. rRoll.sUser .. ")" end
+    if sourceName == "" and (rRoll['sNode'] or "") ~= "" then
+        sourceName = DB.getValue(DB.findNode(rRoll['sNode']), "name", "")
+        if sourceName ~= "" then rMessage.sender = sourceName .. " (" .. rRoll.sUser .. ")" end
     end
-    if not(crew_token == nil) then
-        rMessage.icon = "portrait_" .. crew_token .. "_chat"
+    if NPCPortraitManager and (rRoll['sNode'] or "") ~= "" then
+        local npc_node = DB.findNode(rRoll['sNode'])
+        if npc_node ~= nil and npc_node.getParent().getName() ~= "charsheet" and DB.getValue(npc_node, "token", "") ~= "" then
+            portraitName = NPCPortraitManager.formatDynamicPortraitName(npc_node)
+            if portraitName ~= "" then
+                rMessage.icon = "portrait_" .. portraitName .. "_chat"
+            end
+        end
     end
     rMessage.dicedisplay = 0
     rMessage.text = rMessage.text .. "\n[Successes: "..successes.."] [Complications: "..complications .. "]"

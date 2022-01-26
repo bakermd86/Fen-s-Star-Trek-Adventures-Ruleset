@@ -16,10 +16,6 @@ ALL_DISCIPLINES = {
 	"Medicine"
 };
 
-function onInit()
-    Comm.registerSlashHandler("lptests", openLPDefine)
-end
-
 function openLPDefine()
     local new_lp_table = DB.createChild(".lp_tables")
     Interface.openWindow("lifepath_table_definition_window", new_lp_table.getNodeName())

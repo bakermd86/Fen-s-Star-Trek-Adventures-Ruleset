@@ -348,7 +348,7 @@
                 <state tooltipres="tooptil_set_current_episode" />
 				<script>
 					function onButtonPress()
-						CrewSupportManager.changeEpisode(window.name.getValue())
+						CrewSupportManager.changeEpisode(window.getDatabaseNode())
 					end
 				</script>
 			</button_activateid>
@@ -360,7 +360,7 @@
 			</button_record_locked>
 
 			<link_record_header_id name="link">
-				<class>ship</class>
+				<class>sta_episode</class>
 				<bounds merge="delete"/>
 				<anchored to="rightanchor" width="20" height="22">
 					<top />

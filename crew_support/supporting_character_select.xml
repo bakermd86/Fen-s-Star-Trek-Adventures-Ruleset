@@ -266,7 +266,7 @@
 								return
 							end
 						else
-							local tableName = LifePathTableManager.getActiveStepName(defaultMode, 1)
+							local tableName, _ = LifePathTableManager.getActiveStepName(defaultMode, 1)
 							rawVal = w.generate.performTableLookups("[".. tableName .."]")
 						end
 						w.close()
@@ -597,5 +597,47 @@
 			</stringcontrol>
 		</sheetdata>
 	</windowclass>
+
+	<windowclass name="supporting_character_header">
+		<sheetdata>
+            <genericcontrol name="row_1">
+                <anchored position="insidetopleft" offset="5,0" height="28" width="0" />
+            </genericcontrol>
+
+			<char_header_label name="name">
+				<anchored to="row_1" width="100" />
+				<labelres>char_label_name</labelres>
+                <readonly />
+			</char_header_label>
+
+			<char_header_label name="rank">
+				<anchored to="row_1" width="50" />
+				<labelres>char_label_rank</labelres>
+                <readonly />
+			</char_header_label>
+			<char_header_label name="gender" >
+				<anchored to="row_1" width="50" />
+				<labelres>char_label_gender</labelres>
+                <readonly />
+			</char_header_label>
+			<char_header_label name="age">
+				<anchored to="row_1" width="40" />
+				<labelres>char_label_age</labelres>
+                <readonly />
+			</char_header_label>
+			<char_header_label name="height">
+				<anchored to="row_1" width="50" />
+				<labelres>char_label_height</labelres>
+                <readonly />
+			</char_header_label>
+			<char_header_label name="weight" >
+				<anchored to="row_1" width="50" />
+				<labelres>char_label_weight</labelres>
+                <readonly />
+			</char_header_label>
+
+		</sheetdata>
+	</windowclass>
+
 </root>
 

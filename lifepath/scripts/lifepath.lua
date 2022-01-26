@@ -316,20 +316,21 @@ function rollStep(stepNum, rollButton)
 	local rollType, summaryField = unpack(STEP_DEFS[stepNum])
 	local rollWiki = ((stepNum == 1) and (rollButton.mode == "WIKI"))
 	local tableName = "";
+	local tableNode = nil;
 	if rollWiki then
 		tableName = "Memory Alpha Weighted Species";
 	elseif rollButton then
 		rollButton.setEnabled(false);
 		rollButton.setIcons("d20ricon", "d20ricon");
-	    tableName = LifePathTableManager.getActiveStepName(rollButton.mode, stepNum)
+	    tableName, tableNode = LifePathTableManager.getActiveStepName(rollButton.mode, stepNum)
 	else
 	    return
 	end
 	if (ScopeManager.getSummaryVal(summaryField) == '') or rollWiki
 		or ((summaryField == "career_events") and (ScopeManager.getSummaryListSize("career_events") <= 1))
 	then
-		self.rolledSteps[stepNum] = tableName
-		rollSimple(tableName, rollType)
+		self.rolledSteps[stepNum] = {tableName, tableNode}
+		rollSimple(tableName, tableNode, rollType)
 	else
 		Interface.dialogMessage(nil, tableName .. " already rolled", "Lifepath Error", nil)
 	end
@@ -459,7 +460,7 @@ end
 
 function handleNestedTable(name, rollType)
 	if string.sub(name, 1, 1) == "[" then
-		rollSimple(string.sub(name, 2, -2), rollType);
+		rollSimple(string.sub(name, 2, -2), nil, rollType);
 		return true
 	end
 	return false
@@ -515,10 +516,11 @@ function handleEnvironment(rSource, rTarget, rRoll)
 	    _environment_species_backref = ref
 	    _environment_species_backname = name
 	    if not ((self.rolledSteps[1] == nil) or (self.rolledSteps[1] == 1))  then
-		    rollSimple(self.rolledSteps[1], "lifepath_environment_another_species")
+	        local tableName, tableNode = unpack(self.rolledSteps[1])
+		    rollSimple(tableName, tableNode, "lifepath_environment_another_species")
 		else
-		    local tableName = LifePathTableManager.getActiveStepName(LifePathTableManager.getDefaultTable(), 1)
-		    rollSimple(tableName, "lifepath_environment_another_species")
+		    local tableName, tableNode = LifePathTableManager.getActiveStepName(LifePathTableManager.getDefaultTable(), 1)
+		    rollSimple(tableName, tableNode, "lifepath_environment_another_species")
 		end
 	else
 		ScopeManager.getEnvironmentTab().lifepath_environment_ref.createWindow(ref);
@@ -595,10 +597,19 @@ function handleCareerEvents(rSource, rTarget, rRoll)
 	end
 end
 
-function rollSimple(tableName, rollType )
-	local nodeTable = TableManager.findTable(tableName);
+function rollSimple(tableName, nodeTable, rollType )
+    local sNodeTable = ""
+    if nodeTable == nil then
+	    nodeTable = TableManager.findTable(tableName);
+	    sNodeTable = nodeTable.getNodeName()
+	elseif type(nodeTable) == "string" then
+	    sNodeTable = nodeTable
+	    nodeTable = DB.findNode(nodeTable)
+    else
+        sNodeTable = nodeTable.getNodeName()
+    end
 	local rollData = {
-		["sNodeTable"]=nodeTable.getPath(),
+		["sNodeTable"]=sNodeTable,
 		["sType"]=rollType,
 		['sOutput']="",
 		['bSecret']=false,

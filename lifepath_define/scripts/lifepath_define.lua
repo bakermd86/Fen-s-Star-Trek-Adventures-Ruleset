@@ -193,18 +193,6 @@ function loadRow(rowWindow)
     DB.deleteNode(rowNode)
 end
 
--- function loadTable(sourceWindow)
---     local w = Interface.openWindow("table_load_window", "")
---
--- --     local stepNode = self.table_nodes[stepNum]
--- --     self.org_table_nodes[stepNode.getNodeName()] = orgTableNode
--- --     DB.copyNode(orgTableNode, stepNode)
--- end
---
--- function saveTable(sourceWindow)
---     Debug.chat(sourceWindow)
--- end
-
 function onClose()
     if not self.saving then
         DB.deleteNode(self.getDatabaseNode())

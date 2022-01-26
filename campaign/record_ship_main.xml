@@ -18,12 +18,12 @@
                 talents.setReadOnly(bReadOnly)
                 for _, w in ipairs(systemsList.getWindows()) do
                     w.selectButton.setReadOnly(bReadOnly)
-                    w.score.setReadOnly(bReadOnly)
+                    if w.score then w.score.setReadOnly(bReadOnly) end
                     if w.system_damage_widget then w.system_damage_widget.setReadOnly(bReadOnly) end
                 end
                 for _, w in ipairs(departmentsList.getWindows()) do
                     w.selectButton.setReadOnly(bReadOnly)
-                    w.score.setReadOnly(bReadOnly)
+                    if w.score then w.score.setReadOnly(bReadOnly) end
                 end
             end
         </script>

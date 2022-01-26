@@ -21,8 +21,8 @@
             <frame_char name="crewmatesframe">
                 <anchored to="crewmates_color"/>
             </frame_char>
-            <crew_support_list name="crewmates">
-                <anchored to="crewmatesframe">
+            <windowlist name="crewmates">
+                <anchored position="insidetop"  to="crewmatesframe">
                     <top offset="2" />
                     <left offset="15" />
                     <right offset="-20" />
@@ -39,8 +39,7 @@
                         setDatabaseNode(".crewmate")
                     end
                 </script>
-                <frame merge="delete"/>
-            </crew_support_list>
+            </windowlist>
             <tag_label name="crewmates_label">
                 <anchored to="crewmatesframe"  />
                 <static textres="char_label_crewmates"/>

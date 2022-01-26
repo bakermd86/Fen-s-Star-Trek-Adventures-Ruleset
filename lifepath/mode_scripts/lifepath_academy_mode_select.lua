@@ -1,11 +1,11 @@
-
-MODES = {
-	"MANUAL"
-};
+--
+-- MODES = {
+-- 	"MANUAL"
+-- };
 
 function onInit()
     super.onInit()
-    addItems(MODES)
+--     addItems(MODES)
     addItems(LifePathTableManager.getAllActiveTables())
     self.setValue(LifePathTableManager.getDefaultTable())
     onValueChanged()
