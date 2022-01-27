@@ -2,7 +2,6 @@
 
 <root>
 	<windowclass name="lifepath_define_academy">
-<!--		<backcolor>ff8474b8</backcolor>-->
 		<nodelete />
 		<script file="lifepath_define/scripts/lifepath_define_academy.lua" />
         <sheetdata>

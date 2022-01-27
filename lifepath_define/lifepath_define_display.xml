@@ -51,33 +51,6 @@
 				<child><backcolor>6A3068ff</backcolor></child>
 				<skipempty />
 			</windowlist>
-<!--			<genericcontrol name="button_anchor">-->
-<!--				<anchored position="insidebottomright" offset="290,15" height="24"/>-->
-<!--			</genericcontrol>-->
-<!--			<sta_tab_button name="save_table">-->
-<!--				<anchored width="135"/>-->
-<!--				<state>-->
-<!--					<text> Save This Table</text>-->
-<!--				</state>-->
-<!--				<backcolor>ffeec515</backcolor>-->
-<!--				<script>-->
-<!--					function onButtonPress()-->
-<!--						window.saveTable()-->
-<!--					end-->
-<!--				</script>-->
-<!--			</sta_tab_button>-->
-<!--			<sta_tab_button name="save_table">-->
-<!--				<anchored width="145"/>-->
-<!--				<state>-->
-<!--					<text> Load Existing Table </text>-->
-<!--				</state>-->
-<!--				<backcolor>ffeec515</backcolor>-->
-<!--				<script>-->
-<!--					function onButtonPress()-->
-<!--						window.loadTable()-->
-<!--					end-->
-<!--				</script>-->
-<!--			</sta_tab_button>-->
         </sheetdata>
     </windowclass>
 

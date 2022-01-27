@@ -512,25 +512,12 @@
 	</template>
     <template name="char_dice_field">
 		<diefield>
-<!--			<stateframe>-->
-<!--				<drophilight name="fieldfocus" offset="-2,-2,-2,-2" hidereadonly="true" />-->
-<!--			</stateframe>-->
 			<droptypes>
 				<type>damage_roll</type>
                 <type>dice</type>
 			</droptypes>
             <frame name="field_orange_right" />
 			<script>
-				---function onInit()
-				---	onValueChanged();
-				---end
-				---function onValueChanged()
-				---	if isEmpty() then
-				---		setFrame("orange_fielddice", 7,5,7,5);
-				---	else
-				---		setFrame("field_orange_right", 2,1,2,1);
-				---	end
-				---end
                 function onDrop(_, __, dragInfo)
                     if dragInfo.getType() == 'dice' then
                         local newDice = {}

@@ -270,7 +270,6 @@
                 function onFirstLayout()
                     local bReadOnly = WindowManager.getReadOnlyState(window.getDatabaseNode());
                     for _, w in ipairs(self.getWindows()) do
-                        ---w.link.setVisible(false)
                         w.createControl("breaches_label")
                         local d = w.createControl("system_damage_widget", "system_damage_widget")
                         d.setReadOnly(bReadOnly)
@@ -299,11 +298,6 @@
                 function rollControl()
                     return window.activeDiscipline
                 end
-                ---function onFirstLayout()
-                ---    for _, w in ipairs(self.getWindows()) do
-                ---        w.link.setVisible(false)
-                ---    end
-                ---end
             </script>
             <frame name="lcars_frame_shape_top_right" offset="5,30,35,5"/>
         </scoreList>

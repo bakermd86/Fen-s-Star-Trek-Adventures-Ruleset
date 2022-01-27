@@ -84,11 +84,6 @@
                     <anchored to="attList" offset="25,9"/>
                     <static> ATT </static>
                 </tag_label>
-<!--            <npc_label>-->
-<!--                <anchored to="attList" offset="25,-6"/>-->
-<!--                <static textres="char_label_attributes"/>-->
-<!--            </npc_label>-->
-
             <char_frame_color name="discColor">
                 <anchored merge="replace" >
                     <top />

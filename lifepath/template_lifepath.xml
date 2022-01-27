@@ -526,8 +526,6 @@
 				<class>talent_link_item</class>
 				<skipempty />
 				<readonly />
-<!--				<backcolor>ff63acc8</backcolor>-->
-<!--				<frame name="fielddark" offset="10,9,10,9" />-->
 				<sortby>
 					<control>label</control>
 				</sortby>
@@ -627,7 +625,6 @@
 					<left offset="0"/>
 					<bottom offset="-52"/>
 				</anchored>
-<!--				<frame offset="10,10,10,10" name="fieldlight" />-->
 				<backcolor>ffe7ddb9</backcolor>
 			</formattedtextcontrol>
 			<buttoncontrol name="talent_down">

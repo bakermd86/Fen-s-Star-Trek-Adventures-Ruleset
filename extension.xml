@@ -58,8 +58,6 @@
 
 		<!--	Crew Support stuff	-->
 		<includefile source="crew_support/supporting_character_select.xml" />
-<!--		<includefile source="crew_support/record_crew_main.xml" />-->
-<!--		<includefile source="crew_support/crew_overview.xml" />-->
 		<includefile source="crew_support/template_crew.xml" />
 
 		<!--	Lifepath XML Files	-->
