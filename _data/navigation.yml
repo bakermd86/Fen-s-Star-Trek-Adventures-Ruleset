@@ -8,8 +8,9 @@ docs:
   - title: Overview
     children:
       - title: "Custom LCARS Color Settings"
-       url: /general/record_colors
+        url: /general/record_colors
 
   - title: Record Types
     children:
       - title: "Character Sheet Usage"
+        url: /record_docs/charsheet_doc
