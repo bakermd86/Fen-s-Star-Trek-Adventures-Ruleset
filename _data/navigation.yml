@@ -1,0 +1,15 @@
+
+docs:
+  - title: Navigation
+    children:
+      - title: "Index"
+        url: /index
+
+  - title: Overview
+    children:
+      -title: "Custom LCARS Color Settings"
+       url: /general/record_colors
+
+  - title: Record Types
+    children:
+      -title: "Character Sheet Usage"

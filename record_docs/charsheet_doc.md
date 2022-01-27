@@ -49,13 +49,10 @@ on the type control to change between normal, spotlight and arc milestones. The 
 the current episode (if one is set in the campaign). If not, it can be edited.
 
 Players can then spend the milestones by clicking the green + icon. Doing so will bring up a popup where they can select 
-how they want to apply the milestone. For example:
+how they want to apply the milestone. After using the milestone in this way, the milestone will move below to the service 
+history with an indication of what it was used for. For example:
 
-![Spending a Normal Milestone](../images/service_record_milestone_spend_popup.png)
-
-After using the milestone in this way, the milestone will move below to the service history with an indication of what it was used for:
-
-![After spending a milestone](../images/service_record_tab_2.png)
+![Spending a Milestone](../images/spending_milestones.gif)
 
 You can also add notes of Commendations or Reprimands to the Service History to note changes to character reputation per 
 the reputation rules.
@@ -64,4 +61,15 @@ the reputation rules.
 
 Nothing particularly unique about these two.
 
-![](../images/crewmates_tab.png)
+### Crewmates Tab
+
+![Rolling for Crewmates](../images/crewmates_tab.png)
+
+For NPCs representing other crewmates who are present in most or all stories, they can be added under the "Senior Staff" 
+records rather than as regular NPCs. Once they are added here, if they are shared with players they will populate the 
+crewmates tab, allowing the PCs to roll on their behalf. This way, if players are ordering/asking other senior staff NPCs 
+to perform various tasks or to assist them in tasks, they can roll for those NPCs on their own.
+
+Rolling here works the same as in other roll controls. With the exception that there is only a single control to apply a 
+focus. If a crewmate has an applicable, just let the player know before rolling and they can tick the focus box (but they won't 
+know what the NPCs focuses are).
