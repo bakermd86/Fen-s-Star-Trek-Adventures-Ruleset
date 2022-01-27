@@ -1,4 +1,4 @@
-## Character Sheet Usage
+## Character Sheet Records
 
 This is an example of a character sheet in this extension:
 

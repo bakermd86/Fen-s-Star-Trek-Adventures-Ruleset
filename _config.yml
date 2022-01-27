@@ -12,5 +12,5 @@ defaults:
       classes: wide
       sidebar:
         - title: "Extension Documentation"
-          text: "Documentation for extension features and functionality for my homebrew Fantasy Grounds Unity extension for the Modophius 2d20 Star Trek Adventures tabletop gaming product"
+          text: "Documentation for for my homebrew Star Trek Adventures Fantasy Grounds Unity extension"
         - nav: "docs"

@@ -5,12 +5,16 @@ docs:
       - title: "Index"
         url: /index
 
-  - title: Overview
+  - title: Features
     children:
+      - title: "Lifepath Character Creator"
+        url: /general/lifepath_wizard
+      - title: "Lifepath Table Definition (GM)"
+        url: /general/lifepath_tables
       - title: "Custom LCARS Color Settings"
         url: /general/record_colors
 
   - title: Record Types
     children:
-      - title: "Character Sheet Usage"
+      - title: "Character Sheet Records"
         url: /record_docs/charsheet_doc
