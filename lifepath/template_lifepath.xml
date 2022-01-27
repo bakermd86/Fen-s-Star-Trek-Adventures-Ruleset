@@ -199,7 +199,7 @@
 			<skipempty />
 			<class>lifepath_add_link_control</class>
 			<columns>
-				<width>80</width>
+				<width>85</width>
 				<fillwidth />
 			</columns>
 			<script>
@@ -724,5 +724,19 @@
 				end
 			</script>
 		</sta_tab_button>
+	</template>
+	<template name="add_random_button">
+		<buttoncontrol >
+			<icon normal="d20bicon" pressed="d20ricon"/>
+			<anchored to="lifepath_drop_target" height="19" width="19" >
+				<left anchor="right" offset="-2" relation="relative"/>
+				<top offset="3"/>
+			</anchored>
+			<script>
+				function onButtonPress()
+					window.lifepath_drop_target.getRand()
+				end
+			</script>
+		</buttoncontrol>
 	</template>
 </root>	

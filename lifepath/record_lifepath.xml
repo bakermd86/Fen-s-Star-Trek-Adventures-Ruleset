@@ -330,10 +330,10 @@
 					end
 				</script>
 			</lifepath_add_link_button>
-<!--			<add_random_button />-->
+			<add_random_button name="roll_random"/>
 			<label name="lifepath_drop_target_label">
 				<anchored to="lifepath_drop_target" height="25" width="55" >
-					<left anchor="right" offset="-2" relation="relative"/>
+					<left anchor="right" offset="2" relation="relative"/>
 					<top />
 				</anchored>
 			</label>

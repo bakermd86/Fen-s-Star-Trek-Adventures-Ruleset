@@ -4,7 +4,7 @@
 
 	<windowclass name="charsheet" >
         <placement>
-            <size width="624" height="775" />
+            <size width="610" height="775" />
         </placement>
         <minimize>minimized_npc</minimize>
         <tooltip field="name" />
@@ -208,7 +208,7 @@
 
 			<char_header_label name="ship" >
                 <anchored to="row_1" >
-                    <right parent="" offset="2"/>
+                    <right parent="" offset="-2"/>
                 </anchored>
 				<labelres>char_label_vessel</labelres>
 			</char_header_label>

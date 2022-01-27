@@ -120,31 +120,28 @@ end
 --     end
 -- end
 
--- function getRand()
---     if self.selected then setDeselect() end
---     if self.source == "value" then
---         local v = CrewSupportManager.getValue()
---         local name = DB.getValue(v, "name", "")
---         self.saveTextToList(name, name)
---     elseif self.source == "focus" then
---         local f = CrewSupportManager.getFocus()
---         local name = DB.getValue(f, "name", "")
---         self.saveTextToList(name, nil)
---     elseif (self.source == "talent") or (self.source == "ship_talent") then
---         if User.isHost() or User.isLocal() then
---             self.handleRandomTalent(LifePathActionHelper.getCharacterTalents(self.source == "ship_talent"))
---         else
---             local oobMsg = {
---                 ["type"]=LifePathActionHelper.LIFEPATH_GET_TALENTS,
---                 ["user"]=User.getUsername(),
---                 ["callback"]=LIFEPATH_RANDOM_TALENT_CALLBACK,
---                 ["ship_mode"]=tostring((self.source == "ship_talent"))
---             }
---             OOBManager.registerOOBMsgHandler(LIFEPATH_RANDOM_TALENT_CALLBACK, self.handleRandomTalent)
---             Comm.deliverOOBMessage(oobMsg, "")
---         end
---     end
--- end
+function getRand()
+    if self.selected then setDeselect() end
+    if self.source == "value" then
+        local v = CrewSupportManager.getValue()
+        local name = DB.getValue(v, "name", "")
+        if v~= "" and (name or "") ~= "" then
+            self.saveTextToList(name, DB.getValue(v, "text", ""))
+        end
+    elseif self.source == "focus" then
+        local f = CrewSupportManager.getFocus()
+        local name = DB.getValue(f, "name", "")
+        if v~= "" and (name or "") ~= "" then
+            self.saveTextToList(name, nil)
+        end
+    elseif (self.source == "talent") or (self.source == "ship_talent") then
+        local scores = self.getScores()
+        local t = CrewSupportManager.getTalent(doScoreFilter(getAllTalents(), scores))
+        if (t or "") ~= "" then
+            self.setLink(t)
+        end
+    end
+end
 
 function formatPreviewBody(node)
     return "<h>"..node.getChild("name").getValue().."</h>\n<p><b>Requirements: "..node.getChild("requirements").getValue("None").."</b></p>\n"..node.getChild("text").getValue()

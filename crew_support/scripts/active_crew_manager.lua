@@ -308,6 +308,16 @@ function getValue()
     return "" end
 end
 
+function getTalent(scoreFilteredTalents)
+    local allowedTalents = {}
+    for _, nodeDef in ipairs(scoreFilteredTalents) do
+        local node, filterKey = unpack(nodeDef)
+        if filterKey == 1 then table.insert(allowedTalents, node) end
+    end
+    if #allowedTalents >= 1 then return getRandFromNodes(allowedTalents) else
+    return "" end
+end
+
 function releaseCrew(node)
     DB.removeAllHolders(node)
     DB.setPublic(node, "true")
