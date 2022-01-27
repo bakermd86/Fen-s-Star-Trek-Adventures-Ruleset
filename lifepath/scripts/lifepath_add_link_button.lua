@@ -1,7 +1,3 @@
--- LIFEPATH_NOTE_CREATED_CALLBACK = "lifepath_note_created_callback"
--- LIFEPATH_TALENT_LIST_CALLBACK = "lifepath_talent_list_callback"
--- LIFEPATH_RANDOM_TALENT_CALLBACK = "lifepath_random_talent_callback"
-
 function initControl(source, target, step)
     self.source = source;
     self.target = target;
@@ -46,14 +42,9 @@ function onDrop(x,y,draginfo)
     end
 end
 
--- reqLinePattern = "<h>Requirement[ :]+[^<]+</h>"
 reqStringPattern = "([A-Z][a-z]+[ ]*[0-9]+)"
---
 function talentAllowed(talentNode, scores)
---     local body = talentNode.getChild("text").getValue()
---     local reqLine = string.match(body, reqLinePattern)
     local reqLine = talentNode.getChild("requirements").getValue()
---     local noScoreRequire = string.match(body, "<h>Requirement[ :]+([a-zA-Z]+).*</h>")
     if scores == "ALLOW_ALL" then return true
     elseif not reqLine or (reqLine == "") or string.find(reqLine, "None") or string.find(reqLine, "Main Character")then
         return true
@@ -68,11 +59,6 @@ function talentAllowed(talentNode, scores)
         return false
     end
 end
---
--- function formatPreviewBody(node)
---     return "<h>"..node.getChild("name").getValue().."</h>\n"..node.getChild("text").getValue()
--- end
-
 function handleRandomTalent(talents)
     local scores = self.getScores()
     local talents = doScoreFilter(talents, scores)
@@ -85,11 +71,6 @@ function handleRandomTalent(talents)
     local val = math.random(#orderedTalents)
     self.setLink(orderedTalents[val])
 end
-
--- function handleFilterTalents(oobMsg)
---     local scores = self.getScores()
---     self.applyFilter(oobMsg, scores)
--- end
 
 function doScoreFilter(talents, scores)
     local selectedTalents = {}
@@ -108,17 +89,6 @@ function doScoreFilter(talents, scores)
     end
     return talentsOut
 end
-
--- function applyFilter(talents, scores)
---     self.talentSelect.talent_list.closeAll()
---     for name, node in pairs(doScoreFilter(talents, scores)) do
---         local w = self.talentSelect.talent_list.createWindow()
---         w.label.setValue(name)
---         w.add_link_button.configure(self.handleListSelect, node)
---         w.preview_button.configure(self.talentSelect.talent_preview, formatPreviewBody(node), self.talentSelect.clearSelection)
---         self.talentSelect.talent_list.getWindows(true)[1].preview_button.onButtonPress()
---     end
--- end
 
 function getRand()
     if self.selected then setDeselect() end
@@ -201,10 +171,6 @@ function onTalentAdd()
         w.preview_button.configure(self.talentSelect.talent_preview, formatPreviewBody(node), self.talentSelect.clearSelection)
     end
     self.talentSelect.talent_list.resetSelection()
---     local tWindows = self.talentSelect.talent_list.getWindows(true)
---     if #tWindows >= 1 then
---         tWindows[1].preview_button.onButtonPress()
---     end
 end
 
 function setDeselect()
