@@ -8,9 +8,9 @@
 		<version>1.0</version>
 		
 		<author>Fen</author>
-		<description>Extension for playing Modiphius 2d20 Star Trek Adventures ruleset</description>
+		<description>Extension for playing Modiphius 2d20 Star Trek Adventures</description>
 		
-		<ruleset>Modiphius2d20</ruleset>
+		<ruleset>CoreRPG</ruleset>
 		<loadorder>500</loadorder>
 	</properties>
 	

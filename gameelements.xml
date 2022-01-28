@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <root>
+  <die name="dF" merge="delete"/>
+  <die name="d4" merge="delete"/>
+  <die name="d8" merge="delete"/>
+  <die name="d10" merge="delete"/>
+  <die name="d12" merge="delete"/>
+	<die name="d6">
+		<icon>d6icon</icon>
+		<position>170,-68</position>
+	</die>
 	<customdie name="dChallenge">
 		<model>d6</model>
 		<menuicon>customdice</menuicon>
