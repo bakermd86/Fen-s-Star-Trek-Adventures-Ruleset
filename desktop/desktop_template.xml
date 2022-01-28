@@ -155,6 +155,8 @@
                 <script>
                     function onInit()
                         self.updateTableSet()
+                        DB.setPublic(LifePathTableManager.TABLESET_SETTINGS..".allow_generated", true)
+                        DB.setPublic(LifePathTableManager.TABLESET_SETTINGS..".allow_wiki", true)
                         DB.addHandler(LifePathTableManager.TABLESET_NODE, "onChildUpdate", self.updateTableSet)
                         DB.addHandler(LifePathTableManager.TABLESET_NODE, "onChildAdded", self.updateTableSet)
                         DB.addHandler(LifePathTableManager.TABLESET_NODE, "onChildDeleted", self.updateTableSet)

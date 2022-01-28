@@ -1,14 +1,7 @@
---
--- MODES = {
--- 	"WIKI",
--- 	"GENERATED",
--- 	"MANUAL"
--- };
 
 function onInit()
 	super.onInit();
--- 	addItems(MODES);
-    addItems(LifePathTableManager.getAllActiveTables())
+    addItems(LifePathTableManager.getAllActiveTables(true))
     self.setValue(LifePathTableManager.getDefaultTable())
 	onValueChanged();
 end

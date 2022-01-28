@@ -12,14 +12,16 @@ STEP_NAMES = {
     "career_events"
 }
 
-function getAllActiveTables()
+function getAllActiveTables(isSpecies)
     allTables = {MODE_MANUAL}
-    if STAModuleManager.modLoaded(STAModuleManager.MODULE_EXTRA) then
-        if DB.getValue(TABLESET_SETTINGS..".allow_generated", 0) == 1 then
-            table.insert(allTables, MODE_GENERATED)
-        end
-        if DB.getValue(TABLESET_SETTINGS..".allow_wiki", 0) == 1 then
-            table.insert(allTables, MODE_WIKI)
+    if isSpecies then
+        if STAModuleManager.modLoaded(STAModuleManager.MODULE_EXTRA) then
+            if DB.getValue(TABLESET_SETTINGS..".allow_generated", 0) == 1 then
+                table.insert(allTables, MODE_GENERATED)
+            end
+            if DB.getValue(TABLESET_SETTINGS..".allow_wiki", 0) == 1 then
+                table.insert(allTables, MODE_WIKI)
+            end
         end
     end
     for _, tableNode in pairs(DB.getChildren(TABLESET_NODE)) do
