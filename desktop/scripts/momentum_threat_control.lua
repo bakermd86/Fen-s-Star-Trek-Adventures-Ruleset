@@ -4,14 +4,13 @@ _syncedNodes = {}
 function onInit()
     self.name = node[1]
     self.node = window.getDatabaseNode().."."..string.lower(self.name)
-    DB.addHandler(self.node, "onUpdate", self.handleNodeUpdate)
-    self.handleNodeUpdate(self.node)
     if (User.isHost() or User.isLocal()) and self.name == "Momentum" then
         table.insert(_syncedNodes, self.node)
         OOBManager.registerOOBMsgHandler(SET_MOMENTUM_REQ, handleMomentumSet)
         User.onLogin = onLogin
         DB.addHandler(self.node, "onUpdate", synchronizeMomentumNodes)
     end
+    self.setValue(DB.getValue(self.node, 0))
     self.setVis()
 end
 
@@ -32,25 +31,17 @@ end
 function synchronizeMomentumNodes(nodeChanged)
     local val = nodeChanged.getValue()
     local sNodeName = nodeChanged.getNodeName()
+    setValue(val)
     for _, node in ipairs(_syncedNodes) do
         if node ~= sNodeName then
             DB.setValue(node, "number", val)
         end
     end
-end
-
-function onValueChanged()
-    DB.setValue(self.node, "number", getValue())
-    self.setVis()
-end
-
-function handleNodeUpdate(nodeChanged)
-    setValue(DB.getValue(nodeChanged, "", 0))
     self.setVis()
 end
 
 function setVis()
-    if getValue() >= 18 then
+    if DB.getValue(self.node, 0) >= 18 then
         self.setVisible(true)
         window.counter.setVisible(false)
     else
@@ -114,15 +105,15 @@ function onDragStart(button, x, y, draginfo)
 end
 
 function onDragEnd(draginfo)
-    local curVal = getValue()
+    local curVal = DB.getValue(self.node)
     if curVal == 0 then return end
-    self.setValue(curVal - 1)
+    DB.setValue(self.node, "number", curVal - 1)
     self.notifyOnUse()
 end
 
 function onDoubleClick()
-    local curVal = getValue()
-    self.setValue(curVal + 1)
+    local curVal = DB.getValue(self.node)
+    DB.setValue(self.node, "number", curVal + 1)
     self.notifyOnAdd()
     return true
 end
