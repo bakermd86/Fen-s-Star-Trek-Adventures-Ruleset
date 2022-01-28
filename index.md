@@ -8,3 +8,5 @@ Navigation links on the left will take you to specific documentation pages for t
 
 ### Installation
 
+Like any other Fantasy Grounds extension, just place the ext file in the extensions directory and select the extension when 
+creating your CoreRPG campaign.
