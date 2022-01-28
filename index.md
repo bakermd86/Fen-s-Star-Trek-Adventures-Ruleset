@@ -5,3 +5,6 @@ Star Trek Adventures 2d20 product (available [here](https://www.drivethrurpg.com
 on DriveThruRPG).
 
 Navigation links on the left will take you to specific documentation pages for the extension elements.
+
+### Installation
+
