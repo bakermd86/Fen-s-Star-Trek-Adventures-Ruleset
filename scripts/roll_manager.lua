@@ -13,15 +13,9 @@ function onInit()
 end
 
 function onDesktopInit()
-    -- Call change handler for all existing NPCs and charsheets at startup to create the dummy portraits (for NPCs) and map the names (for both)
-    if NPCPortraitManager and NPCPortraitManager.handleNPCAdded then
-        NPCPortraitManager.onLoadCallback = onLoadCallback
-    end
-end
-
-function onLoadCallback()
-    for _, npc_node in pairs(DB.getChildren("crewmate")) do
-        NPCPortraitManager.handleNPCAdded(npc_node.getParent(), npc_node)
+    -- Register crewmate record type with NPCPortraitManager
+    if NPCPortraitManager and NPCPortraitManager.registerDataType then
+        NPCPortraitManager.registerDataType("crewmate")
     end
 end
 

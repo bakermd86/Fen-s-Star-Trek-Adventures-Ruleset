@@ -48,6 +48,13 @@
 	<icon name="dSTAicon.4" file="graphics/dice/dSTA6/dSTA6.4.png" />
 	<icon name="dSTAicon.5" file="graphics/dice/dSTA6/dSTA6.5.png" />
 	<icon name="dSTAicon.6" file="graphics/dice/dSTA6/dSTA6.6.png" />
+	<icon name="momentum_display" file="graphics/icons/momentum_display.png" />
+	<icon name="threat_display" file="graphics/icons/threat_display.png" />
+	<icon name="momentum_display_mini" file="graphics/icons/momentum_display_mini.png" />
+	<icon name="threat_display_mini" file="graphics/icons/threat_display_mini.png" />
+	<icon name="momentum_token" file="graphics/icons/momentum_token.png" />
+	<icon name="threat_token" file="graphics/icons/threat_token.png" />
+	<icon name="blank_token" file="graphics/icons/blank_token.png" />
 
 	<!--	Sidebar		-->
     <icon name="sidebar_icon_recordtype_crewmates" file="graphics/sidebar/sidebar_icon_charsheet_2.png" />

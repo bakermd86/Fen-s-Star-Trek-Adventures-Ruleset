@@ -1,4 +1,88 @@
 <root>
+    <windowclass name="momentum_display_player">
+	  <placement>
+		<size width="100" height="80" />
+	  </placement>
+        <script>
+            function getDatabaseNode()
+                return "playstateusers".."."..User.getUsername()
+            end
+        </script>
+        <sheetdata>
+            <genericcontrol name="icon">
+                <anchored position="over"/>
+                <icon name="momentum_display"/>
+            </genericcontrol>
+            <momentum_thread_counter name="counter">
+                <sourcefields>
+                    <current>momentum</current>
+                </sourcefields>
+                <stateicons>
+                    <on>momentum_token</on>
+                </stateicons>
+            </momentum_thread_counter>
+            <momentum_threat_control name="control">
+                <node>Momentum</node>
+            </momentum_threat_control>
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="momentum_display">
+	  <placement>
+		<size width="100" height="80" />
+	  </placement>
+        <script>
+            function getDatabaseNode()
+                return "playstate"
+            end
+        </script>
+        <sheetdata>
+            <genericcontrol name="icon">
+                <anchored position="over"/>
+                <icon name="momentum_display"/>
+            </genericcontrol>
+            <momentum_thread_counter name="counter">
+                <sourcefields>
+                    <current>momentum</current>
+                </sourcefields>
+                <stateicons>
+                    <on>momentum_token</on>
+                </stateicons>
+            </momentum_thread_counter>
+            <momentum_threat_control name="control">
+                <node>Momentum</node>
+            </momentum_threat_control>
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="threat_display">
+	  <placement>
+		<size width="100" height="80" />
+	  </placement>
+        <script>
+            function getDatabaseNode()
+                return "playstate"
+            end
+        </script>
+        <sheetdata>
+            <genericcontrol name="icon">
+                <anchored position="over"/>
+                <icon name="threat_display"/>
+            </genericcontrol>
+            <momentum_thread_counter name="counter">
+                <sourcefields>
+                    <current>threat</current>
+                </sourcefields>
+                <stateicons>
+                    <on>threat_token</on>
+                </stateicons>
+            </momentum_thread_counter>
+            <momentum_threat_control name="control">
+                <node>Threat</node>
+            </momentum_threat_control>
+        </sheetdata>
+    </windowclass>
+
 	<windowclass name="episode_name" >
         <sheetdata>
             <genericcontrol name="panelanchor">
@@ -259,11 +343,89 @@
         </sheetdata>
     </windowclass>
 
+    <panel name="momentum_panel" modes="host">
+        <class>momentum_display</class>
+        <bounds>400,-118,100,80</bounds>
+		<locked />
+    </panel>
+
+    <panel name="momentum_panel" modes="client">
+        <class>momentum_display_player</class>
+        <bounds>400,-118,100,80</bounds>
+		<locked />
+    </panel>
+
+    <panel name="threat_panel" modes="host">
+        <class>threat_display</class>
+        <bounds>525,-118,100,80</bounds>
+		<locked />
+    </panel>
+
     <panel name="ep_name_panel" modes="host">
         <class>episode_name</class>
-        <bounds>500,-100,350,50</bounds>
+        <bounds>650,-100,350,50</bounds>
 		<dynamic />
 		<locked />
     </panel>
+
+
+
+    <template name="momentum_threat_control">
+        <numbercontrol>
+                <anchored to="icon">
+                    <left offset="14"/>
+                    <top offset="28"/>
+                    <right offset="-14"/>
+                    <bottom offset="-28"/>
+                </anchored>
+                <min>0</min>
+                <max>50</max>
+                <default>0</default>
+                <invisible />
+			    <font>button-white-large</font>
+                <center />
+                <script file="desktop/scripts/momentum_threat_control.lua"/>
+        </numbercontrol>
+    </template>
+
+    <template name="momentum_thread_counter">
+        <buttongroup_counter>
+            <anchored to="icon">
+                <left offset="14"/>
+                <top offset="38"/>
+                <right offset="-14"/>
+                <bottom offset="-28"/>
+            </anchored>
+            <stateicons>
+                <off>blank_token</off>
+            </stateicons>
+            <spacing>4</spacing>
+            <allowsinglespacing/>
+            <maxslotperrow>18</maxslotperrow>
+            <values>
+              <maximum>18</maximum>
+            </values>
+            <script>
+                function onDragStart(button, x, y, draginfo)
+                    return window.control.onDragStart(button, x, y, draginfo)
+                end
+                function onDragEnd(draginfo)
+                    return window.control.onDragEnd(draginfo)
+                end
+                function onClickDown()
+                    return false
+                end
+                function onClickRelease()
+                    return true
+                end
+                function onWheel(notches)
+                    return true
+                end
+                function onDoubleClick()
+                    return window.control.onDoubleClick()
+                end
+            </script>
+        </buttongroup_counter>
+    </template>
 
 </root>
