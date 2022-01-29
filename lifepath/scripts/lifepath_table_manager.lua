@@ -12,12 +12,17 @@ STEP_NAMES = {
     "career_events"
 }
 
-function getAllActiveTables(isSpecies)
-    allTables = {MODE_MANUAL}
+function getAllActiveTables(isSpecies, isSupporting)
+    local allTables = {}
+    if (isSupporting or "") == "" then
+        table.insert(allTables, MODE_MANUAL)
+    end
     if isSpecies then
         if STAModuleManager.modLoaded(STAModuleManager.MODULE_EXTRA) then
-            if DB.getValue(TABLESET_SETTINGS..".allow_generated", 0) == 1 then
-                table.insert(allTables, MODE_GENERATED)
+            if (isSupporting or "") == "" then
+                if DB.getValue(TABLESET_SETTINGS..".allow_generated", 0) == 1 then
+                    table.insert(allTables, MODE_GENERATED)
+                end
             end
             if DB.getValue(TABLESET_SETTINGS..".allow_wiki", 0) == 1 then
                 table.insert(allTables, MODE_WIKI)
@@ -52,6 +57,23 @@ function setDefaultTableByName(tableName)
             shareTableSet(tableNode, false)
         end
     end
+end
+
+function setSupportingCharacterTableByName(tableName)
+    DB.setValue(TABLESET_SETTINGS..".sc_species_table", "string", tableName)
+    for _, tablesetNode in pairs(DB.getChildren(TABLESET_NODE)) do
+        if DB.getValue(tablesetNode, "name") == tableName then
+            local _, tableNode = DB.getValue(tablesetNode, "step_1_link")
+            DB.setValue(TABLESET_SETTINGS..".sc_species_table", "string", DB.getValue(tableNode..".name"))
+            DB.setPublic(tableNode, true)
+        end
+    end
+end
+
+function getSupportingCharacterTable()
+    local modeName = DB.getValue(TABLESET_SETTINGS..".sc_species_table", MODE_WIKI)
+    if modeName == MODE_WIKI then return "Memory Alpha Weighted Species"
+    else return DB.getValue(TABLESET_SETTINGS..".sc_species_table") end
 end
 
 function shareTableSet(tableSetNode, isShared)

@@ -255,20 +255,9 @@
 				<anchored to="species_link" position="right"  offset="2" width="18" height="18"/>
 				<script>
 					function onButtonPress()
+						local tableName = LifePathTableManager.getSupportingCharacterTable()
 						local w = Interface.openWindow("storytemplate", "")
-						local rawVal = "";
-						local defaultMode = LifePathTableManager.getDefaultTable()
-						if defaultMode == "MANUAL" then
-							if STAModuleManager.modLoaded(STAModuleManager.MODULE_EXTRA) then
-								rawVal = w.generate.performTableLookups("[Memory Alpha Weighted Species]")
-							else
-								w.close()
-								return
-							end
-						else
-							local tableName, _ = LifePathTableManager.getActiveStepName(defaultMode, 1)
-							rawVal = w.generate.performTableLookups("[".. tableName .."]")
-						end
+						local rawVal = w.generate.performTableLookups("[".. tableName .."]")
 						w.close()
 						f = string.gmatch(rawVal, "[|]([^|]+)")
 						class, link, name = f(), f(), f()

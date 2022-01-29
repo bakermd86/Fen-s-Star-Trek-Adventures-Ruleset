@@ -207,10 +207,10 @@
     <windowclass name="lp_table_settings">
         <frame name="recordsheet"/>
 		<placement>
-			<size width="360" height="180" />
+			<size width="500" height="195" />
 		</placement>
 		<sizelimits>
-			<minimum width="360" height="180" />
+			<minimum width="500" height="195" />
 			<dynamic />
 		</sizelimits>
 		<nodelete />
@@ -229,34 +229,33 @@
                 </anchored>
                 <static> Default Lifepath Tableset: </static>
             </label>
-            <combobox name="default_lp_table">
-                <readonly/>
-                <anchored to="setting_anchor" height="20">
-                    <right />
-                    <left anchor="center"/>
-                    <top  anchor="bottom" offset="5" relation="relative"/>
-                </anchored>
+            <species_mode_setting name="default_lp_table">
                 <script>
-                    function onInit()
-                        self.updateTableSet()
-                        DB.setPublic(LifePathTableManager.TABLESET_SETTINGS..".allow_generated", true)
-                        DB.setPublic(LifePathTableManager.TABLESET_SETTINGS..".allow_wiki", true)
-                        DB.addHandler(LifePathTableManager.TABLESET_NODE, "onChildUpdate", self.updateTableSet)
-                        DB.addHandler(LifePathTableManager.TABLESET_NODE, "onChildAdded", self.updateTableSet)
-                        DB.addHandler(LifePathTableManager.TABLESET_NODE, "onChildDeleted", self.updateTableSet)
-                        DB.addHandler(LifePathTableManager.TABLESET_SETTINGS..".allow_generated", "onUpdate", self.updateTableSet)
-                        DB.addHandler(LifePathTableManager.TABLESET_SETTINGS..".allow_wiki", "onUpdate", self.updateTableSet)
-                    end
-                    function updateTableSet()
-                        clear()
-                        addItems(LifePathTableManager.getAllActiveTables())
-                        setValue(LifePathTableManager.getDefaultTable())
-                    end
                     function onValueChanged()
                         LifePathTableManager.setDefaultTableByName(getValue())
                     end
                 </script>
-            </combobox>
+            </species_mode_setting>
+
+            <label>
+                <anchored to="setting_anchor" height="20">
+                    <left />
+                    <top anchor="bottom" offset="5" relation="current"/>
+                </anchored>
+                <static> Supporting Character Species Source: </static>
+            </label>
+            <species_mode_setting name="default_sc_table">
+                <script>
+                    function updateTableSet()
+                        clear()
+                        addItems(LifePathTableManager.getAllActiveTables(true, true))
+                        setValue(DB.getValue(LifePathTableManager.TABLESET_SETTINGS..".sc_species_table", ""))
+                    end
+                    function onValueChanged()
+                        LifePathTableManager.setSupportingCharacterTableByName(getValue())
+                    end
+                </script>
+            </species_mode_setting>
             <label>
                 <static> Create or Edit Lifepath Tableset </static>
                 <anchored to="setting_anchor" height="20">
@@ -426,6 +425,34 @@
                 end
             </script>
         </buttongroup_counter>
+    </template>
+
+    <template name="species_mode_setting">
+        <combobox>
+            <readonly/>
+            <anchored to="setting_anchor" height="20">
+                <right />
+                <left anchor="center"/>
+                <top  anchor="bottom" offset="5" relation="relative"/>
+            </anchored>
+            <script>
+                function onInit()
+                    self.updateTableSet()
+                    DB.setPublic(LifePathTableManager.TABLESET_SETTINGS..".allow_generated", true)
+                    DB.setPublic(LifePathTableManager.TABLESET_SETTINGS..".allow_wiki", true)
+                    DB.addHandler(LifePathTableManager.TABLESET_NODE, "onChildUpdate", self.updateTableSet)
+                    DB.addHandler(LifePathTableManager.TABLESET_NODE, "onChildAdded", self.updateTableSet)
+                    DB.addHandler(LifePathTableManager.TABLESET_NODE, "onChildDeleted", self.updateTableSet)
+                    DB.addHandler(LifePathTableManager.TABLESET_SETTINGS..".allow_generated", "onUpdate", self.updateTableSet)
+                    DB.addHandler(LifePathTableManager.TABLESET_SETTINGS..".allow_wiki", "onUpdate", self.updateTableSet)
+                end
+                function updateTableSet()
+                    clear()
+                    addItems(LifePathTableManager.getAllActiveTables())
+                    setValue(LifePathTableManager.getDefaultTable())
+                end
+            </script>
+        </combobox>
     </template>
 
 </root>
