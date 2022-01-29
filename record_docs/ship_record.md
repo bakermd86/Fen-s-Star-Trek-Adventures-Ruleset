@@ -39,7 +39,7 @@ or generate a name, enter or generate Focuses, and then apply attributes as indi
 ![](../images/crew_support_creation.gif)
 
 After the character is defined, the "Energize" button will save that supporting character and activate it as an identity 
-for that player. Even though the supporting characters are charactersheets, they are not visible via the character select 
+for that player. Even though the supporting characters are character sheets, they are not visible via the character select 
 window and instead are only visible (to players) via the supporting characters widget.
 
 The GM can see all the supporting characters in the character select however, in case you need to access them directly.
