@@ -55,9 +55,9 @@ function updateGeneratedAttributes(speciesAttributes)
 		elseif f == 0 then
 			break
 		else
-			Debug.chat("Something unexpected happening during generated Species handling:")
-			Debug.chat(attribute)
-			Debug.chat(f)
+			Debug.console("Something unexpected happening during generated Species handling:")
+			Debug.console(attribute)
+			Debug.console(f)
 		end
 	end
 	if anyFound then

@@ -20,8 +20,8 @@ function onDesktopInit()
 end
 
 function determinationUsed(window)
-    if not window or type(window) ~= "charsheet" then return nil end
-    local detControl = window.header.subwindow.determinationDieControl
+    if not window or (window.getClass() ~= "charsheet_rolls") then return nil end
+    local detControl = window.parentcontrol.window.header.subwindow.determinationDieControl
     if detControl.getValue() == 1 then
         detControl.setValue(0)
         return "TRUE"

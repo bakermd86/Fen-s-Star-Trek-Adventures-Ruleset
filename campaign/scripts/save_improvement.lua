@@ -46,7 +46,7 @@ function formatDisplay(target, type)
     elseif DISPLAY_FORMAT_PREFIX_MAP[type] then
         display = DISPLAY_FORMAT_PREFIX_MAP[type]
     else
-        Debug.chat("Whoops. Unhandled target type: " .. target)
+        Debug.console("Whoops. Unhandled target type: " .. target)
     end
     return display
 end

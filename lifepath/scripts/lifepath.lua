@@ -143,8 +143,8 @@ function parseBonusString(bonusVals, bonusString, columns)
 		w.close()
 		return true
 	else
-		Debug.chat("Special case bonus string: " .. bonusString)
-		Debug.chat(table.concat(columns, ";"))
+		Debug.console("Special case bonus string: " .. bonusString)
+		Debug.console(table.concat(columns, ";"))
 		return false
 	end
 end
