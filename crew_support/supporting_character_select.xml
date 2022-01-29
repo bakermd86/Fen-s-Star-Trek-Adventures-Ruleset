@@ -335,9 +335,13 @@
 				<invisible />
 				<script>
 					function onButtonPress()
-						window.focus1.setValue(DB.getValue(CrewSupportManager.getFocus(), ""))
-						window.focus2.setValue(DB.getValue(CrewSupportManager.getFocus(), ""))
-						window.focus3.setValue(DB.getValue(CrewSupportManager.getFocus(), ""))
+						for i=1,3 do
+							local f = CrewSupportManager.getFocus()
+        					local name = DB.getValue(f, "name", "")
+							if (f or "") ~= "" and name  ~= "" then
+								window["focus"..i].setValue(name)
+							end
+						end
 					end
 				</script>
 			</buttoncontrol>

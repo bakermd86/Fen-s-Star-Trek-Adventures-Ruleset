@@ -101,7 +101,7 @@ function getRand()
     elseif self.source == "focus" then
         local f = CrewSupportManager.getFocus()
         local name = DB.getValue(f, "name", "")
-        if v~= "" and (name or "") ~= "" then
+        if f~= "" and (name or "") ~= "" then
             self.saveTextToList(name, nil)
         end
     elseif (self.source == "talent") or (self.source == "ship_talent") then
