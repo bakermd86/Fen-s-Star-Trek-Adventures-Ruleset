@@ -5,7 +5,7 @@ docs:
       - title: "Index"
         url: /index
 
-  - title: Features
+  - title: Unique Features
     children:
       - title: "Lifepath Character Creator"
         url: /general/lifepath_wizard
@@ -18,3 +18,14 @@ docs:
     children:
       - title: "Character Sheet Records"
         url: /record_docs/charsheet_doc
+      - title: "Ship Records"
+        url: /record_docs/ship_record
+      - title: "Episode Records"
+        url: /record_docs/episode_record
+      - title: "Talents, Values and Focuses"
+        url: /record_docs/talents_values_and_focuses
+
+  - title: Supplementary Module
+    children:
+      - title: "Random Tables Module"
+        url: /module/additional_random_tables_module.md

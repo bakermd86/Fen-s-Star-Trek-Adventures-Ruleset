@@ -10,3 +10,10 @@ Navigation links on the left will take you to specific documentation pages for t
 
 Like any other Fantasy Grounds ruleset, just place the pak file in the rulesets directory and select the ruleset when 
 creating your campaign.
+
+### Example Images
+![](images/charsheet_full_example.png)
+![](images/ship_record_main.png) 
+![](images/changing_record_colors.gif)
+![](images/lifepath_full_example.gif)
+![](images/supporting_characters_active_tab.png)
