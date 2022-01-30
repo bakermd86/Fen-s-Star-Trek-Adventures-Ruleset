@@ -82,7 +82,7 @@ function handleSupportingCharacterImprovementRequest(oobMsg)
 end
 
 function requestSupportingCharacterImprovement(node)
-    if DB.isOwner(node, User.getUsername()) then
+    if DB.isOwner(node, User.getUsername())  then
         addEpisodeUsed(node)
         addSupportingCharacterImprovement(node.getNodeName())
     else
@@ -274,7 +274,8 @@ function activateSupportingCharacter(window)
         window.close()
     else
         self.pendingWindow = window
-        if not (window.mode == "active") then requestCrewSupport(window) end
+        local newActivation = (not (window.mode == "active"))
+        if newActivation then requestCrewSupport(window) end
         if window.main_frame.saving then
             addSpeciesTrait(node, window.species.getValue(), window.species_link)
             LifePathSaveHelper.addShipRecord(node.getNodeName())
@@ -286,7 +287,9 @@ function activateSupportingCharacter(window)
         else
             User.onIdentityActivation = onIdentityActivation -- For some reason the callback is not being invoked below
             User.requestIdentity(node.getName(), "charsheet", "name", node, handleIdentity)
-            requestSupportingCharacterImprovement(node, not(window.mode == "active"))
+            if newActivation then
+                requestSupportingCharacterImprovement(node)
+            end
         end
     end
 end

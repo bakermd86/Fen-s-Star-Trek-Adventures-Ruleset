@@ -127,7 +127,7 @@
 					<bottom offset="-55" />
 				</anchored>
 				<class>st_npc_main</class>
-				<readonly />
+				<gmeditonly />
 				<script>
 					function onInit()
 						self.npcNode = CrewSupportManager.getNewNPCNode(self.handleNPCNode)
