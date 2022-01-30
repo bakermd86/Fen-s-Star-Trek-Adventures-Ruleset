@@ -39,9 +39,12 @@ The wizard will look like this:
 At the top, you set a name for the full set of tables, this is what you then set as the default for lifepath creation for 
 your players to use.
 
-The tabs below will take you through the six steps of lifepath creation. In the blue input section, you can enter names for each individual table (
-I would recommend giving each table within the set a globally-unique name to avoid any issues with FGs normal name-based 
-table resolution mechanism via the [] brackets). 
+Just below that you can set a separate table source for generating random species in the 
+[Supporting Character creation wizard](../record_docs/ship_record#supporting-characters). 
+
+The tabs below will take you through the six steps of lifepath creation. In the blue input section, you can enter names 
+for each individual table (I would recommend giving each table within the set a globally-unique name to avoid any 
+issues with FGs normal name-based table resolution mechanism). 
 
 In the purple input section, you define each row in the table by entering the from/to range of numbers, the name of the result, 
 and then using the control widgets to select whatever attributes or disciplines are linked to that result.

@@ -1,7 +1,8 @@
 ## Lifepath Character Creator
 
 The Star Trek Adventures rulebook includes a set of rules for character creation called "Lifepath" creation. I added a wizard 
-to the extension to automate the process for users (although there is some setup required first by the GM, see: [here](/general/lifepath_tables)).
+to the extension to automate the process for users (although there is some [setup](../general/lifepath_tables) required 
+first by the GM.
 
 When players connect, they will see this icon in the character selection window:
 
@@ -12,12 +13,12 @@ That will open the wizard for running through lifepath creation:
 ![Blank Lifepath Wizard](../images/lifepath_wizard_1.png)
 
 If no tablesets have been defined by the GM, then it will default to manual mode and you will have to roll the appropriate tables 
-yourself and reference the rulebook. The process for creating the tables required is documented [here](/general/lifepath_tables).
+yourself and reference the rulebook. 
 
 I had to do it this way because I cannot package content copy/pasted from the Modiphius rule book in this extension, since 
 that is their IP. But if you have the PDF the process of creating the tables is not super difficult. 
 
-Assuming that the relevant tables have been defined, the mode dropdown should be set to the configured default table set:
+Assuming that the relevant tables have been defined, the mode dropdown should be set to the configured default tableset:
 
 ![](../images/lifepath_wizard_roll_mode_species.png)
 
@@ -37,16 +38,19 @@ These are the types of controls:
 These widgets all work pretty similarly. They each have a manual and random mode. The manual mode is the green + icon, 
 and the random mode is the blue d20 icon.
 
-#### Manual Mode
+#### Creating Focuses and Values
 
 For focuses and values, clicking the manual button will just open a widget where 
 you can input a focus or value, then save it:
 
 ![](../images/lifepath_manual_value.png)
 
+#### Selecting or Creating Talents
+
 Clicking a talent in manual mode will open the talent selection window. If the campaign or module records contain talent records 
-they will autopopulate this list. The "Requirements Met" filter will only work if the talents have their requirements set 
-correctly (see: here). But the "All Talents" mode will display any and all talent records in the campaign or any loaded modules:
+they will autopopulate this list. **The "Requirements Met" filter will only work if the talents have their requirements set 
+correctly** (see: [here](../record_docs/talents_values_and_focuses#talent-requirements)). But the "All Talents" mode will 
+display any and all talent records in the campaign or any loaded modules:
 
 ![](../images/lifepath_talent_select_window.png)
 

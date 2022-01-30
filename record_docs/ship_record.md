@@ -10,7 +10,7 @@ In the right-click menu for ships is an option to set a ship as the crew ship:
 
 This has 3 main effects:
 
- * It will automatically share the sheet to all of the players so they can view the ship's stats and roll assist rolls from the ship
+ * It will automatically share the sheet to all players so they can view the ship's stats and roll assist rolls from the ship
  * When players create characters, they will automatically have the crew ship linked on their character sheets
  * When spending a milestone via the Character sheet service record, some of the options apply to the ship rather than the character and selecting those will apply to the selected crew ship
 
@@ -28,6 +28,7 @@ the damage control pane of the Combat tab:
 ![](../images/ship_record_combat.png)
 
 ### Supporting Characters
+
 
 The "Supporting Characters" button can be used by players to create and deploy supporting characters as defined in the rulebook. The 
 supporting characters window can be used to create or re-use supporting characters. The "Create" tab has controls required to 

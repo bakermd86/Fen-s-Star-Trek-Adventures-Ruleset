@@ -3,7 +3,7 @@
 In addition to the core extension features, I packaged together a handful of useful tables that I created into a module that 
 integrates to a number of the extension features. That module is available here:
 
-[Random Alien Tables](/module/fen_random_alien_tables.mod)
+[Random Alien Tables](../module/fen_random_alien_tables.mod)
 
 As with any FG module, just place it in the modules directory and load it from inside your campaign.  The module mainly 
 contains additional tables for random generation. The functions it includes are:
@@ -35,5 +35,5 @@ The generated and Wiki species modes have to be enabled in the Lifepath settings
 
 ![](../images/lifepath_table_settings.png)
 
-If they are enabled, you can set the mode dropdown to GENERATED or WIKI on the species step of lifepath creation and use 
-them instead of a conventional lifepath table.
+If they are enabled, you can set the mode dropdown to GENERATED or WIKI on the species step of Lifepath creation, or 
+for supporting character creation, and use them instead of a conventional lifepath table.
