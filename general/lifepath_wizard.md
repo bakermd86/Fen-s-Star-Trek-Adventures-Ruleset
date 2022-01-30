@@ -1,7 +1,7 @@
 ## Lifepath Character Creator
 
 The Star Trek Adventures rulebook includes a set of rules for character creation called "Lifepath" creation. I added a wizard 
-to the extension to automate the process for users (although there is some [setup](../general/lifepath_tables) required 
+to the ruleset to automate the process for users (although there is some [setup](../general/lifepath_tables) required 
 first by the GM.
 
 When players connect, they will see this icon in the character selection window:
@@ -15,7 +15,7 @@ That will open the wizard for running through lifepath creation:
 If no tablesets have been defined by the GM, then it will default to manual mode and you will have to roll the appropriate tables 
 yourself and reference the rulebook. 
 
-I had to do it this way because I cannot package content copy/pasted from the Modiphius rule book in this extension, since 
+I had to do it this way because I cannot package content copy/pasted from the Modiphius rule book in this ruleset, since 
 that is their IP. But if you have the PDF the process of creating the tables is not super difficult. 
 
 Assuming that the relevant tables have been defined, the mode dropdown should be set to the configured default tableset:

@@ -1,6 +1,6 @@
 ## Custom LCARS Color Settings
 
-The extension allows for custom color schemes to be applied to a number of different record types. The custom colors are set 
+The ruleset allows for custom color schemes to be applied to a number of different record types. The custom colors are set 
 on a per-record basis. So each individual character sheet can have its own colors, for example. The record types which allow 
 their custom colors to be set are:
 

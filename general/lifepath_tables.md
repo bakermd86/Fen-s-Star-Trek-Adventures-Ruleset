@@ -6,10 +6,10 @@ the relevant section of the PDF and using the wizard I created.
 You may ask why I went to the trouble to create a UI wizard to define tables in a specific format rather than simply creating 
 the tables myself. It would be much less work to simply create the tables and package them in. But the written content of the tables 
 is copyrighted intellectual property of Mopiphius which I am sure they worked very hard on, so packaging that content into my 
-extension would be unethical (and probably illegal). So if you want to have automated tables in the tool, this wizard 
+ruleset would be unethical (and probably illegal). So if you want to have automated tables in the tool, this wizard 
 seemed like the way to go.
 
-This ensures that users of the extension have to buy the actual source book in order to be able to use the lifepath tables 
+This ensures that users of the ruleset have to buy the actual source book in order to be able to use the lifepath tables 
 from the book.
 
 As a side bonus, it also means that you can define your own custom table sets if you want to use a non-standard set of tables for 

@@ -1,6 +1,6 @@
 ## Character Sheet Records
 
-This is an example of a character sheet in this extension:
+This is an example of a character sheet in this ruleset:
 
 ![Full Character Sheet Example](../images/charsheet_full_example.png)
 
