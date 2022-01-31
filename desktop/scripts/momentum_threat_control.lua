@@ -105,14 +105,14 @@ function onDragStart(button, x, y, draginfo)
 end
 
 function onDragEnd(draginfo)
-    local curVal = DB.getValue(self.node)
+    local curVal = DB.getValue(self.node, 0)
     if curVal == 0 then return end
     DB.setValue(self.node, "number", curVal - 1)
     self.notifyOnUse()
 end
 
 function onDoubleClick()
-    local curVal = DB.getValue(self.node)
+    local curVal = DB.getValue(self.node, 0)
     DB.setValue(self.node, "number", curVal + 1)
     self.notifyOnAdd()
     return true
