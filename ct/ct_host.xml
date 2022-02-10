@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="combattracker_host" merge="join">
+        <sheetdata merge="join">
+			<anchor_title_ctbox name="contentanchor" >
+                <anchored >
+                    <top offset="15"/>
+                    <left offset="40"/>
+                    <right offset="-40"/>
+                </anchored>
+            </anchor_title_ctbox>
+        </sheetdata>
+    </windowclass>
+
+	<template name="button_ct_menu">
+		<buttoncontrol>
+            <anchored to="headeranchor" position="aboveleft" height="24" width="24" offset="-5,20"/>
+			<icon normal="button_menu" pressed="button_menu_down" hover="button_menu_hover"/>
+			<tooltip textres="ct_tooltip_menu" />
+			<script file="ct/scripts/ct_menu.lua" />
+		</buttoncontrol>
+	</template>
+
+	<template name="help_ctbox">
+		<help>
+			<anchored>
+				<top offset="11" />
+				<right offset="-60" />
+			</anchored>
+		</help>
+	</template>
+
+	<template name="close_ctbox">
+		<close>
+			<anchored>
+				<top offset="11" />
+				<right offset="-35" />
+			</anchored>
+		</close>
+	</template>
+
+<!--	<template name="button_ct_nextactor">-->
+<!--		<buttoncontrol>-->
+<!--			<anchored width="33" height="26">-->
+<!--				<bottom offset="-19" />-->
+<!--				<left parent="contentanchor" offset="35" />-->
+<!--			</anchored>-->
+<!--			<icon normal="button_ctnextactor" pressed="button_ctnextactor_down" />-->
+<!--			<tooltip textres="ct_tooltip_nextactor" />-->
+<!--			<script file="ct/scripts/ct_nextactor.lua" />-->
+<!--		</buttoncontrol>-->
+<!--	</template>-->
+</root>

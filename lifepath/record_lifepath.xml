@@ -299,6 +299,11 @@
 				<class>summary_score_adjust</class>
 				<skipempty/>
 			</windowlist>
+
+			<help_referencelist>
+				<urlres>help_library_masterindex</urlres>
+			</help_referencelist>
+			<close_referencelist />
 		</sheetdata>
 	</windowclass>
 

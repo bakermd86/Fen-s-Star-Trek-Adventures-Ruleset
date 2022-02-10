@@ -10,8 +10,8 @@
 	<icon name="fen_sta_logo" file="graphics/icons/fen_sta_logo.png" />
 
 	<!-- Buttons -->
-	<icon name="button_star" file="graphics/buttons/button_star.png" />
-	<icon name="button_star_down" file="graphics/buttons/button_star_down.png" />
+	<icon name="button_comm" file="graphics/buttons/button_comm.png" />
+	<icon name="button_comm_down" file="graphics/buttons/button_comm_down.png" />
 
 	<icon name="tab_scene1" file="graphics/icons/tab_scene1.png"/>
 	<icon name="tab_scene2" file="graphics/icons/tab_scene2.png"/>
@@ -71,6 +71,48 @@
 	<icon name="tabtop" file="graphics/tabs/tabtop.png" />
 	<icon name="black_pip" file="graphics/icons/black_pip.png" />
 	<icon name="gold_pip" file="graphics/icons/gold_pip.png" />
+
+	<!--	Replacement Buttons		-->
+	<icon name="button_menu" file="graphics/buttons/button_menu.png" />
+	<icon name="button_menu_down" file="graphics/buttons/button_menu_down.png" />
+	<icon name="button_menu_hover" file="graphics/buttons/button_menu_hover.png" />
+	<icon name="button_help" file="graphics/buttons/button_help.png" />
+	<icon name="button_help_down" file="graphics/buttons/button_help_down.png" />
+	<icon name="button_help_hover" file="graphics/buttons/button_help_hover.png" />
+	<icon name="button_add" file="graphics/buttons/button_add.png" />
+	<icon name="button_add_down" file="graphics/buttons/button_add_down.png" />
+	<icon name="button_close" file="graphics/buttons/button_close.png" />
+	<icon name="button_close_down" file="graphics/buttons/button_close_down.png" />
+	<icon name="button_close_hover" file="graphics/buttons/button_close_hover.png" />
+	<icon name="button_import" file="graphics/buttons/button_import.png" />
+	<icon name="button_import_down" file="graphics/buttons/button_import_down.png" />
+	<icon name="button_edit" file="graphics/buttons/button_edit.png" />
+	<icon name="button_edit_down" file="graphics/buttons/button_edit_down.png" />
+	<icon name="button_delete" file="graphics/buttons/button_delete.png" />
+	<icon name="button_delete_down" file="graphics/buttons/button_delete.png" />
+	<icon name="button_deleteconfirm" file="graphics/buttons/button_deleteconfirm.png" />
+	<icon name="button_deleteconfirm_down" file="graphics/buttons/button_deleteconfirm.png" />
+	<icon name="button_import_text" file="graphics/buttons/button_import_text.png" />
+	<icon name="button_import_text_down" file="graphics/buttons/button_import_text_down.png" />
+	<icon name="button_grid" file="graphics/buttons/button_grid.png" />
+	<icon name="button_lines" file="graphics/buttons/button_import_text.png" />
+
+	<!-- Token Bag -->
+	<framedef name="tokenbag">
+		<bitmap file="graphics/frames/tokenbag.png" />
+		<offset>19,19,24,24</offset>
+		<insideoffset>0,0,13,13</insideoffset>
+	</framedef>
+
+	<!--	Button Frames		-->
+	<framedef name="buttonup">
+		<bitmap file="graphics/frames/buttonup.png" />
+		<offset>12,12,12,12</offset>
+	</framedef>
+	<framedef name="buttondown">
+		<bitmap file="graphics/frames/buttondown.png" />
+		<offset>12,12,12,12</offset>
+	</framedef>
 	
 	<framedef name="lcars_buttondown">
 		<bitmap file="graphics/frames/lcars_buttondown.png" />
@@ -310,6 +352,13 @@
 		<bottomleft rect="0,440,30,63" />
 		<bottom rect="30,489,420,14" />
 		<bottomright rect="450,489,73,14" />
+	</framedef>
+
+	<!-- Combat tracker -->
+	<framedef name="ctbox">
+		<bitmap file="graphics/frames/ctbox.png" />
+		<offset>35,55,35,63</offset>
+		<insideoffset>0,0,7,7</insideoffset>
 	</framedef>
 
 	<!-- Sidebar -->
