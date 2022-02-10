@@ -76,7 +76,7 @@
 	<template name="button_lifepath">
 		<buttoncontrol>
 			<anchored width="20" height="20" />
-			<icon normal="button_star" pressed="button_star_down" />
+			<icon normal="button_comm" pressed="button_comm_down" />
 			<tooltip textres="lifepath_tooltip_wizard" />
 			<script file="lifepath/scripts/button_lifepath.lua"/>
 		</buttoncontrol>
@@ -283,7 +283,7 @@
 				<left />
 				<right />
 			</anchored>
-			<backcolor>ff63acc8</backcolor>
+			<backcolor>ffa5abd2</backcolor>
 		</genericcontrol>
 	</template>
 	<template name="lifepath_add_link_button">

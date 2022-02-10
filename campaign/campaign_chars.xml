@@ -9,6 +9,9 @@
 					<right anchor="left" relation="relative" offset="-5" />
 				</anchored>
 			</button_lifepath>
+			<helper_charselect name="help_charselect" >
+				<urlres>help_homepage_url</urlres>
+			</helper_charselect>
 		</sheetdata>
 	</windowclass>
 
@@ -23,6 +26,9 @@
 			<windowlist name="list" merge="join">
 				<script file="campaign/scripts/filter_client_list.lua" />
 			</windowlist>
+			<helper_charselect name="help_charselect" >
+				<urlres>help_homepage_url</urlres>
+			</helper_charselect>
 		</sheetdata>
 	</windowclass>
 
@@ -34,6 +40,9 @@
 					<right anchor="left" relation="relative" offset="-5" />
 				</anchored>
 			</button_lifepath>
+			<helper_charselect name="help_charselect" >
+				<urlres>help_homepage_url</urlres>
+			</helper_charselect>
 		</sheetdata>
 	</windowclass>
 </root>

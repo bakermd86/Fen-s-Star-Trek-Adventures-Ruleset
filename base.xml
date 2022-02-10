@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
-<root version="1.0.1" logo="logo.png">
-	<announcement text="Fen's StarTrekAdventures Ruleset (v1.0.1) " font="emotefont" icon="fen_sta_logo" />
+<root version="1.1.0" logo="logo.png">
+	<announcement text="Fen's StarTrekAdventures Ruleset (v1.1.0) " font="emotefont" icon="fen_sta_logo" />
 
 	<description>
 		<displayname>Star Trek Adventures by Fen</displayname>
@@ -69,7 +69,7 @@
 	<includefile source="lifepath/charsheet_lifepath_career_events.xml" />
 	<includefile source="lifepath/charsheet_lifepath_finishing_touches.xml" />
 
-<!--		Lifepath table definition  -->
+	<!--		Lifepath table definition  -->
 	<includefile source="lifepath_define/lifepath_define.xml" />
 	<includefile source="lifepath_define/lifepath_tableset.xml" />
 	<includefile source="lifepath_define/lifepath_define_template.xml" />
@@ -93,8 +93,13 @@
 	<includefile source="campaign/record_char_crewmates.xml" />
 	<includefile source="campaign/record_improvements.xml" />
 
-<!--		Ship sheets -->
+	<!--		Ship sheets -->
 	<includefile source="campaign/record_ship.xml" />
 	<includefile source="campaign/record_ship_main.xml" />
 	<includefile source="campaign/record_ship_combat.xml" />
+
+	<!--	Combat Tracker	-->
+	<includefile source="ct/ct_client.xml" />
+	<includefile source="ct/ct_host.xml" />
+
 </root>

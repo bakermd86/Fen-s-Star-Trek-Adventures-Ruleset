@@ -50,7 +50,7 @@
         </tag_label>
 
           <button_iedit name="inventorylist_iedit">
-              <anchored to="inventoryframe" position="insidetopright" />
+              <anchored to="inventoryframe" position="insidetopright" offset="-5,10"/>
           </button_iedit>
 			<button_iadd name="inventorylist_iadd">
                 <anchored to="inventorylist_iedit" position="left" offset="5"/>

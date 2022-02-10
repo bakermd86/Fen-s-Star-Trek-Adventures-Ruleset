@@ -1,3 +1,5 @@
 <root>
-    <string name="help_homepage_url">https://bakermd86.github.io/Fen-s-Star-Trek-Adventures-Extension/</string>
+    <string name="help_homepage_url">https://bakermd86.github.io/Fen-s-Star-Trek-Adventures-Ruleset</string>
+    <string name="help_lifepath_url">https://bakermd86.github.io/Fen-s-Star-Trek-Adventures-Ruleset/general/lifepath_wizard</string>
+    <string name="help_lifepath_tables_url">https://bakermd86.github.io/Fen-s-Star-Trek-Adventures-Ruleset/general/lifepath_tables</string>
 </root>
