@@ -357,7 +357,7 @@
 	<!-- Combat tracker -->
 	<framedef name="ctbox">
 		<bitmap file="graphics/frames/ctbox.png" />
-		<offset>35,55,35,63</offset>
+		<offset>37,55,37,63</offset>
 		<insideoffset>0,0,7,7</insideoffset>
 	</framedef>
 

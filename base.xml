@@ -4,7 +4,8 @@
 	<announcement text="Fen's StarTrekAdventures Ruleset (v1.1.0) " font="emotefont" icon="fen_sta_logo" />
 
 	<description>
-		<displayname>Star Trek Adventures by Fen</displayname>
+<!--		<displayname>Star Trek Adventures by Fen</displayname>-->
+		<displayname>Star Trek Adventures Dev Branch</displayname>
 		<author>Fen</author>
 		<description>Ruleset for playing Modiphius 2d20 Star Trek Adventures</description>
 		<website>https://bakermd86.github.io/Fen-s-Star-Trek-Adventures-Extension</website>
