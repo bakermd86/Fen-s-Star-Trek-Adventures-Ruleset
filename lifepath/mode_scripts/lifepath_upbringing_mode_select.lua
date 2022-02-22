@@ -38,10 +38,20 @@ end
 
 function incrementAttribute(name, source)
     window.parentcontrol.window.parentcontrol.window.incrementAttribute(name, source)
+    if (getValue() == "MANUAL") then
+        local curVal = window.attribute_selection_count.getValue()
+        window.attribute_selection_count.setValue(curVal - 1)
+    end
+	ScopeManager.updateAlerts()
 end
 
 function decrementAttribute(name, source)
     window.parentcontrol.window.parentcontrol.window.decrementAttribute(name, source)
+    if (getValue() == "MANUAL") then
+        local curVal = window.attribute_selection_count.getValue()
+        window.attribute_selection_count.setValue(curVal + 1)
+    end
+	ScopeManager.updateAlerts()
 end
 
 function scoreSelected(name, source)
@@ -62,6 +72,7 @@ function setManual(isManual)
     window.lifepath_upbringing_attribute_select.closeAll()
     window.lifepath_upbringing_discipline_select.closeAll()
     window.lifepath_manual_upbringing_attribute_select.closeAll()
+    window.attribute_selection_count.setValue(3)
 	if isManual then
 		window.lifepath_upbringing_name_manual.setVisible(true);
 		window.lifepath_upbringing_name_manual_label.setVisible(true);

@@ -314,7 +314,7 @@
 				<anchored position="insidetopleft" height="0" width="0" />
 			</genericcontrol>
 			<lifepath_add_link_button name="lifepath_drop_target">
-				<anchored to="tlanchor" position="insidetopleft" height="25" width="25" offset="0,0"/>
+				<anchored to="tlanchor" position="insidetopleft" height="24" width="24" offset="0,0"/>
 				<script>
 					function getScores()
 						return ScopeManager.getLifepathWindow().getStatsThroughStep(ScopeManager.ALL_DISCIPLINES, self.step, 1)
@@ -337,7 +337,7 @@
 			</lifepath_add_link_button>
 			<add_random_button name="roll_random"/>
 			<label name="lifepath_drop_target_label">
-				<anchored to="lifepath_drop_target" height="25" width="55" >
+				<anchored to="lifepath_drop_target" height="25" width="45" >
 					<left anchor="right" offset="2" relation="relative"/>
 					<top />
 				</anchored>
