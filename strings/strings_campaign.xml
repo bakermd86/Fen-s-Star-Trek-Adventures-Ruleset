@@ -52,7 +52,8 @@
 	<string name="tooltip_deactivate_support">Deactivate Supporting Character</string>
 	<string name="tooltip_clear_support_owner">Clear Owner</string>
 	<string name="tooltip_remove_npc_from_overview">Remove from Overview</string>
-	
+	<string name="ct_tooltip_scores">Scores/Rolls</string>
+	<string name="ct_tooltip_damage">Stress and Injury</string>
 	<!-- Controls -->
 	<string name="lifepath_nextpage">NEXT</string>
 	<string name="lifepath_prevpage">BACK</string>

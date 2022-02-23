@@ -1,4 +1,7 @@
-_ct_entries = {}
+local _ct_entries = {}
+local _listOnEntrySelectionToggle = nil
+local enableglobaltoggle = true;
+
 function onInit()
     self.select_nextactor.onSelect = self.onSelect
     OptionsManager.setOption("RNDS", "on")
@@ -10,6 +13,45 @@ function onInit()
         _actOrder = math.max(_actOrder, initresult)
     end
     _actOrder = _actOrder + 1
+    _listOnEntrySelectionToggle = list.onEntrySectionToggle
+    list.onEntrySectionToggle = onEntrySectionToggle
+end
+
+function onEntrySectionToggle()
+    _listOnEntrySelectionToggle()
+    local anyScores = 0
+
+	for _,v in pairs(list.getWindows()) do
+		if v.activate_scores.getValue() == 1 then
+			anyScores = 1;
+		end
+    end
+
+	enableglobaltoggle = false;
+	button_global_scores.setValue(anyScores)
+	enableglobaltoggle = true;
+end
+
+function toggleScores()
+	if not enableglobaltoggle then
+		return;
+	end
+
+	local scoreson = button_global_scores.getValue();
+	for _,v in pairs(list.getWindows()) do
+		v.activate_scores.setValue(scoreson);
+	end
+end
+
+function toggleDamage()
+	if not enableglobaltoggle then
+		return;
+	end
+
+	local scoreson = button_global_scores.getValue();
+	for _,v in pairs(list.getWindows()) do
+		v.activate_damage.setValue(scoreson);
+	end
 end
 
 function onSelect(value)

@@ -16,74 +16,169 @@
                     <right offset="-40"/>
                 </anchored>
             </anchor_title_ctbox>
+			<buttoncontrol name="button_global_scores" insertafter="button_global_effects">
+				<anchored to="header_toggles" position="insidetopleft" offset="90,8" width="20" height="20" />
+				<state icon="d20bicon" />
+				<state icon="d20gicon" />
+				<script>
+					function onValueChanged()
+						window.toggleScores();
+					end
+				</script>
+			</buttoncontrol>
+			<buttoncontrol name="button_global_damage" insertafter="button_global_effects">
+				<anchored to="header_toggles" position="insidetopleft" offset="70,8" width="20" height="20" />
+				<state icon="button_shield" />
+				<state icon="button_shield_down" />
+				<script>
+					function onValueChanged()
+						window.toggleDamage();
+					end
+				</script>
+			</buttoncontrol>
 			<select_ct_nextactor/>
         </sheetdata>
     </windowclass>
-
-	<template name="button_ct_menu">
-		<buttoncontrol>
-            <anchored to="headeranchor" position="aboveleft" height="24" width="24" offset="-5,20"/>
-			<icon normal="button_menu" pressed="button_menu_down" hover="button_menu_hover"/>
-			<tooltip textres="ct_tooltip_menu" />
-			<script file="ct/scripts/ct_menu.lua" />
-		</buttoncontrol>
-	</template>
-
-	<template name="help_ctbox">
-		<help>
-			<anchored>
-				<top offset="11" />
-				<right offset="-60" />
-			</anchored>
-		</help>
-	</template>
-
-	<template name="close_ctbox">
-		<close>
-			<anchored>
-				<top offset="11" />
-				<right offset="-35" />
-			</anchored>
-		</close>
-	</template>
-
-
-	<template name="select_ct_nextactor">
-		<comboboxc name="select_nextactor">
-			<anchored width="100" height="0">
-				<bottom offset="-19" />
-				<left parent="contentanchor" offset="72" />
-			</anchored>
-			<script>
-				function onFirstLayout()
-					setComboBoxReadOnly(true)
-				end
-			</script>
-		</comboboxc>
-	</template>
-
-	<template name="button_ct_nextactor">
-		<buttoncontrol>
-			<anchored width="33" height="26">
-				<bottom offset="-19" />
-				<left parent="contentanchor" offset="35" />
-			</anchored>
-			<icon normal="button_ctnextactor" pressed="button_ctnextactor_down" />
-			<tooltip textres="ct_tooltip_nextactor" />
-			<script file="ct/scripts/ct_nextactor.lua" />
-		</buttoncontrol>
-	</template>
 
 	<windowclass name="ct_entry" merge="join">
 		<sheetdata>
 			<number_ctentry_initresult name="initresult" >
 				<readonly />
 			</number_ctentry_initresult>
-			<numberfield name="acted_order">
-				<anchored position="insidetopleft" width="0" height="0" />
-				<invisible />
-				<default>0</default>
-			</numberfield>
+			<ct_entry_acted_order />
+
+			<button_ctentry_activate_scores />
+			<button_ctentry_activate_damage />
+
+            <ct_entry_damage_icon/>
+            <ct_entry_damage_subwindow/>
+            <ct_entry_damage_frame/>
+
+			<ct_entry_scores_icon />
+			<ct_entry_scores_subwindow />
+			<ct_entry_scores_frame />
+
+
 		</sheetdata>
+	</windowclass>
+
+	<windowclass name="damage_window">
+		<sheetdata>
+			<genericcontrol name="damage_anchor">
+				<anchored height="0" width="0" position="insidetopleft"/>
+			</genericcontrol>
+            <toggleanchor/>
+
+			<ct_entry_toggle_label>
+				<static>Stress (cur/max)</static>
+			</ct_entry_toggle_label>
+            <ct_entry_simple_num name="curstress"/>
+            <ct_entry_toggle_spacer_line/>
+            <ct_entry_simple_num name="maxstress"/>
+            <ct_entry_toggle_spacer_line/>
+
+			<ct_entry_toggle_label>
+				<static>Resistance</static>
+			</ct_entry_toggle_label>
+            <ct_entry_simple_num name="resistance"/>
+            <ct_entry_toggle_spacer_line/>
+
+			<ct_entry_toggle_label>
+				<static>Injured</static>
+			</ct_entry_toggle_label>
+			<ct_entry_toggle_select name="injured" />
+            <ct_entry_toggle_spacer_line/>
+
+			<ct_entry_toggle_label>
+				<static>Dead</static>
+			</ct_entry_toggle_label>
+			<ct_entry_toggle_select name="dead" />
+
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="scores_window">
+		<sheetdata>
+			<genericcontrol name="score_anchor">
+				<anchored height="0" width="0" position="insidetopleft" offset="50,0"/>
+			</genericcontrol>
+            <toggleanchor>
+                <anchored offset="0,22"/>
+            </toggleanchor>
+
+            <numbercontrol name="activeAttribute">
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <invisible />
+                <script>
+                    function setScore(name, value)
+                        self.setValue(value)
+                        window.activeAttributeName.setValue(name)
+                    end
+                </script>
+            </numbercontrol>
+            <active_score name="activeAttributeName">
+                <anchored merge="replace" position="insidetopleft" height="0" width="0"/>
+                <invisible/>
+            </active_score>
+            <numbercontrol name="activeDiscipline">
+                <anchored position="insidetopleft" height="0" width="0"/>
+                <invisible />
+                <script>
+                    function setScore(name, value)
+                        self.setValue(value)
+                        window.activeDisciplineName.setValue(name)
+                    end
+                </script>
+            </numbercontrol>
+            <active_score name="activeDisciplineName">
+                <anchored merge="replace" position="insidetopleft" height="0" width="0"/>
+                <invisible/>
+            </active_score>
+
+            <roll_dice_control name="rollTestControl">
+                <anchored merge="replace" position="insidetopleft" height="16" width="18">
+                    <top anchor="bottom" offset="2" />
+                    <left anchor="left" />
+                </anchored>
+                <frame name="field_white_left" />
+            </roll_dice_control>
+            <numbercontrol name="rollDC">
+                <default>1</default>
+                <min>0</min>
+                <max>5</max>
+                <anchored to="rollTestControl" width="16" height="20">
+                    <top offset="-2"/>
+                    <left anchor="right" />
+                </anchored>
+                <frame name="field_white_right" />
+            </numbercontrol>
+
+			<ct_entry_toggle_label>
+				<anchored width="30"/>
+				<static>Foc</static>
+			</ct_entry_toggle_label>
+			<ct_entry_toggle_select name="focus_selected" />
+
+            <genericcontrol name="focuses">
+                <anchored position="insidetopleft" height="0" width="0" />
+                <invisible/>
+                <script>
+                    function getSelected()
+                        return self
+                    end
+                    function getValue()
+                        if window.focus_selected.getValue() == 1 then
+                            return "Applied"
+                        else
+                            return ""
+                        end
+                    end
+                </script>
+            </genericcontrol>
+
+			<ct_att_list/>
+			<ct_disc_list/>
+		</sheetdata>
+		<invisible  />
 	</windowclass>
 </root>

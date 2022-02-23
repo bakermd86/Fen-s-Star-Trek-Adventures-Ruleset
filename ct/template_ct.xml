@@ -1,0 +1,326 @@
+<root>
+
+	<!--  CT Entry templates -->
+	<!--  Scores  -->
+	<template name="button_ctentry_activate_scores">
+		<buttoncontrol name="activate_scores" insertbefore="activateeffects">
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" />
+			</anchored>
+			<state icon="d20bicon" tooltipres="ct_tooltip_scores" />
+			<state icon="d20gicon" />
+			<script>
+				function onValueChanged()
+					local v = getValue() == 1;
+					---Toggle the visibility of the relevant things
+					window.scores_icon.setVisible(v)
+					window.scores.setVisible(v)
+					window.frame_scores.setVisible(v)
+					---window.windowlist.onEntrySectionToggle();
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
+	<template name="ct_entry_scores_icon">
+		<icon_ctsection name="scores_icon" insertbefore="target_summary">
+			<anchored width="20" height="20">
+				<left offset="55" />
+				<top parent="active_spacer_top" anchor="bottom" relation="current" offset="10" />
+			</anchored>
+			<icon>d20gicon</icon>
+			<invisible />
+		</icon_ctsection>
+	</template>
+	<template name="ct_entry_scores_subwindow">
+		<subwindow name="scores" insertbefore="target_summary">
+			<anchored>
+				<top parent="active_spacer_top" anchor="bottom" relation="relative" offset="10"/>
+				<left parent="scores_icon" anchor="right" offset="8" />
+				<right offset="-12" />
+			</anchored>
+			<class>scores_window</class>
+		</subwindow>
+	</template>
+
+	<template name="ct_entry_scores_frame">
+		<frame_ctsub name="frame_scores" insertbefore="target_summary">
+			<anchored>
+				<top parent="scores_icon" />
+				<bottom parent="scores" />
+			</anchored>
+			<invisible />
+		</frame_ctsub>
+	</template>
+
+	<!--  CT score widgets  -->
+
+    <windowclass name="ct_score_entry">
+        <sheetdata>
+            <genericcontrol>
+                <anchored position="insidetopleft" width="0" height="20"/>
+            </genericcontrol>
+            <label name="label" >
+				<anchored height="20" >
+                	<top />
+					<left />
+                    <right offset="-25" anchor="right"/>
+                </anchored>
+            </label>
+            <char_score_button name="selectButton">
+				<state frame="filter" merge="resetandadd"/>
+				<state frame="filter_active" />
+				<anchored merge="replace" height="20" width="15" >
+					<top />
+					<right offset="-10"/>
+				</anchored>
+				<script>
+					function onInit()
+					end
+				</script>
+			</char_score_button>
+        </sheetdata>
+    </windowclass>
+
+	<template name="ct_att_list">
+		<ct_score_list name="attList">
+			<script>
+				function scores()
+					return ScopeManager.ALL_ATTRIBUTES
+				end
+				function scoreClass()
+					return "ct_att_field"
+				end
+				function rollControl()
+					return window.activeAttribute;
+				end
+			</script>
+		</ct_score_list>
+	</template>
+	<template name="ct_att_field">
+		<att_field>
+			<anchored width="15">
+				<right offset="-10"/>
+			</anchored>
+		</att_field>
+	</template>
+	<template name="ct_disc_field">
+		<disc_field>
+			<anchored width="15">
+				<right offset="-10"/>
+			</anchored>
+		</disc_field>
+	</template>
+	<template name="ct_disc_list">
+		<ct_score_list name="discList">
+			<script>
+				function scores()
+					return ScopeManager.ALL_DISCIPLINES
+				end
+				function scoreClass()
+					return "ct_disc_field"
+				end
+				function rollControl()
+					return window.activeDiscipline;
+				end
+			</script>
+		</ct_score_list>
+	</template>
+
+	<template name="ct_score_list">
+		<scoreList >
+			<anchored merge="replace" height="20" width="330">
+				<left parent="score_anchor"/>
+				<top parent="score_anchor" anchor="bottom" relation="relative"/>
+			</anchored>
+			<script>
+				function onInit()
+					for idx, score in ipairs(self.scores()) do
+						w = self.createWindow(window.getDatabaseNode())
+						w.createControl(self.scoreClass(), "score", string.lower(score))
+						w.label.setValue(string.upper(string.sub(score, 1, 3)))
+						w.selectButton.setReadOnly(true)
+						w.score.setReadOnly(true)
+					end
+				end
+			</script>
+			<class>ct_score_entry</class>
+			<columns>
+				<width>55</width>
+				<fillwidth/>
+			</columns>
+		</scoreList>
+	</template>
+
+	<!--  Damage  -->
+	<template name="button_ctentry_activate_damage">
+		<buttoncontrol name="activate_damage" insertbefore="activateeffects">
+			<anchored to="rightanchor" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" />
+			</anchored>
+			<state icon="button_shield" tooltipres="ct_tooltip_damage" />
+			<state icon="button_shield_down" />
+			<script>
+				function onValueChanged()
+					local v = getValue() == 1;
+					---Toggle the visibility of the relevant things
+					window.damage_icon.setVisible(v)
+					window.damage.setVisible(v)
+					window.frame_damage.setVisible(v)
+					---window.windowlist.onEntrySectionToggle();
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+
+	<template name="ct_entry_damage_icon">
+		<icon_ctsection name="damage_icon" insertbefore="target_summary">
+			<anchored width="20" height="20">
+				<left offset="55" />
+				<top parent="active_spacer_top" anchor="bottom" relation="current" offset="10" />
+			</anchored>
+			<icon>button_shield_down</icon>
+			<invisible />
+		</icon_ctsection>
+	</template>
+	<template name="ct_entry_damage_subwindow">
+		<subwindow name="damage" insertbefore="target_summary">
+			<anchored>
+				<top parent="active_spacer_top" anchor="bottom" relation="relative" offset="10"/>
+				<left parent="damage_icon" anchor="right" offset="8" />
+				<right offset="-12" />
+			</anchored>
+			<class>damage_window</class>
+		</subwindow>
+	</template>
+
+	<template name="ct_entry_damage_frame">
+		<frame_ctsub name="frame_damage" insertbefore="target_summary">
+			<anchored>
+				<top parent="damage_icon" />
+				<bottom parent="damage" />
+			</anchored>
+			<invisible />
+		</frame_ctsub>
+	</template>
+
+	<!--  General Control templates  -->
+	<template name="toggleanchor">
+		<genericcontrol name="toggle_anchor">
+			<anchored position="insidetopleft" offset="2,0" width="0" height="0"/>
+		</genericcontrol>
+	</template>
+
+	<template name="ct_entry_toggle_label">
+		<label>
+			<anchored height="20" >
+				<left parent="toggle_anchor" anchor="right" relation="relative" offset="2"/>
+				<top parent="toggle_anchor"/>
+			</anchored>
+		</label>
+	</template>
+
+	<template name="ct_entry_toggle_select">
+		<button_checkbox >
+			<anchored height="16" width="16">
+				<left parent="toggle_anchor" anchor="right" relation="relative" offset="2"/>
+				<top parent="toggle_anchor" offset="2"/>
+			</anchored>
+		</button_checkbox>
+	</template>
+
+	<template name="ct_entry_simple_num">
+		<simplenumber>
+			<frame mergerule="replace" name="fielddark" offset="4,2,4,2" />
+			<anchored height="16" width="16">
+				<left parent="toggle_anchor" anchor="right" relation="relative" offset="2"/>
+				<top parent="toggle_anchor" offset="2"/>
+			</anchored>
+		</simplenumber>
+	</template>
+
+	<template name="ct_entry_toggle_spacer_line">
+		<genericcontrol>
+			<anchored height="16" width="2">
+				<left parent="toggle_anchor" anchor="right" relation="relative" offset="2"/>
+				<top parent="toggle_anchor" offset="2"/>
+			</anchored>
+			<frame name="separatorline" />
+			<disabled />
+		</genericcontrol>
+	</template>
+
+	<template name="ct_entry_acted_order">
+		<numberfield name="acted_order">
+			<anchored position="insidetopleft" width="0" height="0" />
+			<invisible />
+			<default>0</default>
+		</numberfield>
+	</template>
+    <template name="button_ct_menu">
+		<buttoncontrol>
+            <anchored to="headeranchor" position="aboveleft" height="24" width="24" offset="-5,20"/>
+			<icon normal="button_menu" pressed="button_menu_down" hover="button_menu_hover"/>
+			<tooltip textres="ct_tooltip_menu" />
+			<script file="ct/scripts/ct_menu.lua" />
+		</buttoncontrol>
+	</template>
+
+	<template name="help_ctbox">
+		<help>
+			<anchored>
+				<top offset="11" />
+				<right offset="-60" />
+			</anchored>
+		</help>
+	</template>
+
+	<template name="close_ctbox">
+		<close>
+			<anchored>
+				<top offset="11" />
+				<right offset="-35" />
+			</anchored>
+		</close>
+	</template>
+
+	<template name="select_ct_nextactor">
+		<comboboxc name="select_nextactor">
+			<anchored width="100" height="0">
+				<bottom offset="-19" />
+				<left parent="contentanchor" offset="72" />
+			</anchored>
+			<script>
+				function onFirstLayout()
+					setComboBoxReadOnly(true)
+				end
+			</script>
+		</comboboxc>
+	</template>
+
+	<template name="frame_ctbox_host_header_toggles">
+		<frame_ct name="header_toggles">
+			<anchored to="headeranchor" height="35" width="120">
+				<top offset="-9" />
+				<right offset="-13" />
+			</anchored>
+		</frame_ct>
+	</template>
+
+	<template name="button_ct_nextactor">
+		<buttoncontrol>
+			<anchored width="33" height="26">
+				<bottom offset="-19" />
+				<left parent="contentanchor" offset="35" />
+			</anchored>
+			<icon normal="button_ctnextactor" pressed="button_ctnextactor_down" />
+			<tooltip textres="ct_tooltip_nextactor" />
+			<script file="ct/scripts/ct_nextactor.lua" />
+		</buttoncontrol>
+	</template>
+
+
+
+</root>

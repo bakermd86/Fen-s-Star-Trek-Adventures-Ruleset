@@ -102,5 +102,6 @@
 	<!--	Combat Tracker	-->
 	<includefile source="ct/ct_client.xml" />
 	<includefile source="ct/ct_host.xml" />
+	<includefile source="ct/template_ct.xml" />
 
 </root>
