@@ -29,6 +29,7 @@
 	<script name="LifePathSpecies" file="lifepath/scripts/lifepath_species.lua" />
 	<script name="LifePathTableManager" file="lifepath/scripts/lifepath_table_manager.lua" />
 	<script name="LifePathDefineHelper" file="lifepath_define/scripts/lifepath_step_helper.lua" />
+	<script name="CTHelper" file="ct/scripts/ct_helper.lua" />
 
 	<!-- CrewSupport Scripts -->
 	<script name="CrewSupportManager" file="crew_support/scripts/active_crew_manager.lua" />

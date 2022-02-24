@@ -103,6 +103,16 @@
 			<anchored width="15">
 				<right offset="-10"/>
 			</anchored>
+			<script>
+				function onInit()
+					self.linkedNode = CTHelper.linkCTField(self)
+				end
+				function onValueChanged()
+					if (self.linkedNode or "") ~= "" then
+						DB.setValue(self.linkedNode, "number", getValue())
+					end
+				end
+			</script>
 		</att_field>
 	</template>
 	<template name="ct_disc_field">
@@ -110,6 +120,16 @@
 			<anchored width="15">
 				<right offset="-10"/>
 			</anchored>
+			<script>
+				function onInit()
+					self.linkedNode = CTHelper.linkCTField(self)
+				end
+				function onValueChanged()
+					if (self.linkedNode or "") ~= "" then
+						DB.setValue(self.linkedNode, "number", getValue())
+					end
+				end
+			</script>
 		</disc_field>
 	</template>
 	<template name="ct_disc_list">
@@ -141,7 +161,6 @@
 						w.createControl(self.scoreClass(), "score", string.lower(score))
 						w.label.setValue(string.upper(string.sub(score, 1, 3)))
 						w.selectButton.setReadOnly(true)
-						w.score.setReadOnly(true)
 					end
 				end
 			</script>
@@ -228,16 +247,36 @@
 				<left parent="toggle_anchor" anchor="right" relation="relative" offset="2"/>
 				<top parent="toggle_anchor" offset="2"/>
 			</anchored>
+			<script>
+				function onInit()
+					self.linkedNode = CTHelper.linkCTField(self)
+				end
+				function onValueChanged()
+					if (self.linkedNode or "") ~= "" then
+						DB.setValue(self.linkedNode, "number", getValue())
+					end
+				end
+			</script>
 		</button_checkbox>
 	</template>
 
 	<template name="ct_entry_simple_num">
 		<simplenumber>
-			<frame mergerule="replace" name="fielddark" offset="4,2,4,2" />
+			<frame mergerule="replace" name="filter" offset="2,1,2,1" />
 			<anchored height="16" width="16">
 				<left parent="toggle_anchor" anchor="right" relation="relative" offset="2"/>
 				<top parent="toggle_anchor" offset="2"/>
 			</anchored>
+			<script>
+				function onInit()
+					self.linkedNode = CTHelper.linkCTField(self)
+				end
+				function onValueChanged()
+					if (self.linkedNode or "") ~= "" then
+						DB.setValue(self.linkedNode, "number", getValue())
+					end
+				end
+			</script>
 		</simplenumber>
 	</template>
 
@@ -320,7 +359,5 @@
 			<script file="ct/scripts/ct_nextactor.lua" />
 		</buttoncontrol>
 	</template>
-
-
 
 </root>
