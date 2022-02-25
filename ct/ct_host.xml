@@ -36,6 +36,7 @@
 					end
 				</script>
 			</buttoncontrol>
+
 			<select_ct_nextactor/>
         </sheetdata>
     </windowclass>
@@ -100,7 +101,7 @@
 	<windowclass name="scores_window">
 		<sheetdata>
 			<genericcontrol name="score_anchor">
-				<anchored height="0" width="0" position="insidetopleft" offset="50,0"/>
+				<anchored height="0" width="0" position="insidetopleft" offset="60,0"/>
 			</genericcontrol>
             <toggleanchor>
                 <anchored offset="0,22"/>
@@ -154,7 +155,7 @@
             </numbercontrol>
 
 			<ct_entry_toggle_label>
-				<anchored width="30"/>
+				<anchored width="20"/>
 				<static>Foc</static>
 			</ct_entry_toggle_label>
 			<ct_entry_toggle_select name="focus_selected" />

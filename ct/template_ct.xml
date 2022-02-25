@@ -17,7 +17,7 @@
 					window.scores_icon.setVisible(v)
 					window.scores.setVisible(v)
 					window.frame_scores.setVisible(v)
-					---window.windowlist.onEntrySectionToggle();
+					window.windowlist.window.onEntrySectionToggle();
 				end
 			</script>
 		</buttoncontrol>
@@ -188,7 +188,7 @@
 					window.damage_icon.setVisible(v)
 					window.damage.setVisible(v)
 					window.frame_damage.setVisible(v)
-					---window.windowlist.onEntrySectionToggle();
+					window.windowlist.window.onEntrySectionToggle();
 				end
 			</script>
 		</buttoncontrol>
@@ -242,11 +242,13 @@
 	</template>
 
 	<template name="ct_entry_toggle_select">
-		<button_checkbox >
-			<anchored height="16" width="16">
+		<buttonfield>
+			<anchored height="10" width="24">
 				<left parent="toggle_anchor" anchor="right" relation="relative" offset="2"/>
-				<top parent="toggle_anchor" offset="2"/>
+				<top parent="toggle_anchor" offset="5"/>
 			</anchored>
+			<state icon="button_toggle_off" />
+			<state icon="button_toggle_on" />
 			<script>
 				function onInit()
 					self.linkedNode = CTHelper.linkCTField(self)
@@ -257,7 +259,7 @@
 					end
 				end
 			</script>
-		</button_checkbox>
+		</buttonfield>
 	</template>
 
 	<template name="ct_entry_simple_num">
@@ -349,7 +351,7 @@
 	</template>
 
 	<template name="button_ct_nextactor">
-		<buttoncontrol>
+		<buttoncontrol name="ct_nextactor">
 			<anchored width="33" height="26">
 				<bottom offset="-19" />
 				<left parent="contentanchor" offset="35" />
@@ -360,4 +362,10 @@
 		</buttoncontrol>
 	</template>
 
+	<template name="button_ct_setactive">
+		<genericcontrol>
+			<invisible />
+			<anchored position="insidetopleft" height="0" width="0"/>
+		</genericcontrol>
+	</template>
 </root>

@@ -20,15 +20,20 @@ end
 function onEntrySectionToggle()
     _listOnEntrySelectionToggle()
     local anyScores = 0
+    local anyDamages = 0
 
 	for _,v in pairs(list.getWindows()) do
 		if v.activate_scores.getValue() == 1 then
 			anyScores = 1;
 		end
+		if v.activate_damage.getValue() == 1 then
+		    anyDamages = 1;
+        end
     end
 
 	enableglobaltoggle = false;
 	button_global_scores.setValue(anyScores)
+	button_global_damage.setValue(anyDamages)
 	enableglobaltoggle = true;
 end
 
@@ -48,7 +53,7 @@ function toggleDamage()
 		return;
 	end
 
-	local scoreson = button_global_scores.getValue();
+	local scoreson = button_global_damage.getValue();
 	for _,v in pairs(list.getWindows()) do
 		v.activate_damage.setValue(scoreson);
 	end
@@ -61,6 +66,7 @@ function onSelect(value)
         _actOrder = _actOrder + 1
     end
     _ct_entries = {}
+    ct_nextactor.setActive(false)
 end
 
 function changeRound(roundNum)

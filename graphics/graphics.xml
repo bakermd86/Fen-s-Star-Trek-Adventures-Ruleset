@@ -96,6 +96,13 @@
 	<icon name="button_import_text_down" file="graphics/buttons/button_import_text_down.png" />
 	<icon name="button_grid" file="graphics/buttons/button_grid.png" />
 	<icon name="button_lines" file="graphics/buttons/button_import_text.png" />
+	<icon name="button_ctnextround" file="graphics/buttons/button_ctnextround.png" />
+	<icon name="button_ctnextround_down" file="graphics/buttons/button_ctnextround_down.png" />
+	<icon name="button_ctnextactor" file="graphics/buttons/button_arrowdown.png" />
+	<icon name="button_ctnextactor_down" file="graphics/buttons/button_arrowdown_down.png" />
+	<icon name="button_arrowdown" file="graphics/buttons/button_arrowdown.png" />
+	<icon name="button_arrowdown_down" file="graphics/buttons/button_arrowdown_down.png" />
+	<icon name="ct_active" file="graphics/icons/ct_active.png" />
 
 	<!-- Token Bag -->
 	<framedef name="tokenbag">
