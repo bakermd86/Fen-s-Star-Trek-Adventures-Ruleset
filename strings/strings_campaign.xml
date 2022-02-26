@@ -54,7 +54,7 @@
 	<string name="tooltip_remove_npc_from_overview">Remove from Overview</string>
 	<string name="ct_tooltip_scores">Scores/Rolls</string>
 	<string name="ct_tooltip_damage">Stress and Injury</string>
-	<string name="ct_tooltip_startturn">Start Turn</string>
+	<string name="ct_tooltip_startturn">Take Turn</string>
 
 	<!-- Controls -->
 	<string name="lifepath_nextpage">NEXT</string>

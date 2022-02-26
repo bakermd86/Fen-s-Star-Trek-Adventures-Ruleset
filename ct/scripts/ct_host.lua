@@ -6,7 +6,6 @@ function onInit()
     self.select_nextactor.onSelect = self.onSelect
     OptionsManager.setOption("RNDS", "on")
     CombatManager.setCustomRoundStart(self.changeRound)
-    CombatManager.setCustomSort(staSortFunc)
     _actOrder = 1
     for _, ct_entry in ipairs(self.list.getWindows()) do
         local initresult = ct_entry.initresult.getValue()
@@ -60,8 +59,9 @@ function toggleDamage()
 end
 
 function onSelect(value)
-    if (_ct_entries[value].active.getValue() == 0) and Session.IsHost then
+    if (_ct_entries[value]) and ((_ct_entries[value].active.getValue() == 0) and Session.IsHost) then
         CombatManager.requestActivation(_ct_entries[value].getDatabaseNode(), true)
+        CTHelper.updateInitiativeGroup(_ct_entries[value].getDatabaseNode())
         _ct_entries[value].initresult.setValue(_actOrder)
         _actOrder = _actOrder + 1
     end
@@ -74,6 +74,7 @@ function changeRound(roundNum)
         ct_entry.initresult.setValue(0)
         ct_entry.active.setValue(0)
     end
+    CTHelper.updateInitiativeGroup()
     _actOrder = 1
 end
 
@@ -95,65 +96,4 @@ function populate_actors()
         end
     end
     return names
-end
-
-_actOrder = 1
-function staSortFunc(node1, node2)
-	local bHost = Session.IsHost;
-	local sOptCTSI = OptionsManager.getOption("CTSI");
-
-    local nActedOrder1 = DB.getValue(node1, "initresult", 0)
-    local nActedOrder2 = DB.getValue(node2, "initresult", 0)
-
-    if (nActedOrder1 ~= nActedOrder2) then
-        if nActedOrder1 == 0 then
-            return false
-        elseif nActedOrder2 == 0 then
-            return true
-        else
-            return nActedOrder1 < nActedOrder2
-        end
-    end
-
-	local sFaction1 = DB.getValue(node1, "friendfoe", "");
-	local sFaction2 = DB.getValue(node2, "friendfoe", "");
-
-	if (sFaction1 ~= sFaction2) then
-	    if sFaction1 == "friend" then
-	        return true
-        elseif sFaction2 == "friend" then
-            return false
-        elseif sFaction1 == "neutral" then
-            return true
-        elseif sFaction2 == "neutral" then
-            return false
-        end
-	end
-
-    local nValue1 = DB.getValue(node1, "daring", 0);
-    local nValue2 = DB.getValue(node2, "daring", 0);
-    if nValue1 == 0 then
-        local class, recordname = DB.getValue(node1, "link")
-        if (recordname or "") ~= "" then
-            nValue1 = DB.getValue(recordname..".daring", 0)
-        end
-    end
-    if nValue2 == 0 then
-        local class, recordname = DB.getValue(node2, "link")
-        if (recordname or "") ~= "" then
-            nValue2 = DB.getValue(recordname..".daring", 0)
-        end
-    end
-
-    if nValue1 ~= nValue2 then
-        return nValue1 > nValue2
-    end
-
-	local sValue1 = DB.getValue(node1, "name", "");
-	local sValue2 = DB.getValue(node2, "name", "");
-	if sValue1 ~= sValue2 then
-		return sValue1 < sValue2;
-	end
-
-	return node1.getPath() < node2.getPath();
 end

@@ -16,6 +16,11 @@
                     <right offset="-40"/>
                 </anchored>
             </anchor_title_ctbox>
+
+			<label_ct name="label_init" merge="join">
+                <anchored offset="153"/>
+            </label_ct>
+
 			<buttoncontrol name="button_global_scores" insertafter="button_global_effects">
 				<anchored to="header_toggles" position="insidetopleft" offset="90,8" width="20" height="20" />
 				<state icon="d20bicon" />
@@ -37,7 +42,9 @@
 				</script>
 			</buttoncontrol>
 
+            <ct_label_initiative_host/>
 			<select_ct_nextactor/>
+            <ct_group_initiative_host/>
         </sheetdata>
     </windowclass>
 

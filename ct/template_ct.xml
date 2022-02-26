@@ -354,7 +354,7 @@
 		<buttoncontrol name="ct_nextactor">
 			<anchored width="33" height="26">
 				<bottom offset="-19" />
-				<left parent="contentanchor" offset="35" />
+				<left parent="contentanchor" offset="2" />
 			</anchored>
 			<icon normal="button_ctnextactor" pressed="button_ctnextactor_down" />
 			<tooltip textres="ct_tooltip_nextactor" />
@@ -367,5 +367,56 @@
 			<invisible />
 			<anchored position="insidetopleft" height="0" width="0"/>
 		</genericcontrol>
+	</template>
+
+	<template name="ct_group_initiative">
+		<buttonfield name="initiative_group">
+			<anchored width="80" height="26">
+				<left parent="contentanchor" />
+				<bottom offset="-19" />
+			</anchored>
+			<state>
+				<frame>ct_allies_active</frame>
+				<text>Friendly</text>
+			</state>
+			<state>
+				<frame>ct_enemies_active</frame>
+				<text>Hostile</text>
+			</state>
+		</buttonfield>
+	</template>
+
+	<template name="ct_label_initiative_host">
+		<label_ct>
+			<anchored height="20">
+				<bottom offset="-22" />
+				<left parent="contentanchor" offset="45" />
+			</anchored>
+			<static>Action</static>
+		</label_ct>
+	</template>
+
+	<template name="ct_group_initiative_host">
+		<ct_group_initiative>
+			<anchored>
+				<left offset="90"/>
+			</anchored>
+		</ct_group_initiative>
+	</template>
+
+	<template name="ct_label_initiative_client">
+		<ct_label_initiative_host>
+			<anchored>
+				<left offset="80"/>
+			</anchored>
+		</ct_label_initiative_host>
+	</template>
+
+	<template name="ct_group_initiative_client">
+		<ct_group_initiative>
+			<anchored>
+				<left offset="125"/>
+			</anchored>
+		</ct_group_initiative>
 	</template>
 </root>

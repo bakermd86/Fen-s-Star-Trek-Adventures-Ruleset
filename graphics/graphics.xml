@@ -103,6 +103,7 @@
 	<icon name="button_arrowdown" file="graphics/buttons/button_arrowdown.png" />
 	<icon name="button_arrowdown_down" file="graphics/buttons/button_arrowdown_down.png" />
 	<icon name="ct_active" file="graphics/icons/ct_active.png" />
+	<icon name="ct_active_down" file="graphics/icons/ct_active_down.png" />
 
 	<!-- Token Bag -->
 	<framedef name="tokenbag">
@@ -132,6 +133,14 @@
 	<framedef name="buttondisabled">
 		<bitmap file="graphics/frames/buttondisabled.png" />
 		<offset>11,16,15,16</offset>
+	</framedef>
+	<framedef name="ct_allies_active">
+		<bitmap file="graphics/frames/ct_allies_active.png" />
+		<offset>11,9,15,9</offset>
+	</framedef>
+	<framedef name="ct_enemies_active">
+		<bitmap file="graphics/frames/ct_enemies_active.png" />
+		<offset>11,9,15,9</offset>
 	</framedef>
 
 	<!--  LCARS graphics  -->
