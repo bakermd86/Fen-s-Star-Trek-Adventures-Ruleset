@@ -1,7 +1,7 @@
 local _activated = false
 
 function onInit()
-    window.select_endturn.onSelect = CTHelper.handleEndTurnSelect
+    window.select_endturn.onSelect = CTHelper.requestInitiative
 end
 
 function onClickDown(...)

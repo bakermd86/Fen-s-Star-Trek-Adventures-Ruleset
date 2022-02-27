@@ -2,6 +2,7 @@ local INITIATIVE_TAG = "[INITIATIVE] "
 
 local _DBLinkedFields = {}
 local REQUEST_TURN_MSG = "OOB_REQUEST_TURN_MSG"
+local REQUEST_TURN_MSG_RESPONSE = "OOB_REQUEST_TURN_MSG_RESPONSE"
 local REQUEST_INITIATIVE_MSG = "OOB_REQUEST_INITIATIVE_MSG"
 local NOTIFY_INITIATIVE_MSG = "OOB_NOTIFY_INITIATIVE_MSG"
 
@@ -47,11 +48,13 @@ function setInitiativeGroup(group)
 end
 
 function requestTurn()
-    local identityActiveNode = CombatManager.getCurrentUserCT()
-    if (identityActiveNode or "") ~= "" then
+    local identityActiveNode = User.getCurrentIdentity();
+    local ctIdentityNode = CombatManager.getCTFromNode("charsheet." .. identityActiveNode)
+    if (ctIdentityNode or "") ~= "" then
         local oobMsg = {
             ["type"]=REQUEST_TURN_MSG,
-            ["identity"]=identityActiveNode.getNodeName()
+            ["identity"]=ctIdentityNode.getNodeName(),
+            ["user"]=User.getUsername()
         }
         Comm.deliverOOBMessage(oobMsg, "")
     end
@@ -62,7 +65,7 @@ function turnAllowed(identity)
     local curActor = CombatManager.getActiveCT()
     if (curActor or "") == "" then
         return true
-    elseif DB.getValue("combattracker.initiative_group") == 0 and DB.getValue("combattracker.initiative_kept") == 0 then
+    elseif (DB.getValue("combattracker.initiative_group") == 0) and (DB.getValue("combattracker.initiative_kept") == 0) then
         return false
     else
         return (curActor.getNodeName() ~= identity) and (DB.getValue(identity..".initresult", 0) == 0)
@@ -86,9 +89,9 @@ function handleTurnRequest(oobMsg)
     end
 end
 
-function handleEndTurnSelect(mode)
-    requestInitiative(mode == "Keep Initiative")
-end
+-- function handleEndTurnSelect(mode)
+--     requestInitiative()
+-- end
 --     if mode == "Return Initiative" then
 --         Debug.chat("End Turn")
 --     else
@@ -96,13 +99,13 @@ end
 --     end
 -- end
 
-function requestInitiative(keepInitiative)
+function requestInitiative(mode)
     local oobMsg = {
         ["type"]=REQUEST_INITIATIVE_MSG,
         ["identity"]=User.getCurrentIdentity(),
         ["user"]=User.getUsername()
     }
-    if keepInitiative then
+    if mode == "Keep Initiative" then
         oobMsg.keepInitiative = "TRUE"
     else
         oobMsg.keepInitiative = "FALSE"
@@ -132,7 +135,6 @@ function handleInitiativeRequest(oobMsg)
         end
     else
         setInitiativeGroup(1)
-        local msg = {font = "narratorfont", icon = "turn_flag"};
         msg.text = INITIATIVE_TAG .. "Hostile forces have the initiative!"
     end
     if (msg.text or "") ~= "" then
