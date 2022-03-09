@@ -97,16 +97,20 @@
 			</lifepath_select_control>
 
 			<lifepath_select_control_frame name="lifepath_manual_upbringing_attribute_select_frame">
-				<anchored height="125"/>
+				<anchored height="75"/>
 			</lifepath_select_control_frame>
 			<windowlist name="lifepath_manual_upbringing_attribute_select">
 				<invisible />
-				<anchored height="125" >
+				<anchored height="75" >
 					<top parent="columnanchor" anchor="bottom" relation="relative" offset="5" />
 					<left />
 					<right />
 				</anchored>
             	<class>support_att_select</class>
+				<columns>
+					<width>235</width>
+					<fillwidth />
+				</columns>
 				<skipempty />
 			</windowlist>
 			

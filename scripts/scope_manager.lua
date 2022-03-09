@@ -16,6 +16,11 @@ ALL_DISCIPLINES = {
 	"Medicine"
 };
 
+function onInit()
+	ActorManager.registerActorRecordType("ships");
+	ActorManager.registerActorRecordType("crewmates");
+end
+
 function openLPDefine()
     local new_lp_table = DB.createChild(".lp_tables")
     Interface.openWindow("lifepath_table_definition_window", new_lp_table.getNodeName())

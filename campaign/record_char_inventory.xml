@@ -74,19 +74,10 @@
         <tag_label name="coinframe_label" merge="delete" />
 
           <label_frametop name="coin_label" merge="delete"/>
-          <number_dropadd name="coinamount1" merge="delete" />
-          <number_dropadd name="coinamount2" merge="delete" />
-          <number_dropadd name="coinamount3" merge="delete" />
-          <number_dropadd name="coinamount4" merge="delete" />
-          <number_dropadd name="coinamount5" merge="delete" />
-          <number_dropadd name="coinamount6" merge="delete" />
-          <stringu name="coinname1"  merge="delete" />
-          <stringu name="coinname2"  merge="delete" />
-          <stringu name="coinname3"  merge="delete" />
-          <stringu name="coinname4"  merge="delete" />
-          <stringu name="coinname5"  merge="delete" />
-          <stringu name="coinname6"  merge="delete" />
-        <basicstring name="coinother" merge="delete" />
+			<sub_charcurrency name="sub_currency" merge="delete"/>
+			<scrollbar_sub_charcurrency name="scrollbar_currency" merge="delete"/>
+			<button_iadd_sub_charcurrency name="currency_iadd" merge="delete"/>
+			<button_iedit_sub_charcurrency name="currency_iedit" merge="delete"/>
       </sheetdata>
   </windowclass>
 </root>

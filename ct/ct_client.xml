@@ -6,4 +6,56 @@
 -->
 
 <root>
+	<windowclass name="combattracker_client" merge="join">
+		<sheetdata merge="join">
+			<ct_label_initiative_client/>
+
+			<button_ct_startturn />
+			<select_ct_endturn />
+
+			<ct_group_initiative_client/>
+		</sheetdata>
+	</windowclass>
+
+    <template name="button_ct_endturn">
+		<buttoncontrol>
+			<anchored width="33" height="26">
+				<bottom offset="-19" />
+				<left parent="contentanchor" offset="39" />
+			</anchored>
+			<icon normal="button_ctnextactor" pressed="button_ctnextactor_down" />
+			<tooltip textres="ct_tooltip_endturn" />
+			<script file="ct/scripts/ct_endturn.lua" />
+		</buttoncontrol>
+    </template>
+
+    <template name="button_ct_startturn">
+		<buttoncontrol>
+			<anchored width="33" height="26">
+				<bottom offset="-19" />
+				<left parent="contentanchor" offset="12" />
+			</anchored>
+			<icon normal="ct_active" pressed="ct_active_down" />
+			<tooltip textres="ct_tooltip_startturn" />
+			<script>
+				function onButtonPress()
+					CTHelper.requestTurn()
+				end
+			</script>
+		</buttoncontrol>
+    </template>
+
+	<template name="select_ct_endturn">
+		<comboboxc name="select_endturn">
+			<anchored width="100" height="0">
+				<bottom offset="-19" />
+				<left parent="contentanchor" offset="76" />
+			</anchored>
+			<script>
+				function onFirstLayout()
+					setComboBoxReadOnly(true)
+				end
+			</script>
+		</comboboxc>
+	</template>
 </root>

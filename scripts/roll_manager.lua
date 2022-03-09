@@ -9,14 +9,6 @@ function onInit()
 	ChatManager.registerDropCallback("dice", handleManualDrop)
 	GameSystem.actions["damage_roll"] = { };
 	ActionsManager.registerResultHandler("damage_roll", handleDamageResult);
-	Interface.onDesktopInit = onDesktopInit
-end
-
-function onDesktopInit()
-    -- Register crewmate record type with NPCPortraitManager
-    if NPCPortraitManager and NPCPortraitManager.registerDataType then
-        NPCPortraitManager.registerDataType("crewmate")
-    end
 end
 
 function determinationUsed(window)
@@ -57,11 +49,13 @@ end
 
 function clearScoreSelect()
     for _, w in ipairs(self.sourceRollWindows) do
-        w.clearSelections()
+        if (w or "") ~= "" and (type(w) == "windowlist") then
+            w.clearSelections()
+        end
     end
     self.sourceRollWindows = {}
     self.rollSourceNode = nil
-    if self.lastRollControlWindow ~= nil then
+    if self.lastRollControlWindow ~= nil and type(self.lastRollControlWindow) == "windowlist" then
         self.lastRollControlWindow.activeAttribute.setScore("", 0)
         self.lastRollControlWindow.activeDiscipline.setScore("", 0)
     end
@@ -118,14 +112,8 @@ function buildScoreDrag(draginfo, rRoll)
     for k, v in pairs(rRoll) do
         draginfo.setMetaData(k, v)
     end
-    local sNode = DB.findNode(rRoll["sNode"])
-    if sNode then
-        local source_type = sNode.getParent().getNodeName()
-        if (source_type == "charsheet") then
-            draginfo.addShortcut("charsheet", sNode.getNodeName())
-        else
-            draginfo.addShortcut("npc", sNode.getNodeName())
-        end
+    if (rRoll["sNode"] or "") ~= "" then
+        draginfo.addShortcut(ActorManager.getRecordType(rRoll["sNode"]), rRoll["sNode"])
     end
     return true
 end
@@ -247,7 +235,7 @@ function skillChatMessage(rSource, rRoll, successes, complications, dc)
     local rMessage = ActionsManager.createActionMessage(rSource, rRoll)
     if sourceName == "" and (rRoll['sNode'] or "") ~= "" then
         sourceName = DB.getValue(DB.findNode(rRoll['sNode']), "name", "")
-        if sourceName ~= "" then rMessage.sender = sourceName .. " (" .. rRoll.sUser .. ")" end
+        if sourceName ~= "" then rMessage.sender = sourceName end
     end
     if NPCPortraitManager and (rRoll['sNode'] or "") ~= "" then
         local npc_node = DB.findNode(rRoll['sNode'])

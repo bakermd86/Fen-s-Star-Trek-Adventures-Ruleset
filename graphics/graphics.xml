@@ -96,6 +96,14 @@
 	<icon name="button_import_text_down" file="graphics/buttons/button_import_text_down.png" />
 	<icon name="button_grid" file="graphics/buttons/button_grid.png" />
 	<icon name="button_lines" file="graphics/buttons/button_import_text.png" />
+	<icon name="button_ctnextround" file="graphics/buttons/button_ctnextround.png" />
+	<icon name="button_ctnextround_down" file="graphics/buttons/button_ctnextround_down.png" />
+	<icon name="button_ctnextactor" file="graphics/buttons/button_arrowdown.png" />
+	<icon name="button_ctnextactor_down" file="graphics/buttons/button_arrowdown_down.png" />
+	<icon name="button_arrowdown" file="graphics/buttons/button_arrowdown.png" />
+	<icon name="button_arrowdown_down" file="graphics/buttons/button_arrowdown_down.png" />
+	<icon name="ct_active" file="graphics/icons/ct_active.png" />
+	<icon name="ct_active_down" file="graphics/icons/ct_active_down.png" />
 
 	<!-- Token Bag -->
 	<framedef name="tokenbag">
@@ -125,6 +133,14 @@
 	<framedef name="buttondisabled">
 		<bitmap file="graphics/frames/buttondisabled.png" />
 		<offset>11,16,15,16</offset>
+	</framedef>
+	<framedef name="ct_allies_active">
+		<bitmap file="graphics/frames/ct_allies_active.png" />
+		<offset>11,9,15,9</offset>
+	</framedef>
+	<framedef name="ct_enemies_active">
+		<bitmap file="graphics/frames/ct_enemies_active.png" />
+		<offset>11,9,15,9</offset>
 	</framedef>
 
 	<!--  LCARS graphics  -->
@@ -357,7 +373,7 @@
 	<!-- Combat tracker -->
 	<framedef name="ctbox">
 		<bitmap file="graphics/frames/ctbox.png" />
-		<offset>35,55,35,63</offset>
+		<offset>37,55,37,63</offset>
 		<insideoffset>0,0,7,7</insideoffset>
 	</framedef>
 

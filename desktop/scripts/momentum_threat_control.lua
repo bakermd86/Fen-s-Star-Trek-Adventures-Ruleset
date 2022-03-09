@@ -1,61 +1,35 @@
-SET_MOMENTUM_REQ = "set_momentum"
-_syncedNodes = {}
+local SET_CURVAL_REQ = "set_cur_val"
+local GET_CURVAL_REQ = "get_cur_val"
+local GET_CURVAL_RESP = "get_cur_val_response"
+local _syncedNodes = {}
 
-function onInit()
-    self.name = node[1]
-    self.node = window.getDatabaseNode().."."..string.lower(self.name)
-    if (User.isHost() or User.isLocal()) and self.name == "Momentum" then
-        table.insert(_syncedNodes, self.node)
-        OOBManager.registerOOBMsgHandler(SET_MOMENTUM_REQ, handleMomentumSet)
-        User.onLogin = onLogin
-        DB.addHandler(self.node, "onUpdate", synchronizeMomentumNodes)
+function onFirstLayout()
+    local curValName = ""
+    self.node = DB.getPath(window.getDatabaseNode(), sourcefields[1].current[1])
+    self.name = display[1]
+    if (User.isHost() or User.isLocal()) then
+        OOBManager.registerOOBMsgHandler(SET_CURVAL_REQ..string.lower(self.name), handleCurValSet)
+        DB.setPublic(self.node, true)
     end
-    self.setValue(DB.getValue(self.node, 0))
-    self.setVis()
+    self.padSpacing()
+    ChatManager.registerDropCallback("momentum_threat_token", doNothing)
 end
 
-function onLogin(username, activated)
-    if activated then
-        local userNode = DB.createChild("playstateusers", username)
-        DB.setOwner(userNode, username)
-        local momentumNode = userNode.createChild("momentum", "number")
-        DB.setValue(momentumNode, "", "number", DB.getValue(self.node))
-        DB.addHandler(momentumNode.getNodeName(), "onUpdate", synchronizeMomentumNodes)
-        table.insert(_syncedNodes, momentumNode.getNodeName())
-    else
-        local momentumNode = DB.createChild("playstateusers", username).createChild("momentum", "number")
-        DB.removeHandler(momentumNode.getNodeName(), "onUpdate", synchronizeMomentumNodes)
-    end
+function doNothing()
+    return true
+end
+function notifyClientMomentum(user, curVal)
+    local oobMsg = {
+        ["type"] = GET_CURVAL_RESP..string.lower(self.name),
+        ["curVal"] = curVal
+    }
+    Comm.deliverOOBMessage(oobMsg, user)
 end
 
-function synchronizeMomentumNodes(nodeChanged)
-    local val = nodeChanged.getValue()
-    local sNodeName = nodeChanged.getNodeName()
-    setValue(val)
-    for _, node in ipairs(_syncedNodes) do
-        if node ~= sNodeName then
-            DB.setValue(node, "number", val)
-        end
-    end
-    self.setVis()
-end
-
-function setVis()
-    if DB.getValue(self.node, 0) >= 18 then
-        self.setVisible(true)
-        window.counter.setVisible(false)
-    else
-        self.setVisible(false)
-        window.counter.setVisible(true)
-    end
-end
-
-function handleMomentumSet(oobmsg)
+function handleCurValSet(oobMsg)
     if User.isHost() or User.isLocal() then
-        local val = oobmsg["val"]
-        local newVal = getValue() + val
-        if newVal <= 0 then return end
-        set(newVal)
+        Debug.chat(oobMsg.msgSource)
+        setCounterVal(tonumber(oobMsg.newVal), oobMsg.msgSource)
     end
 end
 
@@ -75,45 +49,87 @@ function getMsgSource()
     return sourceName
 end
 
-function getMomentumThreatMessage()
-    local sourceName = window.control.getMsgSource()
+function getCounterVal()
+    return DB.getValue(self.node, 0)
+end
+
+function setCounterVal(newVal, msgSource)
+    if self.node and (User.isHost() or User.isLocal()) then
+        local curVal = getCounterVal()
+        if newVal < 0  and curVal <= 0 then
+            return
+        elseif (newVal + curVal) > getMaxValue() then
+            return
+        end
+        DB.setValue(self.node, "number", curVal + newVal)
+        notifyOnToken(newVal, msgSource)
+    else
+        local oobMsg = {
+            ["type"] = SET_CURVAL_REQ..string.lower(self.name),
+            ["newVal"] = newVal,
+            ["msgSource"] = msgSource
+        }
+        Comm.deliverOOBMessage(oobMsg, "")
+    end
+end
+
+
+local _addBaseOneTokenMsg = "%s has added a point of %s to the pool"
+local _spendBaseOneTokenMsg = "%s has used a point of %s from the pool"
+
+function notifyOnToken(newVal, sourceName)
     local message = ChatManager.createBaseMessage("", sourceName)
-    message.icon = string.lower(self.name) .. "_display_mini"
-    message.text = sourceName
-    return message
-end
-
-_addBaseMsgStart = " has added a point of "
-_addBaseMsgEnd = " to the pool "
-function notifyOnAdd()
-    local message = self.getMomentumThreatMessage()
-    message.text = message.text .. _addBaseMsgStart .. self.name .. _addBaseMsgEnd
-    Comm.deliverChatMessage(message)
-end
-
-_spendBaseMsgStart = " has used a point of "
-_spendBaseMsgEnd = " from the pool "
-function notifyOnUse()
-    local message = self.getMomentumThreatMessage()
-    message.text = message.text .. _spendBaseMsgStart .. self.name .. _spendBaseMsgEnd
+    message.icon = string.lower(self.name) .. "_token"
+--     message.text = sourceName
+    if newVal > 0 then
+        message.text = _addBaseOneTokenMsg:format(sourceName, self.name)
+    else
+        message.text = _spendBaseOneTokenMsg:format(sourceName, self.name)
+    end
     Comm.deliverChatMessage(message)
 end
 
 function onDragStart(button, x, y, draginfo)
-    draginfo.setType(self.name)
+    draginfo.setType("momentum_threat_token")
+    draginfo.setIcon(string.lower(self.name).."_token")
     return true
 end
 
 function onDragEnd(draginfo)
-    local curVal = DB.getValue(self.node, 0)
-    if curVal == 0 then return end
-    DB.setValue(self.node, "number", curVal - 1)
-    self.notifyOnUse()
+    setCounterVal(-1, getMsgSource())
+    return true
 end
 
 function onDoubleClick()
-    local curVal = DB.getValue(self.node, 0)
-    DB.setValue(self.node, "number", curVal + 1)
-    self.notifyOnAdd()
+    setCounterVal(1, getMsgSource())
+    return true
+end
+
+function padSpacing()
+    for _,v in ipairs(slots) do
+        local anchor, nX, nY = v.getPosition()
+        local nSpacingVal = 26 - tonumber(spacing[1]) / 2
+        nX = nX + nSpacingVal
+        nY = nY + nSpacingVal
+        v.setPosition(anchor, nX, nY)
+    end
+end
+
+function onClickDown()
+    return false
+end
+
+function onClickRelease()
+    return true
+end
+
+function onWheel(notches)
+    if not Input.isControlPressed() then
+        return false;
+    end
+    local dir = notches / math.abs(notches)
+    for i=1,math.abs(notches) do
+       setCounterVal(dir, getMsgSource())
+    end
     return true
 end
