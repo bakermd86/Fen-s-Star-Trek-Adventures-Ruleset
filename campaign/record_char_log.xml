@@ -262,7 +262,7 @@
     <template name="milestone_name">
             <stringfield >
                 <font>lcars_sheettext</font>
-			    <lineoffset default="on">2</lineoffset>
+			    <lineoffset default="on">1</lineoffset>
                 <anchored to="leftAnchor" height="20" >
                     <top/>
                     <left anchor="right" relation="relative" offset="7"/>
@@ -330,7 +330,7 @@
                     <left anchor="right" relation="relative" offset="7"/>
                     <right parent="" offset="-5"/>
                 </anchored>
-			    <lineoffset default="on">2</lineoffset>
+			    <lineoffset default="on">1</lineoffset>
             </stringfield>
         </sheetdata>
     </windowclass>

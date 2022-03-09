@@ -37,7 +37,7 @@
 	<template name="lcars_string_labeled">
 		<stringfield>
 			<font>lcars_sheettext</font>
-			<lineoffset default="on">2</lineoffset>
+			<lineoffset default="on">1</lineoffset>
 			<script>
 				labelwidget = nil;
 
@@ -61,7 +61,7 @@
 	<template name="lcars_stringc_labeled">
 		<stringcontrol>
 			<font>lcars_sheettext</font>
-			<lineoffset default="on">2</lineoffset>
+			<lineoffset default="on">1</lineoffset>
 			<script>
 				labelwidget = nil;
 
