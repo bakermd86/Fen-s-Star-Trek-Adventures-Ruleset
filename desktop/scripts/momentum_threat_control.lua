@@ -58,6 +58,8 @@ function setCounterVal(newVal, msgSource)
         local curVal = getCounterVal()
         if newVal < 0  and curVal <= 0 then
             return
+        elseif (newVal + curVal) > getMaxValue() then
+            return
         end
         DB.setValue(self.node, "number", curVal + newVal)
         notifyOnToken(newVal, msgSource)

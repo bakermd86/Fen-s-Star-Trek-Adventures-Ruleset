@@ -1,7 +1,7 @@
 <root>
     <windowclass name="momentum_display_player">
 	  <placement>
-		<size width="100" height="80" />
+		<size width="100" height="85" />
 	  </placement>
         <script>
             function getDatabaseNode()
@@ -9,6 +9,9 @@
             end
         </script>
         <sheetdata>
+            <momentum_threat_label>
+                <static>Momentum</static>
+            </momentum_threat_label>
             <momentum_thread_counter name="counter">
                 <display>Momentum</display>
                 <sourcefields>
@@ -23,7 +26,7 @@
 
     <windowclass name="momentum_display">
 	  <placement>
-		<size width="100" height="80" />
+		<size width="100" height="85" />
 	  </placement>
         <script>
             function getDatabaseNode()
@@ -31,6 +34,9 @@
             end
         </script>
         <sheetdata>
+            <momentum_threat_label>
+                <static>Momentum</static>
+            </momentum_threat_label>
             <momentum_thread_counter name="counter">
                 <display>Momentum</display>
                 <sourcefields>
@@ -45,7 +51,7 @@
 
     <windowclass name="threat_display">
 	  <placement>
-		<size width="100" height="80" />
+		<size width="100" height="85" />
 	  </placement>
         <script>
             function getDatabaseNode()
@@ -53,6 +59,9 @@
             end
         </script>
         <sheetdata>
+            <momentum_threat_label>
+                <static>Threat</static>
+            </momentum_threat_label>
             <momentum_thread_counter name="counter">
                 <display>Threat</display>
                 <sourcefields>
@@ -67,7 +76,7 @@
 
     <windowclass name="threat_display_player">
 	  <placement>
-		<size width="100" height="80" />
+		<size width="100" height="85" />
 	  </placement>
         <script>
             function getDatabaseNode()
@@ -75,6 +84,9 @@
             end
         </script>
         <sheetdata>
+            <momentum_threat_label>
+                <static>Threat</static>
+            </momentum_threat_label>
             <momentum_thread_counter name="counter">
                 <display>Threat</display>
                 <sourcefields>
@@ -350,25 +362,25 @@
 
     <panel name="momentum_panel" modes="host">
         <class>momentum_display</class>
-        <bounds>400,-118,100,80</bounds>
+        <bounds>400,-120,100,85</bounds>
 		<locked />
     </panel>
 
     <panel name="momentum_panel" modes="client">
         <class>momentum_display_player</class>
-        <bounds>400,-118,100,80</bounds>
+        <bounds>400,-120,100,85</bounds>
 		<locked />
     </panel>
 
     <panel name="threat_panel" modes="host">
         <class>threat_display</class>
-        <bounds>525,-118,100,80</bounds>
+        <bounds>525,-120,100,85</bounds>
 		<locked />
     </panel>
 
     <panel name="threat_panel" modes="client">
         <class>threat_display_player</class>
-        <bounds>525,-118,100,80</bounds>
+        <bounds>525,-120,100,85</bounds>
 		<locked />
     </panel>
 
@@ -381,7 +393,12 @@
 
     <template name="momentum_thread_counter">
         <buttongroup_counter>
-            <anchored position="over"/>
+            <anchored >
+                <top offset="12"/>
+                <left />
+                <right />
+                <bottom />
+            </anchored>
             <frame name="fielddark" />
             <stateicons>
                 <off>blank_token</off>
@@ -390,10 +407,24 @@
             <allowsinglespacing/>
             <maxslotperrow>5</maxslotperrow>
             <values>
-              <maximum>50</maximum>
+              <maximum>15</maximum>
             </values>
             <script file="desktop/scripts/momentum_threat_control.lua" />
         </buttongroup_counter>
+    </template>
+
+    <template name="momentum_threat_label">
+        <stringcontrol>
+            <anchored height="20">
+                <top offset="-5"/>
+                <left offset="10"/>
+                <right offset="-10"/>
+            </anchored>
+            <readonly />
+            <font>lcars_sheetlabel</font>
+            <center />
+            <backcolor>ff424242</backcolor>
+        </stringcontrol>
     </template>
 
     <template name="species_mode_setting">
