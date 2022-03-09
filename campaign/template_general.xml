@@ -296,7 +296,7 @@
 			<stateframe>
 				<pressed  offset="5,5,5,5"  />
 			</stateframe>
-			<font>button-white-large</font>
+			<font>lcars_sheetlabel</font>
 			<pressed offset="1,1" />
 			<tooltip textres="" />
 			<state textres="" />
