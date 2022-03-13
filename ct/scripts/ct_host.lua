@@ -1,9 +1,10 @@
 local _ct_entries = {}
 local _listOnEntrySelectionToggle = nil
 local enableglobaltoggle = true;
+local _orgRequestActiviation = nil
 
 function onInit()
-    self.select_nextactor.onSelect = self.onSelect
+--     self.select_nextactor.onSelect = self.onSelect
     OptionsManager.setOption("RNDS", "on")
     CombatManager.setCustomRoundStart(self.changeRound)
     _actOrder = 1
@@ -14,6 +15,8 @@ function onInit()
     _actOrder = _actOrder + 1
     _listOnEntrySelectionToggle = list.onEntrySectionToggle
     list.onEntrySectionToggle = onEntrySectionToggle
+    _orgRequestActiviation = CombatManager.requestActivation
+    CombatManager.requestActivation = requestActivation
 end
 
 function onEntrySectionToggle()
@@ -58,16 +61,23 @@ function toggleDamage()
 	end
 end
 
-function onSelect(value)
-    if (_ct_entries[value]) and ((_ct_entries[value].active.getValue() == 0) and Session.IsHost) then
-        CombatManager.requestActivation(_ct_entries[value].getDatabaseNode(), true)
-        CTHelper.updateInitiativeGroup(_ct_entries[value].getDatabaseNode())
-        _ct_entries[value].initresult.setValue(_actOrder)
-        _actOrder = _actOrder + 1
-    end
-    _ct_entries = {}
-    ct_nextactor.setActive(false)
+function requestActivation(nodeEntry, bSkipBell)
+    _orgRequestActiviation(nodeEntry, bSkipBell)
+    CTHelper.updateInitiativeGroup(nodeEntry)
+    DB.setValue(nodeEntry, "initresult", "number", _actOrder)
+    _actOrder = _actOrder + 1
 end
+
+-- function onSelect(value)
+--     if (_ct_entries[value]) and ((_ct_entries[value].active.getValue() == 0) and Session.IsHost) then
+--         CombatManager.requestActivation(_ct_entries[value].getDatabaseNode(), true)
+--         CTHelper.updateInitiativeGroup(_ct_entries[value].getDatabaseNode())
+--         _ct_entries[value].initresult.setValue(_actOrder)
+--         _actOrder = _actOrder + 1
+--     end
+--     _ct_entries = {}
+--     ct_nextactor.setActive(false)
+-- end
 
 function changeRound(roundNum)
     for _, ct_entry in ipairs(self.list.getWindows()) do
