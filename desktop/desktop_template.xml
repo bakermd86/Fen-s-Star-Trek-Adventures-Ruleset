@@ -423,7 +423,7 @@
             <readonly />
             <font>lcars_sheetlabel</font>
             <center />
-            <backcolor>ff424242</backcolor>
+<!--            <backcolor>ff424242</backcolor>-->
         </stringcontrol>
     </template>
 

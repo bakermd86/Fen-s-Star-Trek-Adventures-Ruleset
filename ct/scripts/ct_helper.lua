@@ -47,6 +47,18 @@ function setInitiativeGroup(group)
     DB.setValue("combattracker.initiative_group", "number", group)
 end
 
+function getInitiativeGroup()
+    return DB.getValue("combattracker.initiative_group", 0)
+end
+
+function setInitiativeKept(val)
+    DB.setValue("combattracker.initiative_kept", "number", val)
+end
+
+function getInitiativeKept()
+    return DB.getValue("combattracker.initiative_kept", 0)
+end
+
 function requestTurn()
     local identityActiveNode = User.getCurrentIdentity();
     local ctIdentityNode = CombatManager.getCTFromNode("charsheet." .. identityActiveNode)
@@ -63,41 +75,26 @@ end
 function turnAllowed(identity)
     local sActorName = DB.getValue(identity..".name")
     local curActor = CombatManager.getActiveCT()
+    local curFriendFoe = DB.getValue(curActor, "friendfoe", "")
     if (curActor or "") == "" then
         return true
-    elseif (DB.getValue("combattracker.initiative_group") == 0) and (DB.getValue("combattracker.initiative_kept") == 0) then
+    elseif getInitiativeGroup() == 1 then
         return false
-    else
+    elseif (getInitiativeGroup() == 0) then
+        if (curFriendFoe == "friend") then
+            return getInitiativeKept() == 1
+        end
         return (curActor.getNodeName() ~= identity) and (DB.getValue(identity..".initresult", 0) == 0)
+    else
+        return false
     end
 end
 
 function handleTurnRequest(oobMsg)
     if turnAllowed(oobMsg.identity) then
-        local closeWin = false
-        local ct_host = Interface.findWindow("combattracker_host", "combattracker")
-        if (ct_host or "") == "" then
-            ct_host = Interface.openWindow("combattracker_host", "combattracker")
-            closeWin = true
-        end
-        local sActorName = DB.getValue(oobMsg.identity..".name")
-        ct_host.populate_actors()
-        ct_host.onSelect(sActorName)
-        if closeWin then
-            ct_host.close()
-        end
+        CombatManager.requestActivation(DB.findNode(oobMsg.identity))
     end
 end
-
--- function handleEndTurnSelect(mode)
---     requestInitiative()
--- end
---     if mode == "Return Initiative" then
---         Debug.chat("End Turn")
---     else
---         requestInitiative()
---     end
--- end
 
 function requestInitiative(mode)
     local oobMsg = {
@@ -111,10 +108,6 @@ function requestInitiative(mode)
         oobMsg.keepInitiative = "FALSE"
     end
     Comm.deliverOOBMessage(oobMsg, "")
-end
-
-function setInitiativeKept(val)
-    DB.setValue("combattracker.initiative_kept", "number", val)
 end
 
 function handleInitiativeRequest(oobMsg)
@@ -140,6 +133,13 @@ function handleInitiativeRequest(oobMsg)
     if (msg.text or "") ~= "" then
         Comm.deliverChatMessage(msg);
     end
+end
+
+function gmReleaseInitiative()
+    local msg = {font = "narratorfont", icon = "turn_flag"};
+    setInitiativeGroup(0)
+    msg.text = INITIATIVE_TAG .. "Allied forces have the initiative!"
+    Comm.deliverChatMessage(msg);
 end
 
 function initiativeAllowed()

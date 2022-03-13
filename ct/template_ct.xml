@@ -327,20 +327,6 @@
 		</close>
 	</template>
 
-	<template name="select_ct_nextactor">
-		<comboboxc name="select_nextactor">
-			<anchored width="100" height="0">
-				<bottom offset="-19" />
-				<left parent="contentanchor" offset="72" />
-			</anchored>
-			<script>
-				function onFirstLayout()
-					setComboBoxReadOnly(true)
-				end
-			</script>
-		</comboboxc>
-	</template>
-
 	<template name="frame_ctbox_host_header_toggles">
 		<frame_ct name="header_toggles">
 			<anchored to="headeranchor" height="35" width="120">
@@ -358,7 +344,11 @@
 			</anchored>
 			<icon normal="button_ctnextactor" pressed="button_ctnextactor_down" />
 			<tooltip textres="ct_tooltip_nextactor" />
-			<script file="ct/scripts/ct_nextactor.lua" />
+			<script>
+				function onButtonPress()
+					CTHelper.gmReleaseInitiative()
+				end
+			</script>
 		</buttoncontrol>
 	</template>
 

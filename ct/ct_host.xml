@@ -43,7 +43,6 @@
 			</buttoncontrol>
 
             <ct_label_initiative_host/>
-			<select_ct_nextactor/>
             <ct_group_initiative_host/>
         </sheetdata>
     </windowclass>
