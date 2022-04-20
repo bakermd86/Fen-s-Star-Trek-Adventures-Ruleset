@@ -7,7 +7,7 @@
 		</placement>
 <!--		  <sizelimits>-->
 <!--			<dynamic />-->
-<!--			<minimum width="350" height="250" />-->
+<!--			<minimum width="400" height="250" />-->
 <!--		  </sizelimits>-->
 		<tooltip field="name" />
 		<nodelete />
@@ -61,7 +61,6 @@
 				<pressed offset="1,1" />
 				<script file="campaign/scripts/save_improvement.lua"/>
 			</buttoncontrol>
-			<resize_recordsheet />
 			<close_recordsheet />
 		</sheetdata>
 	</windowclass>

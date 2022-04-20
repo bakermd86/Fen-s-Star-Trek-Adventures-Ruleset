@@ -12,7 +12,7 @@ end
 
 function setLink(node)
     self.node = node
-    name = node.getChild("name").getValue();
+    name = DB.getValue(node, "name")
     self.saveLinkToList(name, "sta_talent")
 end
 
@@ -44,7 +44,7 @@ end
 
 reqStringPattern = "([A-Z][a-z]+[ ]*[0-9]+)"
 function talentAllowed(talentNode, scores)
-    local reqLine = talentNode.getChild("requirements").getValue()
+    local reqLine = DB.getValue(talentNode, "requirements", "None")
     if scores == "ALLOW_ALL" then return true
     elseif not reqLine or (reqLine == "") or string.find(reqLine, "None") or string.find(reqLine, "Main Character")then
         return true
@@ -79,7 +79,7 @@ function doScoreFilter(talents, scores)
     end
     local talentsOut = {}
     for _, node in ipairs(talents) do
-        local talentName = node.getChild("name").getValue()
+        local talentName = DB.getValue(node, "name")
         if selectedTalents[talentName] == 1 then
         elseif self.talentAllowed(node, scores) then
             table.insert(talentsOut, {node, 1})
@@ -114,7 +114,10 @@ function getRand()
 end
 
 function formatPreviewBody(node)
-    return "<h>"..node.getChild("name").getValue().."</h>\n<p><b>Requirements: "..node.getChild("requirements").getValue("None").."</b></p>\n"..node.getChild("text").getValue()
+    local talentName = DB.getValue(node, "name", "")
+    local reqStr = DB.getValue(node, "requirements", "None")
+    local talentBody = DB.getValue(node, "text", "")
+    return "<h>"..talentName.."</h>\n<p><b>Requirements: "..reqStr.."</b></p>\n"..talentBody
 end
 
 function onButtonPress()
