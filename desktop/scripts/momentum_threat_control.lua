@@ -28,7 +28,6 @@ end
 
 function handleCurValSet(oobMsg)
     if User.isHost() or User.isLocal() then
-        Debug.chat(oobMsg.msgSource)
         setCounterVal(tonumber(oobMsg.newVal), oobMsg.msgSource)
     end
 end
