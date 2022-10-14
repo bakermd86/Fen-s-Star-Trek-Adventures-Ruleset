@@ -42,7 +42,7 @@ function onDrop(x,y,draginfo)
     end
 end
 
-reqStringPattern = "([A-Z][a-z]+[ ]*[0-9]+)"
+reqBodyPattern = "([A-Z][a-z]+)[ ]*([0-9]+)"
 function talentAllowed(talentNode, scores)
     local reqLine = DB.getValue(talentNode, "requirements", "None")
     if scores == "ALLOW_ALL" then return true
@@ -51,10 +51,11 @@ function talentAllowed(talentNode, scores)
     elseif (self.getSpecies() or "") ~= "" and string.find(reqLine, self.getSpecies()) then
         return true
     else
-        for reqText in reqLine:gmatch(reqStringPattern) do  -- Handle requirements with 2 disciplines (Eng 2+ or Science 2+)
-            local scoreName = string.lower(string.sub(reqText, 1, -3))
-            local scoreMin = string.sub(reqText, -1, -1)
-            if scores[scoreName] >= tonumber(scoreMin) then return true end
+        for reqText, scoreMin in reqLine:gmatch(reqBodyPattern) do  -- Handle requirements with 2 disciplines (Eng 2+ or Science 2+)
+            if reqText or "" ~= "" then
+                local scoreName = string.lower(reqText)
+                if scores[scoreName] >= tonumber(scoreMin) then return true end
+            end
         end
         return false
     end

@@ -317,7 +317,11 @@
 				<anchored to="tlanchor" position="insidetopleft" height="24" width="24" offset="0,0"/>
 				<script>
 					function getScores()
-						return ScopeManager.getLifepathWindow().getStatsThroughStep(ScopeManager.ALL_DISCIPLINES, self.step, 1)
+						scores = ScopeManager.getLifepathWindow().getStatsThroughStep(ScopeManager.ALL_DISCIPLINES, self.step, 1)
+						for s, v in pairs(ScopeManager.getLifepathWindow().getStatsThroughStep(ScopeManager.ALL_ATTRIBUTES, self.step, 7)) do
+					        scores[s] = v
+						end
+						return scores
 					end
 					function getTalents()
 						return ScopeManager.getSummaryList("talents")

@@ -41,7 +41,7 @@ function getScores()
     end
     for _, score in ipairs(ScopeManager.ALL_ATTRIBUTES) do
         local s = string.lower(score)
-        scores[s]=DB.getValue(charNode, s)
+        scores[s]=DB.getValue(charNode, s, 7)
     end
     return scores
 end
