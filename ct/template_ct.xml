@@ -3,7 +3,7 @@
 	<!--  CT Entry templates -->
 	<!--  Scores  -->
 	<template name="button_ctentry_activate_scores">
-		<buttoncontrol name="activate_scores" insertbefore="activateeffects">
+		<buttoncontrol name="activate_scores" insertbefore="button_section_effects">
 			<anchored to="rightanchor" width="20" height="20">
 				<top />
 				<right anchor="left" relation="relative" />
@@ -174,7 +174,7 @@
 
 	<!--  Damage  -->
 	<template name="button_ctentry_activate_damage">
-		<buttoncontrol name="activate_damage" insertbefore="activateeffects">
+		<buttoncontrol name="activate_damage" insertbefore="button_section_effects">
 			<anchored to="rightanchor" width="20" height="20">
 				<top />
 				<right anchor="left" relation="relative" />

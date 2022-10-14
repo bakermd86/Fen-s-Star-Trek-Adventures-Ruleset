@@ -20,9 +20,8 @@
 			<label_ct name="label_init" merge="join">
                 <anchored offset="153"/>
             </label_ct>
-
 			<buttoncontrol name="button_global_scores" insertafter="button_global_effects">
-				<anchored to="header_toggles" position="insidetopleft" offset="90,8" width="20" height="20" />
+				<anchored to="headeranchor" position="insidetopright" offset="20,0" width="20" height="20" />
 				<state icon="d20bicon" />
 				<state icon="d20gicon" />
 				<script>
@@ -32,7 +31,7 @@
 				</script>
 			</buttoncontrol>
 			<buttoncontrol name="button_global_damage" insertafter="button_global_effects">
-				<anchored to="header_toggles" position="insidetopleft" offset="70,8" width="20" height="20" />
+				<anchored to="headeranchor" position="insidetopright" offset="40,0" width="20" height="20" />
 				<state icon="button_shield" />
 				<state icon="button_shield_down" />
 				<script>
