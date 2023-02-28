@@ -2,6 +2,29 @@ local SET_CURVAL_REQ = "set_cur_val"
 local GET_CURVAL_REQ = "get_cur_val"
 local GET_CURVAL_RESP = "get_cur_val_response"
 local _syncedNodes = {}
+local slots = {};
+local slot_idx = 1;
+local orgaddBitmapWidget;
+
+function bitmapOverride(bmArgs)
+    if slot_idx == 1 then
+        slots = {}
+    end
+    w = self.orgaddBitmapWidget(bmArgs)
+    slots[slot_idx] = w
+    slot_idx = slot_idx + 1
+    return w
+end
+
+function onValueChanged()
+    slot_idx = 1;
+end
+
+function onInit()
+    self.orgaddBitmapWidget = addBitmapWidget
+    super.addBitmapWidget = bitmapOverride
+    super.onInit()
+end
 
 function onFirstLayout()
     local curValName = ""
