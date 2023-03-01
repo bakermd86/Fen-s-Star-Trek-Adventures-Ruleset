@@ -389,11 +389,11 @@
                 </anchored>
                 <font>lcars_sheetlabelmini</font>
             </string_textlistitem>
-          <linkcontrol_id name="shortcut">
+          <linkcontrol_record name="shortcut">
             <anchored to="name" position="left" offset="2" width="15" height="15"/>
             <class>weapon</class>
                 <readonly />
-          </linkcontrol_id>
+          </linkcontrol_record>
             <weapon_type name="type">
                 <frame name="field_mask_left" />
                 <script>

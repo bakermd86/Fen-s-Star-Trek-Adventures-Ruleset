@@ -162,10 +162,10 @@
     </template>
 
     <template name="link_item_link">
-          <linkcontrol_id name="link">
+          <linkcontrol_record name="link">
             <anchored to="name" position="left" offset="2" width="15" height="15"/>
             <readonly />
-          </linkcontrol_id>
+          </linkcontrol_record>
     </template>
 
 </root>

@@ -435,11 +435,11 @@
         </anchored>
 	  	<font>lcars_sheettext</font>
       </string_textlistitem>
-      <linkcontrol_id name="shortcut">
+      <linkcontrol_record name="shortcut">
         <anchored to="name" position="left" offset="2" width="15" height="15"/>
         <class>note</class>
             <readonly />
-      </linkcontrol_id>
+      </linkcontrol_record>
 		<formattedtextfield name="text">
 			<anchored position="insidetopright" width="0" height="0"/>
 			<invisible/>
