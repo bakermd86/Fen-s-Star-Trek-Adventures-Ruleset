@@ -111,7 +111,7 @@ function handleManualDrop(draginfo)
     elseif #self.sourceRollWindows < 2 then return false
     end
     local rRoll = buildSkillRoll(lastRollControlWindow, dice)
-    return buildScoreDrag(draginfo, rRoll)
+    buildScoreDrag(draginfo, rRoll)
 end
 
 function buildScoreDrag(draginfo, rRoll)
@@ -124,7 +124,7 @@ function buildScoreDrag(draginfo, rRoll)
     if (rRoll["sNode"] or "") ~= "" then
         draginfo.addShortcut(ActorManager.getRecordType(rRoll["sNode"]), rRoll["sNode"])
     end
-    return false
+    return true
 end
 
 function displayRawRoll(rSource, rTarget, rRoll)
