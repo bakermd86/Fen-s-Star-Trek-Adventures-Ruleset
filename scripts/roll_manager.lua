@@ -8,7 +8,9 @@ function onInit()
 	ActionsManager.registerResultHandler("character_score", handleScoreResult);
 	ChatManager.registerDropCallback("dice", handleManualDrop)
 	GameSystem.actions["damage_roll"] = { };
+	GameSystem.actions["dChallenge"] = { };
 	ActionsManager.registerResultHandler("damage_roll", handleDamageResult);
+	ActionsManager.registerResultHandler("dChallenge", handleDamageResult);
 end
 
 function determinationUsed(window)
@@ -96,13 +98,20 @@ function checkRoll(rRoll)
     end
 end
 
+function handleChallengeDrop(draginfo)
+    draginfo.setType("dChallenge")
+    return false
+end
+
 function handleManualDrop(draginfo)
     local dice = draginfo.getDieList()
-    if dice[1]['type'] ~= "d20" then return false
+    local dType = dice[1]['type']
+    if dType == "dChallenge" then return handleChallengeDrop(draginfo)
+    elseif dType ~= "d20" then return false
     elseif #self.sourceRollWindows < 2 then return false
     end
     local rRoll = buildSkillRoll(lastRollControlWindow, dice)
-    buildScoreDrag(draginfo, rRoll)
+    return buildScoreDrag(draginfo, rRoll)
 end
 
 function buildScoreDrag(draginfo, rRoll)
@@ -115,7 +124,7 @@ function buildScoreDrag(draginfo, rRoll)
     if (rRoll["sNode"] or "") ~= "" then
         draginfo.addShortcut(ActorManager.getRecordType(rRoll["sNode"]), rRoll["sNode"])
     end
-    return true
+    return false
 end
 
 function displayRawRoll(rSource, rTarget, rRoll)
@@ -128,6 +137,7 @@ function handleDamageResult(rSource, rTarget, rRoll)
     local effects = 0
     for _, die in ipairs(rRoll.aDice) do
         local v = die.value
+        die.type = "dChallenger"..v
         if v == 1 then
             damage = damage + 1
         elseif v == 2 then
@@ -136,7 +146,6 @@ function handleDamageResult(rSource, rTarget, rRoll)
             die.value=1
             damage = damage + 1
             effects = effects + 1
-            die.type = "dChallenger"..v
         else
             die.value=0
             die.result=0
@@ -145,7 +154,7 @@ function handleDamageResult(rSource, rTarget, rRoll)
 
     local rMessage = ChatManager.createBaseMessage(rSource, rRoll.sUser);
     rMessage.type = rRoll.sType;
-    rMessage.text = rMessage.text .. " [Damage: " .. damage .. "]"
+    rMessage.text = rMessage.text .. " [Total: " .. damage .. "]"
     rMessage.text = rMessage.text .. " [Effects: " .. effects .. "]"
     rMessage.text = rMessage.text .. rRoll.sDesc;
     rMessage.dice = rRoll.aDice;

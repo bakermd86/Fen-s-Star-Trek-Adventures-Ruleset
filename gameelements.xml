@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 
 <root>
-  <die name="dF" merge="delete"/>
-  <die name="d4" merge="delete"/>
-  <die name="d8" merge="delete"/>
-  <die name="d10" merge="delete"/>
-  <die name="d12" merge="delete"/>
-	<die name="d6">
+	<die name="dF" >
 		<icon>d6icon</icon>
-		<position>170,-68</position>
+	</die>
+	<die name="d4" >
+		<icon>d4icon</icon>
+	</die>
+	<die name="d8" >
+		<icon>d8icon</icon>
+	</die>
+	<die name="d10" >
+		<icon>d10icon</icon>
+	</die>
+	<die name="d12" >
+		<icon>d12icon</icon>
+	</die>
+	<die name="d6" >
+		<icon>d6icon</icon>
 	</die>
 	<customdie name="dChallenge">
 		<model>d6</model>
+		<icon>dSTAicon.6</icon>
 		<menuicon>customdice</menuicon>
 	</customdie>
 	<die name="dChallenger1"><icon>dSTAicon.1</icon></die>
@@ -20,4 +30,9 @@
 	<die name="dChallenger4"><icon>dSTAicon.4</icon></die>
 	<die name="dChallenger5"><icon>dSTAicon.5</icon></die>
 	<die name="dChallenger6"><icon>dSTAicon.6</icon></die>
+	<die name="dChallenge">
+		<default />
+		<model>d6</model>
+		<position>200,-68</position>
+	</die>
 </root>
