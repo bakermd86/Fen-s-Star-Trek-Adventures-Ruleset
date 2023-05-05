@@ -345,7 +345,7 @@
 					<top />
 					<right anchor="left" relation="relative" offset="-5"/>
 				</anchored>
-                <state tooltipres="tooptil_set_current_episode" />
+                <state tooltipres="tooptil_set_current_episode" icon="button_speak"/>
 				<script>
 					function onButtonPress()
 						CrewSupportManager.changeEpisode(window.getDatabaseNode())
