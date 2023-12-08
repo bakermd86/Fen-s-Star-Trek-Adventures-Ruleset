@@ -44,7 +44,7 @@ new_aRecords = {
 };
 
 function onInit()
-    if User.isHost() or User.isLocal() then
+    if User.isHost() then
         new_aRecords["crewmates"] ={
             bExport = true,
             aDataMap = { "crewmate", "reference.crewmates" },

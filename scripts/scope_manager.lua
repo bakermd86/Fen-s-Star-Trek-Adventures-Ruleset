@@ -16,6 +16,15 @@ ALL_DISCIPLINES = {
 	"Medicine"
 };
 
+ALL_SYSTEMS = {
+    "Engines",
+    "Computers",
+    "Weapons",
+    "Structure",
+    "Sensors",
+    "Communications"
+};
+
 function onInit()
 	ActorManager.registerActorRecordType("ships");
 	ActorManager.registerActorRecordType("crewmates");
@@ -92,7 +101,7 @@ function getSummary()
 end
 
 function getLpNode()
-    if User.isHost() or User.isLocal() then
+    if User.isHost() then
         return "lp_wizard.GM"
     end
     return "lp_wizard."..User.getUsername()

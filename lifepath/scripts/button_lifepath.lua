@@ -14,7 +14,7 @@ function openWizard(nodeName)
 end
 
 function onButtonPress()
-    if User.isHost() or User.isLocal() then
+    if User.isHost() then
         local node = LifePathActionHelper.createNode(LifePathActionHelper.GM_USER)
         openWizard(node.getNodeName())
     else

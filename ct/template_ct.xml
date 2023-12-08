@@ -13,6 +13,7 @@
 			<script>
 				function onValueChanged()
 					local v = getValue() == 1;
+					window.handleShipPanes()
 					---Toggle the visibility of the relevant things
 					window.scores_icon.setVisible(v)
 					window.scores.setVisible(v)
@@ -75,10 +76,6 @@
 					<top />
 					<right offset="-10"/>
 				</anchored>
-				<script>
-					function onInit()
-					end
-				</script>
 			</char_score_button>
         </sheetdata>
     </windowclass>
@@ -87,7 +84,11 @@
 		<ct_score_list name="attList">
 			<script>
 				function scores()
-					return ScopeManager.ALL_ATTRIBUTES
+					if DB.getValue(window.getDatabaseNode(), "is_ship", 0) == 1 then
+						return ScopeManager.ALL_SYSTEMS
+					else
+						return ScopeManager.ALL_ATTRIBUTES
+					end
 				end
 				function scoreClass()
 					return "ct_att_field"
@@ -184,6 +185,7 @@
 			<script>
 				function onValueChanged()
 					local v = getValue() == 1;
+					window.handleShipPanes()
 					---Toggle the visibility of the relevant things
 					window.damage_icon.setVisible(v)
 					window.damage.setVisible(v)

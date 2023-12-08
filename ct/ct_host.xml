@@ -64,8 +64,14 @@
 			<ct_entry_scores_subwindow />
 			<ct_entry_scores_frame />
 
-
 		</sheetdata>
+        <script>
+            function handleShipPanes()
+                if DB.getValue(getDatabaseNode(), "is_ship", 0) == 1 then
+                    damage.setValue("damage_window_ship", getDatabaseNode())
+                end
+            end
+        </script>
 	</windowclass>
 
 	<windowclass name="damage_window">
@@ -99,6 +105,37 @@
 				<static>Dead</static>
 			</ct_entry_toggle_label>
 			<ct_entry_toggle_select name="dead" />
+
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="damage_window_ship">
+		<sheetdata>
+			<genericcontrol name="damage_anchor">
+				<anchored height="0" width="0" position="insidetopleft"/>
+			</genericcontrol>
+            <toggleanchor/>
+
+			<ct_entry_toggle_label>
+				<static>Shields (cur/max)</static>
+			</ct_entry_toggle_label>
+            <ct_entry_simple_num name="shields_current"/>
+            <ct_entry_toggle_spacer_line/>
+            <ct_entry_simple_num name="shields_max"/>
+            <ct_entry_toggle_spacer_line/>
+
+			<ct_entry_toggle_label>
+				<static>Resistance</static>
+			</ct_entry_toggle_label>
+            <ct_entry_simple_num name="resistance"/>
+            <ct_entry_toggle_spacer_line/>
+
+			<ct_entry_toggle_label>
+				<static>Power (cur/max)</static>
+			</ct_entry_toggle_label>
+            <ct_entry_simple_num name="power_current"/>
+            <ct_entry_toggle_spacer_line/>
+            <ct_entry_simple_num name="power_max"/>
 
 		</sheetdata>
 	</windowclass>

@@ -17,7 +17,7 @@ IMPROVEMENT_SHORTNAMES = {
 }
 
 function onInit()
-    if User.isHost() or User.isLocal() then
+    if User.isHost() then
         OOBManager.registerOOBMsgHandler(NPC_NODE_REQUEST, handleNPCRequest)
         OOBManager.registerOOBMsgHandler(NPC_CREW_REQUEST, handleCrewRequest)
         OOBManager.registerOOBMsgHandler(NPC_DELETE_REQUEST, deleteNPCEntry)
@@ -75,7 +75,7 @@ function playerCrewSupportMaxNode()
 end
 
 function handleSupportingCharacterImprovementRequest(oobMsg)
-    if User.isHost() or User.isLocal() then
+    if User.isHost() then
         addEpisodeUsed(oobMsg.node)
         addSupportingCharacterImprovement(oobMsg.node)
     end
@@ -116,7 +116,7 @@ function createNPCNode(user)
 end
 
 function handleNPCRequest(oobMsg)
-    if User.isHost() or User.isLocal() then
+    if User.isHost() then
         local response = {
             ["type"]=oobMsg.callback,
             ["user"]=oobMsg.user,
@@ -128,7 +128,7 @@ function handleNPCRequest(oobMsg)
 end
 
 function getNewNPCNode(callback)
-    if User.isHost() or User.isLocal() then
+    if User.isHost() then
         return createNPCNode(User.getUsername())
     else
         local oobmsg = {
@@ -154,7 +154,7 @@ function filterCrewNodes()
 end
 
 function getCrewNodes(callback)
-    if User.isHost() or User.isLocal() then
+    if User.isHost() then
         callback(CrewSupportManager.filterCrewNodes())
     else
         local oobMsg = {
@@ -201,7 +201,7 @@ function requestCrewSupport(window)
 end
 
 function handleCrewSupportRequest(oobMsg)
-    if User.isHost() or User.isLocal() then
+    if User.isHost() then
         local node = DB.findNode(oobMsg.node)
         DB.setValue(node, "current_crew_support", "number", DB.getValue(node, "current_crew_support", 1) - 1)
     end
@@ -265,7 +265,7 @@ function activateSupportingCharacter(window)
     local node = charWindow.getDatabaseNode()
     DB.deleteChild(node, "token")
     local name = DB.getValue(node, "name")
-    if User.isHost() or User.isLocal() then
+    if User.isHost() then
         if window.main_frame.saving then
             doGMSave(node, name)
         else

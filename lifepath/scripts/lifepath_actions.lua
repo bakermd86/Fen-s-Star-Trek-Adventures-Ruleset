@@ -11,7 +11,7 @@ function onInit()
 end
 
 function handleCreateNote(oobMsg)
-    if User.isHost() or User.isLocal() then
+    if User.isHost() then
         local node = DB.createChild("notes");
         node.createChild("name", "string").setValue(oobMsg.name)
         node.createChild("text", "formattedtext").setValue(oobMsg.text);
@@ -29,7 +29,7 @@ function createNode(user)
 end
 
 function handleRootNodeRequest(oobMsg)
-    if User.isHost() or User.isLocal() then
+    if User.isHost() then
         local node = createNode(oobMsg["user"])
         local response = {
             ["type"]=oobMsg.callback,

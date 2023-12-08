@@ -13,14 +13,12 @@ function onInit()
         _actOrder = math.max(_actOrder, initresult)
     end
     _actOrder = _actOrder + 1
-    _listOnEntrySelectionToggle = list.onEntrySectionToggle
     list.onEntrySectionToggle = onEntrySectionToggle
     _orgRequestActiviation = CombatManager.requestActivation
     CombatManager.requestActivation = requestActivation
 end
 
 function onEntrySectionToggle()
-    _listOnEntrySelectionToggle()
     local anyScores = 0
     local anyDamages = 0
 

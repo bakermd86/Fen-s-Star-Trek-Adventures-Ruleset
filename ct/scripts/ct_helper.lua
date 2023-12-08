@@ -11,7 +11,15 @@ function onInit()
     if Session.IsHost then
         OOBManager.registerOOBMsgHandler(REQUEST_TURN_MSG, handleTurnRequest)
         OOBManager.registerOOBMsgHandler(REQUEST_INITIATIVE_MSG, handleInitiativeRequest)
+		CombatRecordManager.setRecordTypeCallback("ships", CTHelper.onShipAdd);
     end
+end
+
+function onShipAdd(tCustom)
+    local ctNode = tCustom.nodeCT
+    DB.setValue(ctNode, "is_ship", "number", 1)
+    CombatRecordManager.addVehicle(tCustom);
+--     Debug.chat(ctNode, Interface.findWindow("ct_entry", ctNode))
 end
 
 function linkCTField(ctField)
