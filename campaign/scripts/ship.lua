@@ -4,7 +4,7 @@ function onInit()
 	onStateChanged();
 	onIDChanged();
     registerMenuItem("Edit Colors", "categorystyle", 7)
-    if User.isHost() then
+    if Session.IsHost then
         registerMenuItem("Set As Crew Ship", "linkshareall", 8)
     end
 end

@@ -101,10 +101,10 @@ function getSummary()
 end
 
 function getLpNode()
-    if User.isHost() then
+    if Session.IsHost then
         return "lp_wizard.GM"
     end
-    return "lp_wizard."..User.getUsername()
+    return "lp_wizard."..Session.UserName
 end
 
 

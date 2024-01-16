@@ -44,7 +44,7 @@ new_aRecords = {
 };
 
 function onInit()
-    if User.isHost() then
+    if Session.IsHost then
         new_aRecords["crewmates"] ={
             bExport = true,
             aDataMap = { "crewmate", "reference.crewmates" },

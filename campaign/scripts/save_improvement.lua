@@ -64,17 +64,17 @@ function copyServiceHistory(historyNode, display)
 end
 
 function moveToServiceHistory(target, type)
-    if DB.isOwner(window.getRootNode(), User.getUsername()) then
+    if DB.isOwner(window.getRootNode(), Session.UserName) then
         local historyNode = DB.createChild(window.getRootNode(), "service_history").createChild()
         copyServiceHistory(historyNode, formatDisplay(target, type))
     else
         local oobMsg = {
             ["type"]=MilestoneCommHelper.NODE_ADD_CHILD_REQ,
-            ["user"]=User.getUsername(),
+            ["user"]=Session.UserName,
             ["node"]=window.getRootNode().getNodeName(),
             ["parent"]="service_history",
             ["display"]=formatDisplay(target, type),
-            ["callback"]="service_history_node_resp"..User.getUsername()
+            ["callback"]="service_history_node_resp"..Session.UserName
         }
         OOBManager.registerOOBMsgHandler(oobMsg.callback, self.handleServiceHistoryResponse)
         Comm.deliverOOBMessage(oobMsg, "")
@@ -130,12 +130,12 @@ function saveRefLink(ref, option)
         self.pendingRefItem = ref
         local oobMsg = {
             ["type"]=MilestoneCommHelper.NODE_ADD_CHILD_REQ,
-            ["user"]=User.getUsername(),
+            ["user"]=Session.UserName,
             ["node"]=self.root.getNodeName(),
             ["parent"]=LINK_LIST_MAP[option.target],
             ["target"]=option.target,
             ["option_type"]=option.type,
-            ["callback"]="ref_link_response"..User.getUsername()
+            ["callback"]="ref_link_response"..Session.UserName
         }
         OOBManager.registerOOBMsgHandler(oobMsg.callback, self.handleRefLinkResponse)
         Comm.deliverOOBMessage(oobMsg, "")
@@ -243,7 +243,7 @@ function saveScore(scoreWidget)
     elseif modifier == -1 then
         self.oldDisplayVal = scoreWidget.scoreName.getValue()
     end
-    if DB.isOwner(scoreNode, User.getUsername()) then
+    if DB.isOwner(scoreNode, Session.UserName) then
         DB.setValue(scoreNode, "", "number", currentScore + modifier)
     else
         local oobMsg = {
@@ -313,7 +313,7 @@ function doGiveSupport(w, option)
         return false
     end
     local crewMember = CrewSupportManager.getSupportingCharacterByName(crewName)
-    if DB.isOwner(crewMember, User.getUsername()) then
+    if DB.isOwner(crewMember, Session.UserName) then
         local newMilestone = DB.createChild(crewMember, "saved_milestones").createChild()
         DB.copyNode(window.getDatabaseNode(), newMilestone)
         return true
@@ -321,11 +321,11 @@ function doGiveSupport(w, option)
         local oobMsg = {
             ["type"]=MilestoneCommHelper.NODE_ADD_CHILD_REQ,
             ["node"]=crewMember.getNodeName(),
-            ["callback"]="give_support_response"..User.getUsername(),
+            ["callback"]="give_support_response"..Session.UserName,
             ["parent"]="saved_milestones",
             ["target"]=option.target,
             ["option_type"]=option.type,
-            ["user"]=User.getUsername()
+            ["user"]=Session.UserName
         }
         OOBManager.registerOOBMsgHandler(oobMsg.callback, self.handleGiveSupportResponse)
         Comm.deliverOOBMessage(oobMsg, "")

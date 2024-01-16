@@ -8,7 +8,7 @@ RANK_MAP = {
 }
 
 function onInit()
-	if User.isHost() then
+	if Session.IsHost then
 		OOBManager.registerOOBMsgHandler(LIFEPATH_SET_CHILD_REQUEST, requestSetChild)
 		OOBManager.registerOOBMsgHandler(LIFEPATH_ADD_CHILD_LINK_REQUEST, handleAddChildLinkRequest)
 		OOBManager.registerOOBMsgHandler(LIFEPATH_ADD_WEAPON_REQUEST, handleAddWeaponRequest)
@@ -22,7 +22,7 @@ end
 
 
 function addWeapon(node, damage, name, qualities, cost, size, range)
-	if User.isHost() then
+	if Session.IsHost then
 		local linkEntry = DB.findNode(node).createChild("weapons").createChild()
 		linkEntry.createChild("name", "string").setValue(name)
 		linkEntry.createChild("qualities", "string").setValue(qualities)
@@ -50,7 +50,7 @@ function handleAddChildLinkRequest(oobMsg)
 end
 
 function addLinkToChild(node, childTag, label, class, recordName)
-	if User.isHost() then
+	if Session.IsHost then
 		local linkEntry = DB.findNode(node).createChild(childTag).createChild()
 		linkEntry.createChild("label", "string").setValue(label)
 		linkEntry.createChild("link", "windowreference").setValue(class, recordName)
@@ -68,13 +68,13 @@ function addLinkToChild(node, childTag, label, class, recordName)
 end
 
 function requestSetChild(oobMsg)
-	if User.isHost() then
+	if Session.IsHost then
 		setChild(oobMsg.node, oobMsg.childTag, oobMsg.childType, oobMsg.childValue)
 	end
 end
 
 function setChild(node, childTag, childType, childValue)
-	if User.isHost() then
+	if Session.IsHost then
 		DB.findNode(node).createChild(childTag, childType).setValue(childValue)
 	else
 		local oobMsg = {
@@ -89,7 +89,7 @@ function setChild(node, childTag, childType, childValue)
 end
 
 function handleNodeCharRequest(oobMsg)
-	if User.isHost() then
+	if Session.IsHost then
 		local nodeChar = DB.createChild("charsheet")
 		DB.setOwner(nodeChar, oobMsg.user)
 		Comm.deliverOOBMessage({["type"]=oobMsg.callback, ["nodeChar"]=nodeChar.getNodeName()}, oobMsg.user)
@@ -103,7 +103,7 @@ function handleSaveCallback(result)	if result == "yes" then requestSave() end en
 function handleIdentity(result, identity) saveCharacter("charsheet."..identity) end
 
 function requestSave()
-	if User.isHost() then
+	if Session.IsHost then
 		local nodeChar = DB.createChild("charsheet")
 		saveCharacter(nodeChar.getNodeName())
 	else

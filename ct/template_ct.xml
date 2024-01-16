@@ -24,15 +24,24 @@
 		</buttoncontrol>
 	</template>
 
+	<template name="icon_stctsection">
+		<genericcontrol>
+			<anchored width="20" height="20">
+				<left offset="55" />
+				<top parent="active_spacer_top" anchor="bottom" relation="current" offset="10" />
+			</anchored>
+		</genericcontrol>
+	</template>
+
 	<template name="ct_entry_scores_icon">
-		<icon_ctsection name="scores_icon" insertbefore="target_summary">
+		<icon_stctsection name="scores_icon" insertbefore="target_summary">
 			<anchored width="20" height="20">
 				<left offset="55" />
 				<top parent="active_spacer_top" anchor="bottom" relation="current" offset="10" />
 			</anchored>
 			<icon>d20gicon</icon>
 			<invisible />
-		</icon_ctsection>
+		</icon_stctsection>
 	</template>
 	<template name="ct_entry_scores_subwindow">
 		<subwindow name="scores" insertbefore="target_summary">
@@ -45,14 +54,27 @@
 		</subwindow>
 	</template>
 
+	<template name="frame_stctsub">
+		<genericcontrol>
+			<anchored>
+				<left offset="75" />
+				<top offset="-8" />
+				<right offset="-4" />
+				<bottom offset="8" />
+			</anchored>
+			<frame name="ct_subgroupbox" />
+			<disabled />
+		</genericcontrol>
+	</template>
+
 	<template name="ct_entry_scores_frame">
-		<frame_ctsub name="frame_scores" insertbefore="target_summary">
+		<frame_stctsub name="frame_scores" insertbefore="target_summary">
 			<anchored>
 				<top parent="scores_icon" />
 				<bottom parent="scores" />
 			</anchored>
 			<invisible />
-		</frame_ctsub>
+		</frame_stctsub>
 	</template>
 
 	<!--  CT score widgets  -->
@@ -197,14 +219,14 @@
 	</template>
 
 	<template name="ct_entry_damage_icon">
-		<icon_ctsection name="damage_icon" insertbefore="target_summary">
+		<icon_stctsection name="damage_icon" insertbefore="target_summary">
 			<anchored width="20" height="20">
 				<left offset="55" />
 				<top parent="active_spacer_top" anchor="bottom" relation="current" offset="10" />
 			</anchored>
 			<icon>button_shield_down</icon>
 			<invisible />
-		</icon_ctsection>
+		</icon_stctsection>
 	</template>
 	<template name="ct_entry_damage_subwindow">
 		<subwindow name="damage" insertbefore="target_summary">
@@ -218,13 +240,13 @@
 	</template>
 
 	<template name="ct_entry_damage_frame">
-		<frame_ctsub name="frame_damage" insertbefore="target_summary">
+		<frame_stctsub name="frame_damage" insertbefore="target_summary">
 			<anchored>
 				<top parent="damage_icon" />
 				<bottom parent="damage" />
 			</anchored>
 			<invisible />
-		</frame_ctsub>
+		</frame_stctsub>
 	</template>
 
 	<!--  General Control templates  -->

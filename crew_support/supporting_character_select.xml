@@ -134,7 +134,7 @@
 						self.saving = false
 					end
 					function handleNPCNode(oobMsg)
-						if oobMsg.user == User.getUsername() then
+						if oobMsg.user == Session.UserName then
 							self.npcNode = oobMsg.nodeName
 						end
 					end
@@ -410,7 +410,7 @@
 						window.select_button.setStateText(1, formatText(), formatText())
 					end
 					function formatText()
-						if User.isHost() then
+						if Session.IsHost then
 							local owner = DB.getOwner(window.getDatabaseNode())
 							if owner and not(owner == "") then
 								return getValue() .. " ("..owner..")"

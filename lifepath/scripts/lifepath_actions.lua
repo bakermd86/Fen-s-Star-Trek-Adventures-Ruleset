@@ -11,7 +11,7 @@ function onInit()
 end
 
 function handleCreateNote(oobMsg)
-    if User.isHost() then
+    if Session.IsHost then
         local node = DB.createChild("notes");
         node.createChild("name", "string").setValue(oobMsg.name)
         node.createChild("text", "formattedtext").setValue(oobMsg.text);
@@ -29,7 +29,7 @@ function createNode(user)
 end
 
 function handleRootNodeRequest(oobMsg)
-    if User.isHost() then
+    if Session.IsHost then
         local node = createNode(oobMsg["user"])
         local response = {
             ["type"]=oobMsg.callback,
@@ -43,8 +43,8 @@ end
 function requestRootNode(callbackFunc)
     local oobMsg = {
         ["type"]=LIFEPATH_ROOT_NODE_REQUEST,
-        ["user"]=User.getUsername(),
-        ["callback"]=LIFEPATH_ROOT_NODE_RESPONSE..User.getUsername()
+        ["user"]=Session.UserName,
+        ["callback"]=LIFEPATH_ROOT_NODE_RESPONSE..Session.UserName
     }
     OOBManager.registerOOBMsgHandler(oobMsg.callback, callbackFunc)
     Comm.deliverOOBMessage(oobMsg, "");

@@ -332,7 +332,7 @@
 			  	<script>
 					function onInit()
 						if self.getDatabaseNode().getValue() == "" then
-							setValue(User.getUsername())
+							setValue(Session.UserName)
 						end
 					end
 				</script>

@@ -82,7 +82,7 @@ function buildSkillRoll(window, dice, scoreOverride)
         ["discName"]=discName,
         ["dc"]=dc,
         ["focus"]=nil,
-        ['sUser']=User.getUsername(),
+        ['sUser']=Session.UserName,
         ['determination']=determinationUsed(window),
         ["sNode"]=window.getDatabaseNode().getNodeName()
     }
@@ -164,7 +164,7 @@ function handleDamageResult(rSource, rTarget, rRoll)
       if rRoll.bTower then
         rMessage.icon = "dicetower_icon";
       end
-    elseif User.isHost() and OptionsManager.isOption("REVL", "off") then
+    elseif Session.IsHost and OptionsManager.isOption("REVL", "off") then
       rMessage.secret = true;
     end
     rMessage.dicedisplay = 0;

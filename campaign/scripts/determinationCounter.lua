@@ -2,8 +2,8 @@ ADD_BONUS_DIE_BASE = " has used a point of Determination to add a natural one to
 REMOVE_BONUS_DIE_BASE = " has cancelled the bonus die"
 
 function createMessage(baseMsg)
-    local message = ChatManager.createBaseMessage(window.getDatabaseNode().getNodeName(), User.getUsername())
-    message.text = DB.getValue(window.getDatabaseNode(), "name", User.getUsername()) .. baseMsg
+    local message = ChatManager.createBaseMessage(window.getDatabaseNode().getNodeName(), Session.UserName)
+    message.text = DB.getValue(window.getDatabaseNode(), "name", Session.UserName) .. baseMsg
     return message
 end
 

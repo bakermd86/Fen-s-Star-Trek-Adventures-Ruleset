@@ -302,4 +302,16 @@
 			<state textres="" />
 		</buttoncontrol>
 	</template>
+
+	<windowclass name="chat" merge="join">
+		<sheetdata>
+			<chat_speaker_combo name="speaker" merge="join" >
+				<gmvisibleonly merge="delete"/>
+			</chat_speaker_combo>
+			<chat_speaker_icon name="speakericon" merge="join" >
+				<gmvisibleonly merge="delete"/>
+			</chat_speaker_icon>
+		</sheetdata>
+	</windowclass>
+
 </root>

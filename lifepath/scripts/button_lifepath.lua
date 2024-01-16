@@ -3,7 +3,7 @@
 -- end
 
 function handleRootNodeResponse(oobMsg)
-    if oobMsg.user == User.getUsername() then
+    if oobMsg.user == Session.UserName then
         local nodeName = oobMsg.nodeName
         openWizard(nodeName)
     end
@@ -14,7 +14,7 @@ function openWizard(nodeName)
 end
 
 function onButtonPress()
-    if User.isHost() then
+    if Session.IsHost then
         local node = LifePathActionHelper.createNode(LifePathActionHelper.GM_USER)
         openWizard(node.getNodeName())
     else

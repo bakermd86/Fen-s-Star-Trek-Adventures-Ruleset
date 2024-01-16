@@ -74,7 +74,7 @@ function requestTurn()
         local oobMsg = {
             ["type"]=REQUEST_TURN_MSG,
             ["identity"]=ctIdentityNode.getNodeName(),
-            ["user"]=User.getUsername()
+            ["user"]=Session.UserName
         }
         Comm.deliverOOBMessage(oobMsg, "")
     end
@@ -108,7 +108,7 @@ function requestInitiative(mode)
     local oobMsg = {
         ["type"]=REQUEST_INITIATIVE_MSG,
         ["identity"]=User.getCurrentIdentity(),
-        ["user"]=User.getUsername()
+        ["user"]=Session.UserName
     }
     if mode == "Keep Initiative" then
         oobMsg.keepInitiative = "TRUE"

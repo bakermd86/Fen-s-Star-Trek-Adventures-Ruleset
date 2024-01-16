@@ -15,9 +15,11 @@ IMPROVEMENT_SHORTNAMES = {
     "C",
     "R"
 }
+ACT_PEND = false
+PLAYER_IDS = {}
 
 function onInit()
-    if User.isHost() then
+    if Session.IsHost then
         OOBManager.registerOOBMsgHandler(NPC_NODE_REQUEST, handleNPCRequest)
         OOBManager.registerOOBMsgHandler(NPC_CREW_REQUEST, handleCrewRequest)
         OOBManager.registerOOBMsgHandler(NPC_DELETE_REQUEST, deleteNPCEntry)
@@ -30,6 +32,86 @@ function onInit()
     self.pendingDeleteNodes = {}
     self.pendingWindow = nil
     math.randomseed(os.time() - os.clock() * 1000);
+--     Interface.onDesktopInit = self.onDesktopInit
+end
+
+function onTabletopInit()
+    if Session.IsHost then return end
+    User.addEventHandler("onIdentityStateChange", onIdentityStateChange)
+    User.addEventHandler("onIdentityActivation", onIdentityActivation)
+    local w = ChatManager.getChatWindow();
+    if w then
+        w.speaker.onSelect = onChatSelect
+    end
+end
+
+function handleChatIdDeactivate(identity, user, activated)
+    if (user == Session.UserName) and ((activated or "") == "" ) then
+        local pDef = PLAYER_IDS[identity]
+        if (pDef or "") ~= "" then
+            replaceChatName(pDef["label"], nil)
+        end
+        PLAYER_IDS[identity] = {}
+    end
+end
+
+function onIdentityStateChange(identityname, username, statename, state)
+    if (statename ~= "current" and statename ~= "label") then return end
+    local pDef = PLAYER_IDS[identityname]
+    if (pDef or "") == "" then
+        pDef = {}
+    end
+    local oVal = pDef[statename]
+    pDef[statename] = state
+    if (statename == "label") then
+        replaceChatName(oVal, state)
+    end
+    if (statename == "current" and state == true) or (statename == "label" and pDef["current"] == true) then
+        selectChatIdName(pDef["label"])
+    end
+    PLAYER_IDS[identityname] = pDef
+end
+
+function replaceChatName(oVal, nVal)
+    if oVal == nVal then return end
+    local w = ChatManager.getChatWindow();
+    if (w or "") == "" then return end
+    w.speaker.remove(oVal)
+    if (nVal or "") == "" then return end
+    w.speaker.add(nVal)
+end
+
+function syncChatNames()
+    local w = ChatManager.getChatWindow();
+    if (w or "") == "" then return end
+    local activeNames = {}
+    for i,v in ipairs(User.getOwnedIdentities()) do
+        local sName = DB.getValue("charsheet." .. v .. ".name")
+        if (sName or "") ~= "" then
+            table.insert(activeNames, sName)
+        end
+    end
+    w.speaker.clear()
+    w.speaker.addItems(activeNames)
+end
+
+function selectChatIdName(sName)
+    local w = ChatManager.getChatWindow();
+    if (w or "") == "" then return end
+    if (sName or "") == "" then return end
+    w.speaker.setListValue(sName)
+end
+
+function getPlayerIdByName(sValue)
+    for identity, pDef in pairs(PLAYER_IDS) do
+        if sValue == pDef["label"] then
+            return identity;
+        end
+    end
+end
+
+function onChatSelect(sValue)
+    UserManager.activatePlayerID(CrewSupportManager.getPlayerIdByName(sValue));
 end
 
 function releaseCharacter(oobMsg)
@@ -37,6 +119,7 @@ function releaseCharacter(oobMsg)
         User.releaseIdentity(oobMsg.identity)
     end
 end
+
 function csNode()
     return DB.getRoot().createChild("crew_support")
 end
@@ -75,14 +158,14 @@ function playerCrewSupportMaxNode()
 end
 
 function handleSupportingCharacterImprovementRequest(oobMsg)
-    if User.isHost() then
+    if Session.IsHost then
         addEpisodeUsed(oobMsg.node)
         addSupportingCharacterImprovement(oobMsg.node)
     end
 end
 
 function requestSupportingCharacterImprovement(node)
-    if DB.isOwner(node, User.getUsername())  then
+    if DB.isOwner(node, Session.UserName)  then
         addEpisodeUsed(node)
         addSupportingCharacterImprovement(node.getNodeName())
     else
@@ -116,7 +199,7 @@ function createNPCNode(user)
 end
 
 function handleNPCRequest(oobMsg)
-    if User.isHost() then
+    if Session.IsHost then
         local response = {
             ["type"]=oobMsg.callback,
             ["user"]=oobMsg.user,
@@ -128,13 +211,13 @@ function handleNPCRequest(oobMsg)
 end
 
 function getNewNPCNode(callback)
-    if User.isHost() then
-        return createNPCNode(User.getUsername())
+    if Session.IsHost then
+        return createNPCNode(Session.UserName)
     else
         local oobmsg = {
             ["type"]=NPC_NODE_REQUEST,
-            ["user"]=User.getUsername(),
-            ["callback"]=NPC_NODE_RESPONSE..User.getUsername()
+            ["user"]=Session.UserName,
+            ["callback"]=NPC_NODE_RESPONSE..Session.UserName
         }
         OOBManager.registerOOBMsgHandler(oobmsg.callback, callback)
         Comm.deliverOOBMessage(oobmsg, "")
@@ -154,13 +237,13 @@ function filterCrewNodes()
 end
 
 function getCrewNodes(callback)
-    if User.isHost() then
+    if Session.IsHost then
         callback(CrewSupportManager.filterCrewNodes())
     else
         local oobMsg = {
             ["type"]=NPC_CREW_REQUEST,
-            ["user"]=User.getUsername(),
-            ["callback"]=NPC_CREW_RESPONSE..User.getUsername()
+            ["user"]=Session.UserName,
+            ["callback"]=NPC_CREW_RESPONSE..Session.UserName
         }
         OOBManager.registerOOBMsgHandler(oobMsg.callback, callback)
         Comm.deliverOOBMessage(oobMsg, "")
@@ -174,10 +257,11 @@ function handleCrewRequest(oobMsg)
 end
 
 function onIdentityActivation(identity, user, activated)
-    if user == User.getUsername() then
+    if user == Session.UserName and ACT_PEND then
         handleIdentity(activated, identity)
-        User.onIdentityActivation = nil
+        ACT_PEND = false
     end
+    handleChatIdDeactivate(identity, user, activated)
 end
 
 function handleIdentity(result, identity)
@@ -201,14 +285,14 @@ function requestCrewSupport(window)
 end
 
 function handleCrewSupportRequest(oobMsg)
-    if User.isHost() then
+    if Session.IsHost then
         local node = DB.findNode(oobMsg.node)
         DB.setValue(node, "current_crew_support", "number", DB.getValue(node, "current_crew_support", 1) - 1)
     end
 end
 
 function checkSupportAvailable(window)
-    return (User.isHost()) or (DB.getValue(window.getDatabaseNode(), "current_crew_support", 0) >= 1)
+    return (Session.IsHost) or (DB.getValue(window.getDatabaseNode(), "current_crew_support", 0) >= 1)
 end
 
 function doGMSave(node, name)
@@ -265,7 +349,7 @@ function activateSupportingCharacter(window)
     local node = charWindow.getDatabaseNode()
     DB.deleteChild(node, "token")
     local name = DB.getValue(node, "name")
-    if User.isHost() then
+    if Session.IsHost then
         if window.main_frame.saving then
             doGMSave(node, name)
         else
@@ -285,7 +369,8 @@ function activateSupportingCharacter(window)
             table.insert(self.pendingDeleteNodes, node.getNodeName())
             addEpisodeUsed(node)
         else
-            User.onIdentityActivation = onIdentityActivation -- For some reason the callback is not being invoked below
+--             User.onIdentityActivation = onIdentityActivation -- For some reason the callback is not being invoked below
+            ACT_PEND = true
             User.requestIdentity(node.getName(), "charsheet", "name", node, handleIdentity)
             if newActivation then
                 requestSupportingCharacterImprovement(node)

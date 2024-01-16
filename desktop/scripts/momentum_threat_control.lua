@@ -30,7 +30,7 @@ function onFirstLayout()
     local curValName = ""
     self.node = DB.getPath(window.getDatabaseNode(), sourcefields[1].current[1])
     self.name = display[1]
-    if (User.isHost()) then
+    if (Session.IsHost) then
         OOBManager.registerOOBMsgHandler(SET_CURVAL_REQ..string.lower(self.name), handleCurValSet)
         DB.setPublic(self.node, true)
     end
@@ -50,14 +50,14 @@ function notifyClientMomentum(user, curVal)
 end
 
 function handleCurValSet(oobMsg)
-    if User.isHost() then
+    if Session.IsHost then
         setCounterVal(tonumber(oobMsg.newVal), oobMsg.msgSource)
     end
 end
 
 function getMsgSource()
     local sourceName = ""
-    if User.isHost() then
+    if Session.IsHost then
         sourceName = "GM"
     else
         local identityNode = User.getCurrentIdentity()
@@ -65,7 +65,7 @@ function getMsgSource()
             sourceName = DB.getValue("charsheet."..identityNode..".name", "")
         end
         if sourceName == "" then
-            sourceName = User.getUsername()
+            sourceName = Session.UserName
         end
     end
     return sourceName
@@ -76,7 +76,7 @@ function getCounterVal()
 end
 
 function setCounterVal(newVal, msgSource)
-    if self.node and (User.isHost()) then
+    if self.node and (Session.IsHost) then
         local curVal = getCounterVal()
         if newVal < 0  and curVal <= 0 then
             return
