@@ -46,7 +46,16 @@ new_aRecords = {
 function onInit()
     if Session.IsHost then
         new_aRecords["crewmates"] ={
-            bExport = true,
+            aCustom = {
+                tWindowMenu = { ["left"] = { "chat_speak" } },
+            },
+            tOptions = {
+                bExport = true,
+                bID = true,
+                bPicture = true,
+                bToken = true,
+                bCustomDie = true,
+            },
             aDataMap = { "crewmate", "reference.crewmates" },
             sRecordDisplayClass = "npc",
             sListDisplayClass = "masterindexitem",
@@ -63,6 +72,22 @@ function onInit()
             sRecordDisplayClass = "saved_lptableset",
             sListDisplayClass = "masterindexitem",
 		    sSidebarCategory = "library"
+        }
+        new_aRecords["chat_helper"] = {
+            aCustom = {
+                tWindowMenu = { ["left"] = { "chat_speak" } },
+            },
+            aDataMap = { "chat_helper", "reference.chat_helper" },
+            sRecordDisplayClass = "npc",
+            sListDisplayClass = "masterindexitem",
+            tOptions = {
+                bExport = true,
+                bID = true,
+                bToken = true,
+                bPicture = true,
+                bHidden = true,
+                bCustomDie = true,
+            },
         }
     end
 	for kRecordType,vRecordType in pairs(new_aRecords) do

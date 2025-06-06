@@ -5,6 +5,7 @@ local REQUEST_TURN_MSG = "OOB_REQUEST_TURN_MSG"
 local REQUEST_TURN_MSG_RESPONSE = "OOB_REQUEST_TURN_MSG_RESPONSE"
 local REQUEST_INITIATIVE_MSG = "OOB_REQUEST_INITIATIVE_MSG"
 local NOTIFY_INITIATIVE_MSG = "OOB_NOTIFY_INITIATIVE_MSG"
+local RELEASE_INITIATIVE_MSG = "OOB_RELEASE_INITIATIVE_MSG"
 
 function onInit()
     CombatManager.setCustomSort(staSortFunc)
@@ -13,6 +14,8 @@ function onInit()
         OOBManager.registerOOBMsgHandler(REQUEST_INITIATIVE_MSG, handleInitiativeRequest)
 		CombatRecordManager.setRecordTypeCallback("ships", CTHelper.onShipAdd);
     end
+    OOBManager.registerOOBMsgHandler(NOTIFY_INITIATIVE_MSG, handleInitiativeNotify)
+    OOBManager.registerOOBMsgHandler(RELEASE_INITIATIVE_MSG, handleInitiativeRelease)
 end
 
 function onShipAdd(tCustom)
@@ -67,9 +70,16 @@ function getInitiativeKept()
     return DB.getValue("combattracker.initiative_kept", 0)
 end
 
+function requestTurnForNode(ctEntryNode)
+    sendTurnRequest(ctEntryNode)
+end
+
 function requestTurn()
     local identityActiveNode = User.getCurrentIdentity();
-    local ctIdentityNode = CombatManager.getCTFromNode("charsheet." .. identityActiveNode)
+    sendTurnRequest(CombatManager.getCTFromNode("charsheet." .. identityActiveNode))
+end
+
+function sendTurnRequest(ctIdentityNode)
     if (ctIdentityNode or "") ~= "" then
         local oobMsg = {
             ["type"]=REQUEST_TURN_MSG,
@@ -102,6 +112,7 @@ function handleTurnRequest(oobMsg)
     if turnAllowed(oobMsg.identity) then
         CombatManager.requestActivation(DB.findNode(oobMsg.identity))
     end
+    clearInitiativePopups()
 end
 
 function requestInitiative(mode)
@@ -115,6 +126,13 @@ function requestInitiative(mode)
     else
         oobMsg.keepInitiative = "FALSE"
     end
+    Comm.deliverOOBMessage(oobMsg, "")
+end
+
+function clearInitiativePopups()
+    local oobMsg = {
+        ["type"]=RELEASE_INITIATIVE_MSG
+    }
     Comm.deliverOOBMessage(oobMsg, "")
 end
 
@@ -148,6 +166,24 @@ function gmReleaseInitiative()
     setInitiativeGroup(0)
     msg.text = INITIATIVE_TAG .. "Allied forces have the initiative!"
     Comm.deliverChatMessage(msg);
+
+    local oobMsg = {
+        type = NOTIFY_INITIATIVE_MSG
+    }
+    Comm.deliverOOBMessage(oobMsg)
+end
+
+function handleInitiativeNotify(oobMsg)
+    if Session.IsHost then return end
+    local initW = Interface.openWindow("initiative_popup", CombatManager.CT_MAIN_PATH)
+end
+
+function handleInitiativeRelease(oobMsg)
+    if Session.IsHost then return end
+    local initW = Interface.findWindow("initiative_popup", CombatManager.CT_MAIN_PATH)
+    if (initW or "") ~= "" then
+        initW.close()
+    end
 end
 
 function initiativeAllowed()

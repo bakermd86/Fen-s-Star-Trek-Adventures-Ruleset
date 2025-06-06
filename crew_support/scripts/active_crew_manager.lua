@@ -57,6 +57,7 @@ end
 
 function onIdentityStateChange(identityname, username, statename, state)
     if (statename ~= "current" and statename ~= "label") then return end
+    if username ~= Session.UserName then return end
     local pDef = PLAYER_IDS[identityname]
     if (pDef or "") == "" then
         pDef = {}
@@ -257,7 +258,8 @@ function handleCrewRequest(oobMsg)
 end
 
 function onIdentityActivation(identity, user, activated)
-    if user == Session.UserName and ACT_PEND then
+    if user ~= Session.UserName then return end
+    if ACT_PEND then
         handleIdentity(activated, identity)
         ACT_PEND = false
     end

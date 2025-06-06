@@ -66,6 +66,7 @@
     <icon name="sidebar_icon_recordtype_shiptalents" file="graphics/sidebar/sidebar_icon_spaceship_2.png" />
     <icon name="sidebar_icon_recordtype_focuses" file="graphics/sidebar/sidebar_icon_skill.png" />
     <icon name="sidebar_icon_recordtype_values" file="graphics/sidebar/sidebar_icon_fire.png" />
+	<icon name="sidebar_icon_shortcut_traits" file="graphics/sidebar/sidebar_icon_planet.png" />
 
 	<!--	Charsheet replacement graphics	-->
 	<icon name="tabtop" file="graphics/tabs/tabtop.png" />

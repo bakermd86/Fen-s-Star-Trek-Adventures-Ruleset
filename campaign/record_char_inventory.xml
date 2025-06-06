@@ -30,24 +30,31 @@
                 <bottom parent=""/>
             </anchored>
         </char_frame_color>
-        <frame_char name="inventoryframe" >
-            <bounds merge="delete"/>
-            <anchored to="inventory_color"/>
+        <frame_char name="inventoryframe" merge="replace">
+            <anchored to="inventory_color" position="insidetop" >
+            </anchored>
         </frame_char>
 
-			<label name="weight_label">
-				<font name="lcars_sheettext"/>
-            </label>
-			<label name="location_label">
-				<font name="lcars_sheettext"/>
-            </label>
-			<label name="name_label">
-				<font name="lcars_sheettext"/>
-            </label>
         <tag_label name="inventory_label" insertbefore="inventorylist_iedit">
             <anchored to="inventoryframe" />
             <static textres="char_label_inventory"/>
         </tag_label>
+
+			<label_list_content_number_left name="label_count">
+              <font name="lcars_sheetlabelmini"/>
+            </label_list_content_number_left>
+			<icon_list_content_button_label_right name="label_carried">
+              <font name="lcars_sheetlabelmini"/>
+            </icon_list_content_button_label_right>
+			<label_list_content_number_right name="label_weight">
+              <font name="lcars_sheetlabelmini"/>
+            </label_list_content_number_right>
+			<label_list_content_string_noframe_right name="label_location">
+              <font name="lcars_sheetlabelmini"/>
+            </label_list_content_string_noframe_right>
+			<label_list_content_noframe name="label_name">
+              <font name="lcars_sheetlabelmini"/>
+            </label_list_content_noframe>
 
           <button_iedit name="inventorylist_iedit">
               <anchored to="inventoryframe" position="insidetopright" offset="-5,10"/>

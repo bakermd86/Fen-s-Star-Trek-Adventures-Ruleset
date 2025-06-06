@@ -1,5 +1,92 @@
 <root>
 
+	<windowclass name="initiative_select_entry">
+		<placement>
+			<size width="250" height="30" />
+		</placement>
+		<sheetdata>
+			<genericcontrol name="entry_anchor">
+				<anchored height="30" width="0" position="insidetopleft"/>
+			</genericcontrol>
+			<tokenfield name="token">
+				<anchored width="25" height="25">
+					<top offset="2" />
+					<left offset="8" parent="entry_anchor" anchor="right" relation="relative"/>
+				</anchored>
+				<empty>token_empty</empty>
+				<readonly />
+			</tokenfield>
+			<buttoncontrol>
+				<anchored height="25" width="25">
+					<top offset="2" />
+					<left offset="2" parent="entry_anchor" anchor="right" relation="relative"/>
+				</anchored>
+				<icon normal="ct_active" pressed="ct_active_down" />
+				<tooltip textres="ct_tooltip_startturn" />
+				<script>
+					function onButtonPress()
+						CTHelper.requestTurnForNode(window.getDatabaseNode())
+					end
+				</script>
+			</buttoncontrol>
+			<stringu name="name">
+				<anchored height="20">
+					<top offset="4" />
+					<left offset="2" parent="entry_anchor" anchor="right" relation="relative"/>
+					<right parent="" offset="-10" />
+				</anchored>
+				<readonly />
+				<font>lcars_sheetlabel</font>
+			</stringu>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="initiative_popup">
+		<frame>ctbox</frame>
+		<placement>
+			<size width="300" height="350" />
+		</placement>
+		<sizelimits>
+            <dynamic />
+            <minimum width="250" height="200" />
+        </sizelimits>
+		<script file="ct/scripts/init_pop.lua"/>
+		<sheetdata>
+			<windowtitlebar name="title">
+				<resource>initiative_window_title</resource>
+			</windowtitlebar>
+			<label>
+				<anchored height="25">
+					<top offset="50"/>
+					<left offset="50"/>
+					<right offset="-50"/>
+				</anchored>
+				<static>Take The Initiative!</static>
+                <font>lcars_sheetlabel</font>
+			</label>
+			<windowlist name="available_allies">
+				<anchored>
+					<top offset="85"/>
+					<left offset="15"/>
+					<right offset="-15"/>
+					<bottom offset="-10"/>
+				</anchored>
+				<class>initiative_select_entry</class>
+				<datasource>.list</datasource>
+				<script>
+					function onFilter(entry)
+						local entryFriendly = DB.getValue(entry.getDatabaseNode(), "friendfoe") == "friend"
+						local entryAvail = DB.getValue(entry.getDatabaseNode(), "initresult") == 0
+						return entryFriendly and entryAvail
+					end
+				</script>
+			</windowlist>
+
+			<resize_ctbox />
+			<close_ctbox />
+		</sheetdata>
+	</windowclass>
+
 	<!--  CT Entry templates -->
 	<!--  Scores  -->
 	<template name="button_ctentry_activate_scores">
@@ -385,9 +472,9 @@
 
 	<template name="ct_group_initiative">
 		<buttonfield name="initiative_group">
-			<anchored width="80" height="26">
-				<left parent="contentanchor" />
-				<bottom offset="-19" />
+			<anchored to="leftanchor" width="80" height="26">
+				<top />
+				<left relation="relative" offset="15" postoffset="2" />
 			</anchored>
 			<state>
 				<frame>ct_allies_active</frame>
@@ -400,37 +487,13 @@
 		</buttonfield>
 	</template>
 
-	<template name="ct_label_initiative_host">
+	<template name="ct_label_initiative">
 		<label_ct>
-			<anchored height="20">
-				<bottom offset="-22" />
-				<left parent="contentanchor" offset="45" />
+			<anchored to="leftanchor" height="20">
+				<top />
+				<left relation="relative" offset="15" postoffset="2" />
 			</anchored>
 			<static>Action</static>
 		</label_ct>
-	</template>
-
-	<template name="ct_group_initiative_host">
-		<ct_group_initiative>
-			<anchored>
-				<left offset="90"/>
-			</anchored>
-		</ct_group_initiative>
-	</template>
-
-	<template name="ct_label_initiative_client">
-		<ct_label_initiative_host>
-			<anchored>
-				<left offset="80"/>
-			</anchored>
-		</ct_label_initiative_host>
-	</template>
-
-	<template name="ct_group_initiative_client">
-		<ct_group_initiative>
-			<anchored>
-				<left offset="125"/>
-			</anchored>
-		</ct_group_initiative>
 	</template>
 </root>

@@ -18,6 +18,7 @@
 	<script name="AddSidebarList" file="sidebar/scripts/add_sidebar.lua" />
 	<script name="ScopeManager" file="scripts/scope_manager.lua" />
 	<script name="RollManager" file="scripts/roll_manager.lua" />
+	<script name="TraitsManager" file="scripts/traits_manager.lua" />
 	<script name="ColorHandler" file="campaign/scripts/color_handler.lua" />
 	<script name="ShipHelper" file="campaign/scripts/ship_helper.lua" />
 	<script name="MilestoneCommHelper" file="campaign/scripts/milestone_comm_helper.lua" />
@@ -30,6 +31,7 @@
 	<script name="LifePathTableManager" file="lifepath/scripts/lifepath_table_manager.lua" />
 	<script name="LifePathDefineHelper" file="lifepath_define/scripts/lifepath_step_helper.lua" />
 	<script name="CTHelper" file="ct/scripts/ct_helper.lua" />
+	<script name="ChatTokenHelper" file="desktop/scripts/chat_token_helper.lua" />
 
 	<!-- CrewSupport Scripts -->
 	<script name="CrewSupportManager" file="crew_support/scripts/active_crew_manager.lua" />
@@ -48,6 +50,7 @@
 	<includefile source="campaign/template_general.xml" />
 	<includefile source="gameelements.xml" />
 	<includefile source="desktop/desktop_template.xml" />
+	<includefile source="desktop/traits_template.xml" />
 
 	<!--	Sidebar XML files	-->
 	<includefile source="sidebar/record_talent.xml" />

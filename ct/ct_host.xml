@@ -9,6 +9,11 @@
 	<windowclass name="combattracker_host" merge="join">
 		<script file="ct/scripts/ct_host.lua"/>
         <sheetdata merge="join">
+            <sub_ct_header_host name="sub_header" merge="join">
+                <anchored>
+                    <top offset="50"/>
+                </anchored>
+            </sub_ct_header_host>
 			<anchor_title_ctbox name="contentanchor" >
                 <anchored >
                     <top offset="15"/>
@@ -17,11 +22,30 @@
                 </anchored>
             </anchor_title_ctbox>
 
-			<label_ct name="label_init" merge="join">
-                <anchored offset="153"/>
-            </label_ct>
-			<buttoncontrol name="button_global_scores" insertafter="button_global_effects">
-				<anchored to="headeranchor" position="insidetopright" offset="20,0" width="20" height="20" />
+<!--			<label_ct name="label_init" merge="join">-->
+<!--                <anchored offset="153"/>-->
+<!--            </label_ct>-->
+
+            <sub_ct_controls_host name="sub_controls" merge="join">
+			    <frame name="groupbox" offset="10,7,10,7" />
+                <anchored>
+                    <bottom offset="6"/>
+                </anchored>
+            </sub_ct_controls_host>
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="sub_ct_controls_host" merge="join">
+        <sheetdata>
+            <ct_label_initiative insertafter="button_menu"/>
+            <ct_group_initiative insertafter="button_menu"/>
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="sub_ct_header_host" merge="join">
+        <sheetdata merge="join">
+			<buttoncontrol name="button_global_scores" insertafter="label_init">
+				<anchored to="labelrightanchor" position="left" offset="20,0" width="20" height="20" />
 				<state icon="d20bicon" />
 				<state icon="d20gicon" />
 				<script>
@@ -30,8 +54,8 @@
 					end
 				</script>
 			</buttoncontrol>
-			<buttoncontrol name="button_global_damage" insertafter="button_global_effects">
-				<anchored to="headeranchor" position="insidetopright" offset="40,0" width="20" height="20" />
+			<buttoncontrol name="button_global_damage" insertafter="label_init">
+				<anchored to="labelrightanchor" position="left" offset="40,0" width="20" height="20" />
 				<state icon="button_shield" />
 				<state icon="button_shield_down" />
 				<script>
@@ -40,9 +64,6 @@
 					end
 				</script>
 			</buttoncontrol>
-
-            <ct_label_initiative_host/>
-            <ct_group_initiative_host/>
         </sheetdata>
     </windowclass>
 

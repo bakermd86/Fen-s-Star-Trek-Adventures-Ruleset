@@ -64,6 +64,11 @@
                 <class>ship_npc_notes</class>
             </ship_npc_window>
 
+            <ship_npc_window name="pictures">
+				<name>pictures</name>
+                <class>record_content_pictures</class>
+            </ship_npc_window>
+
 <!--			<scrollbar_record insertbefore="tabs">-->
 <!--				<target>combat</target>-->
 <!--			</scrollbar_record>-->
@@ -100,12 +105,12 @@
 				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
 				name.setReadOnly(bReadOnly);
 				nonid_name.setReadOnly(bReadOnly);
-				token.setReadOnly(bReadOnly);
+				picture.setReadOnly(bReadOnly);
 				species.setReadOnly(bReadOnly);
 				rank.setReadOnly(bReadOnly);
 				gender.setReadOnly(bReadOnly);
 				affiliation.setReadOnly(bReadOnly);
-				token.setReadOnly(bReadOnly);
+				picture.setReadOnly(bReadOnly);
 			end
 			function updateIDState()
 				local bID = LibraryData.getIDState("npc", getDatabaseNode(), true);
@@ -125,13 +130,13 @@
             </genericcontrol>
 
 			<reverse_header_label name="species">
-                <anchored to="row_1" width="120" />
+                <anchored to="row_1" width="100" />
 				<labelres>char_label_species</labelres>
 			</reverse_header_label>
 
 			<reverse_header_label name="nonid_name">
                 <anchored to="row_1">
-					<left parent="" offset="90"/>
+					<left parent="" offset="144"/>
 				</anchored>
 				<empty textres="library_recordtype_empty_nonid_npc" />
 				<labelres>char_label_nonid_name</labelres>
@@ -140,24 +145,31 @@
 
 			<reverse_header_label name="name">
                 <anchored to="row_1">
-					<left parent="" offset="90"/>
+					<left parent="" offset="144"/>
 				</anchored>
 				<empty textres="library_recordtype_empty_npc" />
 				<labelres>char_label_name</labelres>
 			</reverse_header_label>
 
-			<tokenfield name="token">
+			<picture_record name="picture">
 				<anchored to="row_1" width="22" height="22">
 					<top />
 					<right anchor="left" relation="relative" offset="-5"/>
 				</anchored>
-				<empty>token_empty</empty>
-				<script>
-					function onDoubleClick(x, y)
-						CombatManager.openMap(window.getDatabaseNode());
-					end
-				</script>
-			</tokenfield>
+			</picture_record>
+			<picture_record name="token">
+				<public />
+				<anchored to="row_1" width="22" height="22">
+					<top />
+					<right anchor="left" relation="relative" offset="-5"/>
+				</anchored>
+			</picture_record>
+			<picture_record name="token3Dflat">
+				<anchored to="row_1" width="22" height="22">
+					<top />
+					<right anchor="left" relation="relative" offset="-5"/>
+				</anchored>
+			</picture_record>
 
 			<char_header_label name="rank">
                 <anchored to="row_2"  width="100"/>
@@ -230,20 +242,7 @@
 
 			<link_record_header name="link">
 				<class>npc</class>
-				<bounds merge="delete"/>
-				<anchored to="rightanchor" width="20" height="22">
-					<top />
-					<right anchor="left" relation="relative" offset="-3"/>
-				</anchored>
 			</link_record_header>
-
-<!--			<string_record_name_id name="name">-->
-<!--				<empty textres="library_recordtype_empty_npc" />-->
-<!--			</string_record_name_id>-->
-<!--			<string_record_name_id name="nonid_name">-->
-<!--				<empty textres="library_recordtype_empty_nonid_npc" />-->
-<!--				<invisible />-->
-<!--			</string_record_name_id>-->
 		</sheetdata>
 	</windowclass>
 
@@ -292,6 +291,16 @@
                 <script>
                     function stepNum()
                         return 3
+                    end
+                </script>
+            </charsheet_tab_button>
+
+            <charsheet_tab_button>
+                <anchored width="65"/>
+                <state><text>Pictures</text></state>
+                <script>
+                    function stepNum()
+                        return 4
                     end
                 </script>
             </charsheet_tab_button>

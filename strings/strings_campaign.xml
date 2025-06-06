@@ -55,6 +55,7 @@
 	<string name="ct_tooltip_scores">Scores/Rolls</string>
 	<string name="ct_tooltip_damage">Stress and Injury</string>
 	<string name="ct_tooltip_startturn">Take Turn</string>
+	<string name="sidebar_tooltip_scene_traits">Trait Tracker</string>
 
 	<!-- Controls -->
 	<string name="lifepath_nextpage">NEXT</string>
@@ -201,5 +202,10 @@
 	<string name="library_recordtype_empty_episode">&#171; Untitled Episode &#187;</string>
 
 	<string name="lpsettings_window_title">Lifepath Table Settings</string>
+
+
+<!--	Combat Tracker	-->
+
+	<string name="initiative_window_title">Allied Initiative</string>
 
 </root>

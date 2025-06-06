@@ -207,14 +207,7 @@
 			<pressed icon="button_speak_down" />
 			<script>
 				function onButtonPress()
-					local node = window.getDatabaseNode();
-					if node.getParent().getName() == "crewmate" then
-						local sName = DB.getValue(node, "name")
-						GmIdentityManager.addIdentity(sName);
-					else
-						local sName = ActorManager.getDisplayName(node);
-						GmIdentityManager.addIdentity(sName);
-					end
+					WindowMenuManager.performMenuChatSpeak(self)
 				end
 			</script>
 			<gmvisibleonly />
@@ -314,4 +307,48 @@
 		</sheetdata>
 	</windowclass>
 
+	<template name="button_charactivate_new">
+		<buttoncontrol>
+			<icon normal="button_speak" pressed="button_speak_down" />
+			<script>
+				function onInit()
+					if Session.IsHost then
+						setTooltipText(Interface.getString("char_tooltip_speak"));
+					else
+						setTooltipText(Interface.getString("char_tooltip_activate"));
+					end
+				end
+				function onButtonPress()
+					if Session.IsHost then
+						WindowMenuManager.performMenuChatSpeak(self)
+					else
+						UserManager.activatePlayerID(DB.getName(window.getDatabaseNode()));
+					end
+				end
+			</script>
+		</buttoncontrol>
+	</template>
+	<template name="link_record_header">
+		<linkcontrol_record>
+			<anchored to="rightanchor" width="20" height="22">
+				<top />
+				<right anchor="left" relation="relative" offset="-3"/>
+			</anchored>
+		</linkcontrol_record>
+	</template>
+
+	<template name="string_record_name">
+		<stringfield>
+			<anchored mergerule="replace">
+				<top offset="10" />
+				<left offset="40" />
+				<right parent="rightanchor" anchor="left" relation="relative" offset="-15" />
+			</anchored>
+			<frame name="groupbox" offset="15,10,15,10" />
+			<font>recordsheet_header</font>
+			<multilinespacing>20</multilinespacing>
+			<nodrag />
+			<delaykeyupdate />
+		</stringfield>
+	</template>
 </root>

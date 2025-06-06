@@ -1,4 +1,32 @@
 <root>
+    <windowclass name="chat_token_workaround">
+        <placement>
+            <size width="0" height="0" />
+        </placement>
+        <sheetdata>
+            <windowlist name="token_workaround">
+                <script>
+                    function onInit()
+                        setDatabaseNode(".chat_helper")
+                    end
+                </script>
+                <anchored height="0" width="0" position="insidetopleft"/>
+                <datasource>.chat_helper</datasource>
+                <class>hidden_picture</class>
+            </windowlist>
+        </sheetdata>
+    </windowclass>
+    <windowclass name="hidden_picture">
+        <sheetdata>
+			<picture_record name="picture">
+                <anchored height="0" width="0" position="insidetopleft"/>
+			</picture_record>
+			<picture_record name="token">
+                <anchored height="0" width="0" position="insidetopleft"/>
+			</picture_record>
+        </sheetdata>
+    </windowclass>
+
     <windowclass name="momentum_display_player">
 	  <placement>
 		<size width="100" height="85" />
@@ -369,6 +397,12 @@
     <panel name="momentum_panel" modes="client">
         <class>momentum_display_player</class>
         <bounds>400,-120,100,85</bounds>
+		<locked />
+    </panel>
+
+    <panel name="token_workaround_panel" modes="client">
+        <class>chat_token_workaround</class>
+        <bounds>0,0,0,0</bounds>
 		<locked />
     </panel>
 

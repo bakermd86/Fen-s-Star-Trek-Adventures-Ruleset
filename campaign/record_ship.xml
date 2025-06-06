@@ -184,11 +184,6 @@
 
 			<link_record_header name="link">
 				<class>ship</class>
-				<bounds merge="delete"/>
-				<anchored to="rightanchor" width="20" height="22">
-					<top />
-					<right anchor="left" relation="relative" offset="-3"/>
-				</anchored>
 			</link_record_header>
 
         </sheetdata>

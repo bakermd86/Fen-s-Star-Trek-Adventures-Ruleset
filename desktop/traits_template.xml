@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root>
+
+    <windowclass name="active_trait_row">
+        <sheetdata>
+            <genericcontrol name="leftanchor">
+                <anchored position="insidetopleft" height="20"/>
+            </genericcontrol>
+            <string_textlistitem name="name">
+                <anchored to="leftanchor" width="150" height="15">
+                    <top offset="2"/>
+                    <left anchor="right" relation="relative" offset="4"/>
+                </anchored>
+                <font>sheetlabel</font>
+            </string_textlistitem>
+            <string_textlistitem name="description">
+                <anchored to="leftanchor" height="15">
+                    <top offset="2"/>
+                    <left anchor="right" relation="relative" offset="4"/>
+                    <right parent="" offset="-4"/>
+                </anchored>
+                <font>sheetlabel</font>
+            </string_textlistitem>
+        </sheetdata>
+    </windowclass>
+
+    <windowclass name="active_traits_window">
+        <frame name="recordsheet"/>
+		<placement>
+			<size width="450" height="300" />
+		</placement>
+        <sizelimits>
+            <dynamic />
+            <minimum width="350" height="200" />
+        </sizelimits>
+        <sheetdata>
+            <windowtitlebar>
+                <anchored offset="0,3" />
+				<resource>sidebar_tooltip_scene_traits</resource>
+            </windowtitlebar>
+            <windowlist name="traits_list">
+                <anchored merge="replace" >
+                    <left offset="25"/>
+                    <right offset="-35"/>
+                    <top offset="50"/>
+                    <bottom offset="-20"/>
+                </anchored>
+			    <frame name="groupbox" offset="15,15,25,15" />
+                <datasource>.traits_list</datasource>
+                <allowcreate />
+                <allowdelete />
+                <sortby><field>name</field></sortby>
+                <class>active_trait_row</class>
+                <child merge="resetandadd"></child>
+                <child merge="add"><backcolor>1A40301E</backcolor></child>
+            </windowlist>
+          <genericcontrol name="traits_list_label_anchor">
+              <anchored to="traits_list" position="insidetopleft" />
+          </genericcontrol>
+         <char_ref_column_label>
+             <anchored to="traits_list_label_anchor" width="130" >
+                 <left offset="20"/>
+             </anchored>
+             <static>Trait Name</static>
+			<font>sheetlabel</font>
+         </char_ref_column_label>
+         <char_ref_column_label>
+             <anchored to="traits_list_label_anchor" >
+                 <left offset="10"/>
+             </anchored>
+             <static>Description</static>
+			<font>sheetlabel</font>
+         </char_ref_column_label>
+			<resize_recordsheet />
+        </sheetdata>
+    </windowclass>
+</root>

@@ -52,16 +52,11 @@
 	<windowclass name="talent_header">
 		<margins control="0,0,0,7" />
 		<sheetdata>
+			
+			<anchor_listitem_right_lg name="rightanchor" />
 			<link_record_header>
 				<class>talent</class>
 			</link_record_header>
-			
-			<anchor_record_header_right name="rightanchor" />
-			<icon_record_locked>
-				<anchored>
-					<right offset="-7" />
-				</anchored>
-			</icon_record_locked>
 			<button_record_locked>
 				<anchored>
 					<right offset="-7" />

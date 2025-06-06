@@ -8,20 +8,47 @@
 <root>
 	<windowclass name="combattracker_client" merge="join">
 		<sheetdata merge="join">
-			<ct_label_initiative_client/>
+            <sub_ct_header_client name="sub_header" merge="join">
+                <anchored>
+                    <top offset="50"/>
+                </anchored>
+            </sub_ct_header_client>
+			<anchor_title_ctbox name="contentanchor" >
+                <anchored >
+                    <top offset="15"/>
+                    <left offset="40"/>
+                    <right offset="-40"/>
+                </anchored>
+            </anchor_title_ctbox>
 
-			<button_ct_startturn />
-			<select_ct_endturn />
+            <sub_ct_controls_client name="sub_controls" merge="join">
+			    <frame name="groupbox" offset="10,7,10,7" />
+                <anchored>
+                    <bottom offset="6"/>
+                </anchored>
+            </sub_ct_controls_client>
 
-			<ct_group_initiative_client/>
 		</sheetdata>
 	</windowclass>
 
+    <windowclass name="sub_ct_controls_client" merge="join">
+        <sheetdata>
+
+			<button_ct_startturn insertbefore="button_nextactor"/>
+
+			<ct_label_initiative insertafter="button_menu"/>
+			<ct_group_initiative insertafter="button_menu"/>
+
+			<button_ct_endturn insertafter="button_menu"/>
+			<select_ct_endturn insertafter="button_menu"/>
+        </sheetdata>
+    </windowclass>
+
     <template name="button_ct_endturn">
 		<buttoncontrol>
-			<anchored width="33" height="26">
-				<bottom offset="-19" />
-				<left parent="contentanchor" offset="39" />
+			<anchored width="33" height="26" to="leftanchor" >
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
 			</anchored>
 			<icon normal="button_ctnextactor" pressed="button_ctnextactor_down" />
 			<tooltip textres="ct_tooltip_endturn" />
@@ -31,9 +58,9 @@
 
     <template name="button_ct_startturn">
 		<buttoncontrol>
-			<anchored width="33" height="26">
-				<bottom offset="-19" />
-				<left parent="contentanchor" offset="12" />
+			<anchored width="33" height="26" to="leftanchor" >
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
 			</anchored>
 			<icon normal="ct_active" pressed="ct_active_down" />
 			<tooltip textres="ct_tooltip_startturn" />
@@ -47,9 +74,9 @@
 
 	<template name="select_ct_endturn">
 		<comboboxc name="select_endturn">
-			<anchored width="100" height="0">
-				<bottom offset="-19" />
-				<left parent="contentanchor" offset="76" />
+			<anchored width="100" height="20" to="leftanchor" >
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
 			</anchored>
 			<script>
 				function onFirstLayout()

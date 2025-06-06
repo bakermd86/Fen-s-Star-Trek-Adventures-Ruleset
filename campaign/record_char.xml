@@ -154,39 +154,46 @@
                 <anchored to="row_2" position="belowleft" offset="0,15" height="20" width="0"/>
             </genericcontrol>
 
-			<genericcontrol>
-                <anchored to="row_1" width="35" height="35">
-                    <top />
-                    <left anchor="right" relation="current" offset="5"/>
-                </anchored>
-				<icon>charlist_base</icon>
-				<disabled />
-			</genericcontrol>
-			<portrait_char name="portrait">
-                <anchored to="row_1" width="35" height="35">
+<!--			<genericcontrol>-->
+<!--                <anchored to="row_1" width="35" height="35">-->
+<!--                    <top />-->
+<!--                    <left anchor="right" relation="current" offset="5"/>-->
+<!--                </anchored>-->
+<!--				<icon>charlist_base</icon>-->
+<!--				<disabled />-->
+<!--			</genericcontrol>-->
+			<picture_charsheet_v2 name="portrait">
+                <anchored to="row_1" width="35" height="35" merge="replace">
                     <top />
                     <left anchor="right" relation="relative" offset="5"/>
                 </anchored>
-			</portrait_char>
+			</picture_charsheet_v2>
 
-			<button_charactivate name="speak">
+			<button_charactivate_new name="speak">
                 <anchored to="row_1" height="20" width="20">
                     <top />
                     <left anchor="right" relation="relative" offset="5"/>
                 </anchored>
                 <gmvisibleonly/>
-			</button_charactivate>
+			</button_charactivate_new>
 
 			<char_header_label name="name">
-                <anchored to="row_1" width="170"/>
+                <anchored to="row_1" width="140"/>
 				<labelres>char_label_name</labelres>
 			</char_header_label>
 
 			<char_header_label name="species">
-                <anchored to="row_1" width="150"/>
+                <anchored to="row_1" width="140"/>
 				<labelres>char_label_species</labelres>
 			</char_header_label>
 
+
+			<char_header_label name="ship" >
+                <anchored to="row_1" >
+                    <right parent="" offset="-27"/>
+                </anchored>
+				<labelres>char_label_vessel</labelres>
+			</char_header_label>
 
             <windowreferencefield name="ship_link">
                 <allowdrop />
@@ -200,13 +207,6 @@
                     <empty>button_link_empty</empty>
                 </icon>
             </windowreferencefield>
-
-			<char_header_label name="ship" >
-                <anchored to="row_1" >
-                    <right parent="" offset="-2"/>
-                </anchored>
-				<labelres>char_label_vessel</labelres>
-			</char_header_label>
 
 			<char_header_label name="environment">
 				<anchored to="row_2" width="150" />
@@ -249,13 +249,6 @@
 				<anchored to="row_3" />
 				<labelres>char_label_weight</labelres>
 			</char_header_label>
-
-			<token_char name="token">
-                <anchored to="row_3" height="20" width="20">
-                    <top />
-                    <left anchor="right" relation="relative" offset="5"/>
-                </anchored>
-			</token_char>
 
             <genericcontrol name="detAnchor">
                 <anchored height="20" >
