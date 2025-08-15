@@ -445,6 +445,20 @@
 			<invisible/>
 		</formattedtextfield>
     </sheetdata>
+<!--	  <script>-->
+<!--		  function onInit()-->
+<!--			registerMenuItem("Delete", "categorystyle", 5)-->
+<!--		  end-->
+<!--		  function onMenuSelection(selectNum)-->
+<!--			if selectNum == 6 then-->
+<!--		  		local node = getDatabaseNode()-->
+<!--		  		if (node ~= nil) then-->
+<!--					DB.deleteNode(node)-->
+<!--				end-->
+<!--				createWindow();-->
+<!--			end-->
+<!--		  end-->
+<!--	  </script>-->
   </windowclass>
 	<template name="att_field_ro">
 		<att_field>

@@ -1,4 +1,12 @@
 
+  function onInit()
+    registerMenuItem("Add Item", "categorystyle", 6)
+  end
+  function onMenuSelection(selectNum)
+    if selectNum == 6 then
+        createWindow();
+    end
+  end
 function onDrop(x,y,draginfo)
   if draginfo.isType("shortcut") then
     local class, datasource = draginfo.getShortcutData();

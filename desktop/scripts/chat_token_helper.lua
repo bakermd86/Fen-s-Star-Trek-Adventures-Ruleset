@@ -13,8 +13,31 @@ function onInit()
         end
         DB.addHandler('npc', "onChildAdded", onNewChar)
         DB.addHandler('crewmate', "onChildAdded", onNewChar)
+        Comm.registerSlashHandler("bulkActivate", bulkActivate, "/bulkActivate [name],[name],[name]")
     end
 end
+
+function checkActor(names, actorNode)
+    local nName = DB.getValue(actorNode, "name", nil)
+    if (nName ~= nil and names[nName] == true) then
+        ChatIdentityManager.addIdentity(nName, actorNode)
+    end
+end
+
+
+function bulkActivate(_, sNames)
+    local names = {}
+    for name in string.gmatch(sNames, "([^,]+)") do
+        names[name] = true
+    end
+    for _, v in pairs(DB.getChildren('npc')) do
+        checkActor(names, v)
+    end
+    for _, v in pairs(DB.getChildren('crewmate')) do
+        checkActor(names, v)
+    end
+end
+
 
 function onNewChar(nodeParent, nodeChildAdded)
     handleActorNode(nodeChildAdded)
