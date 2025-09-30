@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+
+<root>
+	<template name="sub_record_header">
+		<subwindow>
+			<anchored>
+				<top offset="23" />
+				<left offset="15" />
+				<right offset="-15" />
+			</anchored>
+			<activate />
+			<fastinit />
+		</subwindow>
+	</template>
+	<template name="frame_record_content">
+		<genericcontrol name="contentframe">
+			<anchored>
+				<top parent="header" anchor="bottom" offset="15" />
+				<left offset="35" />
+				<right offset="-35" />
+				<bottom offset="-32" />
+			</anchored>
+			<frame name="groupbox" offset="20,17,20,17" />
+			<disabled />
+		</genericcontrol>
+	</template>
+    <template name="subwindow_record">
+		<subwindow>
+			<anchored to="contentframe" position="over" />
+		</subwindow>
+	</template>
+	<template name="scrollbar_record">
+		<scrollbar>
+			<anchored to="contentframe" />
+		</scrollbar>
+	</template>
+	<template name="ft_record">
+		<simpleft />
+	</template>
+	<template name="frame_record_content">
+		<genericcontrol name="contentframe">
+			<anchored>
+				<top parent="header" anchor="bottom" offset="15" />
+				<left offset="35" />
+				<right offset="-35" />
+				<bottom offset="-32" />
+			</anchored>
+			<frame name="groupbox" offset="20,17,20,17" />
+			<disabled />
+		</genericcontrol>
+	</template>
+
+	<template name="close">
+		<close_base>
+			<anchored height="24" width="24">
+				<top />
+				<right />
+			</anchored>
+		</close_base>
+	</template>
+	<template name="helper_charselect">
+		<help_charselect>
+			<urlres>help_library_charselect</urlres>
+		</help_charselect>
+	</template>
+	<windowclass name="referencemanualpagecontent">
+		<script file="campaign/scripts/ref_manual_page_content.lua" />
+		<sheetdata>
+			<anchor_referencemanualpage name="contentanchor" />
+
+			<list_referencemanualpage_blocks name="blocks" />
+			<footer_refmanual_blocks name="footer" />
+
+			<anchor_refmanual_block_iadd_right />
+			<button_refmanual_block_iadd name="button_iadd_block_textrimagel">
+				<blocktype>textrimagel</blocktype>
+			</button_refmanual_block_iadd>
+			<button_refmanual_block_iadd name="button_iadd_block_textlimager">
+				<blocktype>textlimager</blocktype>
+			</button_refmanual_block_iadd>
+			<button_refmanual_block_iadd name="button_iadd_block_image">
+				<blocktype>image</blocktype>
+			</button_refmanual_block_iadd>
+			<button_refmanual_block_iadd name="button_iadd_block_header">
+				<blocktype>header</blocktype>
+			</button_refmanual_block_iadd>
+			<button_refmanual_block_iadd name="button_iadd_block_dualtext">
+				<blocktype>dualtext</blocktype>
+			</button_refmanual_block_iadd>
+			<button_refmanual_block_iadd name="button_iadd_block_text">
+				<blocktype>text</blocktype>
+			</button_refmanual_block_iadd>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="referencemanualtextblock">
+		<margins control="0,0,0,10" />
+		<sheetdata>
+			<hn name="order" />
+			<hs name="blocktype" />
+
+			<anchor_refmanual_block_right name="rightanchor" />
+		</sheetdata>
+	</windowclass>
+	<template name="button_refmanual_block_iadd">
+		<buttoncontrol>
+			<anchored to="rightanchor_add" width="20" height="20">
+				<top />
+				<right anchor="left" relation="relative" offset="-10" />
+			</anchored>
+			<state frame="button_ref_block_add_base" />
+			<invisible />
+		</buttoncontrol>
+	</template>
+	<template name="anchor_refmanual_block_iadd_right">
+		<genericcontrol name="rightanchor_add">
+			<anchored width="0" height="0">
+				<top parent="footer" anchor="bottom" />
+				<right anchor="center" offset="95" />
+			</anchored>
+			<disabled />
+			<invisible />
+		</genericcontrol>
+	</template>
+	<template name="footer_refmanual_blocks">
+		<genericcontrol name="footer">
+			<anchored to="blocks" position="below" height="26" />
+			<icon>footer_wide</icon>
+		</genericcontrol>
+	</template>
+	<template name="list_referencemanualpage_blocks">
+		<windowlist>
+			<anchored to="contentanchor">
+				<top anchor="bottom" relation="relative" />
+				<left />
+				<right />
+			</anchored>
+			<anchored position="insidetop" />
+			<class>referencemanualtextblock</class>
+			<datasource>.blocks</datasource>
+			<sortby><field>order</field></sortby>
+			<readonly />
+			<noscroll />
+		</windowlist>
+	</template>
+	<template name="anchor_referencemanualpage">
+		<genericcontrol name="contentanchor">
+			<anchored position="insidetop" height="0" />
+			<disabled />
+		</genericcontrol>
+	</template>
+	<template name="anchor_record_header_right">
+		<genericcontrol name="rightanchor">
+			<anchored height="0" width="0">
+				<top offset="10" />
+				<right />
+			</anchored>
+			<script>
+				function onInit()
+					Debug.console("anchor_record_header_right - DEPRECATED - 2024-03-05");
+				end
+			</script>
+		</genericcontrol>
+	</template>
+</root>

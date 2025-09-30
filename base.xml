@@ -48,6 +48,7 @@
 	<includefile source="campaign/record_npc_main.xml" />
 	<includefile source="campaign/record_npc_combat.xml" />
 	<includefile source="campaign/template_general.xml" />
+	<includefile source="campaign/template_deprecated_core.xml" />
 	<includefile source="gameelements.xml" />
 	<includefile source="desktop/desktop_template.xml" />
 	<includefile source="desktop/traits_template.xml" />

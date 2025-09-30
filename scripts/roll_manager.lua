@@ -6,11 +6,15 @@ function onInit()
     self.lastRollControlWindow = nil
 	GameSystem.actions["character_score"] = { };
 	ActionsManager.registerResultHandler("character_score", handleScoreResult);
-	ChatManager.registerDropCallback("dice", handleManualDrop)
 	GameSystem.actions["damage_roll"] = { };
 	GameSystem.actions["dChallenge"] = { };
 	ActionsManager.registerResultHandler("damage_roll", handleDamageResult);
 	ActionsManager.registerResultHandler("dChallenge", handleDamageResult);
+	local tCustomdChallenge = {
+	    nMinValue = 1,
+	    nMaxValue = 6,
+	}
+	DiceManager.registerCustomPreEncodeRollHandler(staChallengeAndSkillPreEncodeRoll)
 end
 
 function determinationUsed(window)
@@ -103,15 +107,19 @@ function handleChallengeDrop(draginfo)
     return false
 end
 
-function handleManualDrop(draginfo)
-    local dice = draginfo.getDieList()
-    local dType = dice[1]['type']
-    if dType == "dChallenge" then return handleChallengeDrop(draginfo)
+function staChallengeAndSkillPreEncodeRoll(tRoll)
+	if not (tRoll and tRoll.aDice and #(tRoll.aDice) > 0) then
+	    return;
+	end
+    local dType = tRoll.aDice[1]['type']
+    if dType == "dChallenge" then
+        tRoll.sType = "dChallenge"
+        return true
     elseif dType ~= "d20" then return false
     elseif #self.sourceRollWindows < 2 then return false
     end
-    local rRoll = buildSkillRoll(lastRollControlWindow, dice)
-    buildScoreDrag(draginfo, rRoll)
+    tRoll = buildSkillRoll(lastRollControlWindow, dice)
+    return true
 end
 
 function buildScoreDrag(draginfo, rRoll)

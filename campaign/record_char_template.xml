@@ -429,6 +429,14 @@
           <datasource>.focuses</datasource>
         <class>focus_entry</class>
           <script>
+              function onInit()
+                registerMenuItem("Add Item", "categorystyle", 6)
+              end
+              function onMenuSelection(selectNum)
+                if selectNum == 6 then
+                    createWindow();
+                end
+              end
               function clearSelections()
                 for _, w in ipairs(self.getWindows()) do
                     w.applyFocus.setValue(0)
